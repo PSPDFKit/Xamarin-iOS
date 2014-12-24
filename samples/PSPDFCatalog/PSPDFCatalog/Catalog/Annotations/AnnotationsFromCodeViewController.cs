@@ -26,6 +26,26 @@ namespace PSPDFCatalog
 				};
 				annotationsList.Add (note);
 			}
+
+			// Ink Annotation sample
+			var inkAnnot = new PSPDFInkAnnotation ();
+			inkAnnot.Lines = new List<NSValue[]> () {
+				new [] {
+					NSValue.FromCGPoint (new CGPoint (480.93079f, 596.0625f)),
+					NSValue.FromCGPoint (new CGPoint (476.8027f, 592.96881f)),
+					NSValue.FromCGPoint (new CGPoint (468.54639f, 585.75f)),
+					NSValue.FromCGPoint (new CGPoint (456.1619f, 574.40631f)),
+					NSValue.FromCGPoint (new CGPoint (436.5531f, 550.6875f)),
+					NSValue.FromCGPoint (new CGPoint (357.086f, 434.15631f)),
+					NSValue.FromCGPoint (new CGPoint (294.1315f, 359.90631f)),
+					NSValue.FromCGPoint (new CGPoint (226.01691f, 284.625f)),
+					NSValue.FromCGPoint (new CGPoint (176.4789f, 222.75f))
+				}
+			};
+			inkAnnot.LineWidth = 5;
+			inkAnnot.Color = UIKit.UIColor.White;
+			annotationsList.Add (inkAnnot);
+
 			annotationsArr = annotationsList.ToArray ();
 			Document.AddAnnotations (annotationsArr);
 		}
