@@ -36,7 +36,7 @@ namespace PSPDFCatalog
 					new StringElement ("Annotations From Code", () => {
 						// we use a NSData document here but it'll work even better with a file-based variant.
 						NSError err;
-						var documentData = NSData.FromUrl (NSUrl.FromFilename (HackerMonthlyFile), NSDataReadingOptions.Mapped, out err);
+						var documentData = NSData.FromUrl (NSUrl.FromFilename (HackerMonthlyFile), NSDataReadingOptions.MappedIfSafe, out err);
 						var pdfViewer = new AnnotationsFromCodeViewController (documentData);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),

@@ -538,7 +538,7 @@ namespace PSPDFKit
 
 			var arry = NSArray.FromNSObjects (objs.ToArray());
 
-			var str = new NSString (_StringFromGlyphs (arry.Handle));
+			var str = Runtime.GetNSObject<NSString> (_StringFromGlyphs (arry.Handle));
 			return (string) str;
 		}
 	}
@@ -680,7 +680,7 @@ namespace PSPDFKit
 
 		public static string StringFromAnnotationType (PSPDFAnnotationType annotationType)
 		{
-			return (string) new NSString (_StringFromAnnotationType ((nuint)(ulong)annotationType));
+			return (string) Runtime.GetNSObject<NSString> (_StringFromAnnotationType ((nuint)(ulong)annotationType));
 		}
 
 		[DllImportAttribute("__Internal", EntryPoint = "PSPDFAnnotationTypeFromString")]
@@ -812,7 +812,7 @@ namespace PSPDFKit
 
 		public static string StateVariantIdentifier (string state, string variant)
 		{
-			return (string) new NSString (_VariantIdentifier (new NSString (state).Handle, new NSString (variant).Handle));
+			return (string) Runtime.GetNSObject<NSString> (_VariantIdentifier (new NSString (state).Handle, new NSString (variant).Handle));
 		}
 	}
 
@@ -878,7 +878,7 @@ namespace PSPDFKit
 
 		public static string StateVariantIdentifier (string encoding)
 		{
-			return (string) new NSString (_ConvertXfdSoundEncodingToPdf (new NSString (encoding).Handle));
+			return (string) Runtime.GetNSObject<NSString> (_ConvertXfdSoundEncodingToPdf (new NSString (encoding).Handle));
 		}
 	}
 
@@ -963,7 +963,7 @@ namespace PSPDFKit
 
 		public static string StringFromPsPdfGalleryItemContentState (PSPDFGalleryItemContentState state)
 		{
-			return (string) new NSString (_StringFromPSPDFGalleryItemContentState ((nuint)(ulong)state));
+			return (string) Runtime.GetNSObject<NSString> (_StringFromPSPDFGalleryItemContentState ((nuint)(ulong)state));
 		}
 	}
 }
