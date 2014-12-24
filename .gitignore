@@ -6,18 +6,7 @@
 [Dd]ebug*/
 obj/
 tmp/
-GoogleAnalytics/binding/Google Analytics SDK/
 *.g.cs
 *.pidb
 *.dll
 *.mdb
-TestFlight/binding/TestFlightSDK1.0/README.txt
-TestFlight/binding/TestFlightSDK1.0/TestFlight.h
-TestFlight/binding/TestFlightSDK1.0/release_notes.txt
-Parse/binding/Parse.framework/
-Kiip/binding/libKiip.a
-/FlurryAnalytics/binding/libFlurry.a
-CorePlot/binding/CorePlot_0.9/
-
-
-*.a
