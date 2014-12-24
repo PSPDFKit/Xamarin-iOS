@@ -966,5 +966,32 @@ namespace PSPDFKit
 			return (string) Runtime.GetNSObject<NSString> (_StringFromPSPDFGalleryItemContentState ((nuint)(ulong)state));
 		}
 	}
+
+	public partial class PSPDFInkAnnotation : PSPDFAnnotation
+	{
+		public PSPDFInkAnnotation (List<NSValue[]> lines)
+		{
+			var arr = new NSMutableArray ();
+			foreach (var line in lines)
+				arr.Add (NSArray.FromNSObjects (line));
+			Handle = InitWithLines (arr);
+		}
+
+		public List<NSValue[]> Lines { 
+			get {
+				var lines = new List<NSValue[]> ();
+				var count = _Lines.Count;
+				for (nuint i = 0; i < count; i++)
+					lines.Add (NSArray.ArrayFromHandle<NSValue> (_Lines.ValueAt (i)));
+				return lines;
+			}
+			set {
+				var arr = new NSMutableArray ();
+				foreach (var line in value)
+					arr.Add (NSArray.FromNSObjects (line));
+				_Lines = arr;
+			}
+		}
+	}
 }
 

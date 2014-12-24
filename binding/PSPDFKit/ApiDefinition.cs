@@ -7131,13 +7131,10 @@ namespace PSPDFKit
 		[Export ("performUndoAction:")]
 		void PerformUndoAction (NSObject action);
 	}
-
-
-	[DisableDefaultCtor]
+		
 	[BaseType (typeof(PSPDFModel))]
 	interface PSPDFAnnotation : IPSPDFUndoProtocol, IPSPDFJSONSerializing
 	{
-
 		[Static, Export ("annotationFromJSONDictionary:document:error:")]
 		PSPDFAnnotation FromJsonDictionary (NSDictionary jsonDictionary, [NullAllowed] PSPDFDocument document, out NSError error);
 
@@ -7639,11 +7636,11 @@ namespace PSPDFKit
 	[BaseType (typeof (PSPDFAnnotation))]
 	interface PSPDFInkAnnotation {
 
-		[Export ("initWithLines:")]
-		IntPtr Constructor (NSValue [] lines);
+		[Export ("initWithLines:")][Internal]
+		IntPtr InitWithLines (NSArray lines);
 
-		[Export ("lines", ArgumentSemantic.Copy)]
-		NSValue [] Lines { get; set; }
+		[Export ("lines", ArgumentSemantic.Copy)][Internal]
+		NSArray _Lines { get; set; }
 
 		[Export ("bezierPath", ArgumentSemantic.Copy)]
 		UIBezierPath BezierPath { get; }
@@ -7655,7 +7652,7 @@ namespace PSPDFKit
 		bool IsSignature { get; set; }
 
 		[Export ("setBoundingBox:transformLines:")]
-		void SetBoundingBox (NSObject boundingBox, bool transformLines);
+		void SetBoundingBox (CGRect boundingBox, bool transformLines);
 
 		[Export ("copyLinesByApplyingTransform:")]
 		NSValue [] CopyLinesByApplyingTransform (CGAffineTransform transform);
