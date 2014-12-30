@@ -84,6 +84,7 @@ namespace PSPDFKit
 		[DllImport  ("__Internal", EntryPoint = "PSPDFSetLocalizationDictionary")]
 		private static extern void _SetLocalizationDictionary (IntPtr localizationDict);
 
+		[Advice ("Set on the main thread omly")]
 		public static void SetLocalizationDictionary (NSDictionary localizationDict)
 		{
 			_SetLocalizationDictionary (localizationDict.Handle);

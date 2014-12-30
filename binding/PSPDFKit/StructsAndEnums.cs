@@ -44,7 +44,7 @@ namespace PSPDFKit
 		Warning = 1 << 1,
 		Info = 1 << 2,
 		Verbose = 1 << 3,
-
+		ExtraVerbose = 1 << 4,
 #if __UNIFIED__
 		All = ulong.MaxValue
 #else
@@ -153,6 +153,16 @@ namespace PSPDFKit
 		AlertView,
 		OpenSafari,
 		InlineBrowser
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFTextSelectionMode : ulong {
+#else
+	public enum PSPDFTextSelectionMode : uint {
+#endif
+		Regular,
+		Simple
 	}
 
 #if __UNIFIED__
@@ -823,7 +833,12 @@ namespace PSPDFKit
 #endif
 		Low = 1 << 0,
 		Medium = 1 << 1,
-		High = 1 << 2
+		High = 1 << 2,
+#if __UNIFIED__
+		All = ulong.MaxValue
+#else
+		All = uint.MaxValue
+#endif
 	}
 
 #if __UNIFIED__
@@ -1016,6 +1031,7 @@ namespace PSPDFKit
 	public enum PSPDFSignerError : uint {
 #endif
 		None = 0,
+		NoFormElementSet = 1,
 		CannotNotCreatePKCS7 = 256,
 		CannotNotAddSignatureToPKCS7 = 257,
 		CannotNotInitPKCS7 = 258,
@@ -1279,7 +1295,8 @@ namespace PSPDFKit
 		Print,
 		QuickLook,
 		AudioRecording,
-		Camera
+		Camera,
+		CopyPaste
 	}
 
 #if __UNIFIED__

@@ -461,6 +461,9 @@
     <BundleResource Include="Resources\PSPDFKit.bundle\unlock.png" />
     <BundleResource Include="Resources\PSPDFKit.bundle\unlock%402x.png" />
     <BundleResource Include="Resources\PSPDFKit.bundle\unlock%403x.png" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\widget.png" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\widget%402x.png" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\widget%403x.png" />
     <BundleResource Include="Resources\PSPDFKit.bundle\x-landscape.png" />
     <BundleResource Include="Resources\PSPDFKit.bundle\x-landscape%402x.png" />
     <BundleResource Include="Resources\PSPDFKit.bundle\x-landscape%403x.png" />

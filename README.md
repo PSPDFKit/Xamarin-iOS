@@ -1,7 +1,7 @@
 Xamarin PSPDFKit v4 Bindings
 ============================
 
-Xamarin.iOS Bindings for PSPDFKit `v4.1.0`
+Xamarin.iOS Bindings for PSPDFKit `v4.1.2`
 
 Building PSPDFKit.dll
 =====================
