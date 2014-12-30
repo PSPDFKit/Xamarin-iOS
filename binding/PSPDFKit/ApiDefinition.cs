@@ -12065,7 +12065,6 @@ namespace PSPDFKit
 	interface IPSPDFApplication { }
 
 	[Protocol]
-	[BaseType (typeof (NSObject))]
 	interface PSPDFApplication {
 
 		[Export ("canOpenURL:")]
@@ -12081,7 +12080,6 @@ namespace PSPDFKit
 	interface IPSPDFNetworkActivityIndicatorManager { }
 
 	[Protocol]
-	[BaseType (typeof (NSObject))]
 	interface PSPDFNetworkActivityIndicatorManager {
 
 		[Export ("isEnabled")]

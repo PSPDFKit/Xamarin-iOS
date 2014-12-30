@@ -18,7 +18,6 @@ namespace PSPDFCatalog
 		public override bool AddBookmark (nuint page)
 		{
 			var alert = new UIAlertView ("Bookmarking detected", string.Format ("You added page {0} to bookmarks", page + 1), null, "Ok", null);
-			alert.AddButton ("Ok");
 			alert.Show ();
 			return base.AddBookmark (page);
 		}
@@ -26,7 +25,6 @@ namespace PSPDFCatalog
 		public override bool RemoveBookmark (nuint page)
 		{
 			var alert = new UIAlertView ("Remove Action", string.Format ("You removed page {0} from bookmarks", page + 1), null, "Ok", null);
-			alert.AddButton ("Ok");
 			alert.Show ();
 			return base.RemoveBookmark (page);
 		}
