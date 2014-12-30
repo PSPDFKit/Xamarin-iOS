@@ -17,7 +17,7 @@ namespace PSPDFCatalog
 
 		public override bool AddBookmark (nuint page)
 		{
-			var alert = new PSPDFAlertView ("Bookmarking detected", string.Format ("You added page {0} to bookmarks", page + 1));
+			var alert = new UIAlertView ("Bookmarking detected", string.Format ("You added page {0} to bookmarks", page + 1), null, "Ok", null);
 			alert.AddButton ("Ok");
 			alert.Show ();
 			return base.AddBookmark (page);
@@ -25,7 +25,7 @@ namespace PSPDFCatalog
 
 		public override bool RemoveBookmark (nuint page)
 		{
-			var alert = new PSPDFAlertView ("Remove Action", string.Format ("You removed page {0} from bookmarks", page + 1));
+			var alert = new UIAlertView ("Remove Action", string.Format ("You removed page {0} from bookmarks", page + 1), null, "Ok", null);
 			alert.AddButton ("Ok");
 			alert.Show ();
 			return base.RemoveBookmark (page);
@@ -34,7 +34,7 @@ namespace PSPDFCatalog
 		public override bool SaveBookmarks (out NSError error)
 		{
 			InvokeOnMainThread (() => {
-				var alert = new PSPDFAlertView ("Bookmark Subclass Message", string.Format ("Intercepted bookmark saving; current bookmarks are: {0}", Bookmarks.Count ()));
+				var alert = new UIAlertView ("Bookmark Subclass Message", string.Format ("Intercepted bookmark saving; current bookmarks are: {0}", Bookmarks.Count ()), null, "Ok", null);
 				alert.Show ();
 			});
 			return base.SaveBookmarks (out error);
