@@ -2,7 +2,7 @@
  Localization.strings
  PSPDFKit
  
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
  
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "E-mail ile Gönder";
 "Send" = "Gönder";
-"Open in" = "Aç";
+"Open In" = "Aç";
 "Open" = "Aç";
 "Commit" = "İşle";
 "Sending to %@" = "Gönderiliyor: %@"; // Open document with an application
 "Pages" = "Sayfalar";
-"Print with annotations" = "Not ile birlikte yazdır";
-"Print document only" = "Yalnızca belgeyi yazdır";
+"Print with annotations" = "Notlarla yazdır";
+"Print without annotations" = "Notsuz yazdır";
 "No Applications found" = "PDF belgelerini açabilen yüklenmiş bir uygulama bulunamadı.";
 "Print" = "Yazdır";
 "Annotation" = "Not";
@@ -126,6 +126,7 @@
 "Color" = "Renk";
 "Border" = "Kenarlık";
 "Fill Color" = "Doldurma Rengi";
+"Line End Fill Color" = "Satır Sonu Doldurma Rengi";
 "Opacity" = "Saydamlık";
 "%@ %%" = "%@ %%";
 "Custom" = "Özel";
@@ -223,6 +224,8 @@
 "Date" = "Tarih";
 "Time" = "Saat";
 "No Pages" = "Sayfa Yok";
+"Drag to resize" = "Büyüklüğü değiştirmek için sürükle"; // used as hint that inspector is resizable
+"Convert to" = "Dönüştür:"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Onaylandı";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Notlar PDF'de işlenir ve yalnızca okunur.";
 "Annotation Summary" = "Not Özeti";
 "Embed Annotations into the PDF and also list them in the email." = "Notları PDF'e göm ve onları e-postada listele.";
+"Print annotations and also list them on a separate page." = "Notları yazdır ve onları ayrı bir sayfada listele";
 "Files" = "Dosyalar";
 "Send as single files" = "Tek dosya olarak gönder";
 "Merge files" = "Dosyaları birleştir";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL, sağlama imzalayamıyor";
 "Could not write PKCS7 signature" = "PKCS7 imzası yazılamıyor";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Aç";
+"PSPDFPolicyEventPrint" = "Yazdır";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Mesaj";
+"PSPDFPolicyEventQuickLook" = "Göz At"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Ses Kayıt";
+"PSPDFPolicyEventCamera" = "Kamera";
+"PSPDFPolicyEventPasteboard" = "Yapıştırma panosu"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Formu Gönder";
+"PSPDFPolicyEventNetwork" = "Ağ";

@@ -611,31 +611,6 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFSearchViewController
-	{
-		private static nuint PSPDFMinimumSearchLength;
-		public static nuint MinimumSearchLength
-		{
-			get 
-			{
-				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
-				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFMinimumSearchLength");
-				PSPDFMinimumSearchLength = (nuint)Marshal.PtrToStructure(ptr, typeof(nuint));
-
-				return PSPDFMinimumSearchLength;
-			}
-			set 
-			{
-				PSPDFMinimumSearchLength = value;
-
-				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
-				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFMinimumSearchLength");
-				byte [] data = BitConverter.GetBytes (PSPDFMinimumSearchLength);
-				Marshal.Copy (data, 0, ptr, data.Length); 
-			}
-		}
-	}
-
 	public partial class PSPDFLibrary : NSObject
 	{
 		private static nuint PSPDFLibraryVersion;

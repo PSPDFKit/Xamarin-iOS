@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "Email";
 "Send via Email" = "Send via Email";
 "Send" = "Send";
-"Open in" = "Open in";
+"Open In" = "Open In";
 "Open" = "Open";
 "Commit" = "Commit";
 "Sending to %@" = "Sending to %@"; // Open document with an application
 "Pages" = "Pages";
 "Print with annotations" = "Print with annotations";
-"Print document only" = "Print document only";
+"Print without annotations" = "Print without annotations";
 "No Applications found" = "There are no applications installed that can open PDF documents.";
 "Print" = "Print";
 "Annotation" = "Annotation";
@@ -126,6 +126,7 @@
 "Color" = "Color";
 "Border" = "Border";
 "Fill Color" = "Fill Color";
+"Line End Fill Color" = "Line End Fill Color";
 "Opacity" = "Opacity";
 "%@ %%" = "%@ %%";
 "Custom" = "Custom";
@@ -223,6 +224,8 @@
 "Date" = "Date";
 "Time" = "Time";
 "No Pages" = "No Pages";
+"Drag to resize" = "Drag to resize"; // used as hint that inspector is resizable
+"Convert to" = "Convert to"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Approved";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Annotations are rendered in the PDF and are readonly.";
 "Annotation Summary" = "Annotation Summary";
 "Embed Annotations into the PDF and also list them in the email." = "Embed Annotations into the PDF and also list them in the email.";
+"Print annotations and also list them on a separate page." = "Print annotations and also list them on a separate page.";
 "Files" = "Files";
 "Send as single files" = "Send as single files";
 "Merge files" = "Merge files";
@@ -374,11 +378,9 @@
 "Invalid value: must be a number." = "Invalid value: must be a number.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Invalid value: must be a date.";
 
 // General validation
-
 "Invalid value." = "Invalid value.";
 
 // Gallery
@@ -455,4 +457,14 @@
 "OpenSSL could not sign hash" = "OpenSSL could not sign hash";
 "Could not write PKCS7 signature" = "Could not write PKCS7 signature";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Open In";
+"PSPDFPolicyEventPrint" = "Print";
+"PSPDFPolicyEventEmail" = "Email";
+"PSPDFPolicyEventMessage" = "Message";
+"PSPDFPolicyEventQuickLook" = "Quick Look"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Audio Recording";
+"PSPDFPolicyEventCamera" = "Camera";
+"PSPDFPolicyEventPasteboard" = "Pasteboard"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Submit Form";
+"PSPDFPolicyEventNetwork" = "Network";

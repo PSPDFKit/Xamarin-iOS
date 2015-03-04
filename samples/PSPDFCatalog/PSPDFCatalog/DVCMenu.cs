@@ -68,8 +68,8 @@ namespace PSPDFCatalog
 						processorOptions.LowlevelSetObject (password, Helper.CGPDFContextUserPassword);
 						processorOptions.LowlevelSetObject (password, Helper.CGPDFContextOwnerPassword);
 						processorOptions.LowlevelSetObject (NSNumber.FromInt32 (128), Helper.CGPDFContextEncryptionKeyLength);
-						processorOptions.LowlevelSetObject (NSNumber.FromBoolean (true), PSPDFProcessorOptionKeys.AnnotationAsDictionary.Handle);
-						processorOptions.LowlevelSetObject (NSNumber.FromObject (PSPDFAnnotationType.Link), PSPDFProcessorOptionKeys.AnnotationTypes.Handle);
+						processorOptions.LowlevelSetObject (NSNumber.FromBoolean (true), PSPDFProcessorOptionKeys.AnnotationAsDictionaryKey.Handle);
+						processorOptions.LowlevelSetObject (NSNumber.FromObject (PSPDFAnnotationType.Link), PSPDFProcessorOptionKeys.AnnotationTypesKey.Handle);
 
 						// We create the page range we want to include in our pdf
 						var pageRange = new [] { NSIndexSet.FromNSRange (new NSRange (0, (int)document.PageCount)) };
@@ -117,7 +117,7 @@ namespace PSPDFCatalog
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						document.OverrideClass (new Class (typeof (PSPDFBookmarkParser)), new Class (typeof (CustomBookmarkParser)));
 						var pdfViewer = new PSPDFViewController (document);
-						pdfViewer.RightBarButtonItems = new NSObject[] { pdfViewer.BookmarkButtonItem, pdfViewer.SearchButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.ViewModeButtonItem };
+						pdfViewer.RightBarButtonItems = new [] { pdfViewer.BookmarkButtonItem, pdfViewer.SearchButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.ViewModeButtonItem };
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("Change link background color to red", () => {

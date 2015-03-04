@@ -2,7 +2,7 @@
  Localization.strings
  PSPDFKit
  
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
  
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "電子郵件";
 "Send via Email" = "以電郵傳送";
 "Send" = "傳送";
-"Open in" = "打開用";
+"Open In" = "打開用";
 "Open" = "打開";
 "Commit" = "確認";
 "Sending to %@" = "正在傳送至 %@"; // Open document with an application
 "Pages" = "頁面";
 "Print with annotations" = "連同註釋打印";
-"Print document only" = "只打印文件";
+"Print without annotations" = "打印文件（不包括註釋）";
 "No Applications found" = "沒有安裝可以打開 PDF 檔案的應用程序。";
 "Print" = "列印";
 "Annotation" = "註釋";
@@ -126,6 +126,7 @@
 "Color" = "顏色";
 "Border" = "邊界";
 "Fill Color" = "填充顏色";
+"Line End Fill Color" = "線條終端填充顏色";
 "Opacity" = "不透明度";
 "%@ %%" = "%@ %%";
 "Custom" = "自定";
@@ -223,6 +224,8 @@
 "Date" = "日期";
 "Time" = "時間";
 "No Pages" = "無頁面";
+"Drag to resize" = "拖拉來調整大小"; // used as hint that inspector is resizable
+"Convert to" = "轉換為"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "已批准";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "註釋在PDF中呈現，只能讀取。";
 "Annotation Summary" = "註釋摘要";
 "Embed Annotations into the PDF and also list them in the email." = "把註釋嵌進PDF中，並把它們列在郵件中。";
+"Print annotations and also list them on a separate page." = "打印註釋，並在另一頁中把它們列出。";
 "Files" = "檔案";
 "Send as single files" = "以個別檔案傳送";
 "Merge files" = "合併檔案";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL 不能簽署 hash";
 "Could not write PKCS7 signature" = "不能寫 PKCS7 簽名";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "打開用";
+"PSPDFPolicyEventPrint" = "列印";
+"PSPDFPolicyEventEmail" = "電子郵件";
+"PSPDFPolicyEventMessage" = "訊息";
+"PSPDFPolicyEventQuickLook" = "快速查看"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "錄音";
+"PSPDFPolicyEventCamera" = "相機";
+"PSPDFPolicyEventPasteboard" = "剪貼簿"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "送出表格";
+"PSPDFPolicyEventNetwork" = "連接";

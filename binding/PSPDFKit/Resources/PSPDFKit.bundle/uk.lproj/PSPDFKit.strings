@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "Ел. пошта";
 "Send via Email" = "Віправити эл. поштою";
 "Send" = "Віправити";
-"Open in" = "Відкрити в";
+"Open In" = "Відкрити в";
 "Open" = "Відкрити";
 "Commit" = "Commit";
 "Sending to %@" = "Відправка на %@"; // Open document with an application
 "Pages" = "Сторінки";
 "Print with annotations" = "Друк з анотаціями";
-"Print document only" = "Надрукувати лише документ";
+"Print without annotations" = "Друкувати без анотацій";
 "No Applications found" = "Додатки не знайдено.";
 "Print" = "Друк";
 "Annotation" = "Анотація";
@@ -125,6 +125,7 @@
 "Color" = "Колір";
 "Border" = "Межа";
 "Fill Color" = "Колір заливки";
+"Line End Fill Color" = "Колір заливки кінця лінії";
 "Opacity" = "Непрозорість";
 "%@ %%" = "%@ %%";
 "Custom" = "Користувацькі";
@@ -218,6 +219,8 @@
 "Date" = "Дата";
 "Time" = "Час";
 "No Pages" = "Немає сторінок";
+"Drag to resize" = "Перетягніть для зміни розміру"; // used as hint that inspector is resizable
+"Convert to" = "Перетворити в"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Затверджено";
@@ -322,6 +325,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Анотації опиняються в PDF і тільки для читання";
 "Annotation Summary" = "Звіт по анотаціям";
 "Embed Annotations into the PDF and also list them in the email." = "Вбудовати анотації в PDF та вставити в ел. пошту.";
+"Print annotations and also list them on a separate page." = "Роздрукувати анотації, а також перерахувати їх на окремому аркуші.";
 "Files" = "Файли";
 "Send as single files" = "Надіслати як окремі файли";
 "Merge files" = "Об`єднати файли";
@@ -448,3 +452,15 @@
 "OpenSSL could generate PKCS7 signature" = "OpenSSL може генерувати PKCS7 підпис";
 "OpenSSL could not sign hash" = "OpenSSL не міг підписати хеш";
 "Could not write PKCS7 signature" = "Не вдалося записати PKCS7 підпис";
+
+// Policy
+"PSPDFPolicyEventOpenIn" = "Відкрити в";
+"PSPDFPolicyEventPrint" = "Друк";
+"PSPDFPolicyEventEmail" = "Ел. пошта";
+"PSPDFPolicyEventMessage" = "Повідомлення";
+"PSPDFPolicyEventQuickLook" = "Перегляд"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Аудіо запис";
+"PSPDFPolicyEventCamera" = "Камера";
+"PSPDFPolicyEventPasteboard" = "Буфер обміну"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Надіслати форму";
+"PSPDFPolicyEventNetwork" = "Мережа";

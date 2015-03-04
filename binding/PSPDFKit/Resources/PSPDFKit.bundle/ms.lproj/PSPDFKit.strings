@@ -2,7 +2,7 @@
  Localization.strings
  PSPDFKit
  
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
  
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mel";
 "Send via Email" = "Hantar melalui E-mel";
 "Send" = "Hantar";
-"Open in" = "Buka dalam";
+"Open In" = "Buka dalam";
 "Open" = "Buka";
 "Commit" = "Lakukan";
 "Sending to %@" = "Menghantar ke %@"; // Open document with an application
 "Pages" = "Halaman";
 "Print with annotations" = "Cetak dengan anotasi";
-"Print document only" = "Cetak dokumen sahaja";
+"Print without annotations" = "Cetak tanpa anotasi";
 "No Applications found" = "Tiada aplikasi yang telah dipasang yang boleh membuka dokumen PDF.";
 "Print" = "Cetak";
 "Annotation" = "Anotasi";
@@ -126,6 +126,7 @@
 "Color" = "Warna";
 "Border" = "Sempadan";
 "Fill Color" = "Warna Isian";
+"Line End Fill Color" = "Warna Isian Akhir Garis";
 "Opacity" = "Kelegapan";
 "%@ %%" = "%@ %%";
 "Custom" = "Tersuai";
@@ -223,6 +224,8 @@
 "Date" = "Tarikh";
 "Time" = "Masa";
 "No Pages" = "Tiada Halaman";
+"Drag to resize" = "Seret untuk mensaiz semula"; // used as hint that inspector is resizable
+"Convert to" = "Tukarkan ke"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Diluluskan";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Anotasi dipersembahkan dalam PDF dan adalah baca sahaja.";
 "Annotation Summary" = "Ringkasan Anotasi";
 "Embed Annotations into the PDF and also list them in the email." = "Benam Anotasi ke dalam PDF dan juga senaraikannya dalam e-mel.";
+"Print annotations and also list them on a separate page." = "Cetak anotasi dan juga senaraikan anotasi di halaman yang berasingan.";
 "Files" = "Fail";
 "Send as single files" = "Hantar sebagai fail tunggal";
 "Merge files" = "Gabungkan fail";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL tidak dapat menandatangani hash";
 "Could not write PKCS7 signature" = "Tidak dapat menulis tandatangan PKCS7";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Buka dalam";
+"PSPDFPolicyEventPrint" = "Cetak";
+"PSPDFPolicyEventEmail" = "E-mel";
+"PSPDFPolicyEventMessage" = "Mesej";
+"PSPDFPolicyEventQuickLook" = "Melihat Cepat"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Rakaman Audio";
+"PSPDFPolicyEventCamera" = "Kamera";
+"PSPDFPolicyEventPasteboard" = "Papan Tampal"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Serah Borang";
+"PSPDFPolicyEventNetwork" = "Rangkaian";

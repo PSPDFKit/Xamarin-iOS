@@ -2,7 +2,7 @@
  Localization.strings
  PSPDFKit
  
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
  
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-post";
 "Send via Email" = "Skicka som e-post";
 "Send" = "Skicka";
-"Open in" = "Öppna i";
+"Open In" = "Öppna i";
 "Open" = "Öppna";
 "Commit" = "Bekräfta";
 "Sending to %@" = "Skickar till %@"; // Open document with an application
 "Pages" = "Sidor";
 "Print with annotations" = "Skriv ut med anteckningar";
-"Print document only" = "Skriv endast ut dokumentet";
+"Print without annotations" = "Skriv ut utan anteckningar";
 "No Applications found" = "Det finns inga installerade program som kan öppna PDF-dokument.";
 "Print" = "Skriv ut";
 "Annotation" = "Anteckning";
@@ -126,6 +126,7 @@
 "Color" = "Färg";
 "Border" = "Kant";
 "Fill Color" = "Fyllningsfärg";
+"Line End Fill Color" = "Fyllningsfärg linjeslut";
 "Opacity" = "Opacitet";
 "%@ %%" = "%@ %%";
 "Custom" = "Anpassad";
@@ -223,6 +224,8 @@
 "Date" = "Datum";
 "Time" = "Tid";
 "No Pages" = "Inga sidor";
+"Drag to resize" = "Dra och ändra storlek"; // used as hint that inspector is resizable
+"Convert to" = "Konvertera till"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Godkänt";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Anteckningarna infogas i PDF:en och kan bara läsas.";
 "Annotation Summary" = "Sammanfattning av anteckningar";
 "Embed Annotations into the PDF and also list them in the email." = "Bädda in anteckningarna i PDF:en och ta även med dem i e-brevet.";
+"Print annotations and also list them on a separate page." = "Skriv ut anteckningar och gör en lista med dem på en egen sida.";
 "Files" = "Filer";
 "Send as single files" = "Skicka som enstaka filer";
 "Merge files" = "Slå samman filer";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL kunde inte signera hashen";
 "Could not write PKCS7 signature" = "Kunde inte skriva PKCS7-signatur";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Öppna i";
+"PSPDFPolicyEventPrint" = "Skriv ut";
+"PSPDFPolicyEventEmail" = "E-post";
+"PSPDFPolicyEventMessage" = "Meddelande";
+"PSPDFPolicyEventQuickLook" = "Överblick"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Ljudinspelning";
+"PSPDFPolicyEventCamera" = "Kamera";
+"PSPDFPolicyEventPasteboard" = "Urklipp"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Skicka formulär";
+"PSPDFPolicyEventNetwork" = "Nätverk";

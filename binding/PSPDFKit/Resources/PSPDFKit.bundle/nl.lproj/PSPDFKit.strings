@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Verstuur via e-mail";
 "Send" = "Verstuur";
-"Open in" = "Open in";
+"Open In" = "Open In";
 "Open" = "Open";
 "Commit" = "Leg vast";
 "Sending to %@" = "Versturen naar %@"; // Open document with an application
 "Pages" = "Pagina's";
 "Print with annotations" = "Druk af met annotaties";
-"Print document only" = "Druk alleen document af";
+"Print without annotations" = "Druk zonder annotaties af";
 "No Applications found" = "Er zijn geen apps geïnstalleerd die PDF-documenten kunnen openen.";
 "Print" = "Druk af";
 "Annotation" = "Annotatie";
@@ -126,6 +126,7 @@
 "Color" = "Kleur";
 "Border" = "Rand";
 "Fill Color" = "Vulkleur";
+"Line End Fill Color" = "Vulkleur einde van lijn";
 "Opacity" = "Transparantie";
 "%@ %%" = "%@ %%";
 "Custom" = "Aangepast";
@@ -223,6 +224,8 @@
 "Date" = "Datum";
 "Time" = "Tijd";
 "No Pages" = "Geen pagina's";
+"Drag to resize" = "Sleep en wijzig grootte"; // used as hint that inspector is resizable
+"Convert to" = "Converteer naar"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Goedgekeurd";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "De annotaties worden in de PDF weergegeven en kunnen alleen worden gelezen.";
 "Annotation Summary" = "Overzicht van annotaties";
 "Embed Annotations into the PDF and also list them in the email." = "Voeg de annotaties toe aan de PDF en vermeld ze ook in de e-mail.";
+"Print annotations and also list them on a separate page." = "Druk annotaties af en vermeld ze op een aparte pagina.";
 "Files" = "Bestanden";
 "Send as single files" = "Verstuur als losse bestanden";
 "Merge files" = "Voeg bestanden samen";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL kan hash niet tekenen";
 "Could not write PKCS7 signature" = "Kan PKCS7-handtekening niet schrijven";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Open In";
+"PSPDFPolicyEventPrint" = "Druk af";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Bericht";
+"PSPDFPolicyEventQuickLook" = "Snelle weergave"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Audio-opname";
+"PSPDFPolicyEventCamera" = "Camera";
+"PSPDFPolicyEventPasteboard" = "Klembord"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Verstuur formulier";
+"PSPDFPolicyEventNetwork" = "Netwerk";

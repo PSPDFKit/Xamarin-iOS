@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Отправить по Email";
 "Send" = "Отправить";
-"Open in" = "Открыть в";
+"Open In" = "Открыть в";
 "Open" = "Открыть";
 "Commit" = "Подтвердить";
 "Sending to %@" = "Отправка %@"; // Open document with an application
 "Pages" = "Страницы";
 "Print with annotations" = "Печать с комментариями";
-"Print document only" = "Печать только документа";
+"Print without annotations" = "Печать без комментариев";
 "No Applications found" = "Отсутствуют приложения для открытия PDF-документов.";
 "Print" = "Печать";
 "Annotation" = "Комментарий";
@@ -126,6 +126,7 @@
 "Color" = "Цвет";
 "Border" = "Рамка";
 "Fill Color" = "Цвет заливки";
+"Line End Fill Color" = "Цвет линии и заливки";
 "Opacity" = "Прозрачность";
 "%@ %%" = "%@ %%";
 "Custom" = "Собственный";
@@ -223,6 +224,8 @@
 "Date" = "Дата";
 "Time" = "Время";
 "No Pages" = "Нет страниц";
+"Drag to resize" = "Перетащить для изм. размера"; // used as hint that inspector is resizable
+"Convert to" = "Конвертировать в"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Одобрено";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Комментарии переведены в PDF и доступны только для чтения.";
 "Annotation Summary" = "Обзор комментариев";
 "Embed Annotations into the PDF and also list them in the email." = "Встроить комментарии в PDF и создать список в Email";
+"Print annotations and also list them on a separate page." = "Распечатать комментарии и вынести их на отдельную страницу.";
 "Files" = "Файлы";
 "Send as single files" = "Отправить по одному";
 "Merge files" = "Объединить файлы";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL не удалось подписать хэш.";
 "Could not write PKCS7 signature" = "Не удалось записать подпись PKCS7";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Открыть в";
+"PSPDFPolicyEventPrint" = "Печать";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Сообщение";
+"PSPDFPolicyEventQuickLook" = "Быстрый просмотр"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Аудиозапись";
+"PSPDFPolicyEventCamera" = "Камера";
+"PSPDFPolicyEventPasteboard" = "Буфер обмена"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Форма отправки";
+"PSPDFPolicyEventNetwork" = "Сеть";

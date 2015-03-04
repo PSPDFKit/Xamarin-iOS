@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Send pr. e-mail";
 "Send" = "Udfør";
-"Open in" = "Åbn i";
+"Open In" = "Åbn i";
 "Open" = "Åbn";
 "Commit" = "Udfør";
 "Sending to %@" = "Sender til %@"; // Open document with an application
 "Pages" = "Sider";
 "Print with annotations" = "Udskriv med kommentarer";
-"Print document only" = "Udskriv kun dokument";
+"Print without annotations" = "Udskriv uden kommentarer";
 "No Applications found" = "Ingen programmer, der kan åbne PDF-dokumenter, er installeret.";
 "Print" = "Udskriv";
 "Annotation" = "Kommentar";
@@ -126,6 +126,7 @@
 "Color" = "Farve";
 "Border" = "Ramme";
 "Fill Color" = "Fyldfarve";
+"Line End Fill Color" = "Linjeslutfarve";
 "Opacity" = "Transparens";
 "%@ %%" = "%@ %%";
 "Custom" = "Speciel";
@@ -223,6 +224,8 @@
 "Date" = "Dato";
 "Time" = "Tid";
 "No Pages" = "Ingen sider";
+"Drag to resize" = "Træk for at skalere"; // used as hint that inspector is resizable
+"Convert to" = "Konverter til"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Godkendt";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Kommentarer gengives i PDF'en og er skrivebeskyttede.";
 "Annotation Summary" = "Kommentarresumé";
 "Embed Annotations into the PDF and also list them in the email." = "Indlejr kommentarer i PDF'en og oplist dem også i e-mail.";
+"Print annotations and also list them on a separate page." = "Udskriv kommentarer og vis dem som liste på en separat side.";
 "Files" = "Arkiver";
 "Send as single files" = "Send som enkelte arkiver";
 "Merge files" = "Flet arkiver";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL kunne ikke signere hash";
 "Could not write PKCS7 signature" = "Kunne ikke skrive PKCS7-signatur";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Åbn i";
+"PSPDFPolicyEventPrint" = "Udskriv";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Meddelelse";
+"PSPDFPolicyEventQuickLook" = "Quick Look"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Lydoptagelse";
+"PSPDFPolicyEventCamera" = "Kamera";
+"PSPDFPolicyEventPasteboard" = "Udklipsholder"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Send formular";
+"PSPDFPolicyEventNetwork" = "Netværk";

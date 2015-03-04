@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Enviar por E-mail";
 "Send" = "Enviar";
-"Open in" = "Abrir com";
+"Open In" = "Abrir com";
 "Open" = "Abrir";
 "Commit" = "Validar";
 "Sending to %@" = "Enviando para %@"; // Open document with an application
 "Pages" = "Páginas";
 "Print with annotations" = "Imprimir com anotações";
-"Print document only" = "Imprimir só documento";
+"Print without annotations" = "Imprimir sem anotações";
 "No Applications found" = "Não há aplicativos instalados que possam abrir documentos PDF.";
 "Print" = "Imprimir";
 "Annotation" = "Anotação";
@@ -126,6 +126,7 @@
 "Color" = "Cor";
 "Border" = "Borda";
 "Fill Color" = "Cor de Preenchimento";
+"Line End Fill Color" = "Cor Preench. do Final da Linha";
 "Opacity" = "Opacidade";
 "%@ %%" = "%@ %%";
 "Custom" = "Personalizar";
@@ -223,6 +224,8 @@
 "Date" = "Data";
 "Time" = "Hora";
 "No Pages" = "Sem Páginas";
+"Drag to resize" = "Arraste para redimensionar"; // used as hint that inspector is resizable
+"Convert to" = "Converter para"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Aprovado";
@@ -273,7 +276,7 @@
 "LastPage" = "Última Página";
 "GoBack" = "Voltar";
 "GoForward" = "Avançar";
-"GoToPage" = "Ir à Página";
+"GoToPage" = "Ir à página";
 "Find" = "Buscar";
 // Print, Outline, Search, Brightness are translated via toolbar
 "ZoomIn" = "Ampliar";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "As anotações são passadas ao PDF e são somente para leitura.";
 "Annotation Summary" = "Resumo de Anotações";
 "Embed Annotations into the PDF and also list them in the email." = "Integra as anotações ao PDF e também as lista no e-mail.";
+"Print annotations and also list them on a separate page." = "Imprima anotações e liste-as em uma página separada.";
 "Files" = "Arquivos";
 "Send as single files" = "Enviar como arquivos individuais";
 "Merge files" = "Combinar arquivos";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL não pôde assinar o hash";
 "Could not write PKCS7 signature" = "Não pôde gravar a assinatura PKCS7";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Abrir com";
+"PSPDFPolicyEventPrint" = "Imprimir";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Mensagem";
+"PSPDFPolicyEventQuickLook" = "Visualização Rápida"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Gravação de Áudio";
+"PSPDFPolicyEventCamera" = "Câmera";
+"PSPDFPolicyEventPasteboard" = "Área de Transferência"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Enviar Formulário";
+"PSPDFPolicyEventNetwork" = "Rede";

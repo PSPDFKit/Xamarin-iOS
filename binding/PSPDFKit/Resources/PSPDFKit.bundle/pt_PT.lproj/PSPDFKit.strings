@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Enviar por e-mail";
 "Send" = "Enviar";
-"Open in" = "Abrir com";
+"Open In" = "Abrir com";
 "Open" = "Abrir";
 "Commit" = "Consolidar";
 "Sending to %@" = "Enviar para %@ "; // Open document with an application
 "Pages" = "Páginas";
 "Print with annotations" = "Imprimir com anotações";
-"Print document only" = "Imprimir documento apenas";
+"Print without annotations" = "Imprimir sem anotações";
 "No Applications found" = "Não existem aplicações instaladas que possam abrir documentos PDF.";
 "Print" = "Imprimir";
 "Annotation" = "Anotação";
@@ -126,6 +126,7 @@
 "Color" = "Cor";
 "Border" = "Limite";
 "Fill Color" = "Cor de preenchimento";
+"Line End Fill Color" = "Cor de preenchimento de fim de linha";
 "Opacity" = "Opacidade";
 "%@ %%" = "%@ %%";
 "Custom" = "Personalizado";
@@ -223,6 +224,8 @@
 "Date" = "Data";
 "Time" = "Hora";
 "No Pages" = "Nenhuma página";
+"Drag to resize" = "Arraste para redimensionar"; // used as hint that inspector is resizable
+"Convert to" = "Converter em"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Aprovado";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "As anotações são desenhadas no PDF e são apenas de leitura.";
 "Annotation Summary" = "Sumário de anotações";
 "Embed Annotations into the PDF and also list them in the email." = "Anotações incorporadas no PDF e também listadas no e-mail.";
+"Print annotations and also list them on a separate page." = "Imprima anotações e liste-as numa página em separado.";
 "Files" = "Ficheiros";
 "Send as single files" = "Enviar como ficheiros únicos";
 "Merge files" = "Agrupar ficheiros";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "O OpenSSL não conseguiu assinar o hash";
 "Could not write PKCS7 signature" = "Não foi possível escrever a assinatura PKCS7";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Abrir com";
+"PSPDFPolicyEventPrint" = "Imprimir";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Mensagem";
+"PSPDFPolicyEventQuickLook" = "Vista rápida"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Gravação de áudio";
+"PSPDFPolicyEventCamera" = "Câmara";
+"PSPDFPolicyEventPasteboard" = "Mesa de colagem"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Formulário de submissão";
+"PSPDFPolicyEventNetwork" = "Rede";

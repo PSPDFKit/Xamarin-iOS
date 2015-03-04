@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "이메일";
 "Send via Email" = "이메일로 전송";
 "Send" = "전송";
-"Open in" = "다음으로 열기";
+"Open In" = "다음으로 열기";
 "Open" = "열기";
 "Commit" = "완료";
 "Sending to %@" = "%@에게 전송"; // Open document with an application
 "Pages" = "페이지";
 "Print with annotations" = "주석을 함께 출력";
-"Print document only" = "문서만 출력";
+"Print without annotations" = "주석 없이 문서만 출력";
 "No Applications found" = "PDF 문서를 열 수 있는 응용 프로그램이 설치되어 있지 않습니다.";
 "Print" = "출력";
 "Annotation" = "주석";
@@ -86,7 +86,7 @@
 "Done" = "완료";
 "Indexing Documents" = "문서 색인 중";
 // text on a label; after the user has done a search on an empty document, this text is shown
-"Document has no content" = "내용이 없는 문서입니다.";
+"Document has no content" = "내용이 없는 문서입니다";
 
 // inline browser
 "Open in Safari" = "Safari에서 열기";
@@ -126,6 +126,7 @@
 "Color" = "색상";
 "Border" = "테두리";
 "Fill Color" = "채우기 색상";
+"Line End Fill Color" = "선 끝 채움 색상";
 "Opacity" = "불투명도";
 "%@ %%" = "%@ %%";
 "Custom" = "사용자 지정";
@@ -223,6 +224,8 @@
 "Date" = "날짜";
 "Time" = "시간";
 "No Pages" = "페이지 없음";
+"Drag to resize" = "드래그 하여 크기조절"; // used as hint that inspector is resizable
+"Convert to" = "다음으로 변환"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "승인됨";
@@ -273,7 +276,7 @@
 "LastPage" = "마지막 페이지";
 "GoBack" = "뒤로";
 "GoForward" = "앞으로";
-"GoToPage" = "페이지로 이동";
+"GoToPage" = "페이지 이동";
 "Find" = "찾기";
 // Print, Outline, Search, Brightness are translated via toolbar
 "ZoomIn" = "확대";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "PDF 문서에 주석을 각인하며, 읽기전용으로 전환합니다.";
 "Annotation Summary" = "주석 요약";
 "Embed Annotations into the PDF and also list them in the email." = "주석을 PDF 문서에 첨부하고 이메일에 목록으로 나열합니다.";
+"Print annotations and also list them on a separate page." = "주석을 프린트하고 별도의 페이지에 목차로 정리합니다.";
 "Files" = "파일";
 "Send as single files" = "하나의 파일로 전송";
 "Merge files" = "파일 병합";
@@ -379,7 +383,7 @@
 
 // General validation
 
-"Invalid value." = "올바르지 않은 값";
+"Invalid value." = "올바르지 않은 값입니다.";
 
 // Gallery
 "Connection Error" = "연결 오류";
@@ -395,12 +399,12 @@
 "Digital Signature" = "디지털 서명";
 "Signature is valid." = "유효한 서명입니다.";
 "Signature is valid, but there are some warnings." = "유효한 서명이지만, 주의사항이 있습니다.";
-"It was signed by %@ on %@ at %@." = "%@이(가) %@ %@에 서명함"; // the document was signed by name on date at time
+"It was signed by %@ on %@ at %@." = "%@이(가) %@ %@에 서명했습니다."; // the document was signed by name on date at time
 // the document was signed on date at time
-"It was signed on %@ at %@." = " %@ %@에 서명함";
-"It claims to have been signed by %@ on %@ at %@." = "%@이(가) %@ %@에 서명한 것으로 추정"; // by name on date at time
+"It was signed on %@ at %@." = "다음 시각에 서명된 것으로 기재되어 있습니다:  %@ %@.";
+"It claims to have been signed by %@ on %@ at %@." = "%@이(가) %@ %@에 서명한 것으로 추정됩니다."; // by name on date at time
 // on date at time
-"It claims to have been signed on %@ at %@." = " %@ %@에 서명된 것으로 기재됨";
+"It claims to have been signed on %@ at %@." = "다음 시각에 서명된 것으로 기재되어 있습니다:  %@ %@.";
 "- The revision covered by this signature has not been modified, however changes have been made to the document since it was signed." = "서명이 수용할 수 았는 개정판이 수정되지 않았습니다. 하지만 서명 이후에 문서의 내용이 수정되었습니다."; // When a document is signed, the content is frozen at that point, and any subsequent changes are appended to the document. So the version or revision of the document that was signed can later be reviewed. So this message essentially means "The signed version is intact and you could view it, but what you are looking at now has had modifications made to it." There is / will be a button for viewing these old signed revisions.
 "- The signature is valid and the content of this document has not been modified since it was signed." = "- 서명이 유효하며, 문서에 서명이 추가된 이후 내용이 수정되지 않았습니다.";
 "- Invalid signature — since signing the content of this document has been modified, tampered with, or corrupted." = "올바르지 않은 서명 - 서명 후 문서의 내용이 수정되었거나 손상되었습니다.";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL이 hash를 서명할 수 없음";
 "Could not write PKCS7 signature" = "PKCS7 서명을 작성할 수 없음";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "다음으로 열기";
+"PSPDFPolicyEventPrint" = "출력";
+"PSPDFPolicyEventEmail" = "이메일";
+"PSPDFPolicyEventMessage" = "메시지";
+"PSPDFPolicyEventQuickLook" = "훑어보기"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "오디오 녹음";
+"PSPDFPolicyEventCamera" = "카메라";
+"PSPDFPolicyEventPasteboard" = "페이스트보드"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "전송 양식";
+"PSPDFPolicyEventNetwork" = "네트워크";

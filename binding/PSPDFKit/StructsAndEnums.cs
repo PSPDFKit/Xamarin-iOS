@@ -92,7 +92,10 @@ namespace PSPDFKit
 		InvalidRemoteContent = 1500,
 		FormValidationError = 5000,
 		ImageProcessorInvalidImage = 6000,
-		PSPDFErrorFeatureNotEnabled = 100000,
+		OpenInNoApplicationsFound = 7000,
+		CodeMessageNotSent = 7100,
+		CodeFeatureNotEnabled = 100000,
+		SecurityNoPermission = 200000,
 
 #if __UNIFIED__
 		Unknown = long.MaxValue
@@ -250,18 +253,6 @@ namespace PSPDFKit
 #endif
 		Modal,
 		Inline
-	}
-
-
-#if __UNIFIED__
-	[Native]
-	public enum PSPDFPresentationStyle : ulong {
-#else
-	public enum PSPDFPresentationStyle : uint {
-#endif
-		Default,
-		Modal,
-		HalfModal
 	}
 
 #if __UNIFIED__
@@ -617,17 +608,6 @@ namespace PSPDFKit
 		Finished
 	}
 
-#if __UNIFIED__
-	[Native]
-	public enum PSPDFThumbnailViewFilter : ulong {
-#else
-	public enum PSPDFThumbnailViewFilter : uint {
-#endif
-		ShowAll,
-		Bookmarks,
-		Annotations
-	}
-
 	[Flags]
 #if __UNIFIED__
 	[Native]
@@ -849,16 +829,6 @@ namespace PSPDFKit
 #endif
 		Draw,
 		Erase
-	}
-
-#if __UNIFIED__
-	[Native]
-	public enum PSPDFViewModeBarButtonStyle : ulong {
-#else
-	public enum PSPDFViewModeBarButtonStyle : uint {
-#endif
-		Toggle,
-		Switch
 	}
 
 #if __UNIFIED__
@@ -1177,20 +1147,10 @@ namespace PSPDFKit
 #else
 	public enum PSPDFMediaPlayerControllerContentState : uint {
 #endif
-		Unknown,
+		Idle,
 		Loading,
-		Playable,
+		Ready,
 		Error
-	}
-
-#if __UNIFIED__
-	[Native]
-	public enum PSPDFMediaPlayerControllerState : ulong {
-#else
-	public enum PSPDFMediaPlayerControllerState : uint {
-#endif
-		Preparing,
-		Ready
 	}
 
 #if __UNIFIED__
@@ -1274,6 +1234,7 @@ namespace PSPDFKit
 #else
 	public enum PSPDFDocumentSharingOptions : uint {
 #endif
+		None = 0,
 		CurrentPageOnly = 1 << 0,
 		VisiblePages = 1 << 1,
 		AllPages = 1 << 2,
@@ -1340,37 +1301,78 @@ namespace PSPDFKit
 		Slash
 	}
 
-	#if __UNIFIED__
+#if __UNIFIED__
 	[Native]
 	public enum PSPDFStatefulTableViewState : ulong {
-	#else
+#else
 	public enum PSPDFStatefulTableViewState : uint {
-	#endif
+#endif
 		Loading,
 		Empty,
 		Finished
 	}
 
-	#if __UNIFIED__
+#if __UNIFIED__
 	[Native]
 	public enum PSPDFLabelStyle : ulong {
-	#else
+#else
 	public enum PSPDFLabelStyle : uint {
-	#endif
+#endif
 		Flat,
-		Bordered,
 		Modern
 	}
 
-	#if __UNIFIED__
+#if __UNIFIED__
 	[Native]
 	public enum PSPDFSelectableCollectionViewCellStyle : ulong {
-	#else
+#else
 	public enum PSPDFSelectableCollectionViewCellStyle : uint {
-	#endif
+#endif
 		None,
 		Checkmark,
 		Border
 	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFSeparatorHidingMode : ulong {
+#else
+	public enum PSPDFSeparatorHidingMode : uint {
+#endif
+		None,
+		AfterLastCell,
+		IncludingLastCell
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFRenderStatusViewPosition : ulong {
+#else
+	public enum PSPDFRenderStatusViewPosition : uint {
+#endif
+		Top,
+		Centered
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFToolbarButtonControlEvents : ulong {
+#else
+	public enum PSPDFToolbarButtonControlEvents : uint {
+#endif
+		Tick = 1 << 24
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFThumbnailFlowLayoutAttributesType : long {
+#else
+	public enum PSPDFThumbnailFlowLayoutAttributesType : int {
+#endif
+		Single,
+		Left,
+		Right
+	}
+
 }
 

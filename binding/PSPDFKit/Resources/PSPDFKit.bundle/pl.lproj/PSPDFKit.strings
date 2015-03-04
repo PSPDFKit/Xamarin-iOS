@@ -2,7 +2,7 @@
  Localization.strings
  PSPDFKit
  
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
  
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Wyślij przez e-mail";
 "Send" = "Wyślij";
-"Open in" = "Otwórz w";
+"Open In" = "Otwórz w";
 "Open" = "Otwórz";
 "Commit" = "Przekaż";
 "Sending to %@" = "Wysyłanie do %@"; // Open document with an application
 "Pages" = "Strony";
 "Print with annotations" = "Drukuj z adnotacjami";
-"Print document only" = "Drukuj tylko dokument";
+"Print without annotations" = "Drukuj bez adnotacji";
 "No Applications found" = "Brak aplikacji, która mogłaby otworzyć dokument PDF.";
 "Print" = "Drukuj";
 "Annotation" = "Adnotacja";
@@ -126,6 +126,7 @@
 "Color" = "Kolor";
 "Border" = "Obramowanie";
 "Fill Color" = "Kolor wypełnienia";
+"Line End Fill Color" = "Kolor wypełnienia końca linii";
 "Opacity" = "Przezroczystość";
 "%@ %%" = "%@ %%";
 "Custom" = "Własne";
@@ -223,6 +224,8 @@
 "Date" = "Data";
 "Time" = "Czas";
 "No Pages" = "Brak stron";
+"Drag to resize" = "Przeciągnij i przeskaluj"; // used as hint that inspector is resizable
+"Convert to" = "Konwertuj na"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "Zatwierdzono";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "Adnotacje są renderowane w PDF i są tylko do odczytu.";
 "Annotation Summary" = "Zestawienie adnotacji";
 "Embed Annotations into the PDF and also list them in the email." = "Osadź adnotacje w PDF i dodatkowo wyszczególnij je w wiadomości e-mail.";
+"Print annotations and also list them on a separate page." = "Drukuj adnotacje i wyszczególnij je na osobnej stronie.";
 "Files" = "Pliki";
 "Send as single files" = "Wyślij jako pojedyncze pliki";
 "Merge files" = "Złącz pliki";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL nie może podpisać obiektu hash";
 "Could not write PKCS7 signature" = "Nie można zapisać podpisu PKCS7";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "Otwórz w";
+"PSPDFPolicyEventPrint" = "Drukuj";
+"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventMessage" = "Wiadomość";
+"PSPDFPolicyEventQuickLook" = "Szybki przegląd"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "Nagranie audio";
+"PSPDFPolicyEventCamera" = "Aparat";
+"PSPDFPolicyEventPasteboard" = "Schowek"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "Prześlij formularz";
+"PSPDFPolicyEventNetwork" = "Sieć";

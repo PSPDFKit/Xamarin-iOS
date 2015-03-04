@@ -2,7 +2,7 @@
  Localization.strings
  PSPDFKit
  
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
  
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "อีเมล";
 "Send via Email" = "ส่งทางอีเมล";
 "Send" = "ส่ง";
-"Open in" = "เปิดใน";
+"Open In" = "เปิดใน";
 "Open" = "เปิด";
 "Commit" = "ดำเนินการ";
 "Sending to %@" = "ส่งไปที่ %@"; // Open document with an application
 "Pages" = "หน้า";
 "Print with annotations" = "พิมพ์และแสดงหมายเหตุ";
-"Print document only" = "พิมพ์เอกสารเท่านั้น";
+"Print without annotations" = "พิมพ์โดยไม่แสดงหมายเหตุ";
 "No Applications found" = "ไม่ได้ติดตั้งแอปที่สามารถเปิดเอกสาร PDF ได้";
 "Print" = "พิมพ์";
 "Annotation" = "การทำหมายเหตุ";
@@ -126,6 +126,7 @@
 "Color" = "สี";
 "Border" = "ขอบ";
 "Fill Color" = "สีระบาย";
+"Line End Fill Color" = "ลงสีระบายจุดจบของเส้น";
 "Opacity" = "ความทึบแสง";
 "%@ %%" = "%@ %%";
 "Custom" = "กำหนดเอง";
@@ -223,6 +224,8 @@
 "Date" = "วันที่";
 "Time" = "เวลา";
 "No Pages" = "ไม่มีหน้า";
+"Drag to resize" = "ลากเพื่อปรับขนาด"; // used as hint that inspector is resizable
+"Convert to" = "แปลงเป็น"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "ผ่านการรับรอง";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "หมายเหตุได้รับการบันทึกลงใน PDF และแก้ไขไม่ได้";
 "Annotation Summary" = "บทสรุปหมายเหตุ";
 "Embed Annotations into the PDF and also list them in the email." = "ฝังหมายเหตุลงใน PDF และแจงรายการลงในอีเมลด้วย";
+"Print annotations and also list them on a separate page." = "พิมพ์และแจกแจงหมายเหตุในหน้าแยกต่างหาก";
 "Files" = "ไฟล์";
 "Send as single files" = "ส่งเป็นไฟล์เดี่ยว";
 "Merge files" = "ผสานไฟล์";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSL ไม่สามารถเซ็น hash";
 "Could not write PKCS7 signature" = "ไม่สามารถเขียนลายเซ็น PKCS7";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "เปิดใน";
+"PSPDFPolicyEventPrint" = "พิมพ์";
+"PSPDFPolicyEventEmail" = "อีเมล";
+"PSPDFPolicyEventMessage" = "ข้อความ";
+"PSPDFPolicyEventQuickLook" = "ดูอย่างรวดเร็ว"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "การบันทึกเสียง";
+"PSPDFPolicyEventCamera" = "กล้อง";
+"PSPDFPolicyEventPasteboard" = "กระดานพักข้อมูล"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "ส่งฟอร์ม";
+"PSPDFPolicyEventNetwork" = "เครือข่าย";

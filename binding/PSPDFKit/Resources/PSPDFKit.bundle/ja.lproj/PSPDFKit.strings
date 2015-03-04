@@ -2,7 +2,7 @@
   Localization.strings
   PSPDFKit
 
- Copyright (c) 2012-2014 PSPDFKit GmbH. All rights reserved.
+ Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
 
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
@@ -33,13 +33,13 @@
 "Email" = "メール";
 "Send via Email" = "メールで送信";
 "Send" = "送信";
-"Open in" = "開く";
+"Open In" = "開く";
 "Open" = "開く";
 "Commit" = "コミット";
 "Sending to %@" = "%@に送信中"; // Open document with an application
 "Pages" = "ページ";
 "Print with annotations" = "注釈付きでプリント";
-"Print document only" = "書類のみをプリント";
+"Print without annotations" = "注釈なしでプリント";
 "No Applications found" = "PDF書類を開くことができるアプリケーションがインストールされていません。";
 "Print" = "プリント";
 "Annotation" = "注釈";
@@ -126,6 +126,7 @@
 "Color" = "カラー";
 "Border" = "境界線";
 "Fill Color" = "塗りつぶしの色";
+"Line End Fill Color" = "線の終点の塗りつぶしの色";
 "Opacity" = "不透明度";
 "%@ %%" = "%@ %%";
 "Custom" = "カスタム";
@@ -223,6 +224,8 @@
 "Date" = "日付";
 "Time" = "時刻";
 "No Pages" = "ページがありません";
+"Drag to resize" = "ドラッグしてサイズ変更"; // used as hint that inspector is resizable
+"Convert to" = "変換"; // used as label on action that changes free text intent type
 
 // Stamps
 "Approved" = "承認済み";
@@ -327,6 +330,7 @@
 "Annotations are drawn into the PDF and are readonly." = "注釈はPDFにレンダリングされ、読み出し専用となります。";
 "Annotation Summary" = "注釈の概要";
 "Embed Annotations into the PDF and also list them in the email." = "PDFに注釈を埋め込み、またメールにリスト表示します。";
+"Print annotations and also list them on a separate page." = "注釈をプリントして別のページに一覧表示する";
 "Files" = "ファイル";
 "Send as single files" = "１つのファイルとして送信";
 "Merge files" = "ファイルを結合";
@@ -455,4 +459,14 @@
 "OpenSSL could not sign hash" = "OpenSSLは、hashに署名できませんでした。";
 "Could not write PKCS7 signature" = "PKCS7署名を書き出せませんでした";
 
-
+// Policy
+"PSPDFPolicyEventOpenIn" = "開く";
+"PSPDFPolicyEventPrint" = "プリント";
+"PSPDFPolicyEventEmail" = "メール";
+"PSPDFPolicyEventMessage" = "メッセージ";
+"PSPDFPolicyEventQuickLook" = "クイックルック"; // as in Apple's Quick Look
+"PSPDFPolicyEventAudioRecording" = "オーディオ録音";
+"PSPDFPolicyEventCamera" = "カメラ";
+"PSPDFPolicyEventPasteboard" = "ペーストボード"; // as in using a computer and copying text, so that it get's added to the Pasteboard, from which it can later be retrieved with the paste command
+"PSPDFPolicyEventSubmitForm" = "フォームを送信";
+"PSPDFPolicyEventNetwork" = "ネットワーク";
