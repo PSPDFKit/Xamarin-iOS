@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPDFKit-SQLite", "PSPDFKit\PSPDFKit-SQLite.csproj", "{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPDFKit-SQLite-Classic", "PSPDFKit\PSPDFKit-SQLite-Classic.csproj", "{689E417F-EF8E-47D2-8F17-9F1248FBFFFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{689E417F-EF8E-47D2-8F17-9F1248FBFFFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{689E417F-EF8E-47D2-8F17-9F1248FBFFFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{689E417F-EF8E-47D2-8F17-9F1248FBFFFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{689E417F-EF8E-47D2-8F17-9F1248FBFFFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = PSPDFKit\PSPDFKit-SQLite.csproj
+	EndGlobalSection
+EndGlobal

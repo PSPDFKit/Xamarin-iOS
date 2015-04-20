@@ -25,3 +25,13 @@ You have two options to get it:
 2. Get the dll from the `binding` folder
 3. Enjoy
 
+Custom SQLite Integration
+=========================
+
+This bundles SQLite version `3.8.9` into the PSPDFKit dll, If you need another version just **replace** the SQLite sourcefiles (.c and .h) inside `binding/sqlite3` with your own. The script will handle the compilation of `libSqlite3.a`.
+
+###Build from terminal
+
+1. Just run `make sqlite` command from `root` or `binding` directory
+2. Get the dll from the `binding` folder
+3. Enjoy
