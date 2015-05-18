@@ -1,14 +1,14 @@
 /*
- Localization.strings
- PSPDFKit
- 
+  Localization.strings
+  PSPDFKit
+
  Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
- 
+
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
  UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS SUBJECT TO CIVIL AND CRIMINAL PENALTIES.
  This notice may not be removed from this file.
- */
+*/
 
 // general
 "Close" = "關閉";
@@ -20,7 +20,7 @@
 "File couldn't be opened." = "不能打開檔案。"; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "無名PDF";
 "Page %tu" = "第%tu頁";
-"All (%tu Pages)" = "全部（%tu頁）";
+"Page %@" = "第%@頁";
 "Next" = "下一步";
 "Previous" = "上一個";
 "Error" = "錯誤";
@@ -227,6 +227,14 @@
 "Drag to resize" = "拖拉來調整大小"; // used as hint that inspector is resizable
 "Convert to" = "轉換為"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "線條樣式";
+"Solid" = "實線";
+"Narrow Dots" = "窄點線";
+"Wide Dots" = "寬點線";
+"Narrow Dashes" = "窄虛線";
+"Wide Dashes" = "寬虛線";
+
 // Stamps
 "Approved" = "已批准";
 "Not Approved" = "未批准";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "頁面";
 "Grid" = "格框"; // grid with thumbnails
+"translucent" = "半透明";
+"left" = "左方";
+"center" = "正中";
+"right" = "右方";
+"decrease" = "變小";
+"increase" = "增大";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "本頁";
 "Ignore Annotations" = "不理會註釋";
 "The PDF will not contain any annotations." = "此 PDF 不會包含任何註釋。";
 "Embed Annotations" = "嵌入註釋";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "註釋在PDF中呈現，只能讀取。";
 "Annotation Summary" = "註釋摘要";
 "Embed Annotations into the PDF and also list them in the email." = "把註釋嵌進PDF中，並把它們列在郵件中。";
-"Print annotations and also list them on a separate page." = "打印註釋，並在另一頁中把它們列出。";
 "Files" = "檔案";
 "Send as single files" = "以個別檔案傳送";
 "Merge files" = "合併檔案";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "無效值：必需為數字。";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "無效值：必需是日期。";
 
 // General validation
-
 "Invalid value." = "無效值";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "在證書中的 notBefore 欄中，有格式上的錯誤。"; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "在證書中的 notAfter 欄有一個格式錯誤。"; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "因證書鏈只有一張既不是自簽、其簽發人又不能信任的證書，所以不能確認任何簽名。";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "一張 CA 證書無效，因它不是 CA，或它的擴展名與它預期的目的不一致。"; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "一張 CA 證書無效，因它不是 CA，或它的擴展名與它預期的目的不一致。"; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "超越了 basicConstraints pathlength parameter。"; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "就其預期目的來說，root CA 未被標明為可信任。"; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "root CA 被標明要拒絕指定的目的。"; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "就其預期目的來說，root CA 未被標明為可信任。"; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "root CA 被標明要拒絕指定的目的。"; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "因這張簽發人證書的 subject 名稱與現時的證書 issuer 名稱不一致，所以被拒絕。"; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "因簽發人證書的 subject key identifier 在此，而又不與現時證書的 authority key identifier 一致，所以被拒絕。"; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "因簽發人證書的 issuer 名稱和 serial number 在此，而又不與現時證書的 authority key identifier 一致，所以被拒絕。"; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "證書已被簽發人吊銷。";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "通過的證書是自簽的，未能在受信任的證書清單上找到此證書。";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "在證書鏈中有一張自簽證書。可以用不受信任的證書建立證書鏈，但 root CA 在電腦本身找不到。 "; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "在證書鏈中有一張自簽證書。可以用不受信任的證書建立證書鏈，但 root CA 在電腦本身找不到。 "; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "找不到簽署層次其中一個 CA 的證書，且這 CA 不受電腦應用程序本身的信任。"; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "找不到電腦中搜尋的證書的簽發人證書。這通常表示可信任的證書清單未完整。";
 "The certificate that was provided cannot be used for its intended purpose." = "提供的證書不能用於其預期目的。";

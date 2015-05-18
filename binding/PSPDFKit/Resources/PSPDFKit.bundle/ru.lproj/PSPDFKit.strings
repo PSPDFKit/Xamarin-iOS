@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Не удалось открыть файл."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "Безымянный PDF";
 "Page %tu" = "Страница %tu";
-"All (%tu Pages)" = "Все (%tu страницы)";
+"Page %@" = "Страница %@";
 "Next" = "Далее";
 "Previous" = "Назад";
 "Error" = "Ошибка";
@@ -43,7 +43,7 @@
 "No Applications found" = "Отсутствуют приложения для открытия PDF-документов.";
 "Print" = "Печать";
 "Annotation" = "Комментарий";
-"Annotations" = "Аннотации";
+"Annotations" = "Комментарии";
 "No Annotations" = "Нет комментариев";
 "Bookmarks" = "Закладки";
 "No Bookmarks" = "Нет закладок";
@@ -112,7 +112,7 @@
 "Nothing to undo" = "Нечего отменять";
 "Redo" = "Повторить";
 "Nothing to redo" = "Нечего повторять";
-"Type" = "Введите"; // kind of Annotation can be selected
+"Type" = "Тип"; // kind of Annotation can be selected
 "Size" = "Размер";
 "Font" = "Шрифт";
 "Fonts" = "Шрифты";
@@ -131,7 +131,7 @@
 "%@ %%" = "%@ %%";
 "Custom" = "Собственный";
 "Thickness" = "Толщина";
-"%@ pt" = "Очков: %@";
+"%@ pt" = "%@ пт";
 "Yellow" = "Желтый";
 "Green" = "Зеленый";
 "Red" = "Красный";
@@ -219,13 +219,21 @@
 "Sound" = "Звук";
 "Eraser" = "Стёрка";
 "SelectionTool" = "Инструмент выделения";
-"Saved Annotations" = "Сохраненные";
+"Saved Annotations" = "Сохраненные комментарии";
 "Add" = "Добавить"; // to add - infinitive
 "Date" = "Дата";
 "Time" = "Время";
 "No Pages" = "Нет страниц";
 "Drag to resize" = "Перетащить для изм. размера"; // used as hint that inspector is resizable
 "Convert to" = "Конвертировать в"; // used as label on action that changes free text intent type
+
+// Line dash styles
+"Line Style" = "Стиль линий";
+"Solid" = "Сплошные";
+"Narrow Dots" = "Узкие точки";
+"Wide Dots" = "Широкие точки";
+"Narrow Dashes" = "Узкие штрихи";
+"Wide Dashes" = "Широкие штрихи";
 
 // Stamps
 "Approved" = "Одобрено";
@@ -234,8 +242,8 @@
 "Final" = "Окончательный";
 "Completed" = "Завершено";
 "Confidential" = "Конфиденциально";
-"For Public Release" = "Публичный доступ";
-"Not For Public Release" = "Не для публики";
+"For Public Release" = "Публичный выпуск";
+"Not For Public Release" = "Не для публичного выпуска";
 "For Comment" = "Для комментариев";
 "Void" = "Аннулировать";
 "Preliminary Results" = "Предварительно";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Страница";
 "Grid" = "Сетка"; // grid with thumbnails
+"translucent" = "полупрозрачый";
+"left" = "влево";
+"center" = "центр";
+"right" = "вправо";
+"decrease" = "уменьшить";
+"increase" = "увеличить";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Текущая страница";
 "Ignore Annotations" = "Игнорировать комментарии";
 "The PDF will not contain any annotations." = "PDF не будет содержать комментарии.";
 "Embed Annotations" = "Встроить комментарии";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Комментарии переведены в PDF и доступны только для чтения.";
 "Annotation Summary" = "Обзор комментариев";
 "Embed Annotations into the PDF and also list them in the email." = "Встроить комментарии в PDF и создать список в Email";
-"Print annotations and also list them on a separate page." = "Распечатать комментарии и вынести их на отдельную страницу.";
 "Files" = "Файлы";
 "Send as single files" = "Отправить по одному";
 "Merge files" = "Объединить файлы";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Неверное значение: должно быть число.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Неверное значение: должна быть указана дата.";
 
 // General validation
-
 "Invalid value." = "Неверное значение.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Произошла ошибка формата в поле notBefore сертификата."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Произошла ошибка формата в поле notAfter сертификата."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Подписи не могут быть подтверждены, поскольку цепь сертификатов содержит лишь один сертификат, он не является самоподписанным и источник не является доверенным.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "CA Сертификат недействителен, поскольку был выпущен не CA или его расширения не соответствуют назначению."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "CA Сертификат недействителен, поскольку был выпущен не CA или его расширения не соответствуют назначению."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Превышен параметр длины базовых ограничений."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "Root CA не помечен как доверенный для его цели."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "Root CA помечен к отклонению указанной цели."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "Root CA не помечен как доверенный для его цели."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "Root CA помечен к отклонению указанной цели."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Авторский сертификат был отклонен, поскольку имя субъета не совпадало с именем автора текущего сертификата."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Авторский сертификат был отклонен, поскольку идентификатор субъекта авторизации не совпадал с идентификатором ключа авторизации текущего сертификата."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Авторский сертификат был отклонен, поскольку имя автора и серийный номер не совпадали с идентификатором ключа авторизации текущего сертификата."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Сертификат был отозван.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Пропущенный сертификат является самоподписанным и не может быть найден в списке доверенных сертификатов.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Самоподписанный сертификат существует в цепи сертификатов. Цепь сертификатов может состоять из недостоверных сертификатов, но root CA не может быть найден локально."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Самоподписанный сертификат существует в цепи сертификатов. Цепь сертификатов может состоять из недостоверных сертификатов, но root CA не может быть найден локально."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Не удалось найти сертификат для одного из центров авторизации (CA) в иерархии подписей; данный CA не является доверенным для локального приложения."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Не удалось найти авторский сертификат. Обычно это значит, что список доверенных сертификатов не полон.";
 "The certificate that was provided cannot be used for its intended purpose." = "Предоставленный сертификат не может быть использован с этой целью.";

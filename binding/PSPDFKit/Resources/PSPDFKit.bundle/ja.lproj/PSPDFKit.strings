@@ -20,7 +20,7 @@
 "File couldn't be opened." = "ファイルを開けませんでした。"; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "名称未設定のPDF";
 "Page %tu" = "ページ%tu";
-"All (%tu Pages)" = "すべて（%tuページ）";
+"Page %@" = "ページ%@";
 "Next" = "次へ";
 "Previous" = "前へ";
 "Error" = "エラー";
@@ -227,6 +227,14 @@
 "Drag to resize" = "ドラッグしてサイズ変更"; // used as hint that inspector is resizable
 "Convert to" = "変換"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "線のスタイル";
+"Solid" = "ソリッド";
+"Narrow Dots" = "ドット（小）";
+"Wide Dots" = "ドット（大）";
+"Narrow Dashes" = "ダッシュ記号（短）";
+"Wide Dashes" = "ダッシュ記号（長）";
+
 // Stamps
 "Approved" = "承認済み";
 "Not Approved" = "未承認";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "ページ";
 "Grid" = "グリッド"; // grid with thumbnails
+"translucent" = "半透明";
+"left" = "左";
+"center" = "中央";
+"right" = "右";
+"decrease" = "小さく";
+"increase" = "大きく";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "現在のページ";
 "Ignore Annotations" = "注釈を無視";
 "The PDF will not contain any annotations." = "PDFには注釈が含まれていません。";
 "Embed Annotations" = "注釈を埋め込む";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "注釈はPDFにレンダリングされ、読み出し専用となります。";
 "Annotation Summary" = "注釈の概要";
 "Embed Annotations into the PDF and also list them in the email." = "PDFに注釈を埋め込み、またメールにリスト表示します。";
-"Print annotations and also list them on a separate page." = "注釈をプリントして別のページに一覧表示する";
 "Files" = "ファイル";
 "Send as single files" = "１つのファイルとして送信";
 "Merge files" = "ファイルを結合";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "値が無効です。数値を使用してください。";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "無効な値：日付を入力してください。";
 
 // General validation
-
 "Invalid value." = "値が無効です。";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "証明書のnotBeforeフィールドにフォーマットエラーがあります。"; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "証明書のnotAfterフィールドにフォーマットエラーがあります。"; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "証明書チェーンに証明書が１つしか含まれていない、自己署名されていない、そして発行元が信頼されないため、署名が認証されませんでした。";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "認証局の証明書は、それが認証局ではない、あるいはその拡張子が意図する目的と矛盾するため、有効ではありません。"; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "認証局の証明書は、それが認証局ではない、あるいはその拡張子が意図する目的と矛盾するため、有効ではありません。"; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "basicConstraintsパス長パラメーターを超えています。"; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "ルート認証局は意図した目的に信頼できるとして指定されています。"; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "ルート認証局は指定された目的を拒否するよう指定されています。"; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "ルート認証局は意図した目的に信頼できるとして指定されています。"; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "ルート認証局は指定された目的を拒否するよう指定されています。"; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "発行元証明書は、そのサブジェクト名が現在の証明書の発行元の名前と一致しないため拒否されました。"; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "発行元証明書は、そのサブジェクト鍵識別子が存在し、現在の証明書の証明書鍵識別子と一致しないため拒否されました。"; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "発行元証明書は、その発行元の名前とシリアル番号が存在し、現在の証明書の証明書鍵識別子と一致しないため拒否されました。"; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "証明書は発行元によって取り消されました。";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "渡された証明書は自己署名されてあり、同じ証明書は信頼された証明書リストに見つけられません。";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "自己署名された証明書が証明書チェーンに存在します。証明書チェーンは信頼されない証明書を使用して立ち上げることはできませんが、ルート認証局（CA）をローカルに見つけることができませんでした。"; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "自己署名された証明書が証明書チェーンに存在します。証明書チェーンは信頼されない証明書を使用して立ち上げることはできませんが、ルート認証局（CA）をローカルに見つけることができませんでした。"; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "署名階層にある証明書認証局の１つに証明書を見つけることができず、認証局はローカルアプリケーションに信頼されていません。"; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "ローカルに検索した証明書の発行元証明書を見つけられませんでした。これは通常、信頼される証明書リストが完全でないことを意味します。";
 "The certificate that was provided cannot be used for its intended purpose." = "指定された証明書は意図した目的に使用できませんでした。";

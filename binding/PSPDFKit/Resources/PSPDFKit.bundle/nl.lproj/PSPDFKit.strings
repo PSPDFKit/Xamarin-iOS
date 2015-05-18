@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Bestand kan niet worden geopend."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "Naamloze PDF";
 "Page %tu" = "Pagina %tu";
-"All (%tu Pages)" = "Alle (%tu pagina's)";
+"Page %@" = "Pagina %@";
 "Next" = "Volgende";
 "Previous" = "Vorige";
 "Error" = "Fout";
@@ -33,13 +33,13 @@
 "Email" = "E-mail";
 "Send via Email" = "Verstuur via e-mail";
 "Send" = "Verstuur";
-"Open In" = "Open In";
+"Open In" = "Open in";
 "Open" = "Open";
 "Commit" = "Leg vast";
 "Sending to %@" = "Versturen naar %@"; // Open document with an application
 "Pages" = "Pagina's";
 "Print with annotations" = "Druk af met annotaties";
-"Print without annotations" = "Druk zonder annotaties af";
+"Print without annotations" = "Druk af zonder annotaties";
 "No Applications found" = "Er zijn geen apps geïnstalleerd die PDF-documenten kunnen openen.";
 "Print" = "Druk af";
 "Annotation" = "Annotatie";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Sleep en wijzig grootte"; // used as hint that inspector is resizable
 "Convert to" = "Converteer naar"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Lijnstijl";
+"Solid" = "Effen";
+"Narrow Dots" = "Smalle stippen";
+"Wide Dots" = "Brede stippen";
+"Narrow Dashes" = "Smalle streepjes";
+"Wide Dashes" = "Brede streepjes";
+
 // Stamps
 "Approved" = "Goedgekeurd";
 "Not Approved" = "Afgekeurd";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Pagina";
 "Grid" = "Raster"; // grid with thumbnails
+"translucent" = "doorzichtig";
+"left" = "links";
+"center" = "midden";
+"right" = "rechts";
+"decrease" = "verklein";
+"increase" = "vergroot";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Huidige pagina";
 "Ignore Annotations" = "Negeer annotaties";
 "The PDF will not contain any annotations." = "De PDF bevat geen annotaties.";
 "Embed Annotations" = "Voeg annotaties toe";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "De annotaties worden in de PDF weergegeven en kunnen alleen worden gelezen.";
 "Annotation Summary" = "Overzicht van annotaties";
 "Embed Annotations into the PDF and also list them in the email." = "Voeg de annotaties toe aan de PDF en vermeld ze ook in de e-mail.";
-"Print annotations and also list them on a separate page." = "Druk annotaties af en vermeld ze op een aparte pagina.";
 "Files" = "Bestanden";
 "Send as single files" = "Verstuur als losse bestanden";
 "Merge files" = "Voeg bestanden samen";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Ongeldige waarde: moet een getal zijn.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Ongeldige waarde: moet een datum zijn.";
 
 // General validation
-
 "Invalid value." = "Ongeldige waarde.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Het certificaat bevat een structuurout in het veld 'notBefore'."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Er is een structuurfout in het veld 'notAfter' van het certificaat."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Handtekeningen kunnen niet worden geverifieerd omdat de certificaatketen slechts één certificaat bevat, deze niet zelfondertekend is en de verstrekker niet wordt vertrouwd.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Een CA-certificaat is niet geldig omdat het geen CA is of de extensies ervan komen niet overeen met het beoogde doel."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Een CA-certificaat is niet geldig omdat het geen CA is of de extensies ervan komen niet overeen met het beoogde doel."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "De parameter 'basicConstraints pathlength' is overschreden."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "De root CA is niet gemarkeerd als vertrouwd voor het beoogde doel."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "De root CA is gemarkeerd om het opgegeven doel te weigeren."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "De root CA is niet gemarkeerd als vertrouwd voor het beoogde doel."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "De root CA is gemarkeerd om het opgegeven doel te weigeren."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Het verstrekkercertificaat is geweigerd omdat de naam van het onderwerp niet overeenkomt met de naam van de verstrekker van het huidige certificaat."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Het verstrekkercertificaat is geweigerd omdat de 'subject key identifier' aanwezig is en niet overeenkomt met de 'authority key identifier' van het huidige certificaat."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Het verstrekkercertificaat is geweigerd omdat de naam van de verstrekker en het serienummer aanwezig waren en niet overeenkwamen met de 'authority key identifier' van het huidige certificaat."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Het certificaat is ingetrokken door de verstrekker.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Het verstrekte certificaat is zelfondertekend en hetzelfde certificaat kan niet worden gevonden in de lijst met vertrouwde certificaten.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Er bestaat een zelfondertekend certificaat in de certificaatketen. De certificaatketen is mogelijk gemaakt met niet-vertrouwde certificaten maar de root CA kan niet lokaal worden gevonden."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Er bestaat een zelfondertekend certificaat in de certificaatketen. De certificaatketen is mogelijk gemaakt met niet-vertrouwde certificaten maar de root CA kan niet lokaal worden gevonden."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Kan het certificaat niet vinden voor één van de certificaatautoriteiten (CA's) in de handtekeninghiërarchie en die CA wordt niet vertrouwd door de lokale app."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Het verstrekkercertificaat van een lokaal opgezocht certificaat kan niet worden gevonden. Dit betekent normaal dat de lijst met vertrouwde certificaten niet volledig is.";
 "The certificate that was provided cannot be used for its intended purpose." = "Het verstrekte certificaat kan niet worden gebruikt voor het beoogde doel.";
@@ -460,7 +472,7 @@
 "Could not write PKCS7 signature" = "Kan PKCS7-handtekening niet schrijven";
 
 // Policy
-"PSPDFPolicyEventOpenIn" = "Open In";
+"PSPDFPolicyEventOpenIn" = "Open in";
 "PSPDFPolicyEventPrint" = "Druk af";
 "PSPDFPolicyEventEmail" = "E-mail";
 "PSPDFPolicyEventMessage" = "Bericht";

@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Arkiv kunne ikke åbnes."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "PDF uden navn";
 "Page %tu" = "Side %tu";
-"All (%tu Pages)" = "Alle (%tu sider)";
+"Page %@" = "Side %@";
 "Next" = "Næste";
 "Previous" = "Forrige";
 "Error" = "Fejl";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Træk for at skalere"; // used as hint that inspector is resizable
 "Convert to" = "Konverter til"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "linjeudseende";
+"Solid" = "Solid";
+"Narrow Dots" = "Tætte prikker";
+"Wide Dots" = "Spredte prikker";
+"Narrow Dashes" = "Tætte streger";
+"Wide Dashes" = "Spredte streger";
+
 // Stamps
 "Approved" = "Godkendt";
 "Not Approved" = "Ikke godkendt";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Side";
 "Grid" = "Net"; // grid with thumbnails
+"translucent" = "transparent";
+"left" = "venstre";
+"center" = "centrer";
+"right" = "højre";
+"decrease" = "formindsk";
+"increase" = "forøg";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Aktuel side";
 "Ignore Annotations" = "Ignorer kommentarer";
 "The PDF will not contain any annotations." = "PDF'en vil ikke indeholde kommentarer.";
 "Embed Annotations" = "Indlejr kommentarer";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Kommentarer gengives i PDF'en og er skrivebeskyttede.";
 "Annotation Summary" = "Kommentarresumé";
 "Embed Annotations into the PDF and also list them in the email." = "Indlejr kommentarer i PDF'en og oplist dem også i e-mail.";
-"Print annotations and also list them on a separate page." = "Udskriv kommentarer og vis dem som liste på en separat side.";
 "Files" = "Arkiver";
 "Send as single files" = "Send som enkelte arkiver";
 "Merge files" = "Flet arkiver";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Ugyldig værdi: skal være et tal.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Ugyldig værdi: skal være en dato.";
 
 // General validation
-
 "Invalid value." = "Ugyldig værdi.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Der er en formateringsfejl i certifikatets notBefore-felt."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Der er en formatfejl i notAfter-feltet i certifikatet."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Ingen signaturer kunne verificeres, fordi certifikatkæden kun indeholder et certifikat, den er ikke self-signed, og udstederen er ikke godkendt.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Et CA-certifikat er ikke gyldigt, fordi det ikke er et CA, eller dets endelser ikke svarer til dets forventede anvendelse."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Et CA-certifikat er ikke gyldigt, fordi det ikke er et CA, eller dets endelser ikke svarer til dets forventede anvendelse."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Stilængde-parameteren basicComstraints blev overskredet."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "Rod-CA er ikke betegnet som godkendt til dets forventede formål."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "Rod-CA er beregnet til at afvise det angivne formål."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "Rod-CA er ikke betegnet som godkendt til dets forventede formål."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "Rod-CA er beregnet til at afvise det angivne formål."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Udstedercertifikatet blev afvist, fordi dets emne-navn ikke matcher udstedernavnet for det aktuelle certifikat."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Udsteder-certifikatet blev afvist, fordi dets \"subject key identifier\" var tilstede og ikke matchede \"authority key identifier\" i det aktuelle certifikat."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Udstedercertifikatet blev afvist, fordi dets udstedernavn og serienummer var tilstede og ikke matchede „authority key identifier“ for det aktuelle certifikat."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Certifikatet er tilbagekaldt af udsteder.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Det givne certifikat er selv-signeret og det samme certifikat findes ikke i listen med godkendte certifikater.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Der findes et selv-signeret certifikat i certifikatkæden. Certifikatkæden kan bygges med ikke godkendte certifikater, men en rod-CA blev ikke fundet lokalt."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Der findes et selv-signeret certifikat i certifikatkæden. Certifikatkæden kan bygges med ikke godkendte certifikater, men en rod-CA blev ikke fundet lokalt."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Kunne ikke finde certifikatet for en af certifikatautoriteterne (CAs) i  signeringshierarkiet og det CA er ikke godkendt af det lokale program."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Udstedercertifikatet fra et lokalt opslået certifikat blev ikke fundet. Det betyder normalt, at listen med godkendte certifikater ikke er fuldstændig.";
 "The certificate that was provided cannot be used for its intended purpose." = "Det leverede certifikat kan ikke bruges til dets forventede anvendelse.";

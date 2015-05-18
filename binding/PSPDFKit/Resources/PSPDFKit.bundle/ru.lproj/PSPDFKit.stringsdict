@@ -80,5 +80,39 @@
             <string>%tu очка</string>
         </dict>
     </dict>
+    <key>All (%tu Page(s))</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>Все (%#@pages@)</string>
+        <key>pages</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>tu</string>
+            <key>one</key>
+            <string>%tu страница</string>
+            <key>many</key>
+            <string>%tu страниц</string>
+            <key>other</key>
+            <string>%tu страницы</string>
+        </dict>
+    </dict>
+    <key>All (%tu Page(s))</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>All (%#@pages@)</string>
+        <key>pages</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>tu</string>
+            <key>one</key>
+            <string>%%tu стр.</string>
+            <key>other</key>
+            <string>%tu стр.</string>
+        </dict>
+    </dict>
 </dict>
 </plist>

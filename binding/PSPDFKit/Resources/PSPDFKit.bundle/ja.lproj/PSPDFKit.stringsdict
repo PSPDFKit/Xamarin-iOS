@@ -72,5 +72,21 @@
             <string>%tuポイント</string>
         </dict>
     </dict>
+    <key>All (%tu Page(s))</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>All (%#@pages@)</string>
+        <key>pages</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>tu</string>
+            <key>one</key>
+            <string>%tuページ</string>
+            <key>other</key>
+            <string>%tuページ</string>
+        </dict>
+    </dict>
 </dict>
 </plist>

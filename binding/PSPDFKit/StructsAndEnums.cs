@@ -63,14 +63,17 @@ namespace PSPDFKit
 		UnableToOpenPDF = 200,
 		UnableToGetPageReference = 210,
 		UnableToGetStream = 211,
+		DocumentProviderNotSet = 212,
 		PageRenderSizeIsEmpty = 220,
 		PageRenderClipRectTooLarge = 230,
 		PageRenderGraphicsContextNil = 240,
 		DocumentLocked = 300,
 		FailedToLoadAnnotations = 400,
 		FailedToWriteAnnotations = 410,
+		WriteAnnotationsCancelled = 411,
 		CannotEmbedAnnotations = 420,
 		FailedToLoadBookmarks = 450,
+		FailedToSaveBookmarks = 460,
 		OutlineParser = 500,
 		UnableToConvertToDataRepresentation = 600,
 		RemoveCacheError = 700,
@@ -374,18 +377,6 @@ namespace PSPDFKit
 
 #if __UNIFIED__
 	[Native]
-	public enum PSPDFPopOutMenuExpansionDirection : ulong {
-#else
-	public enum PSPDFPopOutMenuExpansionDirection : uint {
-#endif
-		Up = 0,
-		Down,
-		Left,
-		Right
-	}
-
-#if __UNIFIED__
-	[Native]
 	public enum PSPDFColorPickerStyle : ulong {
 #else
 	public enum PSPDFColorPickerStyle : uint {
@@ -570,16 +561,6 @@ namespace PSPDFKit
 		TopDown,
 		BottomUp,
 		None
-	}
-
-#if __UNIFIED__
-	[Native]
-	public enum PSPDFFontInfoType : ulong {
-#else
-	public enum PSPDFFontInfoType : uint {
-#endif
-		Simple = 1 << (1 - 1),
-		Composite = 1 << (2 - 1)
 	}
 
 #if __UNIFIED__
@@ -860,9 +841,9 @@ namespace PSPDFKit
 
 #if __UNIFIED__
 	[Native]
-	public enum PSPDFFlexibleToolbarGroupButtonIndicatorPosition : long {
+	public enum PSPDFToolbarGroupButtonIndicatorPosition : long {
 #else
-	public enum PSPDFFlexibleToolbarGroupButtonIndicatorPosition : int {
+	public enum PSPDFToolbarGroupButtonIndicatorPosition : int {
 #endif
 		None = 0,
 		BottomLeft,
@@ -1167,16 +1148,6 @@ namespace PSPDFKit
 
 #if __UNIFIED__
 	[Native]
-	public enum PSPDFGradientViewDirection : ulong {
-#else
-	public enum PSPDFGradientViewDirection : uint {
-#endif
-		Horizontal,
-		Vertical
-	}
-
-#if __UNIFIED__
-	[Native]
 	public enum PSPDFSliderBackgroundStyle : long {
 #else
 	public enum PSPDFSliderBackgroundStyle : int {
@@ -1372,6 +1343,49 @@ namespace PSPDFKit
 		Single,
 		Left,
 		Right
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFScrobbleBarType : ulong {
+#else
+	public enum PSPDFScrobbleBarType : uint {
+#endif
+		Horizontal,
+		VerticalLeft,
+		VerticalRight
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFFontInfoType : ulong {
+#else
+	public enum PSPDFFontInfoType : uint {
+#endif
+		Simple = 1 << (1 - 1),
+		Composite = 1 << (2 - 1)
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFBackButtonStyle : ulong {
+#else
+	public enum PSPDFBackButtonStyle : uint {
+#endif
+		Flat,
+		Modern
+	}
+
+#if __UNIFIED__
+	[Native]
+	public enum PSPDFCollectionReusableFilterViewStyle : long {
+#else
+	public enum PSPDFCollectionReusableFilterViewStyle : int {
+#endif
+		None,
+		LightBlur,
+		DarkBlur,
+		ExtraLightBlur
 	}
 
 }

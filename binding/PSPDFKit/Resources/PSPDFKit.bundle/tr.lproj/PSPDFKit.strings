@@ -1,14 +1,14 @@
 /*
- Localization.strings
- PSPDFKit
- 
+  Localization.strings
+  PSPDFKit
+
  Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
- 
+
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
  UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS SUBJECT TO CIVIL AND CRIMINAL PENALTIES.
  This notice may not be removed from this file.
- */
+*/
 
 // general
 "Close" = "Kapat";
@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Dosya açılamadı."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "Adsız PDF";
 "Page %tu" = "Sayfa %tu";
-"All (%tu Pages)" = "Tümü (%tu Sayfa)";
+"Page %@" = "Sayfa %@";
 "Next" = "Sonraki";
 "Previous" = "Geri";
 "Error" = "Hata";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Büyüklüğü değiştirmek için sürükle"; // used as hint that inspector is resizable
 "Convert to" = "Dönüştür:"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Çizgi Stili";
+"Solid" = "Düz";
+"Narrow Dots" = "İnce Nokta";
+"Wide Dots" = "Kalın Nokta";
+"Narrow Dashes" = "İnce Tire";
+"Wide Dashes" = "Kalın Tire";
+
 // Stamps
 "Approved" = "Onaylandı";
 "Not Approved" = "Onaylanmadı";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Sayfa";
 "Grid" = "Izgara"; // grid with thumbnails
+"translucent" = "saydam";
+"left" = "sol";
+"center" = "merkez";
+"right" = "sağ";
+"decrease" = "azalt";
+"increase" = "artır";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Şu Anki Sayfa";
 "Ignore Annotations" = "Notları Yoksay";
 "The PDF will not contain any annotations." = "PDF herhangi bir not içermeyecek.";
 "Embed Annotations" = "Notları Göm";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Notlar PDF'de işlenir ve yalnızca okunur.";
 "Annotation Summary" = "Not Özeti";
 "Embed Annotations into the PDF and also list them in the email." = "Notları PDF'e göm ve onları e-postada listele.";
-"Print annotations and also list them on a separate page." = "Notları yazdır ve onları ayrı bir sayfada listele";
 "Files" = "Dosyalar";
 "Send as single files" = "Tek dosya olarak gönder";
 "Merge files" = "Dosyaları birleştir";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Geçersiz değer: bir sayı olmalı.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Geçersiz değer: bir tarih olmalı.";
 
 // General validation
-
 "Invalid value." = "Geçersiz değer.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Sertifikanın notBefore alanında biçim hatası var."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Sertifikanın notAfter alanında bir biçim hatası var."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "İmzalar doğrulanamıyor çünkü sertifika zinciri yanlızca bir sertifka içeriyor, kendiliğinden imzalı değil ve sağlayıcıya güvenilemiyor.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "CA sertifikası geçerli değil çünkü bir CA değil veya uzantıları amaçlanan hedef ile tutarlı değil."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "CA sertifikası geçerli değil çünkü bir CA değil veya uzantıları amaçlanan hedef ile tutarlı değil."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "basicConstraints pathlength parametresi aşıldı."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "root CA, hedeflenen amacı için güvenli olarak işaretlenmemiş."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "root CA belirlenen amacı reddetmek üzere işaretli."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "root CA, hedeflenen amacı için güvenli olarak işaretlenmemiş."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "root CA belirlenen amacı reddetmek üzere işaretli."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Sertifika sağlayıcı reddedildi çünkü konu adı var olan sertifikanın sağlayıcısı ile eşleşmiyor."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Sertifika sağlayıcı reddedildi çünkü subject adı belirleyicisi var ve var olan sertifikanın authority key identifier ile eşleşmiyor."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Sertifika sağlayıcı reddedildi çünkü issuer adı ve serial number var ve var olan sertifikanın authority key identifier öğesi ile eşleşmiyor."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Sertifika sağlayıcı tarafından iptal edildi.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Geçen sertifika otomatik olarak imzalı ve aynı sertifika güvenilir sertifikalar listesinde bulunamıyor.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Sertifika zincirinde otomatik olarak imzalanan bir imza var. Sertifika zinciri güvenilmeyen sertifikalar kullanılarak oluşturulabilir ama root CA yerel olarak bulunamıyor."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Sertifika zincirinde otomatik olarak imzalanan bir imza var. Sertifika zinciri güvenilmeyen sertifikalar kullanılarak oluşturulabilir ama root CA yerel olarak bulunamıyor."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "İmzalama hiyerarşisinde sertifika yetkililerinden birinin sertifikası bulunamıyor ve bu CA yerel uygulama tarafından güvenilir değil."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Yerel olarak aranan bir sertifikanın sertifika sağlayıcısı bulunamıyor. Bu, normal şartlarda güvenilen sertifka listesinin tam olmadığı anlamına gelir.";
 "The certificate that was provided cannot be used for its intended purpose." = "Sağlanan sertifika amaçlanan hedefi için kullanılamıyor.";

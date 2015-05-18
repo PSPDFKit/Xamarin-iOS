@@ -20,7 +20,7 @@
 "File couldn't be opened." = "无法打开文件。"; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "未命名 PDF";
 "Page %tu" = "第 %tu 页";
-"All (%tu Pages)" = "全部（%tu 页）";
+"Page %@" = "第 %@ 页";
 "Next" = "下一步";
 "Previous" = "上一页";
 "Error" = "错误";
@@ -227,6 +227,14 @@
 "Drag to resize" = "拖动调整尺寸"; // used as hint that inspector is resizable
 "Convert to" = "转换为"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "线型";
+"Solid" = "实线";
+"Narrow Dots" = "窄点";
+"Wide Dots" = "宽点";
+"Narrow Dashes" = "窄虚线";
+"Wide Dashes" = "宽虚线";
+
 // Stamps
 "Approved" = "已批准";
 "Not Approved" = "未批准";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "页";
 "Grid" = "网格"; // grid with thumbnails
+"translucent" = "半透明";
+"left" = "左";
+"center" = "中心";
+"right" = "右";
+"decrease" = "减小";
+"increase" = "增加";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "当前页";
 "Ignore Annotations" = "忽略批注";
 "The PDF will not contain any annotations." = "PDF 不再含有任何批注。";
 "Embed Annotations" = "嵌入批注";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "批注在 PDF 中渲染而且只读。";
 "Annotation Summary" = "批注摘要";
 "Embed Annotations into the PDF and also list them in the email." = "将批注嵌入 PDF 中且将它们列在电子邮件中";
-"Print annotations and also list them on a separate page." = "打印批注并将它们列在单独页面上。";
 "Files" = "文件";
 "Send as single files" = "作为单个文件发送";
 "Merge files" = "合并文件";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "值无效。必须是数字。";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "值无效：必须是一个日期。";
 
 // General validation
-
 "Invalid value." = "值无效。";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "证书的 notBefore 字段存在格式错误。"; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "证书的 notAfter 字段出现格式错误。"; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "没有签名可以验证，因为证书链仅含有一个证书，它不是自签名，颁发者未被信任。";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "CA 证书无效，因为它不是 CA 或者其扩展名与预期用途不一致。"; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "CA 证书无效，因为它不是 CA 或者其扩展名与预期用途不一致。"; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "超出 basicConstraints 路径长度参数。"; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "根 CA 未标记为信任为其预期目的。"; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "根 CA 被标记为拒绝指定的用途。"; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "根 CA 未标记为信任为其预期目的。"; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "根 CA 被标记为拒绝指定的用途。"; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "颁发者证书被拒绝，因为其主题名称与当前证书的颁发者名称不匹配颁发者"; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "颁发者证书被拒绝，因为其主题密钥标识符出现且与当前证书的办法机构密钥标识符不匹配。"; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "颁发者证书被拒绝，因为颁发者名称和序列号出现且与当前证书的颁发机构密钥标识符不匹配。"; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "证书被颁发者撤销。";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "通过的证书为自签名，在信任证书列表中找不到相同证书。";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "证书链中有自签名证书。证书链可以通过不受信任的证书建立，但是本地找不到根 CA。"; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "证书链中有自签名证书。证书链可以通过不受信任的证书建立，但是本地找不到根 CA。"; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "在签名层次结构中无法找到证书颁发机构 (CA) 之一的证书且此 CA 不受本地应用程序信任。"; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "无法找到本地查找的证书的颁发者证书。这通常意味着可信证书列表不完整。";
 "The certificate that was provided cannot be used for its intended purpose." = "提供的证书无法用于预期用途。";

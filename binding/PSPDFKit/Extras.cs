@@ -23,54 +23,10 @@ using nint = global::System.Int32;
 using nuint = global::System.UInt32;
 #endif
 
-namespace PSPDFKit
-{
-	public partial class PSPDFLicenseManager
-	{
-		[DllImport ("__Internal", EntryPoint = "PSPDFSetLicenseKey")]
-		private static extern uint _SetLicenseKey (IntPtr licenseKey);
-
-		public static PSPDFFeatureMask SetLicenseKey (string licenseKey)
-		{
-			IntPtr licensePtr;
-			PSPDFFeatureMask result;
-
-			licensePtr = Marshal.StringToHGlobalAnsi (licenseKey);
-			result = (PSPDFFeatureMask)_SetLicenseKey (licensePtr);
-
-			Marshal.FreeHGlobal (licensePtr);
-
-			return result;
-		}
-	}
-
-	public partial class PSPDFLogging
-	{
-		private static PSPDFLogLevelMask PSPDFLogLevel;
-		public static PSPDFLogLevelMask LogLevel
-		{
-			get 
-			{
-				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
-				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFLogLevel");
-				PSPDFLogLevel = (PSPDFLogLevelMask)(uint)Marshal.PtrToStructure (ptr, typeof(uint));
-
-				return PSPDFLogLevel;
-			}
-			set 
-			{
-				PSPDFLogLevel = value;
-
-				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
-				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFLogLevel");
-				byte [] data = BitConverter.GetBytes ((uint)PSPDFLogLevel);
-				Marshal.Copy (data, 0, ptr, data.Length); 
-			}
-		}
-	}
-
-	public static class PSPDFLocalization
-	{
+namespace PSPDFKit {
+	
+	public static class PSPDFLocalization {
+		
 		[DllImport ("__Internal", EntryPoint = "PSPDFLocalize")]
 		private static extern IntPtr _Localize (IntPtr stringToken);
 
@@ -101,14 +57,14 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFViewController
-	{
+	public partial class PSPDFViewController {
+		
 		[DllImport  ("__Internal", EntryPoint = "PSPDFChildViewControllerForClass")]
 		private static extern IntPtr _ChildViewControllerForClass (IntPtr controller, IntPtr controllerClass, bool onlyReturnIfVisible);
 
 		public static UIViewController ChildViewControllerForClass (NSObject controller, Class controllerClass, bool onlyReturnIfVisible)
 		{
-			var ret = _ChildViewControllerForClass (controller.Handle, controllerClass.Handle, onlyReturnIfVisible);
+			var ret = _ChildViewControllerForClass (controller != null ? controller.Handle : IntPtr.Zero, controllerClass.Handle, onlyReturnIfVisible);
 			var vc = Runtime.GetNSObject<UIViewController> (ret);
 			return vc;
 		}
@@ -124,8 +80,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFDocument : NSObject
-	{
+	public partial class PSPDFDocument : NSObject {
+		
 		public static PSPDFDocument FromDataProvider (CGDataProvider dataProvider)
 		{
 			return FromDataProvider (dataProvider.Handle);
@@ -133,8 +89,7 @@ namespace PSPDFKit
 
 		public virtual bool EnsureDataDirectoryExists (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -147,8 +102,7 @@ namespace PSPDFKit
 
 		public virtual bool SaveAnnotations (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -161,13 +115,15 @@ namespace PSPDFKit
 
 		public virtual PSPDFPageInfo PageInfoForPage (nuint page, CGPDFPage pageRef)
 		{
-			return PageInfoForPage (page, pageRef.Handle);
+			if (pageRef == null)
+				return PageInfoForPage (page, IntPtr.Zero);
+			else
+				return PageInfoForPage (page, pageRef.Handle);
 		}
 
 		public virtual CGRect BoxRectForPage (CGPDFBox boxType, nuint page, out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -179,16 +135,11 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFDocumentProvider : NSObject
-	{
-		public PSPDFDocumentProvider (CGDataProvider dataProvider, PSPDFDocument document) : this (dataProvider.Handle, document)
-		{
-		}
-
+	public partial class PSPDFDocumentProvider : NSObject {
+		
 		public CGDataProvider DataProvider
 		{
-			get 
-			{
+			get {
 				IntPtr ptr = this._DataProvider;
 				return Runtime.GetINativeObject<CGDataProvider> (ptr, false);
 			}
@@ -196,8 +147,7 @@ namespace PSPDFKit
 
 		public virtual NSData DataRepresentation (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -210,13 +160,15 @@ namespace PSPDFKit
 
 		public virtual PSPDFPageInfo PageInfoForPage (nuint page, CGPDFPage pageRef)
 		{
-			return PageInfoForPage (page, pageRef.Handle);
+			if (pageRef == null)
+				return PageInfoForPage (page, IntPtr.Zero);
+			else
+				return PageInfoForPage (page, pageRef.Handle);
 		}
 
 		public virtual bool SaveAnnotations (NSDictionary options, out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -228,13 +180,12 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFCache : NSObject
-	{
+	public partial class PSPDFCache : NSObject {
+		
 		private static Class PSPDFCacheClass;
 		public static Class CacheClass
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				var classPtr = Dlfcn.GetIntPtr (RTLD_MAIN_ONLY, "PSPDFCacheClass");
 
@@ -245,8 +196,7 @@ namespace PSPDFKit
 					return PSPDFCacheClass = null;
 
 			}
-			set 
-			{
+			set {
 				PSPDFCacheClass = value;
 
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
@@ -257,8 +207,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFPageInfo : NSObject
-	{
+	public partial class PSPDFPageInfo : NSObject {
+		
 		[DllImport ("__Internal", EntryPoint = "PSPDFConvertViewPointToPDFPoint")]
 		private static extern IntPtr PSPDFConvertViewPointToPDFPoint (IntPtr viewPoint, IntPtr cropBox, IntPtr rotation, IntPtr bounds);
 
@@ -279,7 +229,7 @@ namespace PSPDFKit
 				Marshal.StructureToPtr ((object)bounds, boundsPtr, true);
 
 				resultPtr = PSPDFConvertViewPointToPDFPoint (viewPointPtr, cropBoxPtr, rotationPtr, boundsPtr);
-				result = (CGPoint)Marshal.PtrToStructure (resultPtr, typeof(CGPoint));
+				result = (CGPoint)Marshal.PtrToStructure (resultPtr, typeof (CGPoint));
 			}
 			finally {
 				Marshal.FreeHGlobal (viewPointPtr);
@@ -310,7 +260,7 @@ namespace PSPDFKit
 				Marshal.StructureToPtr ((object)bounds, boundsPtr, true);
 
 				resultPtr = PSPDFConvertPDFPointToViewPoint (pdfPointPtr, cropBoxPtr, rotationPtr, boundsPtr);
-				result = (CGPoint)Marshal.PtrToStructure (resultPtr, typeof(CGPoint));
+				result = (CGPoint)Marshal.PtrToStructure (resultPtr, typeof (CGPoint));
 			}
 			finally {
 				Marshal.FreeHGlobal (pdfPointPtr);
@@ -341,7 +291,7 @@ namespace PSPDFKit
 				Marshal.StructureToPtr ((object)bounds, boundsPtr, true);
 
 				resultPtr = PSPDFConvertPDFRectToViewRect (pdfRectPtr, cropBoxPtr, rotationPtr, boundsPtr);
-				result = (CGRect)Marshal.PtrToStructure (resultPtr, typeof(CGRect));
+				result = (CGRect)Marshal.PtrToStructure (resultPtr, typeof (CGRect));
 			}
 			finally {
 				Marshal.FreeHGlobal (pdfRectPtr);
@@ -372,7 +322,7 @@ namespace PSPDFKit
 				Marshal.StructureToPtr ((object)bounds, boundsPtr, true);
 
 				resultPtr = PSPDFConvertPDFRectToViewRect (viewRectPtr, cropBoxPtr, rotationPtr, boundsPtr);
-				result = (CGRect)Marshal.PtrToStructure (resultPtr, typeof(CGRect));
+				result = (CGRect)Marshal.PtrToStructure (resultPtr, typeof (CGRect));
 			}
 			finally {
 				Marshal.FreeHGlobal (viewRectPtr);
@@ -384,12 +334,11 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFBookmarkParser : NSObject
-	{
+	public partial class PSPDFBookmarkParser : NSObject {
+		
 		public virtual bool ClearAllBookmarks (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -402,8 +351,7 @@ namespace PSPDFKit
 
 		public virtual PSPDFBookmark [] LoadBookmarks (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -416,8 +364,7 @@ namespace PSPDFKit
 
 		public virtual bool SaveBookmarks (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -429,16 +376,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFGoToAction : PSPDFAction
-	{
-		public static nuint ResolveActions (PSPDFGoToAction [] actions, CGPDFDocument documentRef)
-		{
-			return ResolveActionsWithNamedDestinations (actions, documentRef.Handle);
-		}
-	}
-
-	public partial class PSPDFTextParser : NSObject
-	{
+	public partial class PSPDFTextParser : NSObject {
+		
 		public PSPDFTextParser (CGPDFPage pageRef, nuint page, PSPDFDocumentProvider documentProvider, NSMutableDictionary fontCache, bool hideGlyphsOutsidePageRect, CGPDFBox pdfBox) : this (pageRef.Handle, page, documentProvider, fontCache, hideGlyphsOutsidePageRect, pdfBox)
 		{
 		}
@@ -451,16 +390,14 @@ namespace PSPDFKit
 		private static nuint PSPDFMaxShadowGlyphSearchDepth;
 		public static nuint MaxShadowGlyphSearchDepth
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFMaxShadowGlyphSearchDepth");
-				PSPDFMaxShadowGlyphSearchDepth = (nuint)Marshal.PtrToStructure(ptr, typeof(nuint));
+				PSPDFMaxShadowGlyphSearchDepth = (nuint)Marshal.PtrToStructure(ptr, typeof (nuint));
 
 				return PSPDFMaxShadowGlyphSearchDepth;
 			}
-			set 
-			{
+			set {
 				PSPDFMaxShadowGlyphSearchDepth = value;
 
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
@@ -471,8 +408,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFGlyph : NSObject
-	{
+	public partial class PSPDFGlyph : NSObject {
+		
 		[DllImport ("__Internal", EntryPoint = "PSPDFGlyphIsOnSameLineSegmentAsGlyph")]
 		[return: MarshalAsAttribute (UnmanagedType.Bool)]
 		private static extern bool _IsOnSameLineSegmentAsGlyph (IntPtr glyph1, IntPtr glyph2);
@@ -525,8 +462,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFWord : NSObject
-	{
+	public partial class PSPDFWord : NSObject {
+		
 		[DllImport ("__Internal", EntryPoint = "PSPDFStringFromGlyphs")]
 		private static extern IntPtr _StringFromGlyphs (IntPtr glyphs);
 
@@ -544,8 +481,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFTextLine : PSPDFWord
-	{
+	public partial class PSPDFTextLine : PSPDFWord {
+		
 		[DllImport ("__Internal", EntryPoint = "PSPDFSetNextLineIfCloserDistance")]
 		private static extern void _SetNextLineIfCloserDistance (IntPtr txt, IntPtr nextLine);
 
@@ -563,12 +500,11 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFImageInfo : NSObject
-	{
+	public partial class PSPDFImageInfo : NSObject {
+		
 		public virtual UIImage GetImage (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -581,8 +517,7 @@ namespace PSPDFKit
 
 		public virtual UIImage GetImageInRgbColorSpace (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -594,45 +529,26 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFFontInfo : NSObject
-	{
-		public PSPDFFontInfo (CGPDFDictionary font, string fontKey) : this (font.Handle, fontKey)
-		{
-		}
-
-		[DllImport ("__Internal", EntryPoint = "PSPDFNormalizeString")]
-		private static extern IntPtr _NormalizeString (IntPtr str);
-
-		public static string NormalizeString (string str)
-		{
-			var ret = _NormalizeString (new NSString (str).Handle);
-			var strRes = Runtime.GetNSObject<NSString> (ret);
-			return (string) strRes;
-		}
-	}
-
-	public partial class PSPDFLibrary : NSObject
-	{
+	public partial class PSPDFLibrary : NSObject {
+		
 		private static nuint PSPDFLibraryVersion;
 		public static nuint LibraryVersion
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFLibraryVersion");
-				PSPDFLibraryVersion = (nuint)Marshal.PtrToStructure(ptr, typeof(nuint));
+				PSPDFLibraryVersion = (nuint)Marshal.PtrToStructure(ptr, typeof (nuint));
 
 				return PSPDFLibraryVersion;
 			}
 		}
 	}
 
-	public partial class PSPDFAnnotationManager : NSObject
-	{
+	public partial class PSPDFAnnotationManager : NSObject {
+		
 		public virtual bool SaveAnnotations (PSPDFAnnotation options, out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -645,12 +561,15 @@ namespace PSPDFKit
 
 		public virtual PSPDFAnnotation [] AnnotationsForPage (nuint page, PSPDFAnnotationType type, CGPDFPage pageRef)
 		{
-			return AnnotationsForPage (page, type, pageRef.Handle);
+			if (pageRef == null)
+				return AnnotationsForPage (page, type, IntPtr.Zero);
+			else
+				return AnnotationsForPage (page, type, pageRef.Handle);
 		}
 	}
 
-	public partial class PSPDFAnnotation : PSPDFModel
-	{
+	public partial class PSPDFAnnotation : PSPDFModel {
+		
 		[DllImportAttribute("__Internal", EntryPoint = "PSPDFStringFromAnnotationType")]
 		private static extern IntPtr _StringFromAnnotationType (nuint annotationType);
 
@@ -676,17 +595,19 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFFileAnnotationProvider : PSPDFContainerAnnotationProvider
-	{
+	public partial class PSPDFFileAnnotationProvider : PSPDFContainerAnnotationProvider {
+		
 		public virtual PSPDFAnnotation [] AnnotationsForPage (uint page, CGPDFPage pageRef)
 		{
-			return AnnotationsForPage (page, pageRef.Handle);
+			if (pageRef == null)
+				return AnnotationsForPage (page, IntPtr.Zero);
+			else
+				return AnnotationsForPage (page, pageRef.Handle);
 		}
 
 		public virtual bool TryLoadAnnotationsFromFile (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -699,13 +620,15 @@ namespace PSPDFKit
 
 		public virtual PSPDFAnnotation [] ParseAnnotations (uint page, CGPDFPage pageRef)
 		{
-			return ParseAnnotations (page, pageRef.Handle);
+			if (pageRef == null)
+				return ParseAnnotations (page, IntPtr.Zero);
+			else
+				return ParseAnnotations (page, pageRef.Handle);
 		}
 
-		public virtual bool SaveAnnotations (NSDictionary options, out NSError error)
+		public new virtual bool SaveAnnotations (NSDictionary options, out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -718,8 +641,7 @@ namespace PSPDFKit
 
 		public virtual NSDictionary LoadAnnotations (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -731,16 +653,15 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFStampAnnotation : PSPDFAnnotation
-	{
-		public virtual UIImage LoadImage (CGAffineTransform transform, out NSError error)
+	public partial class PSPDFStampAnnotation : PSPDFAnnotation {
+		
+		public virtual UIImage LoadImage (out CGAffineTransform transform, out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
-				UIImage ret = LoadImage (transform, val_addr);
+				UIImage ret = LoadImage (out transform, val_addr);
 				error = (NSError) Runtime.GetNSObject (val);
 
 				return ret;
@@ -748,12 +669,11 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFSoundAnnotation : PSPDFAnnotation
-	{
+	public partial class PSPDFSoundAnnotation : PSPDFAnnotation {
+		
 		public virtual bool LoadAttributesFromAudioFile (out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -762,22 +682,6 @@ namespace PSPDFKit
 
 				return ret;
 			}
-		}
-	}
-
-	public partial class PSPDFAppearanceCharacteristics : PSPDFModel
-	{
-		public static PSPDFAppearanceCharacteristics FromPdfDictionary (CGPDFDictionary apCharacteristicsDict)
-		{
-			return FromPdfDictionary (apCharacteristicsDict.Handle);
-		}
-	}
-
-	public partial class PSPDFIconFit : PSPDFModel
-	{
-		public static PSPDFIconFit IconFitFromPdfDictionary (CGPDFDictionary iconFitDict)
-		{
-			return IconFitFromPdfDictionary (iconFitDict.Handle);
 		}
 	}
 
@@ -792,13 +696,11 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFMenuItem : UIMenuItem
-	{
+	public partial class PSPDFMenuItem : UIMenuItem {
 		private static bool PSPDFAllowImagesForMenuItems;
 		public static bool AllowImagesForMenuItems
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFAllowImagesForMenuItems");
 
@@ -806,8 +708,7 @@ namespace PSPDFKit
 
 				return PSPDFAllowImagesForMenuItems;
 			}
-			set 
-			{
+			set {
 				PSPDFAllowImagesForMenuItems = value;
 
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
@@ -818,16 +719,15 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFProcessor : NSObject
-	{
+	public partial class PSPDFProcessor : NSObject {
+		
 		private static CGRect PSPDFPaperSizeA4;
 		public static CGRect PaperSizeA4
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFPaperSizeA4");
-				PSPDFPaperSizeA4 = (CGRect)Marshal.PtrToStructure(ptr, typeof(CGRect));
+				PSPDFPaperSizeA4 = (CGRect)Marshal.PtrToStructure(ptr, typeof (CGRect));
 
 				return PSPDFPaperSizeA4;
 			}
@@ -836,19 +736,18 @@ namespace PSPDFKit
 		private static CGRect PSPDFPaperSizeLetter;
 		public static CGRect PaperSizeLetter
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFPaperSizeLetter");
-				PSPDFPaperSizeLetter = (CGRect)Marshal.PtrToStructure(ptr, typeof(CGRect));
+				PSPDFPaperSizeLetter = (CGRect)Marshal.PtrToStructure(ptr, typeof (CGRect));
 
 				return PSPDFPaperSizeLetter;
 			}
 		}
 	}
 
-	public partial class PSPDFXFDFParser : NSObject
-	{
+	public partial class PSPDFXFDFParser : NSObject {
+		
 		[DllImportAttribute("__Internal", EntryPoint = "PSPDFConvertXFDFSoundEncodingToPDF")]
 		private static extern IntPtr _ConvertXfdSoundEncodingToPdf (IntPtr encoding);
 
@@ -858,12 +757,11 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFAESCryptoDataProvider : NSObject
-	{
+	public partial class PSPDFAESCryptoDataProvider : NSObject {
+		
 		public CGDataProvider DataProvider
 		{
-			get 
-			{
+			get {
 				IntPtr ptr = this._DataProvider;
 				return Runtime.GetINativeObject<CGDataProvider> (ptr, false);
 			}
@@ -877,23 +775,21 @@ namespace PSPDFKit
 		private static uint PSPDFDefaultPBKDFNumberOfRounds;
 		public static uint DefaultPBKDFNumberOfRounds
 		{
-			get 
-			{
+			get {
 				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
 				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFDefaultPBKDFNumberOfRounds");
-				PSPDFDefaultPBKDFNumberOfRounds = (uint)Marshal.PtrToStructure(ptr, typeof(uint));
+				PSPDFDefaultPBKDFNumberOfRounds = (uint)Marshal.PtrToStructure(ptr, typeof (uint));
 
 				return PSPDFDefaultPBKDFNumberOfRounds;
 			}
 		}
 	}
 
-	public partial class PSPDFSigner : NSObject
-	{
+	public partial class PSPDFSigner : NSObject {
+		
 		public virtual NSData SignHash (NSData hash, PSPDFSigningAlgorithm algorithm, out NSError error)
 		{
-			unsafe 
-			{
+			unsafe {
 				IntPtr val;
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
@@ -905,16 +801,16 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFDigitalSignatureReference : PSPDFModel
-	{
+	public partial class PSPDFDigitalSignatureReference : PSPDFModel {
+		
 		public static PSPDFDigitalSignatureReference FromDictionary (CGPDFDictionary dict)
 		{
 			return PSPDFDigitalSignatureReference.FromDictionary (dict.Handle);
 		}
 	}
 
-	public partial class PSPDFGalleryVideoItem : PSPDFGalleryItem
-	{
+	public partial class PSPDFGalleryVideoItem : PSPDFGalleryItem {
+		
 		[DllImportAttribute("__Internal", EntryPoint = "PSPDFGalleryVideoItemQualityFromString")]
 		private static extern nuint _QualityFromString (IntPtr qualityString);
 
@@ -932,8 +828,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFGalleryItem : NSObject
-	{
+	public partial class PSPDFGalleryItem : NSObject {
+		
 		[DllImportAttribute("__Internal", EntryPoint = "NSStringFromPSPDFGalleryItemContentState")]
 		private static extern IntPtr _StringFromPSPDFGalleryItemContentState (nuint state);
 
@@ -943,8 +839,8 @@ namespace PSPDFKit
 		}
 	}
 
-	public partial class PSPDFInkAnnotation : PSPDFAnnotation
-	{
+	public partial class PSPDFInkAnnotation : PSPDFAnnotation {
+		
 		public PSPDFInkAnnotation (List<NSValue[]> lines)
 		{
 			var arr = new NSMutableArray ();
@@ -967,6 +863,39 @@ namespace PSPDFKit
 					arr.Add (NSArray.FromNSObjects (line));
 				_Lines = arr;
 			}
+		}
+	}
+
+	public partial class PSPDFCollectionReusableFilterView : UICollectionReusableView {
+
+		public const UILayoutPriority CenterPriority = UILayoutPriority.DefaultHigh - 10;
+		public static readonly nfloat DefaultMargin = 8;
+	}
+
+	public partial class PSPDFRSAKey : NSObject {
+
+		public static PSPDFRSAKey FromKey (IntPtr key)
+		{
+			var handle = new PSPDFRSAKey ().InitWithKey (key);
+			return Runtime.GetNSObject<PSPDFRSAKey> (handle);
+		}
+	}
+
+	public partial class PSPDFSignatureDigest : NSObject {
+
+		public static PSPDFSignatureDigest FromBio (IntPtr bio)
+		{
+			var handle = new PSPDFSignatureDigest ().InitWithBIO (bio);
+			return Runtime.GetNSObject<PSPDFSignatureDigest> (handle);
+		}
+	}
+
+	public partial class PSPDFX509 : NSObject {
+
+		public static PSPDFX509 FromX509 (IntPtr x509)
+		{
+			var handle = new PSPDFX509 ().InitWithX509 (x509);
+			return Runtime.GetNSObject<PSPDFX509> (handle);
 		}
 	}
 }

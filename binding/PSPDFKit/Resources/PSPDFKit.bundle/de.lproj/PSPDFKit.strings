@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Datei konnte nicht geöffnet werden."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "Unbenanntes PDF";
 "Page %tu" = "Seite %tu";
-"All (%tu Pages)" = "Dokument (%tu Seiten)";
+"Page %@" = "Seite %@";
 "Next" = "Nächstes";
 "Previous" = "Vorheriges";
 "Error" = "Fehler";
@@ -93,9 +93,9 @@
 "Open in Chrome" = "In Chrome öffnen";
 "Your %@ is not configured to send emails." = "Ihr %@ ist nicht für das Email-senden konfiguriert.";
 "The link is requesting to open %@Would you like to continue?" = "Dieser Link öffnet %@Fortfahren?";
-"an external application" = "eine externe Applikation";
-"the App Store" = "den App Store";
-"Mail" = "Mail";
+"an external application" = "eine externe Applikation"; // "The link is requesting to open an external application. Would you like to continue?"
+"the App Store" = "den App Store"; // "The link is requesting to open the App Store. Would you like to continue?"
+"Mail" = "Mail"; // "The link is requesting to open Mail. Would you like to continue?"
 "No handler found for %@" = "Link konnte nicht geöffnet werden: %@";
 
 // text selection
@@ -206,9 +206,13 @@
 "Merge" = "Zusammenführen"; // text on button - when clicked, two drawings are merged into one drawing
 "Sample" = "Beispiel";
 "Annotation Summary for %@:\n" = "Zusammenfassung der Annotationen von %@:\n";
+// title
 "Author Name" = "Name des Autors";
+// message
 "Please enter the author name you want to use for newly inserted annotations." = "Bitte den Namen des Autors eingeben, der für neu hinzugefügte Annotationen verwendet werden soll.";
+// text field placeholder
 "Name" = "Name";
+// meaning: close
 "Dismiss" = "Schließen";
 "Fit to Text" = "Passend für Text";
 "Draw" = "Zeichnen";
@@ -222,6 +226,14 @@
 "No Pages" = "Keine Seiten";
 "Drag to resize" = "Ziehen um Größe zu verändern"; // used as hint that inspector is resizable
 "Convert to" = "Konvertieren in"; // used as label on action that changes free text intent type
+
+// Line dash styles
+"Line Style" = "Linienstil";
+"Solid" = "Durchgehend";
+"Narrow Dots" = "Schmale Punkte";
+"Wide Dots" = "Breite Punkte";
+"Narrow Dashes" = "Schmale Bindestriche";
+"Wide Dashes" = "Breite Bindestriche";
 
 // Stamps
 "Approved" = "Freigegeben";
@@ -316,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Seite";
 "Grid" = "Thumbnails"; // grid with thumbnails
+"translucent" = "durchscheinend";
+"left" = "links";
+"center" = "zentriert";
+"right" = "rechts";
+"decrease" = "verringern";
+"increase" = "erhöhen";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Aktuelle Seite";
 "Ignore Annotations" = "Annotationen ignorieren";
 "The PDF will not contain any annotations." = "Das PDF wird keine Annotationen enthalten.";
 "Embed Annotations" = "Annotationen sichern";
@@ -326,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Annotationen werden in das PDF gezeichnet und sind nicht änderbar.";
 "Annotation Summary" = "Annotationsübersicht";
 "Embed Annotations into the PDF and also list them in the email." = "Annotationen werden im PDF gespeichert und im Email gelistet.";
-"Print annotations and also list them on a separate page." = "Annotationen werden gedruckt und auf einer separaten Seite aufgelistet.";
 "Files" = "Dateien";
 "Send as single files" = "Als einzelne Dateien schicken";
 "Merge files" = "Dateien zusammenführen";
@@ -374,11 +392,9 @@
 "Invalid value: must be a number." = "Ungültiger Wert: Nur Zahlen sind erlaubt.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Ungültiger Wert: Nur ein Datum ist erlaubt.";
 
 // General validation
-
 "Invalid value." = "Ungültiger Wert.";
 
 // Gallery
@@ -413,35 +429,41 @@
 "Unable to decrypt the signature of the certificate." = "Die Signatur des Zertifikates konnte nicht entschlüsselt werden.";
 "The public key in the certificate could not be read." = "Der öffentliche Schlüssel des Zertifikates konnte nicht gelesen werden.";
 "The signature of the certificate is not valid." = "Die Signatur des Zertifikates ist nicht gültig.";
-"Signature is NOT VALID." = "Die Signatur ist nicht gültig.";
+"Signature is not valid." = "Die Signatur ist ungültig.";
 "There is a format error in the notBefore field of the certificate." = "Formatfehler im notBefore Feld des Zertifikats."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Formatfehler im notAfter Feld des Zertifikats."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Die Signatur konnte nicht überprüft werden, weil die Zertifizierungskette nur ein Zertifikat enthält, es nicht selbst-signiert ist und dem Herausgeber nicht vertraut wird.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Ein als CA Zertifikat angegebenes Zertifikat ist nicht gültig, weil es kein CA ist oder weil es nicht als CA verwendet werden kann, weil die extensions nicht mit dem  is not valid because it is not a CA or its extensions are not consistent with the intended purpose."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Ein als CA Zertifikat angegebenes Zertifikat ist nicht gültig, weil es kein CA ist oder weil eine der Erweiterungen nicht gültig mit dem Verwendungszweck ist."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Der basicConstraints pathlength Parameter wurde überschritten."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "Die root CA ist nicht als vertrauenswürdig eingestuft für diesen Zweck."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "Die root CA lehnt den angegebenen Zweck ab."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "Die root CA ist nicht als vertrauenswürdig eingestuft für diesen Zweck."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "Die root CA lehnt den angegebenen Zweck ab."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Das Herausgeber Zertifikat wurde abgewiesen, weil der Subject-Name nicht mit dem Issuer-Namen des aktuellen Zertifikates übereinstimmt."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Das Herausgeber Zertifikat wurde abgewiesen, weil der Subject Key Identifier nicht mit dem Authority Key Identiefier des aktuellen Zertifikates übereinstimmt."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Das Herausgeber Zertifikat wurde abgewiesen, bei der Issuer-Name und die serial number nicht mit dem Authority Key Identifier des aktuellen Zertifikates übereinstimmt."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Das Zertifikat wurde vom Herausgeber abgewiesen.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Das übergebene Zertifikat ist selbst signiert und dasselbe Zertifikat kann nicht in der Liste der vertrauenswürdigen Zertifikate gefunden werden.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Ein selbst signiertes Zertifikat existiert in der Zertifikatskette. Die Zertifikatskette konnte unter Verwendung der nicht vertrauenswürdigen Zertifikate aufgebaut werden, allerdings konnte die root CA lokal nicht gefunden werden."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Ein selbst signiertes Zertifikat existiert in der Zertifikatskette. Die Zertifikatskette konnte unter Verwendung der nicht vertrauenswürdigen Zertifikate aufgebaut werden, allerdings konnte die root CA lokal nicht gefunden werden."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Es konnte kein Zertifikat für eine der Zertifizierungsstellen (CAs) in der Signierungshierarchie gefunden werden und daher wird der CA nicht vertraut."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Das Herausgeberzertifikat eines lokal gesuchten Zertifikates konnte nicht gefunden werden. Dies deutet normalerweise darauf hin, dass die Liste der vertrauenswürdigen Zertifikate unvollständig ist.";
 "The certificate that was provided cannot be used for its intended purpose." = "Das zur Verfügung gestellte Zertifikat kann nicht für den beabsichtigten Zweck verwendet werden.";
 "The issuer certificate's keyUsage extension does not permit certificate signing." = "Die keyUsage Erweiterung erlaubt keine Signierung von Zertifikaten.";
 "The certificate has expired." = "Das Zertifikat ist abgelaufen.";
 "The certificate is not valid until a date in the future." = "Das Zertifikat ist erst ab einem in der Zukunft liegenden Zeitpunkt gültig.";
+// X509 should not be translated
 "Could not read X509 certificate from data" = "Das X509 Zertifikat konnte nicht gelesen werden";
+// X509 should not be translated
 "No X509 certificate found" = "Es wurde kein X509 Zertifikat gefunden";
 
+// PKCS12 should not be translated
 "Cannot read PKCS12 file. File is incorrectly formatted or corrupted." = "Die PKCS12 Datei konnte nicht gelesen werden. Die Datei ist nicht richtig formatiert oder beschädigt.";
+// PKCS12 should not be translated
 "Could not unlock PKCS12 data. Did you enter the correct password?" = "Die PKCS12 Datei konnten nicht geöffnet werden. Wurde das richtige Kennwort eingegeben?";
 
+// the signature of a file should be checked, but this file can not be opened
 "Could not open file for signature validation" = "Die Datei konnte nicht geöffnet werden um die Signatur zu validieren";
 "Could not get signer info" = "Die Unterzeichner Information konnte nicht gelesen werden";
 
+// OPENSSL and PKCS7 should never be translated
 "OpenSSL could not create PKCS7 object" = "OpenSSL konnte kein PKCS7 Objekt erstellen";
 "OpenSSL could not add signature to PKCS7 object" = "OpenSSL konnte keine Signatur zu dem PKCS7 Objekt hinzufügen";
 "OpenSSL could not init PKCS7 object" = "OpenSSL konnte das PKCS7 Objekt nicht initialisieren";

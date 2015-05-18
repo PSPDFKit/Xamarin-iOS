@@ -1,14 +1,14 @@
 /*
- Localization.strings
- PSPDFKit
- 
+  Localization.strings
+  PSPDFKit
+
  Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
- 
+
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
  UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS SUBJECT TO CIVIL AND CRIMINAL PENALTIES.
  This notice may not be removed from this file.
- */
+*/
 
 // general
 "Close" = "Stäng";
@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Kunde inte öppna filen."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "Namnlös PDF";
 "Page %tu" = "Sida %tu";
-"All (%tu Pages)" = "Alla (%tu sidor)";
+"Page %@" = "Sida %@";
 "Next" = "Nästa";
 "Previous" = "Föregående";
 "Error" = "Fel";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Dra och ändra storlek"; // used as hint that inspector is resizable
 "Convert to" = "Konvertera till"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Linjestil";
+"Solid" = "Heldragen";
+"Narrow Dots" = "Smala punkter";
+"Wide Dots" = "Breda punkter";
+"Narrow Dashes" = "Smala streck";
+"Wide Dashes" = "Breda streck";
+
 // Stamps
 "Approved" = "Godkänt";
 "Not Approved" = "Ej godkänt";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Sida";
 "Grid" = "Rutnät"; // grid with thumbnails
+"translucent" = "genomskinlig";
+"left" = "vänster";
+"center" = "mitten";
+"right" = "höger";
+"decrease" = "minska";
+"increase" = "öka";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Aktuell sida";
 "Ignore Annotations" = "Ignorera anteckningar";
 "The PDF will not contain any annotations." = "PDF:en kommer inte att innehålla några anteckningar.";
 "Embed Annotations" = "Bädda in anteckningar";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Anteckningarna infogas i PDF:en och kan bara läsas.";
 "Annotation Summary" = "Sammanfattning av anteckningar";
 "Embed Annotations into the PDF and also list them in the email." = "Bädda in anteckningarna i PDF:en och ta även med dem i e-brevet.";
-"Print annotations and also list them on a separate page." = "Skriv ut anteckningar och gör en lista med dem på en egen sida.";
 "Files" = "Filer";
 "Send as single files" = "Skicka som enstaka filer";
 "Merge files" = "Slå samman filer";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Ogiltigt värde: måste vara ett tal.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Ogiltigt värde: måste vara ett datum.";
 
 // General validation
-
 "Invalid value." = "Ogiltigt värde.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Det finns ett formatfel i fältet notBefore i certifikatet."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Det finns ett formatfel i fältet notAfter i certifikatet."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Inga signaturer kunde kontrolleras eftersom certifikatkedjan endast innehåller ett certifikat, det är inte självsignerat och utfärdaren inte är betrodd.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Ett CA-certifikat är ogiltigt eftersom det inte är en CA eller dess tillägg inte överensstämmer med det avsedda syftet."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Ett CA-certifikat är ogiltigt eftersom det inte är en CA eller dess tillägg inte överensstämmer med det avsedda syftet."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Parametern basicConstraints pathlength var för lång."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "Rot-CA:n är inte märkt som betrodd för det avsedda syftet."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "Rot-CA:n är märkt att förkasta det avsedda syftet."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "Rot-CA:n är inte märkt som betrodd för det avsedda syftet."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "Rot-CA:n är märkt att förkasta det avsedda syftet."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Utfärdarcertifikatet förkastades eftersom dess Subject-namn inte överensstämde med utfärdarnamnet i det aktuella certifikatet."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Utfärdarcertifikatet förkastades eftersom dess Subject Key Identifier fanns men inte överensstämde med Authority Key Identifier i det aktuella certifikatet."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Utfärdarcertifikatet förkastades eftersom dess Issuer-namn och serienummer fanns men inte överensstämde med Authority Key Identifier i det aktuella certifikatet."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Certifikatet har återkallats av utfärdaren.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Det aktuella certifikatet är självsignerat och samma certifikat kan inte hittas i listan över betrodda certifikat.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Det finns ett självsignerat certifikat i certifikatkedjan. Certifikatkedjan kan byggas upp med de ej betrodda certifikaten, men rot-CA:n hittades inte lokalt."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Det finns ett självsignerat certifikat i certifikatkedjan. Certifikatkedjan kan byggas upp med de ej betrodda certifikaten, men rot-CA:n hittades inte lokalt."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Kunde inte hitta certifikatet för en av certifikatauktoriteterna (CA) i signeringshierarkin, och denna CA är inte betrodd av det lokala programmet."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Hittade inte utfärdarcertifikatet för ett lokalt uppslaget certifikat. Detta innebär normalt att listan över betrodda certifikat inte är komplett.";
 "The certificate that was provided cannot be used for its intended purpose." = "Certifikatet kan inte användas för dess avsedda syfte.";

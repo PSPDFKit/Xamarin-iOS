@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Impossible d'ouvrir le fichier."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "PDF sans nom";
 "Page %tu" = "Page %tu";
-"All (%tu Pages)" = "Tout (%tu pages)";
+"Page %@" = "Page %@";
 "Next" = "Suivant";
 "Previous" = "Précédent";
 "Error" = "Erreur";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Faire glisser pour ajuster"; // used as hint that inspector is resizable
 "Convert to" = "Convertir en"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Style de ligne";
+"Solid" = "Pleine";
+"Narrow Dots" = "Petits points";
+"Wide Dots" = "Grands points";
+"Narrow Dashes" = "Petits traits";
+"Wide Dashes" = "Grands traits";
+
 // Stamps
 "Approved" = "Approuvé";
 "Not Approved" = "Non approuvé";
@@ -315,13 +323,20 @@
 "Go to page" = "Aller à la page"; // title of a Popup
 "Save" = "Enregistrer";
 "Link Destination" = "Destination du lien";
-"Enter page index or a http:// address to link to an URL." = "Saisir un index de page ou une adresse http:// renvoyant à un URL.";
+"Enter page index or a http:// address to link to an URL." = "Saisir un index de page ou une adresse http:// renvoyant à une URL.";
 
 // voiceover accessibility
 "Page" = "Page";
 "Grid" = "Grille"; // grid with thumbnails
+"translucent" = "translucide";
+"left" = "gauche";
+"center" = "centrer";
+"right" = "droite";
+"decrease" = "diminuer";
+"increase" = "augmenter";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Page actuelle";
 "Ignore Annotations" = "Ignorer les annotations";
 "The PDF will not contain any annotations." = "Le PDF ne contiendra aucune annotation.";
 "Embed Annotations" = "Incorporer les annotations";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Les annotations sont rendues dans le PDF et sont en lecture seule.";
 "Annotation Summary" = "Résumé des annotations";
 "Embed Annotations into the PDF and also list them in the email." = "Incorporer les annotations dans le PDF et les lister dans le courrier.";
-"Print annotations and also list them on a separate page." = "Imprimer les annotations et les lister sur une page distincte.";
 "Files" = "Fichiers";
 "Send as single files" = "Envoyer comme fichiers simples";
 "Merge files" = "Fusionner les fichiers";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Valeur non valide : doit être un nombre.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Valeur non valide : doit être une date.";
 
 // General validation
-
 "Invalid value." = "Valeur non valide.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Erreur de format dans le champ notBefore du certificat."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Erreur de format dans le champ notAfter du certificat."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Impossible de vérifier les signatures car la chaîne de certification contient seulement un certificat non autosigné provenant d'un émetteur non approuvé.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Un certificat de l'AC n'est pas valide car il ne s'agit pas d'une AC ou ses extensions ne sont pas cohérentes avec le rôle prévu."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Un certificat de l'AC n'est pas valide car il ne s'agit pas d'une AC ou ses extensions ne sont pas cohérentes avec le rôle prévu."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Le paramètre basicConstraints pathlength est dépassé."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "L'AC racine n'est pas marquée comme fiable pour le rôle prévu."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "L'AC racine est marquée pour refuser le rôle spécifié."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "L'AC racine n'est pas marquée comme fiable pour le rôle prévu."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "L'AC racine est marquée pour refuser le rôle spécifié."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Le certificat de l'émetteur a été refusé car son nom d'objet ne correspond pas au nom de l'émetteur du certificat actuel."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Le certificat de l'émetteur a été refusé car son identifiant de clé d'objet était présent sans correspondre à l'identifiant de clé de l'autorité du certificat actuel."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Le certificat de l'émetteur a été refusé car ses nom d'émetteur et numéro de série étaient présents sans correspondre à l'identifiant de clé de l'autorité du certificat actuel."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Le certificat a été révoqué par l'émetteur.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Le certificat transmis est autosigné et le même certificat est introuvable dans la liste des certificats de confiance.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Un certificat autosigné existe dans la chaîne de certification. La chaîne de certification pourrait être constituée avec les certificats non fiables, mais l'AC racine est localement introuvable."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Un certificat autosigné existe dans la chaîne de certification. La chaîne de certification pourrait être constituée avec les certificats non fiables, mais l'AC racine est localement introuvable."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Impossible de trouver le certificat pour l'une des autorités de certification (AC) dans la hiérarchie de signature et l'AC concernée n'est pas approuvée par l'application locale."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Le certificat d'émetteur d'un certificat faisant l'objet d'une recherche locale est introuvable. En général, ceci signifie que la liste des certificats de confiance est incomplète.";
 "The certificate that was provided cannot be used for its intended purpose." = "Le certificat fourni est inutilisable pour le rôle prévu.";

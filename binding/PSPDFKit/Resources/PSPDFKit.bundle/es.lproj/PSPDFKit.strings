@@ -20,7 +20,7 @@
 "File couldn't be opened." = "El archivo no ha podido abrirse."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "PDF sin nombre";
 "Page %tu" = "Página %tu";
-"All (%tu Pages)" = "Todas (%tu páginas)";
+"Page %@" = "Página %@";
 "Next" = "Siguiente";
 "Previous" = "Anterior";
 "Error" = "Error";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Arrastrar para redimensionar"; // used as hint that inspector is resizable
 "Convert to" = "Convertir en"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Estilo de línea";
+"Solid" = "Sólido";
+"Narrow Dots" = "Puntos estrechos";
+"Wide Dots" = "Puntos anchos";
+"Narrow Dashes" = "Rayas estrechas";
+"Wide Dashes" = "Rayas anchas";
+
 // Stamps
 "Approved" = "Aprobado";
 "Not Approved" = "No aprobado";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Página";
 "Grid" = "Cuadrícula"; // grid with thumbnails
+"translucent" = "traslúcido";
+"left" = "izquierda";
+"center" = "centro";
+"right" = "derecha";
+"decrease" = "reducir";
+"increase" = "aumentar";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Página actual";
 "Ignore Annotations" = "Ignorar anotaciones";
 "The PDF will not contain any annotations." = "El PDF no contendrá ninguna anotación.";
 "Embed Annotations" = "Incrustar anotaciones";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Las anotaciones se plasman en el PDF y no se pueden modificar.";
 "Annotation Summary" = "Resumen de anotaciones";
 "Embed Annotations into the PDF and also list them in the email." = "Incrustar anotaciones en el PDF y enumerarlas también en el correo electrónico.";
-"Print annotations and also list them on a separate page." = "Imprimir anotaciones y enumerarlas también en una página independiente.";
 "Files" = "Archivos";
 "Send as single files" = "Enviar como archivos individuales";
 "Merge files" = "Combinar archivos";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Valor no válido: debe ser un número.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Valor no válido: debe ser una fecha.";
 
 // General validation
-
 "Invalid value." = "Valor no válido.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Hay un error de formato en el campo notBefore del certificado."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Hay un error en el campo notAfter del certificado."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "No se ha podido verificar ninguna firma porque la cadena de certificados contiene solo un certificado, no está autofirmado, y el emisor no es de confianza.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Un certificado de CA no es válido porque no es una CA o sus extensiones no son las correctas para el fin deseado."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Un certificado de CA no es válido porque no es una CA o sus extensiones no son las correctas para el fin deseado."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "El parámetro de longitud de ruta basicConstraints se ha excedido."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "El CA raíz no es de confianza para el fin deseado."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "La CA raíz está marcada para rechazar el fin especificado."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "El CA raíz no es de confianza para el fin deseado."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "La CA raíz está marcada para rechazar el fin especificado."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "El certificado de emisor se ha rechazado porque su nombre de asunto no coincide con el nombre de emisor del certificado actual."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "El certificado de emisor se ha rechazado porque su contenía identificador de clave de asunto, pero no coincidía con el identificador de clave de autoridad del certificado actual."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "El certificado de emisor se ha rechazado porque contenía nombre de emisor y número de serie, pero no coincidían con el identificador de clave de autoridad del certificado actual."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "El certificado ha sido revocado por el emisor.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "El certificado entregado está autofirmado, y no se puede encontrar el mismo certificado en la lista de certificados de confianza.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Hay un certificado autofirmado en la cadena de certificados. La cadena de certificados se ha podido reconstruir usando los certificados que no son de confianza, pero la CA raíz no se encuentra de forma local."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Hay un certificado autofirmado en la cadena de certificados. La cadena de certificados se ha podido reconstruir usando los certificados que no son de confianza, pero la CA raíz no se encuentra de forma local."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "No se puede encontrar el certificado de una de las autoridades certificadoras (CA) en la jerarquía de firma, y la aplicación local no tiene esa CA en su lista de confianza."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "No se encuentra el certificado de emisor de un certificado buscado de forma local. Esto suele significar que la lista de certificados de confianza no está completa.";
 "The certificate that was provided cannot be used for its intended purpose." = "El certificado proporcionado no puede usarse para el fin deseado.";
@@ -460,7 +472,7 @@
 "Could not write PKCS7 signature" = "No se ha podido escribir la firma PKCS7";
 
 // Policy
-"PSPDFPolicyEventOpenIn" = "Abrir";
+"PSPDFPolicyEventOpenIn" = "Abrir en";
 "PSPDFPolicyEventPrint" = "Imprimir";
 "PSPDFPolicyEventEmail" = "Enviar por correo";
 "PSPDFPolicyEventMessage" = "Mensaje";

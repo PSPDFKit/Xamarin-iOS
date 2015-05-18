@@ -80,5 +80,21 @@
             <string>%tu punkty</string>
         </dict>
     </dict>
+    <key>All (%tu Page(s))</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>All (%#@pages@)</string>
+        <key>pages</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>tu</string>
+            <key>one</key>
+            <string>%tu strona</string>
+            <key>other</key>
+            <string>%tu str.</string>
+        </dict>
+    </dict>
 </dict>
 </plist>

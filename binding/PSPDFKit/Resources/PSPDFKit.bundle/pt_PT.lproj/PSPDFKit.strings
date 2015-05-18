@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Não foi possível abrir o ficheiro."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "PDF sem nome";
 "Page %tu" = "Página %tu";
-"All (%tu Pages)" = "Tudo (%tu páginas)";
+"Page %@" = "Página %@";
 "Next" = "Seguinte";
 "Previous" = "Anterior";
 "Error" = "Erro";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Arraste para redimensionar"; // used as hint that inspector is resizable
 "Convert to" = "Converter em"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Estilo de linha";
+"Solid" = "Sólido";
+"Narrow Dots" = "Pontos finos";
+"Wide Dots" = "Pontos espessos";
+"Narrow Dashes" = "Traços finos";
+"Wide Dashes" = "Traços espessos";
+
 // Stamps
 "Approved" = "Aprovado";
 "Not Approved" = "Não aprovado";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Página";
 "Grid" = "Grelha"; // grid with thumbnails
+"translucent" = "translúcido";
+"left" = "esquerda";
+"center" = "centro";
+"right" = "direita";
+"decrease" = "diminuir";
+"increase" = "aumentar";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Página actual";
 "Ignore Annotations" = "Ignorar anotações";
 "The PDF will not contain any annotations." = "O PDF não inclui nenhuma anotação.";
 "Embed Annotations" = "Anotações incorporadas";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "As anotações são desenhadas no PDF e são apenas de leitura.";
 "Annotation Summary" = "Sumário de anotações";
 "Embed Annotations into the PDF and also list them in the email." = "Anotações incorporadas no PDF e também listadas no e-mail.";
-"Print annotations and also list them on a separate page." = "Imprima anotações e liste-as numa página em separado.";
 "Files" = "Ficheiros";
 "Send as single files" = "Enviar como ficheiros únicos";
 "Merge files" = "Agrupar ficheiros";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Valor inválido: tem de ser um número.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Valor inválido: tem de ser uma data.";
 
 // General validation
-
 "Invalid value." = "Valor inválido.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Existe um erro de formato no campo notBefore do certificado."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Existe um erro de formato no campo notAfter do certificado."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Não foi possível verificar nenhuma assinatura porque a cadeia de certificados contém apenas um certificado, não é auto-assinado e o emissor não é fidedigno.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "A AC não é válida porque não é uma CA ou porque as respectivas extensões não são consistentes com a finalidade pretendida."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "A AC não é válida porque não é uma CA ou porque as respectivas extensões não são consistentes com a finalidade pretendida."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "O parâmetro de comprimento de caminho basicContraints foi excedido."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "A AC de raiz não está assinalada como fidedigna para a finalidade pretendida."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "A AC de raiz está assinalada para rejeitar a finalidade especificada."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "A AC de raiz não está assinalada como fidedigna para a finalidade pretendida."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "A AC de raiz está assinalada para rejeitar a finalidade especificada."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "O certificado do emissor foi rejeitado porque o respectivo nome do requerente não corresponde ao nome do emissor do certificado actual."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "O certificado do emissor foi rejeitado porque o respectivo identificador de chave do requerente está presente e não corresponde ao identificador de chave da autoridade do certificado actual."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "O certificado do emissor foi rejeitado porque o respectivo nome de emissor e número de série estão presentes e não correspondem ao identificador de chave da autoridade do certificado actual."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "O certificado foi revogado pelo emissor.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "O certificado transmitido é auto-assinado e não foi possível encontrar o mesmo certificado na lista de certificados fidedignos.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Existe um certificado auto-assinado na cadeia de certificados. Foi possível criar a cadeia de certificados utilizando os certificados não fidedignos, mas não foi possível encontrar localmente a AC de raiz."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Existe um certificado auto-assinado na cadeia de certificados. Foi possível criar a cadeia de certificados utilizando os certificados não fidedignos, mas não foi possível encontrar localmente a AC de raiz."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Não foi possível encontrar o certificado de uma das autoridades de certificação (ACs) na hierarquia de assinatura e a aplicação local não confia nessa AC."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Não foi possível encontrar o certificado do emissor de um certificado procurado localmente. Normalmente, isto significa que a lista de certificados fidedignos não está completa.";
 "The certificate that was provided cannot be used for its intended purpose." = "O certificado fornecido não pode ser usado para a finalidade desejada.";

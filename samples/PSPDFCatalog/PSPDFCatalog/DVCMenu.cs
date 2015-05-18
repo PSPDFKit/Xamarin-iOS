@@ -56,7 +56,7 @@ namespace PSPDFCatalog
 					new StringElement ("Create Password Protected PDF", async () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						var status = PSPDFStatusHUDItem.GetProgressHud ("Preparing");
-						status.Push (true);
+						status.Push (true, null);
 						// Create temp file and password
 						var tempPdf = NSUrl.FromFilename (Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString () + ".pdf"));
 						var password = new NSString ("test123");
@@ -84,7 +84,7 @@ namespace PSPDFCatalog
 								error: out err);
 						});
 						InvokeOnMainThread (()=> {
-							status.Pop (true);
+							status.Pop (true, null);
 							var docToShow = new PSPDFDocument (tempPdf);
 							var pdfViewer = new PSPDFViewController (docToShow);
 							NavigationController.PushViewController (pdfViewer, true);

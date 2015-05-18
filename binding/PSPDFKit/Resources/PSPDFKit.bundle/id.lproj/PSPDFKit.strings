@@ -1,14 +1,14 @@
 /*
- Localization.strings
- PSPDFKit
- 
+  Localization.strings
+  PSPDFKit
+
  Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
- 
+
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
  UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS SUBJECT TO CIVIL AND CRIMINAL PENALTIES.
  This notice may not be removed from this file.
- */
+*/
 
 // general
 "Close" = "Tutup";
@@ -20,7 +20,7 @@
 "File couldn't be opened." = "File tidak dapat dibuka."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "PDF tanpa nama";
 "Page %tu" = "Halaman %tu";
-"All (%tu Pages)" = "Semua (%tu Halaman)";
+"Page %@" = "Halaman %@";
 "Next" = "Berikutnya";
 "Previous" = "Sebelumnya";
 "Error" = "Kesalahan";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Seret untuk mengubah ukuran"; // used as hint that inspector is resizable
 "Convert to" = "Ubah ke"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Gaya Garis";
+"Solid" = "Padat";
+"Narrow Dots" = "Titik Sempit";
+"Wide Dots" = "Titik Lebar";
+"Narrow Dashes" = "Garis Putus Sempit";
+"Wide Dashes" = "Garis Putus Lebar";
+
 // Stamps
 "Approved" = "Disetujui";
 "Not Approved" = "Belum Disetujui";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Halaman";
 "Grid" = "Grid"; // grid with thumbnails
+"translucent" = "tembus cahaya";
+"left" = "kiri";
+"center" = "tengah";
+"right" = "kanan";
+"decrease" = "kurangi";
+"increase" = "tambah";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Halaman Saat Ini";
 "Ignore Annotations" = "Abaikan Anotasi";
 "The PDF will not contain any annotations." = "PDF tidak akan berisi anotasi apa pun.";
 "Embed Annotations" = "Lekatkan anotasi";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Anotasi disertakan di PDF dan hanya dapat dibaca.";
 "Annotation Summary" = "Ringkasan Anotasi";
 "Embed Annotations into the PDF and also list them in the email." = "Lekatkan Anotasi ke PDF dan buat daftarnya juga di email.";
-"Print annotations and also list them on a separate page." = "Cetak sekaligus cantumkan anotasi di halaman terpisah.";
 "Files" = "File";
 "Send as single files" = "Kirim sebagai file tunggal";
 "Merge files" = "Gabung file";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Nilai tidak sah: harus berupa angka.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Nilai tidak sah: harus berupa tanggal.";
 
 // General validation
-
 "Invalid value." = "Nilai tidak sah.";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Ada kesalahan format di bidang notBefore pada sertifikat."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Ada kesalahan format di bidang notAfter pada sertifikat."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Tidak ada tanda tangan yang dapat diverifikasi karena rantai sertifikat hanya memiliki satu sertifikat, tidak ditandatangani sendiri, serta pembuat tidak tepercaya.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Sertifikat CA tidak sah karena bukan merupakan CA atau ekstensinya tidak konsisten dengan tujuan yang dimaksud."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Sertifikat CA tidak sah karena bukan merupakan CA atau ekstensinya tidak konsisten dengan tujuan yang dimaksud."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Parameter basicConstraints pathlength melebihi batas."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "Root CA tidak ditandai sebagai tepercaya untuk tujuan yang dimaksud."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "Root CA ditandai untuk menolak tujuan yang ditetapkan."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "Root CA tidak ditandai sebagai tepercaya untuk tujuan yang dimaksud."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "Root CA ditandai untuk menolak tujuan yang ditetapkan."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Sertifikat pembuat ditolak karena nama subject tidak cocok dengan nama issuer sertifikat yang ada."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Sertifikat pembuat ditolak karena subject key identifier yang dimilki tidak cocok dengan authority key identifier  sertifikat yang ada."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Sertifikat pembuat ditolak karena nama issuer dan serial number yang dimiliki tidak cocok dengan authority key identifier sertifikat yang ada."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Sertifikat dicabut oleh pembuat.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Sertifikat yang lolos ditandatangani sendiri dan sertifikat yang sama tidak dapat ditemukan di daftar sertifikat tepercaya.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Sertifikat yang ditandatangani sendiri sudah ada di rantai sertifikat. Rantai sertifikat dapat ditambah menggunakan sertifikat yang tidak tepercaya, namun root CA tidak dapat ditemukan secara lokal."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "Sertifikat yang ditandatangani sendiri sudah ada di rantai sertifikat. Rantai sertifikat dapat ditambah menggunakan sertifikat yang tidak tepercaya, namun root CA tidak dapat ditemukan secara lokal."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Tidak dapat menemukan sertifikat untuk salah satu otoritas sertifikat (CAs) di hirarki penandatanganan dan CA tersebut tidak tepercaya oleh aplikasi lokal."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Sertifikat pembuat pada pencarian sertifikat lokal tidak ditemukan. Ini umumnya berarti daftar sertifikat tepercaya belum lengkap.";
 "The certificate that was provided cannot be used for its intended purpose." = "Sertifikat yang disediakan tidak dapat digunakan untuk tujuan yang dimaksud.";

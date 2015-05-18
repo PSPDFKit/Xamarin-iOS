@@ -20,7 +20,7 @@
 "File couldn't be opened." = "File couldn't be opened."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "Unnamed PDF";
 "Page %tu" = "Page %tu";
-"All (%tu Pages)" = "All (%tu Pages)";
+"Page %@" = "Page %@";
 "Next" = "Next";
 "Previous" = "Previous";
 "Error" = "Error";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Drag to resize"; // used as hint that inspector is resizable
 "Convert to" = "Convert to"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Line Style";
+"Solid" = "Solid";
+"Narrow Dots" = "Narrow Dots";
+"Wide Dots" = "Wide Dots";
+"Narrow Dashes" = "Narrow Dashes";
+"Wide Dashes" = "Wide Dashes";
+
 // Stamps
 "Approved" = "Approved";
 "Not Approved" = "Not Approved";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Page";
 "Grid" = "Grid"; // grid with thumbnails
+"translucent" = "translucent";
+"left" = "left";
+"center" = "center";
+"right" = "right";
+"decrease" = "decrease";
+"increase" = "increase";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Current Page";
 "Ignore Annotations" = "Ignore Annotations";
 "The PDF will not contain any annotations." = "The PDF will not contain any annotations.";
 "Embed Annotations" = "Embed Annotations";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Annotations are rendered in the PDF and are readonly.";
 "Annotation Summary" = "Annotation Summary";
 "Embed Annotations into the PDF and also list them in the email." = "Embed Annotations into the PDF and also list them in the email.";
-"Print annotations and also list them on a separate page." = "Print annotations and also list them on a separate page.";
 "Files" = "Files";
 "Send as single files" = "Send as single files";
 "Merge files" = "Merge files";
@@ -419,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "There is a format error in the notBefore field of the certificate."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "There is a format error in the notAfter field of the certificate."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "The basicConstraints pathlength parameter was exceeded."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "The root CA is not marked as trusted for its intended purpose."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "The root CA is marked to reject the purpose specified."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "The root CA is not marked as trusted for its intended purpose."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "The root CA is marked to reject the purpose specified."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "The certificate was revoked by the issuer.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete.";
 "The certificate that was provided cannot be used for its intended purpose." = "The certificate that was provided cannot be used for its intended purpose.";

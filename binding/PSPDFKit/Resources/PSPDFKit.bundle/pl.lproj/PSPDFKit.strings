@@ -1,14 +1,14 @@
 /*
- Localization.strings
- PSPDFKit
- 
+  Localization.strings
+  PSPDFKit
+
  Copyright (c) 2012-2015 PSPDFKit GmbH. All rights reserved.
- 
+
  THIS SOURCE CODE AND ANY ACCOMPANYING DOCUMENTATION ARE PROTECTED BY INTERNATIONAL COPYRIGHT LAW
  AND MAY NOT BE RESOLD OR REDISTRIBUTED. USAGE IS BOUND TO THE PSPDFKIT LICENSE AGREEMENT.
  UNAUTHORIZED REPRODUCTION OR DISTRIBUTION IS SUBJECT TO CIVIL AND CRIMINAL PENALTIES.
  This notice may not be removed from this file.
- */
+*/
 
 // general
 "Close" = "Zamknij";
@@ -20,7 +20,7 @@
 "File couldn't be opened." = "Nie można otworzyć pliku."; // error message, when embedded files could not be parsed
 "Unnamed PDF" = "PDF bez nazwy";
 "Page %tu" = "Strona %tu";
-"All (%tu Pages)" = "Wszystkie (%tu str.)";
+"Page %@" = "Strona %@";
 "Next" = "Dalej";
 "Previous" = "Wstecz";
 "Error" = "Błąd";
@@ -227,6 +227,14 @@
 "Drag to resize" = "Przeciągnij i przeskaluj"; // used as hint that inspector is resizable
 "Convert to" = "Konwertuj na"; // used as label on action that changes free text intent type
 
+// Line dash styles
+"Line Style" = "Styl linii";
+"Solid" = "Ciągła";
+"Narrow Dots" = "Kropki, wąsko";
+"Wide Dots" = "Kropki, szeroko";
+"Narrow Dashes" = "Kreski, wąsko";
+"Wide Dashes" = "Kreski, szeroko";
+
 // Stamps
 "Approved" = "Zatwierdzono";
 "Not Approved" = "Nie zatwierdzono";
@@ -320,8 +328,15 @@
 // voiceover accessibility
 "Page" = "Strona";
 "Grid" = "Siatka"; // grid with thumbnails
+"translucent" = "przeświecające";
+"left" = "lewa strona";
+"center" = "środek";
+"right" = "prawa";
+"decrease" = "zmniejsz";
+"increase" = "zwiększ";
 
 // PSPDFDocumentSharingViewController
+"Current Page" = "Bieżąca strona";
 "Ignore Annotations" = "Ignoruj adnotacje";
 "The PDF will not contain any annotations." = "PDF nie będzie zawierać adnotacji.";
 "Embed Annotations" = "Osadź adnotacje";
@@ -330,7 +345,6 @@
 "Annotations are drawn into the PDF and are readonly." = "Adnotacje są renderowane w PDF i są tylko do odczytu.";
 "Annotation Summary" = "Zestawienie adnotacji";
 "Embed Annotations into the PDF and also list them in the email." = "Osadź adnotacje w PDF i dodatkowo wyszczególnij je w wiadomości e-mail.";
-"Print annotations and also list them on a separate page." = "Drukuj adnotacje i wyszczególnij je na osobnej stronie.";
 "Files" = "Pliki";
 "Send as single files" = "Wyślij jako pojedyncze pliki";
 "Merge files" = "Złącz pliki";
@@ -378,11 +392,9 @@
 "Invalid value: must be a number." = "Nieprawidłowa wartość: wymagana jest liczba.";
 
 //  Validation of dates
-
 "Invalid value: must be a date." = "Nieprawidłowa wartość: to musi być data.";
 
 // General validation
-
 "Invalid value." = "Nieprawidłowa wartość";
 
 // Gallery
@@ -421,16 +433,16 @@
 "There is a format error in the notBefore field of the certificate." = "Błąd formatu w polu notBefore certyfikatu."; // notBefore should not be translated
 "There is a format error in the notAfter field of the certificate." = "Błąd formatowania w polu notAfter certyfikatu."; // notAfter should not be translated
 "No signatures could be verified because the certificate chain contains only one certificate, it is not self-signed, and the issuer is not trusted." = "Nie zweryfikowano podpisów, ponieważ łańcuch podpisów zawiera tylko jeden certyfikat, ten certyfikat nie jest samopodpisany, a wystawca nie jest wiarygodny.";
-"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Certyfikat CA nie jest prawidłowy, ponieważ nie jest to CA, ewentualnie rozszerzenia nie są zgodne z zamierzonym celem."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA sould not be translated
+"A CA certificate is not valid because it is not a CA or its extensions are not consistent with the intended purpose." = "Certyfikat CA nie jest prawidłowy, ponieważ nie jest to CA, ewentualnie rozszerzenia nie są zgodne z zamierzonym celem."; // CA = Certificate Authority; The sentence means: The as CA provided certificate is not a CA or can not be used as a CA because its extensions are not consistent with the intended purpose. CA should be translated
 "The basicConstraints pathlength parameter was exceeded." = "Przekroczono parametr długości ścieżki basicConstraints."; // basicContraints pathlength should not be translated
-"The root CA is not marked as trusted for its intended purpose." = "Obiekt root CA nie jest oznaczony jako zaufany do zamierzonego celu."; // root CA sould not be translated
-"The root CA is marked to reject the purpose specified." = "Root CA – oznaczono do odrzucenia z określeniem przyczyny."; // root CA sould not be translated
+"The root CA is not marked as trusted for its intended purpose." = "Obiekt root CA nie jest oznaczony jako zaufany do zamierzonego celu."; // root CA should be translated
+"The root CA is marked to reject the purpose specified." = "Root CA – oznaczono do odrzucenia z określeniem przyczyny."; // root CA should be translated
 "The issuer certificate was rejected because its subject name did not match the issuer name of the current certificate." = "Wystawca certyfikatu został odrzucony, ponieważ nazwa „subject” nie zgadza się z nazwą „issuer” bieżącego certyfikatu."; // subject and the second issuer should not be translated
 "The issuer certificate was rejected because its subject key identifier was present and did not match the authority key identifier of the current certificate." = "Wystawca certyfikatu został odrzucony, ponieważ obecny w certyfikacie identyfikator „subject key identifier” nie zgadza się z identyfikatorem „authority key identifier” dla bieżącego certyfikatu."; // subject key identifier and authority key identifier should not be translated
 "The issuer certificate was rejected because its issuer name and serial number was present and did not match the authority key identifier of the current certificate." = "Wystawca certyfikatu został odrzucony, ponieważ obecne w certyfikacie nazwa „issuer” oraz pole „serial number” nie zgadzają się z identyfikatorem „authority key identifier” bieżącego certyfikatu."; // the 2. issuer, serial number and Authority key Identifier schould not be translated
 "The certificate was revoked by the issuer." = "Certyfikat odrzucony przez wystawcę.";
 "The passed certificate is self-signed and the same certificate cannot be found in the list of trusted certificates." = "Przekazany certyfikat jest samopodpisany, a tego samego certyfikatu nie można znaleźć na liście zaufanych certyfikatów.";
-"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "W łańcuchu certyfikatów znajduje się samopodpisany certyfikat. Nie można zbudować łańcucha certyfikatów z certyfikatów niezaufanych, a lokalnie nie można znaleźć obiektu root CA."; // root CA sould not be translated
+"A self-signed certificate exists in the certificate chain. The certificate chain could be built up using the untrusted certificates, but the root CA could not be found locally." = "W łańcuchu certyfikatów znajduje się samopodpisany certyfikat. Nie można zbudować łańcucha certyfikatów z certyfikatów niezaufanych, a lokalnie nie można znaleźć obiektu root CA."; // root CA should be translated
 "Unable to find the certificate for one of the certificate authorities (CAs) in the signing hierarchy and that CA is not trusted by the local application." = "W hierarchii podpisów nie można znaleźć certyfikatu jednego z podmiotów certyfikujących (CA) i ten podmiot CA nie został uznany za zaufany w lokalnej aplikacji."; // CAs should not be translated;
 "The issuer certificate of a locally looked up certificate could not be found. This normally means that the list of trusted certificates is not complete." = "Nie można znaleźć wystawcy certyfikatu wyszukanego lokalnie. Zazwyczaj oznacza to, że lista zaufanych certyfikatów nie jest kompletna.";
 "The certificate that was provided cannot be used for its intended purpose." = "Podanego certyfikatu nie można użyć z określonym przeznaczeniem.";
