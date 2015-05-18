@@ -898,5 +898,10 @@ namespace PSPDFKit {
 			return Runtime.GetNSObject<PSPDFX509> (handle);
 		}
 	}
+
+	// HACK: Workaround bug in X.I 8.10 should be removed by X.I >= 8.12?
+	public delegate void PSPDFRemoteContentObjectDispositionHandler (NSUrlSessionAuthChallengeDisposition disposition, NSUrlCredential credential);
+	public delegate void PSPDFRemoteContentObjectAuthHandler (NSUrlAuthenticationChallenge challenge, PSPDFRemoteContentObjectDispositionHandler dispHandler);
+	public delegate NSObject PSPDFRemoteContentObjectTransformerHandler (NSUrl location);
 }
 
