@@ -1206,7 +1206,7 @@ namespace PSPDFKit {
 		[Export ("presentViewController:options:animated:sender:error:completion:")]
 		NSObject PresentViewController (UIViewController controller, [NullAllowed] NSDictionary options, bool animated, NSObject sender, out NSError error, [NullAllowed] Action completion);
 
-		[Export ("dismissPopoverAnimated:class:completion:")]
+		[Export ("dismissPopoverAnimated:forClass:completion:")]
 		bool DismissPopover (bool animated, [NullAllowed] Class popoverClass, [NullAllowed] Action completion);
 
 		[Export ("dismissViewControllerAnimated:class:completion:")]
@@ -9560,6 +9560,20 @@ namespace PSPDFKit {
 
 		[Export ("performBlock")]
 		void PerformHandler ();
+	}
+
+
+	[Static]
+	interface PSPDFPresentationKeys
+	{
+		[Field ("PSPDFPresentationRectKey", "__Internal")]
+		NSString RectKey { get; }
+	
+		[Field ("PSPDFPresentationPopoverArrowDirectionsKey", "__Internal")]
+		NSString PopoverArrowDirectionsKey { get; }
+	
+		[Field ("PSPDFPresentationModalStyleKey", "__Internal")]
+		NSString ModalStyleKey { get; }
 	}
 
 	[Static]
