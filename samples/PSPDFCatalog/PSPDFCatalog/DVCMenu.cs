@@ -25,9 +25,9 @@ namespace PSPDFCatalog
 
 		public DVCMenu () : base (UITableViewStyle.Grouped, null)
 		{
-			Root = new RootElement ("PSPDFKit") {
-				new Section (PSPDFKitGlobal.SharedInstance.Version){
-					new StringElement ("PSPDFViewController playground", () => {
+			Root = new RootElement (PSPDFKitGlobal.SharedInstance.Version) {
+				new Section ("Start here") {
+					new StringElement ("PSPDFViewController Playground", () => {
 						var pdfViewer = new PlayGroundViewController (NSUrl.FromFilename (PSPDFKitFile));
 						NavigationController.PushViewController (pdfViewer, true);
 					})
@@ -161,17 +161,19 @@ namespace PSPDFCatalog
 		{
 			base.ViewWillAppear (animated);
 
-			if (UIDevice.CurrentDevice.CheckSystemVersion (7,0)) {
-				barColor = UIColor.FromRGBA (0.110f, 0.529f, 0.757f, 1f);
-				UIApplication.SharedApplication.SetStatusBarStyle (UIStatusBarStyle.LightContent, animated);
-				NavigationController.NavigationBar.BarTintColor = barColor;
-				NavigationController.Toolbar.TintColor = UIColor.Black;
-				NavigationController.View.TintColor = UIColor.White;
-				NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () { ForegroundColor = UIColor.White };
-			}
-			UIApplication.SharedApplication.SetStatusBarHidden (false, animated ? UIStatusBarAnimation.Fade : UIStatusBarAnimation.None);
-			NavigationController.NavigationBar.BarStyle = UIBarStyle.Default;
+			// Apply the PSPDFKit blue
+			barColor = UIColor.FromRGBA (0.110f, 0.529f, 0.757f, 1f);
+			NavigationController.NavigationBar.BarTintColor = barColor;
+			NavigationController.Toolbar.TintColor = UIColor.Black;
+			NavigationController.View.TintColor = UIColor.White;
+			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () { ForegroundColor = UIColor.White };
+			NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;
 			NavigationController.SetToolbarHidden (true, animated);
+		}
+
+		public override UIStatusBarStyle PreferredStatusBarStyle ()
+		{
+			return UIStatusBarStyle.LightContent;
 		}
 	}
 }
