@@ -137,6 +137,11 @@ namespace PSPDFCatalog
 						});
 						var pdfViewer = new PSPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
+					}),
+					new StringElement ("Custom Document", () => {
+						var document = new CustomPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
+						var pdfViewer = new PSPDFViewController (document);
+						NavigationController.PushViewController (pdfViewer, true);
 					})
 				},
 				new Section ("Customization", "Examples how to customize PSPDFKit."){
