@@ -65,6 +65,9 @@ namespace PSPDFKit {
 		public static UIViewController ChildViewControllerForClass (NSObject controller, Class controllerClass, bool onlyReturnIfVisible)
 		{
 			var ret = _ChildViewControllerForClass (controller != null ? controller.Handle : IntPtr.Zero, controllerClass.Handle, onlyReturnIfVisible);
+			if (ret == IntPtr.Zero)
+				return null;
+			
 			var vc = Runtime.GetNSObject<UIViewController> (ret);
 			return vc;
 		}
@@ -422,15 +425,18 @@ namespace PSPDFKit {
 		[DllImport ("__Internal", EntryPoint = "PSPDFRectsFromGlyphs")]
 		private static extern CGRect [] _RectsFromGlyphs (IntPtr glyphs, CGAffineTransform t, CGRect boundingBox);
 
-		public static CGRect [] RectsFromGlyphs(PSPDFGlyph [] glyphs, CGAffineTransform t, CGRect boundingBox)
+		public static CGRect [] RectsFromGlyphs (PSPDFGlyph [] glyphs, CGAffineTransform t, CGRect boundingBox)
 		{
+			if (glyphs == null)
+				return _RectsFromGlyphs (IntPtr.Zero, t, boundingBox);
+
 			var objs = new List<NSObject>();
 
 			foreach (var glyph in glyphs)
 				objs.Add(glyph);
 
 			NSArray arry = NSArray.FromNSObjects(objs.ToArray());
-			return _RectsFromGlyphs(arry.Handle, t, boundingBox);
+			return _RectsFromGlyphs (arry.Handle, t, boundingBox);
 		}
 
 		[DllImport ("__Internal", EntryPoint = "PSPDFBoundingBoxFromGlyphs")]
@@ -753,7 +759,7 @@ namespace PSPDFKit {
 
 		public static string StateVariantIdentifier (string encoding)
 		{
-			return (string) Runtime.GetNSObject<NSString> (_ConvertXfdSoundEncodingToPdf (new NSString (encoding).Handle));
+			return (string) Runtime.GetNSObject<NSString> (_ConvertXfdSoundEncodingToPdf (encoding == null ? IntPtr.Zero : new NSString (encoding).Handle));
 		}
 	}
 

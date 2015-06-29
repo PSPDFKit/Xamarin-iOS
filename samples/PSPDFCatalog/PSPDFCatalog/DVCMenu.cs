@@ -145,7 +145,13 @@ namespace PSPDFCatalog
 						NavigationController.PushViewController (pdfViewer, true);
 					})
 				},
-				new Section ("Customization", "Examples how to customize PSPDFKit."){
+				new Section ("PSPDFViewController Customization"){
+					new StringElement ("Custom Google Text Selection Menu", () => {
+						var pdfViewer = new PSCustomTextSelectionMenuController {
+							Document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile))
+						};
+						NavigationController.PushViewController (pdfViewer, true);
+					}),
 					new StringElement ("Simple Drawing Button", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile)) {
 							AnnotationSaveMode = PSPDFAnnotationSaveMode.Disabled
@@ -153,7 +159,7 @@ namespace PSPDFCatalog
 						var pdfViewer = new PSCSimpleDrawingPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
 					})
-				},						
+				}					
 			};
 		}
 
@@ -164,7 +170,7 @@ namespace PSPDFCatalog
 			// Apply the PSPDFKit blue
 			barColor = UIColor.FromRGBA (0.110f, 0.529f, 0.757f, 1f);
 			NavigationController.NavigationBar.BarTintColor = barColor;
-			NavigationController.Toolbar.TintColor = UIColor.Black;
+			NavigationController.Toolbar.TintColor = barColor;
 			NavigationController.View.TintColor = UIColor.White;
 			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () { ForegroundColor = UIColor.White };
 			NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;

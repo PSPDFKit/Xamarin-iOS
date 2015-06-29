@@ -40,7 +40,4 @@ Global
 		{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{BE2A8A0D-F2BC-4E9F-BA81-53EF47A211B2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = PSPDFCatalog\PSPDFCatalog.csproj
-	EndGlobalSection
 EndGlobal
