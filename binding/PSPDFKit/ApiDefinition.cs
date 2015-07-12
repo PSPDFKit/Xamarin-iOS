@@ -9475,7 +9475,7 @@ namespace PSPDFKit {
 	}
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFModel {
+	interface PSPDFModel : INSCopying, INSCoding {
 
 		[Static]
 		[Export ("modelWithDictionary:error:")]
@@ -9508,9 +9508,6 @@ namespace PSPDFKit {
 
 		[Export ("mergeValuesForKeysFromModel:")]
 		void MergeValuesForKeysFromModel (PSPDFModel model);
-
-		[Export ("validate:")]
-		bool Validate (out NSError error);
 	}
 
 	[BaseType (typeof (PSPDFDocumentSharingCoordinator))]
