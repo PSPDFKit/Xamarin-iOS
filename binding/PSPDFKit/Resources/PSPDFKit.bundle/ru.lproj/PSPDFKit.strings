@@ -12,7 +12,7 @@
 
 // general
 "Close" = "Закрыть";
-"Cancel" = "Отмена";
+"Cancel" = "Отменить";
 "OK" = "ОК";
 "Open" = "Открыть";
 "Untitled" = "Без названия";
@@ -26,11 +26,11 @@
 "Error" = "Ошибка";
 
 // toolbar
-"Outline" = "Содержание";
+"Outline" = "Содержание"; // Table of contents
 "No Outline" = "Без содержания";
 "Search Outline" = "Поиск в содержании";
 "Search" = "Поиск";
-"Email" = "E-mail";
+"Email" = "Email";
 "Send via Email" = "Отправить по Email";
 "Send" = "Отправить";
 "Open In" = "Открыть в";
@@ -38,13 +38,13 @@
 "Commit" = "Подтвердить";
 "Sending to %@" = "Отправка %@"; // Open document with an application
 "Pages" = "Страницы";
-"Print with annotations" = "Печать с комментариями";
-"Print without annotations" = "Печать без комментариев";
+"Print with annotations" = "Печать с аннотациями";
+"Print without annotations" = "Печать без аннотаций";
 "No Applications found" = "Отсутствуют приложения для открытия PDF-документов.";
 "Print" = "Печать";
-"Annotation" = "Комментарий";
-"Annotations" = "Комментарии";
-"No Annotations" = "Нет комментариев";
+"Annotation" = "Аннотация";
+"Annotations" = "Аннотации";
+"No Annotations" = "Нет аннотаций";
 "Bookmarks" = "Закладки";
 "No Bookmarks" = "Нет закладок";
 "Add Bookmark" = "Добавить закладку";
@@ -59,8 +59,8 @@
 "Message" = "Сообщение";
 
 // thumbnails
-"Bookmarked" = "в закладкax";
-"Annotated" = "С коммент-ми";
+"Bookmarked" = "В закладкax";
+"Annotated" = "С аннотациями";
 "All" = "Все";
 
 // password
@@ -77,11 +77,11 @@
 "Leave %@?" = "Оставить %@?";
 
 // search
-"Search Document" = "Поиск документа"; // to search for a string in the given document
+"Search Document" = "Поиск в документе"; // to search for a string in the given document
 "Searching Page %tu of %tu" = "Поиск страницы %tu из %tu";
 "Search Completed" = "Поиск завершен";
 "Search Cancelled" = "Поиск отменен";
-"%tu left" = "%tu осталось"; // Indexing Documents... 5 left
+"%tu left" = "осталось %tu"; // Indexing Documents... 5 left
 "Searching" = "Поиск";
 "Done" = "Готово";
 "Indexing Documents" = "Индексация документов";
@@ -107,7 +107,7 @@
 "Add %@" = "Добавить %@";
 "Remove %@" = "Удалить %@";
 "Remove" = "Удалить";
-"Edit" = "Правка";
+"Edit" = "Править";
 "Undo" = "Отменить";
 "Nothing to undo" = "Нечего отменять";
 "Redo" = "Повторить";
@@ -126,8 +126,8 @@
 "Color" = "Цвет";
 "Border" = "Рамка";
 "Fill Color" = "Цвет заливки";
-"Line End Fill Color" = "Цвет линии и заливки";
-"Opacity" = "Прозрачность";
+"Line End Fill Color" = "Цвет заливки концов линии";
+"Opacity" = "Непрозрачность";
 "%@ %%" = "%@ %%";
 "Custom" = "Собственный";
 "Thickness" = "Толщина";
@@ -145,10 +145,10 @@
 "white" = "Белый";
 "Define" = "Определить";
 "Wikipedia" = "Википедия";
-"Highlight" = "Выделить";
+"Highlight" = "Выделение";
 "Underline" = "Подчеркивание";
-"Squiggle" = "Тильда";
-"Strikeout" = "Вычеркнуть";
+"Squiggle" = "Волнистое подчеркивание";
+"StrikeOut" = "Зачеркивание";
 "Rectangle" = "Прямоугольник";
 "Ellipse" = "Эллипс";
 "Line" = "Линия"; // something that can be drawn
@@ -201,15 +201,16 @@
 "Copy" = "Скопировать";
 "Paste" = "Вставить";
 "Inspector" = "Инспектор";
-"Group" = "Группа";
+"Group" = "Группировать";
 "Ungroup" = "Разгруппировать";
 "Merge" = "Объединить"; // text on button - when clicked, two drawings are merged into one drawing
 "Sample" = "Образец";
-"Annotation Summary for %@:\n" = "Обзор комментариев для %@:";
+"Annotation Summary for %@:\n" = "Обзор аннотаций для %@:";
+"Annotation Summary" = "Сводка аннотаций";
 // title
 "Author Name" = "Имя автора";
 // message
-"Please enter the author name you want to use for newly inserted annotations." = "Введите имя автора, которое вы хотите использовать для новых комментариев.";
+"Please enter the author name you want to use for newly inserted annotations." = "Введите имя автора, которое вы хотите использовать для новых аннотаций.";
 // text field placeholder
 "Name" = "Имя";
 // meaning: close
@@ -219,14 +220,18 @@
 "Sound" = "Звук";
 "Eraser" = "Стёрка";
 "SelectionTool" = "Инструмент выделения";
-"Saved Annotations" = "Сохраненные комментарии";
+"Saved Annotations" = "Архив аннотаций";
 "Add" = "Добавить"; // to add - infinitive
 "Date" = "Дата";
 "Time" = "Время";
 "No Pages" = "Нет страниц";
 "Drag to resize" = "Перетащить для изм. размера"; // used as hint that inspector is resizable
 "Convert to" = "Конвертировать в"; // used as label on action that changes free text intent type
+"Color Presets" = "Библиотека цветов";
 
+"Callout" = "Выноска"; // freetext annotation with an arrow
+"Generic" = "Обычный"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "Стиль линий";
 "Solid" = "Сплошные";
@@ -321,6 +326,7 @@
 "Open Link" = "Открыть ссылку";
 "Go to page %tu" = "Перейти к странице %tu";
 "Go to page" = "Перейти к странице"; // title of a Popup
+"Go to" = "Перейти";
 "Save" = "Сохранить";
 "Link Destination" = "Назначение ссылки";
 "Enter page index or a http:// address to link to an URL." = "Введите индекс страницы или адрес (http://) ссылки.";
@@ -334,17 +340,18 @@
 "right" = "вправо";
 "decrease" = "уменьшить";
 "increase" = "увеличить";
+"All Open Documents" = "Все открытые документы";
+"Add Documents" = "Добавить документы"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Текущая страница";
-"Ignore Annotations" = "Игнорировать комментарии";
-"The PDF will not contain any annotations." = "PDF не будет содержать комментарии.";
-"Embed Annotations" = "Встроить комментарии";
-"Annotations will remain editable and are embedded into the PDF." = "Комментарии останутся изменяемыми и встроенными в PDF.";
-"Flatten Annotations" = "Выровнять комментарии";
-"Annotations are drawn into the PDF and are readonly." = "Комментарии переведены в PDF и доступны только для чтения.";
-"Annotation Summary" = "Обзор комментариев";
-"Embed Annotations into the PDF and also list them in the email." = "Встроить комментарии в PDF и создать список в Email";
+"Ignore Annotations" = "Игнорировать аннотации";
+"The PDF will not contain any annotations." = "PDF не будет содержать аннотаций.";
+"Embed Annotations" = "Встроить аннотации";
+"Annotations will remain editable and are embedded into the PDF." = "Аннотации останутся изменяемыми и встроенными в PDF.";
+"Flatten Annotations" = "Вклеить аннотации";
+"Annotations are drawn into the PDF and are readonly." = "Аннотации будут объединены с содержимым PDF и доступны только для чтения.";
+"Embed Annotations into the PDF and also list them in the email." = "Встроить аннотации в PDF и добавить их список в Email-сообщение.";
 "Files" = "Файлы";
 "Send as single files" = "Отправить по одному";
 "Merge files" = "Объединить файлы";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Извините, но произошла ошибка при записи звука.";
 "Already Recording" = "Идёт запись";
 "You are already recording on page %@." = "Вы уже записываете на странице %@.";
-"Go to page %@" = "Перейти к странице %@";
 
 // Forms
 "Form Element" = "Элемент формы";
@@ -386,9 +392,9 @@
 "Custom Value" = "Пользовательское значение";
 
 // Validation of numbers
-"Invalid value: must be greater than or equal to %s." = "Неверное значение: должно быть больше или ровно %s.";
-"Invalid value: must be greater than or equal to %s and less than or equal to %s." = "Неверное значение: должно быть больше или ровно %s и при этом меньше или ровно %s.";
-"Invalid value: must be less than or equal to %s." = "Неверное значение: должно быть меньше или ровно %s.";
+"Invalid value: must be greater than or equal to %s." = "Неверное значение: должно быть больше или равно %s.";
+"Invalid value: must be greater than or equal to %s and less than or equal to %s." = "Неверное значение: должно быть больше или равно %s и при этом меньше или равно %s.";
+"Invalid value: must be less than or equal to %s." = "Неверное значение: должно быть меньше или равно %s.";
 "Invalid value: must be a number." = "Неверное значение: должно быть число.";
 
 //  Validation of dates
@@ -474,7 +480,7 @@
 // Policy
 "PSPDFPolicyEventOpenIn" = "Открыть в";
 "PSPDFPolicyEventPrint" = "Печать";
-"PSPDFPolicyEventEmail" = "E-mail";
+"PSPDFPolicyEventEmail" = "Email";
 "PSPDFPolicyEventMessage" = "Сообщение";
 "PSPDFPolicyEventQuickLook" = "Быстрый просмотр"; // as in Apple's Quick Look
 "PSPDFPolicyEventAudioRecording" = "Аудиозапись";

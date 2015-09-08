@@ -1170,9 +1170,6 @@ namespace PSPDFKit {
 		[Export ("navigationBarHidden", ArgumentSemantic.Assign)]
 		bool NavigationBarHidden { [Bind ("isNavigationBarHidden")] get; }
 
-		[Export ("rotationLockEnabled", ArgumentSemantic.Assign)]
-		bool RotationLockEnabled { [Bind ("isRotationLockEnabled")] get; set; }
-
 		[Export ("pageViewForPage:")]
 		PSPDFPageView PageViewForPage (nuint page);
 
@@ -1505,6 +1502,14 @@ namespace PSPDFKit {
 		[Export ("documentWithBaseURL:fileTemplate:startPage:endPage:")]
 		PSPDFDocument FromBaseUrl ([NullAllowed] NSUrl baseUrl, string fileTemplate, nint startPage, nint endPage);
 
+		[Static]
+		[Export ("documentWithContent:")]
+		PSPDFDocument FromContent (NSObject content);
+
+		[Static]
+		[Export ("documentWithContent:signatures:")]
+		PSPDFDocument FromContent (NSObject content, [NullAllowed] NSObject [] signatures);
+
 		[Export ("initWithURL:")]
 		IntPtr Constructor (NSUrl url);
 
@@ -1522,6 +1527,12 @@ namespace PSPDFKit {
 
 		[Export ("initWithBaseURL:fileTemplate:startPage:endPage:")]
 		IntPtr Constructor ([NullAllowed] NSUrl baseUrl, string fileTemplate, nint startPage, nint endPage);
+
+		[Export ("initWithContent:")]
+		IntPtr Constructor (NSObject content);
+
+		[Export ("initWithContent:signatures:")]
+		IntPtr Constructor (NSObject content, [NullAllowed] NSObject [] signatures);
 
 		[Export ("isEqualToDocument:")]
 		bool IsEqualToDocument (PSPDFDocument otherDocument);
@@ -1546,6 +1557,9 @@ namespace PSPDFKit {
 
 		[Export ("dataProviderArray", ArgumentSemantic.Copy), NullAllowed]
 		CGDataProvider [] DataProviderArray { get; }
+
+		[Export ("contentSignatures", ArgumentSemantic.Copy), NullAllowed]
+		NSObject [] ContentSignatures { get; }
 
 		[Export ("documentByAppendingObjects:")]
 		PSPDFDocument DocumentByAppendingObjects (NSObject[] objects);
@@ -2810,6 +2824,9 @@ namespace PSPDFKit {
 
 		[Export ("password")]
 		string Password { get; }
+
+		[Export ("contentSignature", ArgumentSemantic.Copy), NullAllowed]
+		NSData ContentSignature { get; }
 
 		[Export ("allowsPrinting", ArgumentSemantic.Assign)]
 		bool AllowsPrinting { get; }
@@ -7657,7 +7674,7 @@ namespace PSPDFKit {
 	interface PSPDFLinkAnnotation {
 
 		[Export ("initWithLinkAnnotationType:")]
-		IntPtr Constructor (PSPDFLinkAnnotationType linkAnotationType);
+		IntPtr Constructor (PSPDFLinkAnnotationType linkAnnotationType);
 
 		[Export ("initWithAction:")]
 		IntPtr Constructor (PSPDFAction action);
@@ -10047,6 +10064,9 @@ namespace PSPDFKit {
 		[Export ("formTypeName")]
 		string FormTypeName ();
 
+		[Export ("findKidWithFieldName:")]
+		PSPDFFormElement FindKid (string fieldName);
+
 		// PSPDFFormElement (Fonts) Category
 
 		[Export ("maxLength", ArgumentSemantic.Assign)]
@@ -12076,5 +12096,32 @@ namespace PSPDFKit {
 
 		[Export ("verifySignatureWithError:")]
 		NSObject VerifySignature (out NSError error);
+	}
+
+	[BaseType (typeof (UIScrollView))]
+	interface PSPDFPagingScrollView {
+
+	}
+
+	[BaseType (typeof (PSPDFBaseViewController))]
+	interface PSPDFPageScrollViewController : IUIScrollViewDelegate {
+
+		[Export ("initWithPresentationContext:")]
+		IntPtr Constructor (IPSPDFPresentationContext presentationContext);
+
+		[Export ("presentationContext", ArgumentSemantic.Weak)][NullAllowed]
+		IPSPDFPresentationContext PresentationContext { get; set; }
+
+		[Export ("pagingScrollView")]
+		UIScrollView PagingScrollView { get; }
+
+		[Export ("visiblePages")]
+		NSOrderedSet VisiblePages { get; }
+
+		[Export ("pageViewForPage:")]
+		PSPDFPageView GetPageView (nuint page);
+
+		[Export ("reloadData")]
+		void ReloadData ();
 	}
 }

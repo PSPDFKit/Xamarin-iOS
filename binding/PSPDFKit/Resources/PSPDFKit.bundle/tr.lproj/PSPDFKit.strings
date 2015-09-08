@@ -26,7 +26,7 @@
 "Error" = "Hata";
 
 // toolbar
-"Outline" = "Çerçeve";
+"Outline" = "Çerçeve"; // Table of contents
 "No Outline" = "Çerçeve Yok";
 "Search Outline" = "Arama Çerçevesi";
 "Search" = "Arama";
@@ -148,7 +148,7 @@
 "Highlight" = "Vurgu";
 "Underline" = "Alt Çizgi";
 "Squiggle" = "Eğri";
-"Strikeout" = "Üst Çizgi";
+"StrikeOut" = "Üst Çizgi";
 "Rectangle" = "Dikdörtgen";
 "Ellipse" = "Elips";
 "Line" = "Çizgi"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "Sayfa Yok";
 "Drag to resize" = "Büyüklüğü değiştirmek için sürükle"; // used as hint that inspector is resizable
 "Convert to" = "Dönüştür:"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "Çizgi Stili";
 "Solid" = "Düz";
@@ -321,6 +325,7 @@
 "Open Link" = "Bağlantıyı Aç";
 "Go to page %tu" = "%tu. sayfaya git";
 "Go to page" = "Sayfaya Git"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "Kaydet";
 "Link Destination" = "Bağlantı Kayıt Yeri";
 "Enter page index or a http:// address to link to an URL." = "URL'ye bağlamak için sayfa dizini veya http:// adresi girin.";
@@ -334,6 +339,8 @@
 "right" = "sağ";
 "decrease" = "azalt";
 "increase" = "artır";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Şu Anki Sayfa";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Kayıt sırasında sorun ile karşılaşıldı.";
 "Already Recording" = "Kayıt Yapılıyor";
 "You are already recording on page %@." = "%@ sayfada zaten ses kaydı yapıyorsunuz.";
-"Go to page %@" = "%@. sayfaya git";
 
 // Forms
 "Form Element" = "Form Öğesi";

@@ -26,7 +26,7 @@
 "Error" = "エラー";
 
 // toolbar
-"Outline" = "アウトライン";
+"Outline" = "アウトライン"; // Table of contents
 "No Outline" = "アウトラインがありません";
 "Search Outline" = "検索アウトライン";
 "Search" = "検索";
@@ -148,7 +148,7 @@
 "Highlight" = "ハイライト";
 "Underline" = "アンダーライン";
 "Squiggle" = "曲線";
-"Strikeout" = "取り消し線";
+"StrikeOut" = "取り消し線";
 "Rectangle" = "長方形";
 "Ellipse" = "楕円形";
 "Line" = "線"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "ページがありません";
 "Drag to resize" = "ドラッグしてサイズ変更"; // used as hint that inspector is resizable
 "Convert to" = "変換"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "線のスタイル";
 "Solid" = "ソリッド";
@@ -321,6 +325,7 @@
 "Open Link" = "リンクを開く";
 "Go to page %tu" = "%tuページに移動";
 "Go to page" = "ページに移動"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "保存";
 "Link Destination" = "リンク先";
 "Enter page index or a http:// address to link to an URL." = "URLにリンクするには、ページインデックスまたはhttp://アドレスを入力してください。";
@@ -334,6 +339,8 @@
 "right" = "右";
 "decrease" = "小さく";
 "increase" = "大きく";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "現在のページ";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "オーディオの録音を試みている間に問題が起きました。";
 "Already Recording" = "既に録音中です";
 "You are already recording on page %@." = "%@ページに既に録音中です。";
-"Go to page %@" = "%@ページに移動";
 
 // Forms
 "Form Element" = "フォーム要素";

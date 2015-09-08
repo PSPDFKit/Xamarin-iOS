@@ -26,7 +26,7 @@
 "Error" = "错误";
 
 // toolbar
-"Outline" = "大纲";
+"Outline" = "大纲"; // Table of contents
 "No Outline" = "无大纲";
 "Search Outline" = "搜索大纲";
 "Search" = "搜索";
@@ -148,7 +148,7 @@
 "Highlight" = "高亮显示";
 "Underline" = "下划线";
 "Squiggle" = "波形曲线";
-"Strikeout" = "删去";
+"StrikeOut" = "删去";
 "Rectangle" = "矩形";
 "Ellipse" = "椭圆";
 "Line" = "直线"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "没有页面";
 "Drag to resize" = "拖动调整尺寸"; // used as hint that inspector is resizable
 "Convert to" = "转换为"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "线型";
 "Solid" = "实线";
@@ -321,6 +325,7 @@
 "Open Link" = "打开链接";
 "Go to page %tu" = "前往第 %tu 页";
 "Go to page" = "前往页面"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "保存";
 "Link Destination" = "链接目标";
 "Enter page index or a http:// address to link to an URL." = "输入页面索引或 http:// 地址链接到 URL。";
@@ -334,6 +339,8 @@
 "right" = "右";
 "decrease" = "减小";
 "increase" = "增加";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "当前页";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "抱歉，尝试录制音频时出现问题。";
 "Already Recording" = "已经录制";
 "You are already recording on page %@." = "您已经在第 %@ 页录制。";
-"Go to page %@" = "前往第 %@ 页";
 
 // Forms
 "Form Element" = "表单元素";

@@ -26,7 +26,7 @@
 "Error" = "Fel";
 
 // toolbar
-"Outline" = "Innehåll";
+"Outline" = "Innehåll"; // Table of contents
 "No Outline" = "Inget innehåll";
 "Search Outline" = "Sök innehåll";
 "Search" = "Sök";
@@ -148,7 +148,7 @@
 "Highlight" = "Markera";
 "Underline" = "Understruken";
 "Squiggle" = "Våglinje";
-"Strikeout" = "Överstruken";
+"StrikeOut" = "Överstruken";
 "Rectangle" = "Rektangel";
 "Ellipse" = "Ellips";
 "Line" = "Linje"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "Inga sidor";
 "Drag to resize" = "Dra och ändra storlek"; // used as hint that inspector is resizable
 "Convert to" = "Konvertera till"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "Linjestil";
 "Solid" = "Heldragen";
@@ -321,6 +325,7 @@
 "Open Link" = "Öppna länk";
 "Go to page %tu" = "Gå till sida %tu";
 "Go to page" = "Gå till sida"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "Spara";
 "Link Destination" = "Länkmål";
 "Enter page index or a http:// address to link to an URL." = "Ange sidindex eller länka till en URL med en adress med http://.";
@@ -334,6 +339,8 @@
 "right" = "höger";
 "decrease" = "minska";
 "increase" = "öka";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Aktuell sida";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Det gick inte att spela in ljud.";
 "Already Recording" = "Inspelning pågår";
 "You are already recording on page %@." = "Du spelar redan in på sidan %@.";
-"Go to page %@" = "Gå till sida %@";
 
 // Forms
 "Form Element" = "Formulärelement";

@@ -26,7 +26,7 @@
 "Error" = "Erreur";
 
 // toolbar
-"Outline" = "Plan";
+"Outline" = "Plan"; // Table of contents
 "No Outline" = "Aucun plan";
 "Search Outline" = "Rechercher dans le plan";
 "Search" = "Rechercher";
@@ -148,7 +148,7 @@
 "Highlight" = "Surligner";
 "Underline" = "Souligné";
 "Squiggle" = "Tire-bouchon";
-"Strikeout" = "Barré";
+"StrikeOut" = "Barré";
 "Rectangle" = "Rectangle";
 "Ellipse" = "Ellipse";
 "Line" = "Ligne"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "Aucune page";
 "Drag to resize" = "Faire glisser pour ajuster"; // used as hint that inspector is resizable
 "Convert to" = "Convertir en"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "Style de ligne";
 "Solid" = "Pleine";
@@ -321,6 +325,7 @@
 "Open Link" = "Ouvrir le lien";
 "Go to page %tu" = "Aller à la page %tu";
 "Go to page" = "Aller à la page"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "Enregistrer";
 "Link Destination" = "Destination du lien";
 "Enter page index or a http:// address to link to an URL." = "Saisir un index de page ou une adresse http:// renvoyant à une URL.";
@@ -334,6 +339,8 @@
 "right" = "droite";
 "decrease" = "diminuer";
 "increase" = "augmenter";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Page actuelle";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Désolé, un problème est survenu lors de la tentative d'enregistrement audio.";
 "Already Recording" = "Enregistrement en cours";
 "You are already recording on page %@." = "Vous êtes déjà en train d'enregistrer sur la page %@.";
-"Go to page %@" = "Aller à la page %@";
 
 // Forms
 "Form Element" = "Élément de formulaire";

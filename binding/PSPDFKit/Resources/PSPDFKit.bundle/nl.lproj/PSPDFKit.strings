@@ -26,9 +26,9 @@
 "Error" = "Fout";
 
 // toolbar
-"Outline" = "Contour";
-"No Outline" = "Geen contour";
-"Search Outline" = "Zoek contour";
+"Outline" = "Inhoudsopgave"; // Table of contents
+"No Outline" = "Geen inhoudsopgave";
+"Search Outline" = "Inhoudsopgave doorzoeken";
 "Search" = "Zoek";
 "Email" = "E-mail";
 "Send via Email" = "Verstuur via e-mail";
@@ -148,7 +148,7 @@
 "Highlight" = "Markeer";
 "Underline" = "Onderstreep";
 "Squiggle" = "Krabbel";
-"Strikeout" = "Doorgehaald";
+"StrikeOut" = "Doorgehaald";
 "Rectangle" = "Rechthoek";
 "Ellipse" = "Ellips";
 "Line" = "Lijn"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "Geen pagina's";
 "Drag to resize" = "Sleep en wijzig grootte"; // used as hint that inspector is resizable
 "Convert to" = "Converteer naar"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "Lijnstijl";
 "Solid" = "Effen";
@@ -321,6 +325,7 @@
 "Open Link" = "Open koppeling";
 "Go to page %tu" = "Ga naar pagina %tu";
 "Go to page" = "Ga naar pagina"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "Bewaar";
 "Link Destination" = "Doel van koppeling";
 "Enter page index or a http:// address to link to an URL." = "Voer een pagina-index of http://-adres in om naar een URL te verwijzen.";
@@ -334,6 +339,8 @@
 "right" = "rechts";
 "decrease" = "verklein";
 "increase" = "vergroot";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Huidige pagina";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Er deed zich een probleem voor tijdens het opnemen van audio.";
 "Already Recording" = "Opname al bezig";
 "You are already recording on page %@." = "U bent al aan het opnemen op pagina %@.";
-"Go to page %@" = "Ga naar pagina %@";
 
 // Forms
 "Form Element" = "Formulierelement";

@@ -26,7 +26,7 @@
 "Error" = "Fejl";
 
 // toolbar
-"Outline" = "Kontur";
+"Outline" = "Kontur"; // Table of contents
 "No Outline" = "Intet indhold";
 "Search Outline" = "Søg i indeks";
 "Search" = "Søg";
@@ -148,7 +148,7 @@
 "Highlight" = "Fremhæv";
 "Underline" = "Understreget";
 "Squiggle" = "Bølgelinje";
-"Strikeout" = "Gennemstreget";
+"StrikeOut" = "Gennemstreget";
 "Rectangle" = "Rektangel";
 "Ellipse" = "Ellipse";
 "Line" = "Linje"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "Ingen sider";
 "Drag to resize" = "Træk for at skalere"; // used as hint that inspector is resizable
 "Convert to" = "Konverter til"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "linjeudseende";
 "Solid" = "Solid";
@@ -321,6 +325,7 @@
 "Open Link" = "Åbn henvisning";
 "Go to page %tu" = "Gå til side %tu";
 "Go to page" = "Gå til side"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "Arkiver";
 "Link Destination" = "Link-destination";
 "Enter page index or a http:// address to link to an URL." = "Angiv side-index eller en http:// adresse for at linke til en URL.";
@@ -334,6 +339,8 @@
 "right" = "højre";
 "decrease" = "formindsk";
 "increase" = "forøg";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Aktuel side";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Beklager, der opstod et problem under optagelse af lyd.";
 "Already Recording" = "Optagelse igang";
 "You are already recording on page %@." = "Du optager allerede på side %@.";
-"Go to page %@" = "Gå til side %@";
 
 // Forms
 "Form Element" = "Formular-felt";

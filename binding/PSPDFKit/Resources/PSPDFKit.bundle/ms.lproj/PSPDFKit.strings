@@ -26,7 +26,7 @@
 "Error" = "Ralat";
 
 // toolbar
-"Outline" = "Ringkasan";
+"Outline" = "Ringkasan"; // Table of contents
 "No Outline" = "Tiada Ringkasan";
 "Search Outline" = "Cari Ringkasan";
 "Search" = "Cari";
@@ -148,7 +148,7 @@
 "Highlight" = "Serlahkan";
 "Underline" = "Garis Bawah";
 "Squiggle" = "Berpintal";
-"Strikeout" = "Lorek";
+"StrikeOut" = "Lorek";
 "Rectangle" = "Segi Empat Tepat";
 "Ellipse" = "Elips";
 "Line" = "Garis"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "Tiada Halaman";
 "Drag to resize" = "Seret untuk mensaiz semula"; // used as hint that inspector is resizable
 "Convert to" = "Tukarkan ke"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "Gaya Garis";
 "Solid" = "Padu";
@@ -321,6 +325,7 @@
 "Open Link" = "Buka Pautan";
 "Go to page %tu" = "Pergi ke halaman %tu";
 "Go to page" = "Pergi ke halaman"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "Simpan";
 "Link Destination" = "Destinasi Pautan";
 "Enter page index or a http:// address to link to an URL." = "Masukkan indeks halaman atau alamat http:// untuk memaut kepada URL.";
@@ -334,6 +339,8 @@
 "right" = "kanan";
 "decrease" = "kurangkan";
 "increase" = "tingkatkan";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "Halaman Semasa";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "Terdapat masalah semasa cuba merakamkan audio.";
 "Already Recording" = "Telah Pun Merakamkan";
 "You are already recording on page %@." = "Anda telah pun merakamkan pada halaman %@.";
-"Go to page %@" = "Pergi ke halaman %@";
 
 // Forms
 "Form Element" = "Elemen Borang";

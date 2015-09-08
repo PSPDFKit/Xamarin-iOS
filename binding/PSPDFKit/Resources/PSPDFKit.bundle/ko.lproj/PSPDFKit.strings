@@ -26,7 +26,7 @@
 "Error" = "오류";
 
 // toolbar
-"Outline" = "개요";
+"Outline" = "개요"; // Table of contents
 "No Outline" = "개요 없음";
 "Search Outline" = "개요 검색";
 "Search" = "검색";
@@ -148,7 +148,7 @@
 "Highlight" = "하이라이트";
 "Underline" = "밑줄";
 "Squiggle" = "구불한 선";
-"Strikeout" = "취소선";
+"StrikeOut" = "취소선";
 "Rectangle" = "직사각형";
 "Ellipse" = "타원";
 "Line" = "선"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "페이지 없음";
 "Drag to resize" = "드래그 하여 크기조절"; // used as hint that inspector is resizable
 "Convert to" = "다음으로 변환"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "선 유형";
 "Solid" = "채움";
@@ -321,6 +325,7 @@
 "Open Link" = "링크 열기";
 "Go to page %tu" = "%tu 페이지로 이동";
 "Go to page" = "페이지로 이동"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "저장";
 "Link Destination" = "링크 대상";
 "Enter page index or a http:// address to link to an URL." = "페이지 색인 또는 http:// 주소로 링크에 URL을 추가하세요.";
@@ -334,6 +339,8 @@
 "right" = "오른쪽";
 "decrease" = "작게";
 "increase" = "크게";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "현재 페이지";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "죄송합니다. 녹음 중 오류가 발생했습니다.";
 "Already Recording" = "이미 녹음 중";
 "You are already recording on page %@." = "이미 %@ 페이지에서 녹음 중입니다.";
-"Go to page %@" = "%@ 페이지로 이동";
 
 // Forms
 "Form Element" = "폼 요소";

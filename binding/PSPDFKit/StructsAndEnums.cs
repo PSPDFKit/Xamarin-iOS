@@ -24,6 +24,7 @@ namespace PSPDFKit
 		AcroForms = 1 << 5,
 		IndexedFTS = 1 << 6,
 		DigitalSignatures = 1 << 7,
+		RequireSignedSource = 1 << 8,
 
 #if __UNIFIED__
 		All = ulong.MaxValue
@@ -58,6 +59,7 @@ namespace PSPDFKit
 #else
 	public enum PSPDFErrorCode : int {
 #endif
+		OutOfMemory = 10,
 		PageInvalid = 100,
 		DocumentContainsNoPages = 101,
 		UnableToOpenPDF = 200,

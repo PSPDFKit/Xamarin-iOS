@@ -26,7 +26,7 @@
 "Error" = "ข้อผิดพลาด";
 
 // toolbar
-"Outline" = "ตัวเส้นขอบ";
+"Outline" = "ตัวเส้นขอบ"; // Table of contents
 "No Outline" = "ไม่ใช้ตัวเส้นขอบ";
 "Search Outline" = "ค้นหาตัวเส้นขอบ";
 "Search" = "ค้นหา";
@@ -148,7 +148,7 @@
 "Highlight" = "เน้น";
 "Underline" = "ขีดเส้นใต้";
 "Squiggle" = "ขยุกขยิก";
-"Strikeout" = "ขีดฆ่า";
+"StrikeOut" = "ขีดฆ่า";
 "Rectangle" = "สี่เหลี่ยม";
 "Ellipse" = "วงรี";
 "Line" = "เส้น"; // something that can be drawn
@@ -226,7 +226,11 @@
 "No Pages" = "ไม่มีหน้า";
 "Drag to resize" = "ลากเพื่อปรับขนาด"; // used as hint that inspector is resizable
 "Convert to" = "แปลงเป็น"; // used as label on action that changes free text intent type
+"Color Presets" = "Color Presets";
 
+"Callout" = "Callout"; // freetext annotation with an arrow
+"Generic" = "Generic"; // basic freetext annotation
+ 
 // Line dash styles
 "Line Style" = "แบบเส้น";
 "Solid" = "ต่อเนื่อง";
@@ -321,6 +325,7 @@
 "Open Link" = "เปิดลิงก์";
 "Go to page %tu" = "ไปที่หน้า %tu";
 "Go to page" = "ไปที่หน้า"; // title of a Popup
+"Go to" = "Go to";
 "Save" = "บันทึก";
 "Link Destination" = "จุดหมายปลายทางของลิงก์";
 "Enter page index or a http:// address to link to an URL." = "กรอกดัชนีหน้าหรือที่อยู่ http:// เพื่อเชื่อมต่อไปที่ URL";
@@ -334,6 +339,8 @@
 "right" = "ขวา";
 "decrease" = "ลดขนาด";
 "increase" = "ขยาย";
+"All Open Documents" = "All Open Documents";
+"Add Documents" = "Add Documents"; // button in tabbed bar that shows document picker to open new documents
 
 // PSPDFDocumentSharingViewController
 "Current Page" = "หน้าปัจจุบัน";
@@ -372,7 +379,6 @@
 "There was a problem trying to record audio." = "เกิดปัญหาขึ้นขณะที่พยายามจะอัดเสียง";
 "Already Recording" = "กำลังอัดเสียงอยู่แล้ว";
 "You are already recording on page %@." = "คุณกำลังอัดเสียงที่หน้า %@ อยู่แล้วในขณะนี้";
-"Go to page %@" = "ไปที่หน้า %@";
 
 // Forms
 "Form Element" = "องค์ประกอบของฟอร์ม";

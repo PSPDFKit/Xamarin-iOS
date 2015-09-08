@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Resources\PSPDFKit.bundle\" />
   </ItemGroup>
   <ItemGroup>
     <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
@@ -687,14 +686,20 @@
     <BundleResource Include="Resources\PSPDFKit.bundle\CMaps\wincharsetffff-v" />
     <BundleResource Include="Resources\PSPDFKit.bundle\CMaps\wincharsetffff-v2" />
     <BundleResource Include="Resources\PSPDFKit.bundle\Certs\AdobeCA.p7c" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\cs.lproj\PSPDFKit.strings" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\cs.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\da.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\da.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\de.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\de.lproj\PSPDFKit.stringsdict" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\el.lproj\PSPDFKit.strings" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\el.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\en.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\en.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\es.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\es.lproj\PSPDFKit.stringsdict" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\fi.lproj\PSPDFKit.strings" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\fi.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\fr.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\fr.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\id.lproj\PSPDFKit.strings" />
@@ -731,6 +736,8 @@
     <BundleResource Include="Resources\PSPDFKit.bundle\pt_PT.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\ru.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\ru.lproj\PSPDFKit.stringsdict" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\sl.lproj\PSPDFKit.strings" />
+    <BundleResource Include="Resources\PSPDFKit.bundle\sl.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\sv.lproj\PSPDFKit.strings" />
     <BundleResource Include="Resources\PSPDFKit.bundle\sv.lproj\PSPDFKit.stringsdict" />
     <BundleResource Include="Resources\PSPDFKit.bundle\th.lproj\PSPDFKit.strings" />
