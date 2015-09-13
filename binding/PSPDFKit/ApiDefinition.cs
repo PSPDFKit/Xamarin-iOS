@@ -1114,7 +1114,7 @@ namespace PSPDFKit {
 		PSPDFViewState ViewState { get; set; }
 
 		[Export ("setViewState:animated:")]
-		void SetViewState (PSPDFViewState viewState, bool animated);
+		void SetViewState (PSPDFViewState viewState, bool animateIfPossible);
 
 		[Field ("PSPDFViewControllerSearchHeadlessKey", "__Internal")]
 		NSString SearchHeadlessKey { get; }
@@ -3309,6 +3309,9 @@ namespace PSPDFKit {
 
 		[Export ("hasViewPort", ArgumentSemantic.Assign)]
 		bool HasViewPort { get; set; }
+
+		[Export ("isEqualToViewState:withAccuracy:")]
+		bool IsEqualTo (PSPDFViewState other, nfloat leeway);
 	}
 
 	[BaseType (typeof (PSPDFModel))]
