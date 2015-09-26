@@ -14,6 +14,7 @@ namespace PSPDFCatalog
 	{
 		NSTimer timer;
 		List<PSPDFAnnotation> annotations;
+		PSPDFDocument document;
 		static readonly Random rnd = new Random ();
 
 		// MUST HAVE ctor when Subclassing!!! It will crash otherwise.
@@ -21,10 +22,9 @@ namespace PSPDFCatalog
 		{
 		}
 
-		public CustomAnnotationProvider (nint pages) : base ()
+		public CustomAnnotationProvider (PSPDFDocument doc)
 		{
-			annotations = new PSPDFAnnotation[pages].ToList ();
-
+			document = doc;
 			// add timer in a way so it works while we're dragging pages
 			timer = NSTimer.CreateTimer (1, this, new Selector ("timerFired:"), null, true);
 			NSRunLoop.Current.AddTimer (timer, NSRunLoopMode.Common); 
@@ -53,6 +53,8 @@ namespace PSPDFCatalog
 
 		public PSPDFAnnotation[] AnnotationsForPage (nuint page)
 		{
+			if (annotations == null)
+				annotations = new PSPDFAnnotation[document.PageCount].ToList ();
 			// it's important that this method is:
 			// - fast
 			// - thread safe
@@ -63,7 +65,7 @@ namespace PSPDFCatalog
 					var documentProvider = ProviderDelegate.ParentDocumentProvider ();
 					var pageInfo = documentProvider.Document.PageInfoForPage (page);
 					PSPDFNoteAnnotation noteAnnotation = null;
-					InvokeOnMainThread (()=> noteAnnotation = new PSPDFNoteAnnotation () {
+					InvokeOnMainThread (()=> noteAnnotation = new PSPDFNoteAnnotation {
 						Page = page,
 						DocumentProvider = documentProvider,
 						Contents = string.Format ("Annotation from the custom annotationProvider for page {0}.", page + 1),
