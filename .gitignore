@@ -10,3 +10,4 @@ tmp/
 *.pidb
 *.dll
 *.mdb
+*.framework

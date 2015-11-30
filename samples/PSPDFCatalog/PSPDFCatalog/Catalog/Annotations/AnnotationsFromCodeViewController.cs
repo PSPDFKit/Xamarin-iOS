@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Foundation;
 using CoreGraphics;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {
@@ -17,7 +17,7 @@ namespace PSPDFCatalog
 			Document.AnnotationSaveMode = PSPDFAnnotationSaveMode.Disabled;
 
 			var annotationsList = new List<PSPDFAnnotation> ();
-			var maxHeight = Document.PageInfoForPage (0).RotatedRect.Size.Height;
+			var maxHeight = Document.GetPageInfo (0).RotatedRect.Size.Height;
 			for (int i = 0; i < 5; i++) {
 				var note = new PSPDFNoteAnnotation () {
 					// width/height will be ignored for note annotations.
@@ -47,7 +47,7 @@ namespace PSPDFCatalog
 			annotationsList.Add (inkAnnot);
 
 			annotationsArr = annotationsList.ToArray ();
-			Document.AddAnnotations (annotationsArr);
+			Document.AddAnnotations (annotationsArr, null);
 		}
 	}
 }

@@ -5,7 +5,7 @@ using Foundation;
 using UIKit;
 using CoreGraphics;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 using ObjCRuntime;
 
 namespace PSPDFCatalog {
@@ -28,7 +28,7 @@ namespace PSPDFCatalog {
 
 			// Add option to Google for it.
 			newMenuItems.Add (new PSPDFMenuItem ("Google", () => {
-				var queryUri = new Uri (string.Format ("http://www.google.com/search?q={0}", selectedText));
+				var queryUri = new Uri (string.Format ("https://www.google.com/search?q={0}", selectedText));
 				var nsurl = new NSUrl (queryUri.GetComponents (UriComponents.HttpRequestUrl, UriFormat.UriEscaped));
 
 				var browser = new PSPDFWebViewController (nsurl) {
@@ -36,13 +36,12 @@ namespace PSPDFCatalog {
 					PreferredContentSize = new CGSize (600, 500)
 				};
 
-				var browserOptions = NSDictionary.FromObjectsAndKeys (
+				var browserOptions = NSDictionary<NSString,NSObject>.FromObjectsAndKeys (
 					new NSObject[] { NSValue.FromCGRect (rect), NSNumber.FromBoolean (true), NSNumber.FromBoolean (true) },
 					new NSObject[] { PSPDFPresentationKeys.RectKey, PSPDFPresentationKeys.InNavigationControllerKey, PSPDFPresentationKeys.CloseButtonKey }
 				);
 
-				NSError err;
-				pdfController.PresentViewController (browser, browserOptions, true, null, out err, null);
+				pdfController.PresentViewController (browser, browserOptions, true, null, null);
 
 			}, "Google"));
 

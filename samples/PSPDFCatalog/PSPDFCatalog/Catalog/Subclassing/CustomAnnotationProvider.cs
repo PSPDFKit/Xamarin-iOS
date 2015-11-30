@@ -6,7 +6,7 @@ using UIKit;
 using CoreGraphics;
 using ObjCRuntime;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {
@@ -62,8 +62,8 @@ namespace PSPDFCatalog
 			lock (this) {
 				if (annotations [(int)page] == null) {
 					// create new note annotation and add it to the dict.
-					var documentProvider = ProviderDelegate.ParentDocumentProvider ();
-					var pageInfo = documentProvider.Document.PageInfoForPage (page);
+					var documentProvider = ProviderDelegate.ParentDocumentProvider;
+					var pageInfo = documentProvider.Document.GetPageInfo (page);
 					PSPDFNoteAnnotation noteAnnotation = null;
 					InvokeOnMainThread (()=> noteAnnotation = new PSPDFNoteAnnotation {
 						Page = page,

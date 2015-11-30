@@ -1,5 +1,5 @@
 all:
-	cd  binding/PSPDFKit/ && make
+	cd  PSPDFKit.iOS/ && make
 
 clean:
-	cd  binding/PSPDFKit/ && make clean
+	cd  PSPDFKit.iOS/ && make clean

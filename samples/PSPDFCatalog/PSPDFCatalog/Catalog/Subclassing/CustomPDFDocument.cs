@@ -1,6 +1,6 @@
 ﻿using System;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {
@@ -9,17 +9,12 @@ namespace PSPDFCatalog
 		public CustomPDFDocument (Foundation.NSUrl url) : base (url)
 		{
 		}
-			
-		public override UIKit.UIColor BackgroundColorForPage (nuint page)
-		{
-			Console.WriteLine("Requesting color for page " + page);
-			return UIKit.UIColor.White;
-		}
 
-		// Force-disable the text copying, even though the PDF permissions would allow this.
-		public override bool AllowsCopying {
+		// Force-disable all permissions like text copying, even though the PDF permissions would allow this.
+		public override PSPDFDocumentPermissions Permissions {
 			get {
-				return false;
+				Console.WriteLine ("Requesting Permissions");
+				return PSPDFDocumentPermissions.NoFlags;
 			}
 		}
 	}

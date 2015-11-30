@@ -1,7 +1,7 @@
 ﻿using System;
 using Foundation;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {

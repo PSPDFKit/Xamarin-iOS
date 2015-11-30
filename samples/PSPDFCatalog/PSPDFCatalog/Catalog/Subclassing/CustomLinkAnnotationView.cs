@@ -5,7 +5,7 @@ using Foundation;
 using UIKit;
 using CoreGraphics;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {

@@ -10,7 +10,7 @@ using Foundation;
 using UIKit;
 using ObjCRuntime;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 
 namespace PSPDFCatalog
@@ -44,7 +44,7 @@ namespace PSPDFCatalog
 				new Section ("Password / Security", "Password is: test123") {
 					new StringElement ("Password Preset", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (ProtectedFile));
-						document.UnlockWithPassword ("test123");
+						document.Unlock ("test123");
 						var pdfViewer = new PSPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
@@ -64,7 +64,7 @@ namespace PSPDFCatalog
 						// Lets create the dictionary options needed by the PSPDFProcesor
 						// With password protected pages, PSPDFProcessor can only add link annotations.
 						// We use a helper class to access the CGPDFContextKeys used by the dictionary
-						var processorOptions = new NSMutableDictionary ();
+						var processorOptions = new NSMutableDictionary<NSString, NSObject> ();
 						processorOptions.LowlevelSetObject (password, Helper.CGPDFContextUserPassword);
 						processorOptions.LowlevelSetObject (password, Helper.CGPDFContextOwnerPassword);
 						processorOptions.LowlevelSetObject (NSNumber.FromInt32 (128), Helper.CGPDFContextEncryptionKeyLength);
@@ -72,14 +72,14 @@ namespace PSPDFCatalog
 						processorOptions.LowlevelSetObject (NSNumber.FromObject (PSPDFAnnotationType.Link), PSPDFProcessorOptionKeys.AnnotationTypesKey.Handle);
 
 						// We create the page range we want to include in our pdf
-						var pageRange = new [] { NSIndexSet.FromNSRange (new NSRange (0, (int)document.PageCount)) };
+						var pageRanges = new [] { NSIndexSet.FromNSRange (new NSRange (0, (int)document.PageCount)) };
 						// We start a new task so this executes on a separated thread since it is a hevy task and we don't want to block the UI
 						await Task.Factory.StartNew (()=> {
 							NSError err;
 							PSPDFProcessor.DefaultProcessor.GeneratePdf (document: document, 
-								pageRange: pageRange,
+								pageRanges: pageRanges,
 								fileURL: tempPdf,
-								options: (NSDictionary) processorOptions,
+								options: processorOptions,
 								progressHandler: (currentPage, numberOfProcessedPages, totalPages) => InvokeOnMainThread (()=> status.Progress = ((float)numberOfProcessedPages / (float)totalPages)),
 								error: out err);
 						});
@@ -108,7 +108,7 @@ namespace PSPDFCatalog
 							(NSObject) PSPDFAnnotationString.Circle,
 							(NSObject) PSPDFAnnotationString.Stamp );
 
-						document.EditableAnnotationTypes = (NSObject)editableTypes;
+						document.EditableAnnotationTypes = editableTypes;
 
 						var pdfViewer = new LinkEditorViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
@@ -132,8 +132,8 @@ namespace PSPDFCatalog
 					}),
 					new StringElement ("Custom AnnotationProvider", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						document.SetDidCreateDocumentProviderHandler ((documentProvider)=> {
-							documentProvider.AnnotationManager.AnnotationProviders = new NSObject[] { new CustomAnnotationProvider (document), documentProvider.AnnotationManager.FileAnnotationProvider };
+						document.DidCreateDocumentProviderHandler = (documentProvider => {
+							documentProvider.AnnotationManager.AnnotationProviders = new IPSPDFAnnotationProvider[] { new CustomAnnotationProvider (document), documentProvider.AnnotationManager.FileAnnotationProvider };
 						});
 						var pdfViewer = new PSPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);

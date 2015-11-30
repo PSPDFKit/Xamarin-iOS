@@ -4,7 +4,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-using PSPDFKit;
+using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {
