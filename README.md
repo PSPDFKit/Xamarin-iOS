@@ -39,3 +39,6 @@ You have two options to get it:
 5. Add the namespace `using PSPDFKit.iOS;`
 6. Enjoy 
 
+### Set the License Key
+
+Call `PSPDFKitGlobal.SetLicenseKey("YOUR_LICENSE_KEY_GOES_HERE");` early on in your AppDelegate, before accessing any other PSPDFKit classes.
