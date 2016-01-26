@@ -22,7 +22,7 @@ This binding provides **[Unified Api](http://developer.xamarin.com/guides/cross-
 
 You have two options to get it:
 
-###Build from PSPDFKit.iOS.sln
+### Build from PSPDFKit.iOS.sln
 
 1. Open `PSPDFKit.iOS.sln` on `Xamarin Studio` or `Visual Studio`.
 2. Build the project.
@@ -31,7 +31,7 @@ You have two options to get it:
 5. Add the namespace `using PSPDFKit.iOS;`
 6. Enjoy 
 
-###Build from terminal
+### Build from terminal
 
 1. Just run `make` command from `root` or `Xamarin.iOS` directory
 2. Get the dll from the `Dll` folder
