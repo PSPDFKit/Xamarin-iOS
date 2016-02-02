@@ -94,23 +94,22 @@ namespace PSPDFCatalog
 				new Section ("Subclassing", "Examples how to subclass PSPDFKit."){
 					new StringElement ("Annotation Link Editor", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						// Need to cast to solve ambiguity between NSObject and string ctor
-						var editableTypes = new NSOrderedSet (
-							(NSObject) PSPDFAnnotationString.Link, // Important!!
-							(NSObject) PSPDFAnnotationString.Highlight,
-							(NSObject) PSPDFAnnotationString.Underline,
-							(NSObject) PSPDFAnnotationString.Squiggly,
-							(NSObject) PSPDFAnnotationString.StrikeOut,
-							(NSObject) PSPDFAnnotationString.Note,
-							(NSObject) PSPDFAnnotationString.FreeText,
-							(NSObject) PSPDFAnnotationString.Ink,
-							(NSObject) PSPDFAnnotationString.Square,
-							(NSObject) PSPDFAnnotationString.Circle,
-							(NSObject) PSPDFAnnotationString.Stamp );
+						var editableTypes = new NSSet<NSString> (
+							PSPDFAnnotationString.Link, // Important!!
+							PSPDFAnnotationString.Highlight,
+							PSPDFAnnotationString.Underline,
+							PSPDFAnnotationString.Squiggly,
+							PSPDFAnnotationString.StrikeOut,
+							PSPDFAnnotationString.Note,
+							PSPDFAnnotationString.FreeText,
+							PSPDFAnnotationString.Ink,
+							PSPDFAnnotationString.Square,
+							PSPDFAnnotationString.Circle,
+							PSPDFAnnotationString.Stamp );
 
-						document.EditableAnnotationTypes = editableTypes;
-
-						var pdfViewer = new LinkEditorViewController (document);
+						var pdfViewer = new LinkEditorViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
+							builder.EditableAnnotationTypes = editableTypes;
+						}));
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("Capture Bookmarks", () => {

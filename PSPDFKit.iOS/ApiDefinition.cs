@@ -132,11 +132,14 @@ namespace PSPDFKit.iOS {
 		[Export ("backgroundColor", ArgumentSemantic.Strong), NullAllowed]
 		UIColor BackgroundColor { get; }
 
+		[Export ("allowedAppearanceModes")]
+		PSPDFAppearanceMode AllowedAppearanceModes { get; }
+
 		[Export ("scrollDirection", ArgumentSemantic.Assign)]
 		PSPDFScrollDirection ScrollDirection { get; }
 
-		[Export ("shouldAutomaticallyAdjustScrollViewInsets", ArgumentSemantic.Assign)]
-		bool ShouldAutomaticallyAdjustScrollViewInsets { get; }
+		[Export ("scrollViewInsetAdjustment")]
+		PSPDFScrollInsetAdjustment ScrollViewInsetAdjustment { get; }
 
 		[Export ("alwaysBouncePages", ArgumentSemantic.Assign)]
 		bool AlwaysBouncePages { get; }
@@ -204,6 +207,9 @@ namespace PSPDFKit.iOS {
 		[Export ("textSelectionShouldSnapToWord", ArgumentSemantic.Assign)]
 		bool TextSelectionShouldSnapToWord { get; }
 
+		[Export ("editableAnnotationTypes")]
+		NSSet<NSString> EditableAnnotationTypes { get; }
+
 		[Export ("typesShowingColorPresets", ArgumentSemantic.Assign)]
 		PSPDFAnnotationType TypesShowingColorPresets { get; }
 
@@ -212,6 +218,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("freeTextAccessoryViewEnabled")]
 		bool FreeTextAccessoryViewEnabled { [Bind ("isFreeTextAccessoryViewEnabled")] get; }
+
+		[Export ("bookmarkSortOrder")]
+		PSPDFSortOrder BookmarkSortOrder { get; }
 
 		[Export ("HUDViewMode", ArgumentSemantic.Assign)]
 		PSPDFHUDViewMode HudViewMode { get; }
@@ -417,14 +426,20 @@ namespace PSPDFKit.iOS {
 		[Export ("textSelectionShouldSnapToWord", ArgumentSemantic.Assign)]
 		bool TextSelectionShouldSnapToWord { get; set; }
 
+		[Export ("editableAnnotationTypes", ArgumentSemantic.Copy), NullAllowed]
+		NSSet<NSString> EditableAnnotationTypes { get; set; }
+
 		[Export ("typesShowingColorPresets", ArgumentSemantic.Assign)]
 		PSPDFAnnotationType TypesShowingColorPresets { get; set; }
 
-		[Export ("propertiesForAnnotations")]
+		[Export ("propertiesForAnnotations", ArgumentSemantic.Copy)]
 		NSDictionary<NSString, NSObject> PropertiesForAnnotations { get; set; }
 
-		[Export ("freeTextAccessoryViewEnabled")]
+		[Export ("freeTextAccessoryViewEnabled", ArgumentSemantic.Assign)]
 		bool FreeTextAccessoryViewEnabled { get; set; }
+
+		[Export ("bookmarkSortOrder", ArgumentSemantic.Assign)]
+		PSPDFSortOrder BookmarkSortOrder { get; set; }
 
 		[Export ("internalTapGesturesEnabled", ArgumentSemantic.Assign)]
 		bool InternalTapGesturesEnabled { get; set; }
@@ -486,8 +501,8 @@ namespace PSPDFKit.iOS {
 		[Export ("scrollDirection", ArgumentSemantic.Assign)]
 		PSPDFScrollDirection ScrollDirection { get; set; }
 
-		[Export ("shouldAutomaticallyAdjustScrollViewInsets", ArgumentSemantic.Assign)]
-		bool ShouldAutomaticallyAdjustScrollViewInsets { get; set; }
+		[Export ("scrollViewInsetAdjustment")]
+		PSPDFScrollInsetAdjustment ScrollViewInsetAdjustment { get; set; }
 
 		[Export ("doublePageModeOnFirstPage", ArgumentSemantic.Assign)]
 		bool DoublePageModeOnFirstPage { [Bind ("isDoublePageModeOnFirstPage")] get; set; }
@@ -539,6 +554,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("backgroundColor", ArgumentSemantic.Strong), NullAllowed]
 		UIColor BackgroundColor { get; set; }
+
+		[Export ("allowedAppearanceModes")]
+		PSPDFAppearanceMode AllowedAppearanceModes { get; set; }
 
 		[Export ("thumbnailSize", ArgumentSemantic.Assign)]
 		CGSize ThumbnailSize { get; set; }
@@ -754,8 +772,8 @@ namespace PSPDFKit.iOS {
 		[Export ("policyEvent")]
 		string PolicyEvent { get; }
 
-		[Export ("isAvailableUserInvoked:")]
-		bool IsAvailableUserInvoked (bool userInvoked);
+		[Export ("isAvailableUserInvoked:error:"), Internal]
+		bool _IsAvailableUserInvoked (bool userInvoked, IntPtr error);
 
 		[Export ("configureSharingController:")]
 		bool ConfigureSharingController (PSPDFDocumentSharingViewController sharingController);
@@ -878,6 +896,9 @@ namespace PSPDFKit.iOS {
 		[Export ("allowCopy", ArgumentSemantic.Assign)]
 		bool AllowCopy { get; set; }
 
+		[Export ("sortOrder", ArgumentSemantic.Assign)]
+		PSPDFSortOrder SortOrder { get; set; }
+
 		[Export ("delegate", ArgumentSemantic.Weak)][NullAllowed]
 		IPSPDFBookmarkViewControllerDelegate Delegate { get; set; }
 
@@ -930,14 +951,11 @@ namespace PSPDFKit.iOS {
 
 		[Abstract]
 		[Export ("presentViewController:options:animated:sender:completion:")]
-		void PresentViewController (UIViewController viewController, [NullAllowed] NSDictionary<NSString, NSObject> options, bool animated, [NullAllowed] NSObject sender, [NullAllowed] Action completion);
+		bool PresentViewController (UIViewController viewController, [NullAllowed] NSDictionary<NSString, NSObject> options, bool animated, [NullAllowed] NSObject sender, [NullAllowed] Action completion);
 
 		[Abstract]
 		[Export ("dismissViewControllerOfClass:animated:completion:")]
 		bool DismissViewControllerOfClass ([NullAllowed] Class controllerClass, bool animated, [NullAllowed] Action completion);
-
-		[Export ("sender:shouldShowController:options:animated:")]
-		bool ShouldShowController (NSObject sender, UIViewController controller, [NullAllowed] NSDictionary<NSString, NSObject> options, bool animated);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -1144,6 +1162,9 @@ namespace PSPDFKit.iOS {
 		[Export ("inlineSearchManager", ArgumentSemantic.Strong)]
 		PSPDFInlineSearchManager InlineSearchManager { get; }
 
+		[Export ("appearanceModeManager", ArgumentSemantic.Strong)]
+		PSPDFAppearanceModeManager AppearanceModeManager { get; }
+
 		[Export ("textSearch", ArgumentSemantic.Strong)]
 		PSPDFTextSearch TextSearch { get; }
 
@@ -1221,7 +1242,7 @@ namespace PSPDFKit.iOS {
 		// PSPDFViewController (Presentation) Category
 
 		[Export ("presentViewController:options:animated:sender:completion:")]
-		void PresentViewController (UIViewController controller, [NullAllowed] NSDictionary<NSString, NSObject> options, bool animated, [NullAllowed] NSObject sender, [NullAllowed] Action completion);
+		bool PresentViewController (UIViewController controller, [NullAllowed] NSDictionary<NSString, NSObject> options, bool animated, [NullAllowed] NSObject sender, [NullAllowed] Action completion);
 
 		[Export ("dismissViewControllerOfClass:animated:completion:")]
 		bool DismissViewController ([NullAllowed] Class controllerClass, bool animated, [NullAllowed] Action completion);
@@ -1710,9 +1731,6 @@ namespace PSPDFKit.iOS {
 		[Field ("PSPDFDocumentWillSaveAnnotationsNotification", "__Internal")]
 		NSString WillSaveAnnotationsNotification { get; }
 
-		[Export ("editableAnnotationTypes", ArgumentSemantic.Copy)]
-		NSOrderedSet /*<NSString>*/ EditableAnnotationTypes { get; set; }
-
 		[Export ("canEmbedAnnotations", ArgumentSemantic.Assign)]
 		bool CanEmbedAnnotations { get; }
 
@@ -1995,7 +2013,7 @@ namespace PSPDFKit.iOS {
 		void UpdateView ();
 
 		[Export ("annotationViewForAnnotation:")]
-		IPSPDFAnnotationViewProtocol AnnotationViewForAnnotation ([NullAllowed] PSPDFAnnotation annotation);
+		IPSPDFAnnotationViewProtocol AnnotationViewForAnnotation (PSPDFAnnotation annotation);
 
 		[Export ("contentView", ArgumentSemantic.Strong)]
 		UIImageView ContentView { get; }
@@ -2035,12 +2053,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("convertPDFRectToViewRect:")]
 		CGRect ConvertPdfRectToViewRect (CGRect pdfRect);
-
-		[Export ("convertGlyphRectToViewRect:")]
-		CGRect ConvertGlyphRectToViewRect (CGRect glyphRect);
-
-		[Export ("convertViewRectToGlyphRect:")]
-		CGRect ConvertViewRectToGlyphRect (CGRect viewRect);
 
 		[Export ("objectsAtPoint:options:")]
 		NSDictionary<NSString, NSObject> ObjectsAtPoint (CGPoint viewPoint, [NullAllowed] NSDictionary<NSString, NSNumber> options);
@@ -2181,8 +2193,8 @@ namespace PSPDFKit.iOS {
 		[Export ("showColorPickerForAnnotation:animated:")]
 		void ShowColorPickerForAnnotation (PSPDFAnnotation annotation, bool animated);
 
-		[Export ("showSignatureControllerAtRect:withTitle:shouldSaveSignature:animated:")]
-		void ShowSignatureControllerAtRect (CGRect viewRect, [NullAllowed] string title, bool shouldSaveSignature, bool animated);
+		[Export ("showSignatureControllerAtRect:withTitle:shouldSaveSignature:options:animated:")]
+		void ShowSignatureController (CGRect viewRect, [NullAllowed] string title, bool shouldSaveSignature, [NullAllowed] NSDictionary options, bool animated);
 
 		[Export ("availableFontSizes")]
 		NSNumber [] AvailableFontSizes { get; }
@@ -2195,8 +2207,8 @@ namespace PSPDFKit.iOS {
 
 		// PSPDFPageView (AnnotationMenuSubclassingHooks) Category
 
-		[Export ("showNewSignatureMenuAtRect:animated:")]
-		void ShowNewSignatureMenuAtRect (CGRect viewRect, bool animated);
+		[Export ("showNewSignatureMenuAtRect:options:animated:")]
+		void ShowNewSignatureMenuAtRect (CGRect viewRect, [NullAllowed] NSDictionary options, bool animated);
 
 		[Export ("showDigitalSignatureMenuForSignatureField:animated:")]
 		bool ShowDigitalSignatureMenuForSignatureField (PSPDFSignatureFormElement signatureField, bool animated);
@@ -2249,8 +2261,11 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Static]
-	interface PSPDFAnnotationMenuStrings
-	{
+	interface PSPDFAnnotationMenuStrings {
+		
+		[Field ("PSPDFAnnotationMenuCancel", "__Internal")]
+		NSString Cancel { get; }
+
 		[Field ("PSPDFAnnotationMenuNote", "__Internal")]
 		NSString Note { get; }
 
@@ -2528,6 +2543,9 @@ namespace PSPDFKit.iOS {
 		[Export ("discardSelectionAnimated:")]
 		void DiscardSelection (bool animated);
 
+		[Export ("clearCache")]
+		void ClearCache ();
+
 		[Export ("hasSelection", ArgumentSemantic.Assign)]
 		bool HasSelection { get; }
 
@@ -2560,7 +2578,7 @@ namespace PSPDFKit.iOS {
 		PSPDFKitGlobal Pspdfkit { get; }
 
 		[Abstract]
-		[Export ("displayingViewController"), NullAllowed]
+		[Export ("displayingViewController")]
 		UIViewController DisplayingViewController { get; }
 
 		[Abstract]
@@ -2578,6 +2596,10 @@ namespace PSPDFKit.iOS {
 		[Abstract]
 		[Export ("scrollViewInsets")]
 		UIEdgeInsets ScrollViewInsets { get; }
+
+		[Abstract]
+		[Export ("scrollIndicatorInsets")]
+		UIEdgeInsets ScrollIndicatorInsets { get; }
 
 		[Abstract]
 		[Export ("doublePageMode")]
@@ -2807,6 +2829,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("XMPMetadata"), NullAllowed]
 		string XmpMetadata { get; }
+
+		[Export ("setRotation:forPage:")]
+		void SetRotation (nuint rotation, nuint page);
 
 		// PSPDFDocumentProvider (SubclassingHooks) Category
 
@@ -3095,13 +3120,8 @@ namespace PSPDFKit.iOS {
 		PSPDFPageRenderer Renderer { get; set; }
 	}
 
-	[DisableDefaultCtor]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFPageInfo {
-
-		[Export ("initWithPage:rect:rotation:additionalActions:documentProvider:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (nuint page, CGRect pageRect, nint rotation, [NullAllowed] NSDictionary<NSNumber, PSPDFAction> additionalActions, [NullAllowed] PSPDFDocumentProvider documentProvider);
 
 		[Export ("page", ArgumentSemantic.Assign)]
 		nuint Page { get; }
@@ -3111,9 +3131,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("rect", ArgumentSemantic.Assign)]
 		CGRect Rect { get; }
-
-		[Export ("rectZeroOffset")]
-		CGRect RectZeroOffset { get; }
 
 		[Export ("rotation", ArgumentSemantic.Assign)]
 		nuint Rotation { get; }
@@ -3126,9 +3143,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("rotationTransform", ArgumentSemantic.Assign)]
 		CGAffineTransform RotationTransform { get; }
-
-		[Export ("rotatedRectZeroOffset")]
-		CGRect RotatedRectZeroOffset { get; }
 
 		[Export ("allowAnnotationCreation")]
 		bool AllowAnnotationCreation { get; }
@@ -3523,7 +3537,7 @@ namespace PSPDFKit.iOS {
 
 		[Export ("isNativePath:")]
 		[Abstract]
-		bool IsNativePath (string path);
+		bool IsNativePath ([NullAllowed] string path);
 
 		[Export ("fileExistsAtPath:")]
 		[Abstract]
@@ -3902,7 +3916,7 @@ namespace PSPDFKit.iOS {
 		void CommonInitWithPdfController ([NullAllowed] PSPDFViewController pdfController);
 	}
 
-	[BaseType (typeof (PSPDFBaseViewController))]
+	[BaseType (typeof (PSPDFStaticTableViewController))]
 	interface PSPDFBrightnessViewController {
 		
 		[Export ("wantsSoftwareDimming", ArgumentSemantic.Assign)]
@@ -3917,10 +3931,13 @@ namespace PSPDFKit.iOS {
 		[Export ("maximumAdditionalBrightnessDimmingFactor", ArgumentSemantic.Assign)]
 		nfloat MaximumAdditionalBrightnessDimmingFactor { get; set; }
 
-		// PSPDFBrightnessViewController (SubclassingHooks) Category
+		[Export ("appearanceModeManager", ArgumentSemantic.Assign), NullAllowed]
+		PSPDFAppearanceModeManager AppearanceModeManager { get; set; }
 
-		[Export ("slider", ArgumentSemantic.Strong), NullAllowed]
-		UISlider Slider { get; set; }
+		[Export ("allowedAppearanceModes", ArgumentSemantic.Assign)]
+		PSPDFAppearanceMode AllowedAppearanceModes { get; set; }
+
+		// PSPDFBrightnessViewController (SubclassingHooks) Category
 
 		[Export ("dimmingView")]
 		UIView /* PSPDFDimmingView */ DimmingView { get; }
@@ -3952,8 +3969,8 @@ namespace PSPDFKit.iOS {
 		[Export ("configureCell:forIndexPath:")]
 		void ConfigureCell (PSPDFAnnotationSetCell annotationSetCell, NSIndexPath indexPath);
 
-		[Export ("gridView", ArgumentSemantic.Strong), NullAllowed]
-		UICollectionView GridView { get; }
+		[Export ("collectionView", ArgumentSemantic.Strong), NullAllowed]
+		UICollectionView CollectionView { get; }
 
 		[Export ("updatePopoverSize")]
 		void UpdatePopoverSize ();
@@ -4133,7 +4150,7 @@ namespace PSPDFKit.iOS {
 		void DidSelectFont (PSPDFFontPickerViewController fontPickerViewController, [NullAllowed] UIFont selectedFont);
 	}
 
-	[BaseType (typeof (PSPDFBaseTableViewController))]
+	[BaseType (typeof (PSPDFStaticTableViewController))]
 	interface PSPDFFontPickerViewController {
 
 		[Export ("initWithFontFamilyDescriptors:")]
@@ -4144,6 +4161,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("selectedFont", ArgumentSemantic.Strong), NullAllowed]
 		UIFont SelectedFont { get; set; }
+
+		[Export ("highlightedFontFamilyDescriptors", ArgumentSemantic.Assign), NullAllowed]
+		UIFontDescriptor [] HighlightedFontFamilyDescriptors { get; set; }
 
 		[Export ("searchEnabled", ArgumentSemantic.Assign)]
 		bool SearchEnabled { get; set; }
@@ -4305,7 +4325,6 @@ namespace PSPDFKit.iOS {
 		void SetControllerState (PSPDFStatefulTableViewState controllerState, bool animated);
 	}
 
-	[DisableDefaultCtor]
 	[BaseType (typeof (PSPDFStatefulTableViewController))]
 	interface PSPDFAnnotationTableViewController : PSPDFStyleable {
 
@@ -4319,7 +4338,10 @@ namespace PSPDFKit.iOS {
 		IPSPDFAnnotationTableViewControllerDelegate Delegate { get; set; }
 
 		[Export ("visibleAnnotationTypes", ArgumentSemantic.Copy), NullAllowed]
-		NSOrderedSet /*<NSString>*/ VisibleAnnotationTypes { get; set; }
+		NSSet<NSString> VisibleAnnotationTypes { get; set; }
+
+		[Export ("editableAnnotationTypes", ArgumentSemantic.Copy), NullAllowed]
+		NSSet<NSString> EditableAnnotationTypes { get; set; }
 
 		[Export ("allowCopy", ArgumentSemantic.Assign)]
 		bool AllowCopy { get; set; }
@@ -4338,11 +4360,12 @@ namespace PSPDFKit.iOS {
 		[Export ("annotationForIndexPath:")]
 		PSPDFAnnotation AnnotationForIndexPath (NSIndexPath indexPath);
 
-		[Export ("targetTableViewStyle")]
-		UITableViewStyle TargetTableViewStyle { get; }
-
 		[Export ("deleteAllAction:")]
 		void DeleteAllAction (NSObject sender);
+
+		[Export ("viewForTableViewFooter")]
+		[return: NullAllowed]
+		UIView ViewForTableViewFooter ();
 	}
 
 	interface IPSPDFAnnotationSetStore { }
@@ -4886,7 +4909,7 @@ namespace PSPDFKit.iOS {
 	interface PSPDFRichMediaExecuteAction {
 
 		[Export ("initWithCommand:argument:annotation:")]
-		IntPtr Constructor (string command, [NullAllowed] NSObject argument, [NullAllowed] PSPDFRichMediaAnnotation annotation);
+		IntPtr Constructor ([NullAllowed] string command, [NullAllowed] NSObject argument, [NullAllowed] PSPDFRichMediaAnnotation annotation);
 
 		[Export ("command"), NullAllowed]
 		string Command { get; }
@@ -4910,7 +4933,7 @@ namespace PSPDFKit.iOS {
 	interface PSPDFSubmitFormAction {
 
 		[Export ("initWithURL:flags:")]
-		IntPtr Constructor (NSUrl URL, PSPDFSubmitFormActionFlag flags);
+		IntPtr Constructor ([NullAllowed] NSUrl url, PSPDFSubmitFormActionFlag flags);
 
 		[Export ("URL", ArgumentSemantic.Copy), NullAllowed]
 		NSUrl Url { get; }
@@ -5122,12 +5145,6 @@ namespace PSPDFKit.iOS {
 		[Export ("scrubberBarInsets", ArgumentSemantic.Assign)]
 		UIEdgeInsets ScrubberBarInsets { get; set; }
 
-		[Export ("showDocumentLabel", ArgumentSemantic.Assign)]
-		bool ShowDocumentLabel { [Bind ("isShowingDocumentLabel")] get; set; }
-
-		[Export ("showPageLabel", ArgumentSemantic.Assign)]
-		bool ShowPageLabel { [Bind ("isShowingPageLabel")] get; set; }
-
 		// PSPDFHUDView (Subviews) Category
 
 		[Export ("documentLabel", ArgumentSemantic.Strong), NullAllowed]
@@ -5275,21 +5292,19 @@ namespace PSPDFKit.iOS {
 
 		[Export ("indexOnPage", ArgumentSemantic.Assign)]
 		nint IndexOnPage { get; }
-
-		[Export ("isOnSameLineAs:")]
-		bool IsOnSameLineAs (PSPDFGlyph glyph);
 	}
 
 	[DisableDefaultCtor]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFWord {
 
-		[Export ("initWithGlyphs:")]
+		[Export ("initWithGlyphs:pageRotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFGlyph [] wordGlyphs);
+		IntPtr Constructor (PSPDFGlyph [] wordGlyphs, nuint pageRotation);
 
-		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect wordFrame);
+		[Export ("initWithFrame:pageRotation:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (CGRect wordFrame, nuint pageRotation);
 
 		[Export ("stringValue")]
 		string StringValue { get; }
@@ -5303,20 +5318,17 @@ namespace PSPDFKit.iOS {
 		[Export ("lineBreaker", ArgumentSemantic.Assign)]
 		bool LineBreaker { get; set; }
 
-		[Export ("isOnSameLineAs:")]
-		bool IsOnSameLineAs (PSPDFWord word);
-
-		[Export ("compareByLayout:")]
-		NSComparisonResult CompareByLayout (PSPDFWord word);
+		[Export ("pageRotation")]
+		nuint PageRotation { get; }
 	}
 
 	[DisableDefaultCtor]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFTextBlock {
 
-		[Export ("initWithGlyphs:frame:")]
+		[Export ("initWithGlyphs:frame:pageRotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFGlyph [] glyphs, CGRect frame);
+		IntPtr Constructor (PSPDFGlyph [] glyphs, CGRect frame, nuint pageRotation);
 
 		[Export ("initWithGlyphs:")]
 		IntPtr Constructor (PSPDFGlyph [] glyphs);
@@ -5332,6 +5344,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("content")]
 		string Content { get; }
+
+		[Export ("pageRotation")]
+		nuint PageRotation { get; }
 
 		[Export ("isEqualToTextBlock:")]
 		bool IsEqualTo (PSPDFTextBlock otherBlock);
@@ -5930,7 +5945,7 @@ namespace PSPDFKit.iOS {
 		UICollectionViewCell CellForPage (nuint page, [NullAllowed] PSPDFDocument document);
 
 		[Export ("scrollToPage:document:animated:")]
-		void ScrollToPage (nuint page, PSPDFDocument document, bool animated);
+		void ScrollToPage (nuint page, [NullAllowed] PSPDFDocument document, bool animated);
 
 		[Export ("stopScrolling")]
 		void StopScrolling ();
@@ -6646,6 +6661,9 @@ namespace PSPDFKit.iOS {
 		[Field ("PSPDFAnnotationStringInkVariantHighlighter", "__Internal")]
 		NSString InkVariantHighlighter { get; }
 
+		[Field ("PSPDFAnnotationStringLineVariantArrow", "__Internal")]
+		NSString LineVariantArrow { get; }
+
 		[Field ("PSPDFAnnotationStringFreeTextVariantCallout", "__Internal")]
 		NSString FreeTextVariantCallout { get; }
 	}
@@ -6683,6 +6701,12 @@ namespace PSPDFKit.iOS {
 
 	[BaseType (typeof (PSPDFModel))]
 	interface PSPDFAnnotation : PSPDFUndoProtocol, PSPDFJSONSerializing, INativeObject {
+
+		[Field ("PSPDFAnnotationTriggerEventTransformerName", "__Internal")]
+		NSString TriggerEventTransformerName { get; }
+
+		[Field ("PSPDFVerticalAlignmentTransformerName", "__Internal")]
+		NSString PSPDFVerticalAlignmentTransformerName { get; }
 
 		[Static]
 		[Export ("annotationFromJSONDictionary:documentProvider:error:")]
@@ -7116,8 +7140,9 @@ namespace PSPDFKit.iOS {
 	interface PSPDFAbstractTextOverlayAnnotation {
 
 		[Static]
-		[Export ("textOverlayAnnotationWithGlyphs:pageRotationTransform:")]
-		PSPDFAbstractTextOverlayAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph [] glyphs, CGAffineTransform pageRotationTransform);
+		[return: NullAllowed]
+		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		PSPDFAbstractTextOverlayAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph [] glyphs, nint pageRotation);
 
 		[Export ("highlightedString")]
 		string HighlightedString { get; }
@@ -7243,7 +7268,7 @@ namespace PSPDFKit.iOS {
 		void SetBoundingBox (CGRect boundingBox, bool transformLines);
 
 		[Export ("copyLinesByApplyingTransform:")]
-		NSArray /*<NSValue>*/ [] CopyLinesByApplyingTransform (CGAffineTransform transform);
+		NSArray CopyLinesByApplyingTransform (CGAffineTransform transform);
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
@@ -7620,6 +7645,7 @@ namespace PSPDFKit.iOS {
 		void DidChangeUndoState (PSPDFAnnotationStateManager manager, bool undoEnabled, bool redoEnabled);
 	}
 
+	[DisableDefaultCtor]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFAnnotationStateManager : PSPDFOverridable {
 
@@ -7695,22 +7721,21 @@ namespace PSPDFKit.iOS {
 		[Export ("canRedo", ArgumentSemantic.Assign)]
 		bool CanRedo { get; }
 
-		[Export ("showStylePicker:presentationOptions:")]
+		[Export ("toggleStylePicker:presentationOptions:")]
 		[return: NullAllowed] // Strong options PSPDFPresentationActions.h
-		PSPDFAnnotationStyleViewController ShowStylePicker ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary<NSString, NSObject> options);
+		PSPDFAnnotationStyleViewController ToggleStylePicker ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary<NSString, NSObject> options);
 
 		[Export ("toggleSignatureController:presentationOptions:")]
 		[return: NullAllowed] // Strong options PSPDFPresentationActions.h
 		UIViewController ToggleSignatureController ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary<NSString, NSObject> options);
 
 		[Export ("toggleStampController:includeSavedAnnotations:presentationOptions:")] // Strong options PSPDFPresentationActions.h
-		void ToggleStampController ([NullAllowed] NSObject sender, bool includeSavedAnnotations, [NullAllowed] NSDictionary<NSString, NSObject> options);
+		[return: NullAllowed]
+		UIViewController ToggleStampController ([NullAllowed] NSObject sender, bool includeSavedAnnotations, [NullAllowed] NSDictionary<NSString, NSObject> options);
 
 		[Export ("toggleImagePickerController:presentationOptions:")] // Strong options PSPDFPresentationActions.h
-		void ToggleImagePickerController ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary<NSString, NSObject> options);
-
-		[Export ("performSelectionOnPageView:atPoint:")]
-		void PerformSelectionOnPageView (PSPDFPageView pageView, CGPoint point);
+		[return: NullAllowed]
+		UIViewController ToggleImagePickerController ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary<NSString, NSObject> options);
 
 		// PSPDFAnnotationStateManager (StateHelper) Category
 
@@ -8184,6 +8209,9 @@ namespace PSPDFKit.iOS {
 		[Export ("buttonsForWidth:")]
 		PSPDFToolbarButton [] ButtonsForWidth (nfloat width);
 
+		[Export ("dismissPresentedViewControllersAnimated:")] // requires base call
+		void DismissPresentedViewControllers (bool animated);
+
 		[Export ("fontNameButton", ArgumentSemantic.Retain)]
 		PSPDFToolbarButton FontNameButton { get; }
 
@@ -8393,13 +8421,8 @@ namespace PSPDFKit.iOS {
 //		[Export ("zoomScale", ArgumentSemantic.Assign)]
 //		nfloat ZoomScale { get; set; }
 
-		// PSPDFDrawView (SubclassingHooks) Category
-
-		[Export ("shouldProcessTouches:withEvent:")]
-		bool ShouldProcessTouches (NSSet touches, UIEvent aEvent);
-
 		[Export ("startDrawingAtPoint:")]
-		void StartDrawingAtPoint (CGPoint location);
+		void StartDrawingAtPoint (PSPDFDrawingPoint location);
 
 		[Export ("continueDrawingAtPoints:predictedPoints:")]
 		void ContinueDrawingAtPoints (NSValue [] locations, NSValue [] predictedLocations);
@@ -8409,6 +8432,17 @@ namespace PSPDFKit.iOS {
 
 		[Export ("cancelDrawing")]
 		void CancelDrawing ();
+
+		[Export ("eraseAt:")]
+		void EraseAt (NSValue [] locations);
+
+		[Export ("endErase")]
+		void EndErase ();
+
+		// PSPDFDrawView (SubclassingHooks) Category
+
+		[Export ("shouldProcessTouches:withEvent:")]
+		bool ShouldProcessTouches (NSSet touches, UIEvent uiEvent);
 	}
 
 	[BaseType (typeof (UITableViewCell))]
@@ -8616,9 +8650,25 @@ namespace PSPDFKit.iOS {
 
 		[Export ("accelerate", ArgumentSemantic.Assign)]
 		bool Accelerate { get; set; }
+	}
 
-		[Export ("ignoreEventsAfterTickerFired", ArgumentSemantic.Assign)]
-		bool IgnoreEventsAfterTickerFired { get; set; }
+	[BaseType (typeof(PSPDFToolbarButton))]
+	interface PSPDFToolbarDualButton {
+		
+		[Export ("longPressRecognizer")]
+		UILongPressGestureRecognizer LongPressRecognizer { get; }
+
+		[Export ("primaryImage", ArgumentSemantic.Assign), NullAllowed]
+		UIImage PrimaryImage { get; set; }
+
+		[Export ("secondaryImage", ArgumentSemantic.Assign), NullAllowed]
+		UIImage SecondaryImage { get; set; }
+
+		[Export ("primaryEnabled")]
+		bool PrimaryEnabled { get; set; }
+
+		[Export ("secondaryEnabled")]
+		bool SecondaryEnabled { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFToolbarSpacerButton))]
@@ -8656,6 +8706,9 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (UIView))]
 	interface PSPDFToolbar {
 
+		[Field ("PSPDFToolbarDefaultFixedDimensionLength", "__Internal")]
+		nfloat DefaultFixedDimensionLength { get; }
+
 		[Export ("initWithFrame:")]
 		IntPtr Constructor (CGRect frame);
 
@@ -8674,6 +8727,9 @@ namespace PSPDFKit.iOS {
 		[Export ("barTintColor", ArgumentSemantic.Retain)]
 		UIColor BarTintColor { get; set; }
 
+		[Export ("fixedDimension")]
+		nfloat FixedDimension { get; set; }
+
 		[Export ("collapsedButtons", ArgumentSemantic.Copy)]
 		PSPDFToolbarButton [] CollapsedButtons { get; }
 
@@ -8687,9 +8743,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("setCollapsedButtonVisible:")]
 		void SetCollapsedButtonVisible (bool visible);
-
-		[Export ("fixedDimension")]
-		nfloat FixedDimension { get; }
 
 		[Export ("horizontal")]
 		bool Horizontal { [Bind ("isHorizontal")] get; }
@@ -8809,13 +8862,13 @@ namespace PSPDFKit.iOS {
 		PSPDFAnnotationStateManager AnnotationStateManager { get; set; }
 
 		[Export ("editableAnnotationTypes", ArgumentSemantic.Copy), NullAllowed]
-		NSOrderedSet /*<NSString>*/ EditableAnnotationTypes { get; set; }
+		NSSet<NSString> EditableAnnotationTypes { get; set; }
 
 		[Export ("configurations", ArgumentSemantic.Copy), NullAllowed]
 		PSPDFAnnotationToolbarConfiguration [] Configurations { get; set; }
 
-		[Export ("annotationGroupsOrGroupsFromEditableAnnotationTypes")]
-		PSPDFAnnotationGroup [] AnnotationGroupsOrGroupsFromEditableAnnotationTypes { get; }
+		[Export ("annotationGroups")]
+		PSPDFAnnotationGroup [] AnnotationGroups { get; }
 
 		[Export ("buttonWithType:variant:createFromGroup:")]
 		UIButton ButtonFromType (NSString type, [NullAllowed] string variant, bool createFromGroup);
@@ -8839,6 +8892,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("redoButton", ArgumentSemantic.Strong), NullAllowed]
 		UIButton RedoButton { get; }
+
+		[Export ("undoRedoButton", ArgumentSemantic.Strong), NullAllowed]
+		PSPDFToolbarDualButton UndoRedoButton { get; }
 
 		[Export ("strokeColorButton", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFColorButton StrokeColorButton { get; }
@@ -9046,6 +9102,10 @@ namespace PSPDFKit.iOS {
 		PSPDFAnnotationGroupItemConfigurationHandler InkConfigurationHandler ();
 
 		[Static]
+		[Export ("lineConfigurationBlock")]
+		PSPDFAnnotationGroupItemConfigurationHandler LineConfigurationHandler ();
+
+		[Static]
 		[Export ("freeTextConfigurationBlock")]
 		PSPDFAnnotationGroupItemConfigurationHandler FreeTextConfigurationHandler ();
 	}
@@ -9128,14 +9188,14 @@ namespace PSPDFKit.iOS {
 		IntPtr Constructor (string title, [NullAllowed] Action handler);
 
 		[Export ("initWithTitle:block:identifier:")]
-		IntPtr Constructor (string title, [NullAllowed] Action handler, string identifier);
+		IntPtr Constructor (string title, [NullAllowed] Action handler, [NullAllowed] string identifier);
 
 		[Export ("initWithTitle:image:block:identifier:")]
-		IntPtr Constructor (string title, UIImage image, [NullAllowed] Action handler, string identifier);
+		IntPtr Constructor (string title, [NullAllowed] UIImage image, [NullAllowed] Action handler, [NullAllowed] string identifier);
 
 		[Export ("initWithTitle:image:block:identifier:allowImageColors:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string title, UIImage image, Action handler, string identifier, bool allowImageColors);
+		IntPtr Constructor (string title, [NullAllowed] UIImage image, Action handler, [NullAllowed] string identifier, bool allowImageColors);
 
 		[Export ("enabled", ArgumentSemantic.Assign)]
 		bool Enabled { [Bind ("isEnabled")] get; set; }
@@ -9143,7 +9203,7 @@ namespace PSPDFKit.iOS {
 		[Export ("shouldInvokeAutomatically", ArgumentSemantic.Assign)]
 		bool ShouldInvokeAutomatically { get; set; }
 
-		[Export ("identifier")]
+		[Export ("identifier"), NullAllowed]
 		string Identifier { get; set; }
 
 		[Export ("ps_image", ArgumentSemantic.Strong), NullAllowed]
@@ -9196,6 +9256,9 @@ namespace PSPDFKit.iOS {
 
 		[Field ("PSPDFPresentationPopoverPassthroughViewsKey", "__Internal")]
 		NSString PopoverPassthroughViewsKey { get; }
+
+		[Field ("PSPDFPresentationPopoverBackgroundColorKey", "__Internal")]
+		NSString PopoverBackgroundColorKey { get; }
 	}
 
 	[Static]
@@ -9327,23 +9390,23 @@ namespace PSPDFKit.iOS {
 
 		[Static]
 		[Export ("progressWithText:")]
-		PSPDFStatusHUDItem GetProgressHud (string text);
+		PSPDFStatusHUDItem GetProgressHud ([NullAllowed] string text);
 
 		[Static]
 		[Export ("indeterminateProgressWithText:")]
-		PSPDFStatusHUDItem GetIndeterminateProgressHud (string text);
+		PSPDFStatusHUDItem GetIndeterminateProgressHud ([NullAllowed] string text);
 
 		[Static]
 		[Export ("successWithText:")]
-		PSPDFStatusHUDItem GetSuccessHud (string text);
+		PSPDFStatusHUDItem GetSuccessHud ([NullAllowed] string text);
 
 		[Static]
 		[Export ("errorWithText:")]
-		PSPDFStatusHUDItem GetErrorHud (string text);
+		PSPDFStatusHUDItem GetErrorHud ([NullAllowed] string text);
 
 		[Static]
 		[Export ("itemWithText:image:")]
-		PSPDFStatusHUDItem GetItemHud (string text, [NullAllowed] UIImage image);
+		PSPDFStatusHUDItem GetItemHud ([NullAllowed] string text, [NullAllowed] UIImage image);
 
 		[Export ("setHUDStyle:")]
 		void SetHudStyle (PSPDFStatusHUDStyle style);
@@ -10852,17 +10915,23 @@ namespace PSPDFKit.iOS {
 		bool FullscreenEnabled { [Bind ("isFullscreenEnabled")] get; set; }
 	}
 
+	interface IPSPDFAvoidingScrollViewDelegate { }
+
+	[Protocol, Model]
+	interface PSPDFAvoidingScrollViewDelegate : IUIScrollViewDelegate {
+
+		[Export ("scrollViewShouldAvoidKeyboard:")]
+		bool ShouldAvoidKeyboard (PSPDFAvoidingScrollView scrollView);
+	}
+
 	[BaseType (typeof (UIScrollView))]
 	interface PSPDFAvoidingScrollView {
 
-		[Export ("avoiding", ArgumentSemantic.Assign)]
-		bool Avoiding { [Bind ("isAvoiding")] get; }
+		[Export ("avoidingKeyboard", ArgumentSemantic.Assign)]
+		bool AvoidingKeyboard { [Bind ("isAvoidingKeyboard")] get; }
 
-		[Export ("keyboardVisible", ArgumentSemantic.Assign)]
-		bool KeyboardVisible { [Bind ("isKeyboardVisible")] get; }
-
-		[Export ("halfModalVisible", ArgumentSemantic.Assign)]
-		bool HalfModalVisible { [Bind ("isHalfModalVisible")] get; }
+		[Export ("isHalfModalVisible", ArgumentSemantic.Assign)]
+		bool IsHalfModalVisible { get; }
 
 		[Export ("firstResponderIsTextInput", ArgumentSemantic.Assign)]
 		bool FirstResponderIsTextInput { get; }
@@ -10872,8 +10941,8 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Static]
-	interface PSPDFGalleryItemType
-	{
+	interface PSPDFGalleryItemType {
+		
 		[Field ("PSPDFGalleryItemTypeKey", "__Internal")]
 		NSString Key { get; }
 
@@ -11646,6 +11715,57 @@ namespace PSPDFKit.iOS {
 
 		[Export ("pspdf_install352525StatusBarWorkaroundOn:")]
 		void Pspdf_install352525StatusBarWorkaroundOn (UIViewController controller);
+	}
+
+	interface IPSPDFAppearanceModeManagerDelegate { }
+
+	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFAppearanceModeManagerDelegate {
+		
+		[Export ("appearanceManager:renderOptionsForMode:")]
+		NSDictionary<NSString, NSObject> RenderOptions (PSPDFAppearanceModeManager manager, PSPDFAppearanceMode mode);
+
+		[Export ("appearanceManager:applyAppearanceSettingsForMode:")]
+		void ApplyAppearanceSettings (PSPDFAppearanceModeManager manager, PSPDFAppearanceMode mode);
+
+		[Export ("appearanceManager:updateConfiguration:forMode:")]
+		void UpdateConfiguration (PSPDFAppearanceModeManager manager, PSPDFConfigurationBuilder builder, PSPDFAppearanceMode mode);
+	}
+
+	interface PSPDFAppearanceModeManagerEventArgs {
+		
+		[Export ("PSPDFAppearanceModeChangedAnimatedKey")]
+		NSNumber ChangedAnimated { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	interface PSPDFAppearanceModeManager {
+
+		[Field ("PSPDFAppearanceModeChangedNotification", "__Internal")]
+		[Notification (typeof (PSPDFAppearanceModeManagerEventArgs))]
+		NSString AppearanceModeChangedNotification { get; }
+
+		[Export ("appearanceMode", ArgumentSemantic.Assign)]
+		PSPDFAppearanceMode AppearanceMode { get; set; }
+
+		[Export ("setAppearanceMode:animated:")]
+		void SetAppearanceMode (PSPDFAppearanceMode appearanceMode, bool animated);
+
+		[Export ("delegate", ArgumentSemantic.Weak)][NullAllowed]
+		IPSPDFAppearanceModeManagerDelegate Delegate { get; set; }
+	}
+
+	[Category]
+	[BaseType (typeof (NSValue))]
+	interface NSValue_PSPDFModel {
+		
+		[Static]
+		[Export ("pspdf_valueWithDrawingPoint:")]
+		NSValue FromDrawingPoint (PSPDFDrawingPoint point);
+
+		[Export ("pspdf_drawingPointValue")]
+		PSPDFDrawingPoint GetDrawingPoint ();
 	}
 }
 

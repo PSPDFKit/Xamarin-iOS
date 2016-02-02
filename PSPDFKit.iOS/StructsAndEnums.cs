@@ -1,7 +1,22 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using ObjCRuntime;
+using CoreGraphics;
 
 namespace PSPDFKit.iOS {
+
+	[StructLayout (LayoutKind.Sequential)]
+	public struct PSPDFDrawingPoint {
+		
+		public CGPoint Location;
+		public nfloat Intensity;
+
+		public PSPDFDrawingPoint (CGPoint location, nfloat intensity)
+		{
+			Location = location;
+			Intensity = intensity;
+		}
+	}
 
 	[Flags]
 	[Native]
@@ -27,8 +42,8 @@ namespace PSPDFKit.iOS {
 		Error = 1 << 0,
 		Warning = 1 << 1,
 		Info = 1 << 2,
-		Verbose = 1 << 3,
-		ExtraVerbose = 1 << 4,
+		Debug = 1 << 3,
+		Verbose = 1 << 4,
 		All = ulong.MaxValue
 	}
 
@@ -65,6 +80,7 @@ namespace PSPDFKit.iOS {
 		FailedToGeneratePDFCouldNotCreateContext = 830,
 		FailedToCopyPages = 840,
 		FailedToUpdatePageObject = 850,
+		FailedToMemoryMapFile = 860,
 		MicPermissionNotGranted = 900,
 		XFDFParserLackingInputStream = 1000,
 		XFDFParserAlreadyCompleted = 1010,
@@ -76,10 +92,12 @@ namespace PSPDFKit.iOS {
 		GalleryInvalidManifest = 1400,
 		GalleryUnknownItem = 1450,
 		InvalidRemoteContent = 1500,
+		FailedToSendStatistics = 1600,
 		FormValidationError = 5000,
 		ImageProcessorInvalidImage = 6000,
 		OpenInNoApplicationsFound = 7000,
 		MessageNotSent = 7100,
+		EmailNotConfigured = 7200,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
 
@@ -972,8 +990,10 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
+	[Flags]
 	public enum PSPDFToolbarButtonControlEvents : ulong {
-		Tick = 1 << 24
+		Tick = 1 << 24,
+		TouchUpInsideIfNotTicking = 1 << 25
 	}
 
 	[Native]
@@ -1028,4 +1048,31 @@ namespace PSPDFKit.iOS {
 		None = 0,
 		Append = 1
 	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFAppearanceMode : ulong
+	{
+		Default = 0,
+		Sepia = 1 << 0,
+		Night = 1 << 1,
+		All = Default | Sepia | Night
+	}
+
+	[Native]
+	public enum PSPDFSortOrder : ulong
+	{
+		Custom,
+		PageBased
+	}
+
+	[Native]
+	public enum PSPDFScrollInsetAdjustment : ulong
+	{
+		None,
+		FixedElements,
+		AllElements
+	}
+
+
 }

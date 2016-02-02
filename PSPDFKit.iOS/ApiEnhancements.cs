@@ -57,6 +57,22 @@ namespace PSPDFKit.iOS {
 		}
 	}
 
+	public partial class PSPDFDocumentSharingCoordinator : NSObject {
+
+		public virtual bool IsAvailableUserInvoked (bool userInvoked, out NSError error)
+		{
+			unsafe {
+				IntPtr val;
+				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
+
+				bool ret = _IsAvailableUserInvoked (userInvoked, val_addr);
+				error = (NSError) Runtime.GetNSObject (val);
+
+				return ret;
+			}
+		}
+	}
+
 	public partial class PSPDFDocument : NSObject {
 
 		public virtual bool EnsureDataDirectoryExists (out NSError error)
@@ -316,34 +332,34 @@ namespace PSPDFKit.iOS {
 	public partial class PSPDFGlyph : NSObject {
 
 		[DllImport ("__Internal", EntryPoint = "PSPDFRectsFromGlyphs")]
-		private static extern CGRect [] _RectsFromGlyphs (IntPtr glyphs, CGAffineTransform t, CGRect boundingBox);
+		private static extern IntPtr _RectsFromGlyphs (IntPtr glyphs, CGRect boundingBox, nint pageRotation);
 
-		public static CGRect [] RectsFromGlyphs (PSPDFGlyph [] glyphs, CGAffineTransform t, CGRect boundingBox)
+		public static NSValue [] RectsFromGlyphs (PSPDFGlyph [] glyphs, CGRect boundingBox, nint pageRotation)
 		{
 			if (glyphs == null)
-				return _RectsFromGlyphs (IntPtr.Zero, t, boundingBox);
+				return NSArray.ArrayFromHandle<NSValue> (_RectsFromGlyphs (IntPtr.Zero, boundingBox, pageRotation));
 
-			var objs = new List<NSObject>();
+			var objs = new List<NSObject> ();
 
 			foreach (var glyph in glyphs)
 				objs.Add(glyph);
 
-			NSArray arry = NSArray.FromNSObjects(objs.ToArray());
-			return _RectsFromGlyphs (arry.Handle, t, boundingBox);
+			NSArray arry = NSArray.FromNSObjects (objs.ToArray ());
+			return NSArray.ArrayFromHandle<NSValue> (_RectsFromGlyphs (arry.Handle, boundingBox, pageRotation));
 		}
 
 		[DllImport ("__Internal", EntryPoint = "PSPDFBoundingBoxFromGlyphs")]
-		private static extern CGRect _BoundingBoxFromGlyphs(IntPtr glyphs, CGAffineTransform t);
+		private static extern CGRect _BoundingBoxFromGlyphs (IntPtr glyphs, nint pageRotation);
 
-		public static CGRect BoundingBoxFromGlyphs(PSPDFGlyph [] glyphs, CGAffineTransform t)
+		public static CGRect BoundingBoxFromGlyphs (PSPDFGlyph [] glyphs, nint pageRotation)
 		{
-			var objs = new List<NSObject>();
+			var objs = new List<NSObject> ();
 
 			foreach (var glyph in glyphs)
-				objs.Add(glyph);
+				objs.Add (glyph);
 
-			NSArray arry = NSArray.FromNSObjects(objs.ToArray());
-			return _BoundingBoxFromGlyphs(arry.Handle, t);
+			NSArray arry = NSArray.FromNSObjects (objs.ToArray ());
+			return _BoundingBoxFromGlyphs (arry.Handle, pageRotation);
 		}
 	}
 
@@ -711,6 +727,79 @@ namespace PSPDFKit.iOS {
 		{
 			var handle = new PSPDFX509 ().InitWithX509 (x509);
 			return Runtime.GetNSObject<PSPDFX509> (handle);
+		}
+	}
+
+	public static class PSPDFDrawingPointTools {
+
+		private static PSPDFDrawingPoint PSPDFDrawingPointZero;
+		public static PSPDFDrawingPoint Zero
+		{
+			get {
+				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
+				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFDrawingPointZero");
+				PSPDFDrawingPointZero = (PSPDFDrawingPoint) Marshal.PtrToStructure (ptr, typeof (PSPDFDrawingPoint));
+
+				return PSPDFDrawingPointZero;
+			}
+		}
+
+		private static PSPDFDrawingPoint PSPDFDrawingPointNull;
+		public static PSPDFDrawingPoint Null
+		{
+			get {
+				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
+				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFDrawingPointNull");
+				PSPDFDrawingPointNull = (PSPDFDrawingPoint) Marshal.PtrToStructure (ptr, typeof (PSPDFDrawingPoint));
+
+				return PSPDFDrawingPointNull;
+			}
+		}
+
+		private static nfloat PSPDFDefaultIntensity;
+		public static nfloat DefaultIntensity
+		{
+			get {
+				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (null, 0);
+				IntPtr ptr = Dlfcn.dlsym (RTLD_MAIN_ONLY, "PSPDFDefaultIntensity");
+				PSPDFDefaultIntensity = (nfloat) Marshal.PtrToStructure (ptr, typeof (nfloat));
+
+				return PSPDFDefaultIntensity;
+			}
+		}
+
+		[DllImport ("__Internal", EntryPoint = "PSPDFDrawingPointIsValid")]
+		[return: MarshalAs (UnmanagedType.I1)]
+		private static extern bool _IsValid (PSPDFDrawingPoint point);
+
+		public static bool IsValid (PSPDFDrawingPoint point)
+		{
+			return _IsValid (point);
+		}
+
+		[DllImport ("__Internal", EntryPoint = "PSPDFDrawingPointIsEqualToPoint")]
+		[return: MarshalAs (UnmanagedType.I1)]
+		private static extern bool _IsEqualTo (PSPDFDrawingPoint point, PSPDFDrawingPoint otherPoint);
+
+		public static bool IsEqualTo (PSPDFDrawingPoint point, PSPDFDrawingPoint otherPoint)
+		{
+			return _IsEqualTo (point, otherPoint);
+		}
+
+		[DllImport ("__Internal", EntryPoint = "PSPDFDrawingPointToString")]
+		private static extern IntPtr _PointToString (PSPDFDrawingPoint point);
+
+		public static string PointToString (PSPDFDrawingPoint point)
+		{
+			return (string) Runtime.GetNSObject<NSString> (_PointToString (point));
+		}
+
+		[DllImport ("__Internal", EntryPoint = "PSPDFDrawingPointFromString")]
+		private static extern PSPDFDrawingPoint _FromString (IntPtr str);
+
+		public static PSPDFDrawingPoint FromString (string str)
+		{
+			return _FromString (str == null ? IntPtr.Zero : new NSString (str).Handle);
 		}
 	}
 }
