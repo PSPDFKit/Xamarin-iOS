@@ -1059,6 +1059,12 @@ namespace PSPDFKit.iOS {
 
 		[Export ("setPresets:forKey:type:")][Abstract]
 		void SetPresets ([NullAllowed] PSPDFModel [] presets, NSString key, NSString type);
+
+		[Export ("isPresetModifiedAtIndex:forKey:type:")][Abstract]
+		bool IsPresetModifiedAtIndex (nuint index, NSString key, NSString type);
+
+		[Export ("resetPresetAtIndex:forKey:type:")][Abstract]
+		bool ResetPresetAtIndex (nuint index, NSString key, NSString type);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -1092,7 +1098,6 @@ namespace PSPDFKit.iOS {
 		[Export ("initWithDocument:configuration:")]
 		IntPtr Constructor ([NullAllowed] PSPDFDocument document, [NullAllowed] PSPDFConfiguration configuration);
 
-		[Advice ("Requires base call")]
 		[Export ("initWithDocument:")]
 		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
 
@@ -1567,6 +1572,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("fileURL", ArgumentSemantic.Copy), NullAllowed]
 		NSUrl FileUrl { get; }
+
+		[Export ("originalFile", ArgumentSemantic.Strong), NullAllowed]
+		PSPDFFile OriginalFile { get; }
 
 		[Export ("filesWithBasePath", ArgumentSemantic.Copy)]
 		NSUrl [] FilesWithBasePath { get; }
@@ -2513,9 +2521,6 @@ namespace PSPDFKit.iOS {
 		[Export ("selectedImage", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFImageInfo SelectedImage { get; set; }
 
-		[Export ("selectionColor", ArgumentSemantic.Strong)]
-		UIColor SelectionColor { get; set; }
-
 		[Export ("selectionAlpha", ArgumentSemantic.Assign)]
 		nfloat SelectionAlpha { get; set; }
 
@@ -3450,12 +3455,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("isObjectRegisteredForUndo:")]
 		bool IsObjectRegistered (IPSPDFUndoProtocol obj);
-
-		[Export ("performBlockAsGroup:name:")]
-		void PerformActionAsGroup (Action action, [NullAllowed] string groupName);
-
-		[Export ("performBlockWithoutUndo:")]
-		void PerformActionWithoutUndo (Action action);
 
 		[Export ("prepareWithInvocationTarget:block:")]
 		void PrepareWithInvocationTarget (NSObject target, Action<NSObject> block);
@@ -5705,14 +5704,21 @@ namespace PSPDFKit.iOS {
 		NSString SuccessKey { get; }
 
 		[Static]
-		[Export ("libraryWithPath:")]
-		PSPDFLibrary FromPath (string path);
+		[Export ("libraryWithPath:error:")]
+		PSPDFLibrary FromPath (string path, out NSError error);
+
+		[Static]
+		[Export ("libraryWithPath:tokenizer:error:")]
+		PSPDFLibrary FromPath (string path, [NullAllowed] string tokenizer, out NSError error);
+
+		[Export ("defaultLibraryPath")]
+		string DefaultLibraryPath { get; }
 
 		[Export ("path")]
 		string Path { get; }
 
-		[Export ("tokenizer")]
-		string Tokenizer { get; set; }
+		[Export ("tokenizer"), NullAllowed]
+		string Tokenizer { get; }
 
 		[Export ("saveReversedPageText", ArgumentSemantic.Assign)]
 		bool SaveReversedPageText { get; set; }
@@ -5763,8 +5769,12 @@ namespace PSPDFKit.iOS {
 		// PSPDFLibrary (EncryptionSupport)
 
 		[Static]
-		[Export ("encryptedLibraryWithPath:encryptionKeyProvider:")]
-		PSPDFLibrary GetEncryptedLibrary (string path, [NullAllowed] Func<NSData> encryptionKeyProvider);
+		[Export ("encryptedLibraryWithPath:encryptionKeyProvider:error:")]
+		PSPDFLibrary GetEncryptedLibrary (string path, [NullAllowed] Func<NSData> encryptionKeyProvider, out NSError error);
+
+		[Static]
+		[Export ("encryptedLibraryWithPath:encryptionKeyProvider:tokenizer:error:")]
+		PSPDFLibrary GetEncryptedLibrary (string path, [NullAllowed] Func<NSData> encryptionKeyProvider, [NullAllowed] string tokenizer, out NSError error);
 
 		[Export ("encrypted", ArgumentSemantic.Assign)]
 		bool Encrypted { [Bind ("isEncrypted")] get; }
@@ -6127,10 +6137,10 @@ namespace PSPDFKit.iOS {
 		[Export ("thumbnailBorderColor", ArgumentSemantic.Strong)][NullAllowed]
 		UIColor ThumbnailBorderColor { get; set; }
 
-		// PSPDFScrubberBar (SubclassingHooks) Category
-
 		[Export ("toolbar", ArgumentSemantic.Strong)]
 		UIToolbar Toolbar { get; }
+
+		// PSPDFScrubberBar (SubclassingHooks) Category
 
 		[Export ("smallToolbar")]
 		bool SmallToolbar { [Bind ("isSmallToolbar")] get; }
@@ -6443,7 +6453,7 @@ namespace PSPDFKit.iOS {
 		void RemoveDocument (nuint index, bool animated);
 
 		[Export ("removeDocument:animated:")]
-		void RemoveDocument (PSPDFDocument document, bool animated);
+		bool RemoveDocument (PSPDFDocument document, bool animated);
 
 		[Export ("setVisibleDocument:scrollToPosition:animated:")]
 		void SetVisibleDocument ([NullAllowed] PSPDFDocument visibleDocument, bool scrollToPosition, bool animated);
@@ -8055,9 +8065,6 @@ namespace PSPDFKit.iOS {
 		[Export ("minHeight", ArgumentSemantic.Assign)]
 		nfloat MinHeight { get; set; }
 
-		[Export ("selectionBorderColor", ArgumentSemantic.Strong), NullAllowed]
-		UIColor SelectionBorderColor { get; set; }
-
 		[Export ("selectionBorderWidth", ArgumentSemantic.Assign)]
 		nfloat SelectionBorderWidth { get; set; }
 
@@ -8073,16 +8080,13 @@ namespace PSPDFKit.iOS {
 		bool LongPress (UILongPressGestureRecognizer recognizer);
 
 		[Export ("outerKnobOfType:")]
-		UIImageView OuterKnobOfType (PSPDFResizableViewOuterKnob knobType);
+		IPSPDFKnobView OuterKnobOfType (PSPDFResizableViewOuterKnob knobType);
 
 		[Export ("centerPointForOuterKnob:")]
 		CGPoint CenterPointForOuterKnob (PSPDFResizableViewOuterKnob knobType);
 
-		[Export ("outerKnobImage", ArgumentSemantic.Strong), NullAllowed]
-		UIImage OuterKnobImage { get; }
-
-		[Export ("innerKnobImage", ArgumentSemantic.Strong), NullAllowed]
-		UIImage InnerKnobImage { get; }
+		[Export ("newKnobViewForType:")]
+		IPSPDFKnobView NewKnobViewForType (PSPDFKnobType type);
 
 		[Export ("trackedAnnotation", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFAnnotation TrackedAnnotation { get; }
@@ -8104,11 +8108,26 @@ namespace PSPDFKit.iOS {
 		[Export ("resizableViewDidBeginEditing:")]
 		void ResizableViewDidBeginEditing (PSPDFResizableView resizableView);
 
-		[Export ("resizableViewChangedFrame:outerKnobType:")]
-		void OuterKnobType (PSPDFResizableView resizableView, PSPDFResizableViewOuterKnob outerKnobType);
+		[Export ("resizableViewChangedFrame:outerKnobType:isInitialChange:")]
+		void OuterKnobType (PSPDFResizableView resizableView, PSPDFResizableViewOuterKnob outerKnobType, bool isInitialChange);
 
-		[Export ("resizableViewDidEndEditing:")]
-		void ResizableViewDidEndEditing (PSPDFResizableView resizableView);
+		[Export ("resizableViewDidEndEditing:didChangeFrame:")]
+		void ResizableViewDidEndEditing (PSPDFResizableView resizableView, bool didChangeFrame);
+	}
+
+	interface IPSPDFKnobView { }
+
+	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFKnobView {
+
+		[Abstract]
+		[Export ("type", ArgumentSemantic.Assign)]
+		PSPDFKnobType Type { get; set; }
+
+		[Abstract]
+		[Export ("knobSize", ArgumentSemantic.Assign)]
+		CGSize KnobSize { get; set; }
 	}
 
 	[BaseType (typeof (UIView))]
@@ -8333,11 +8352,8 @@ namespace PSPDFKit.iOS {
 		[Export ("delegate", ArgumentSemantic.Weak), NullAllowed]
 		IPSPDFSelectionViewDelegate Delegate { get; set; }
 
-		[Export ("selectionColor", ArgumentSemantic.Strong)]
-		UIColor SelectionColor { get; set; }
-
-		[Export ("wordSelectionColor", ArgumentSemantic.Strong)]
-		UIColor WordSelectionColor { get; set; }
+		[Export ("selectionAlpha", ArgumentSemantic.Assign)]
+		nfloat SelectionAlpha { get; set; }
 
 		[Export ("rects", ArgumentSemantic.Copy), NullAllowed]
 		NSValue [] Rects { get; set; }
@@ -8411,6 +8427,9 @@ namespace PSPDFKit.iOS {
 		[Export ("naturalDrawingEnabled", ArgumentSemantic.Assign)]
 		bool NaturalDrawingEnabled { get; set; }
 
+		[Export ("guideBorderColor", ArgumentSemantic.Strong), NullAllowed]
+		UIColor GuideBorderColor { get; set; }
+
 		[Export ("updateActionsForAnnotations:")]
 		NSObject [] UpdateActionsForAnnotations (PSPDFInkAnnotation [] annotations);
 
@@ -8433,6 +8452,9 @@ namespace PSPDFKit.iOS {
 		[Export ("cancelDrawing")]
 		void CancelDrawing ();
 
+		[Export ("guideSnapAllowance", ArgumentSemantic.Assign)]
+		nfloat GuideSnapAllowance { get; set; }
+
 		[Export ("eraseAt:")]
 		void EraseAt (NSValue [] locations);
 
@@ -8450,6 +8472,27 @@ namespace PSPDFKit.iOS {
 
 		[Export ("initWithFrame:")]
 		IntPtr Constructor (CGRect frame);
+	}
+
+	[BaseType (typeof (PSPDFModel))]
+	interface PSPDFFile {
+
+		[DesignatedInitializer]
+		[Export ("initWithName:URL:data:")]
+		IntPtr Constructor (string fileName, [NullAllowed] NSUrl fileUrl, [NullAllowed] NSData fileData);
+
+		[Export ("fileName")]
+		string FileName { get; }
+
+		[Export ("fileURL", ArgumentSemantic.Strong), NullAllowed]
+		NSUrl FileUrl { get; }
+
+		[Export ("fileData", ArgumentSemantic.Copy), NullAllowed]
+		NSData FileData { get; }
+
+		[return: NullAllowed]
+		[Export ("fileDataMappedWithError:")]
+		NSData GetFileDataMapped (out NSError error);
 	}
 
 	[BaseType (typeof (PSPDFModel))]
@@ -8518,7 +8561,7 @@ namespace PSPDFKit.iOS {
 	interface PSPDFDocumentSharingViewControllerDelegate : PSPDFOverridable {
 
 		[Export ("documentSharingViewController:didFinishWithSelectedOptions:files:annotationSummary:error:")][Abstract]
-		void DidFinishWithSelectedOptions (PSPDFDocumentSharingViewController shareController, PSPDFDocumentSharingOptions selectedSharingOption, NSObject [] files, [NullAllowed] NSAttributedString annotationSummary, NSError error);
+		void DidFinishWithSelectedOptions (PSPDFDocumentSharingViewController shareController, PSPDFDocumentSharingOptions selectedSharingOption, PSPDFFile [] files, [NullAllowed] NSAttributedString annotationSummary, NSError error);
 
 		[Export ("documentSharingViewControllerDidCancel:")]
 		void DocumentSharingViewControllerDidCancel (PSPDFDocumentSharingViewController shareController);

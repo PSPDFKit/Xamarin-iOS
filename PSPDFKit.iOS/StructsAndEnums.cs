@@ -93,6 +93,7 @@ namespace PSPDFKit.iOS {
 		GalleryUnknownItem = 1450,
 		InvalidRemoteContent = 1500,
 		FailedToSendStatistics = 1600,
+		LibraryFailedToInitialize = 1700,
 		FormValidationError = 5000,
 		ImageProcessorInvalidImage = 6000,
 		OpenInNoApplicationsFound = 7000,
@@ -914,7 +915,8 @@ namespace PSPDFKit.iOS {
 		EmbedAnnotations = 1 << 3,
 		FlattenAnnotations = 1 << 4,
 		AnnotationsSummary = 1 << 5,
-		RemoveAnnotations = 1 << 6
+		RemoveAnnotations = 1 << 6,
+		OriginalFile = 1 << 7
 	}
 
 	[Native]
@@ -1051,8 +1053,7 @@ namespace PSPDFKit.iOS {
 
 	[Flags]
 	[Native]
-	public enum PSPDFAppearanceMode : ulong
-	{
+	public enum PSPDFAppearanceMode : ulong {
 		Default = 0,
 		Sepia = 1 << 0,
 		Night = 1 << 1,
@@ -1060,19 +1061,21 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
-	public enum PSPDFSortOrder : ulong
-	{
+	public enum PSPDFSortOrder : ulong {
 		Custom,
 		PageBased
 	}
 
 	[Native]
-	public enum PSPDFScrollInsetAdjustment : ulong
-	{
+	public enum PSPDFScrollInsetAdjustment : ulong {
 		None,
 		FixedElements,
 		AllElements
 	}
 
-
+	[Native]
+	public enum PSPDFKnobType : ulong {
+		Outer,
+		Inner
+	}
 }
