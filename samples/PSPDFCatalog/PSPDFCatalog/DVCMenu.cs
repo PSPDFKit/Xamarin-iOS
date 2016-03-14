@@ -157,8 +157,16 @@ namespace PSPDFCatalog
 						};
 						var pdfViewer = new PSCSimpleDrawingPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
+					}),
+					new StringElement ("Stylus Support", () => {
+						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
+						var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
+							builder.OverrideClass (new Class (typeof (PSPDFAnnotationToolbar)), new Class (typeof (PSCStylusEnabledAnnotationToolbar)));
+						}));
+						NavigationController.PushViewController (pdfViewer, true);
 					})
-				}					
+				},
+
 			};
 		}
 

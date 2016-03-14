@@ -126,6 +126,7 @@
     <Compile Include="Catalog\Customization\PSCSimpleDrawingPDFViewController.cs" />
     <Compile Include="Catalog\Subclassing\CustomPDFDocument.cs" />
     <Compile Include="Catalog\Customization\PSCustomTextSelectionMenuController.cs" />
+    <Compile Include="Catalog\Customization\PSCStylusEnabledAnnotationToolbar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
