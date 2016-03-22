@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{BCC4D1DC-3B7C-45D8-AF56-016E10EE5FF1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PSPDFKit.iOS.StylusSupport</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>PSPDFAdonitStylusDriver</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="AdonitSDK.linkwith.cs">
+      <DependentUpon>AdonitSDK.a</DependentUpon>
+    </Compile>
+    <Compile Include="libPSPDFAdonitStylusDriver.linkwith.cs">
+      <DependentUpon>libPSPDFAdonitStylusDriver.a</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Assets.car">
+      <Link>Resources\AdonitSDK.bundle\Assets.car</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\BatteryOutline.png">
+      <Link>Resources\AdonitSDK.bundle\BatteryOutline.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\BatteryOutline%402x.png">
+      <Link>Resources\AdonitSDK.bundle\BatteryOutline%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Info.plist">
+      <Link>Resources\AdonitSDK.bundle\Info.plist</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Ink_Button_A.png">
+      <Link>Resources\AdonitSDK.bundle\Ink_Button_A.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Ink_Button_A%402x.png">
+      <Link>Resources\AdonitSDK.bundle\Ink_Button_A%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JT4_Button_A.png">
+      <Link>Resources\AdonitSDK.bundle\JT4_Button_A.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JT4_Button_A%402x.png">
+      <Link>Resources\AdonitSDK.bundle\JT4_Button_A%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JT4_Button_B.png">
+      <Link>Resources\AdonitSDK.bundle\JT4_Button_B.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JT4_Button_B%402x.png">
+      <Link>Resources\AdonitSDK.bundle\JT4_Button_B%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JTPP_Button_A.png">
+      <Link>Resources\AdonitSDK.bundle\JTPP_Button_A.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JTPP_Button_A%402x.png">
+      <Link>Resources\AdonitSDK.bundle\JTPP_Button_A%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JTPP_Button_B.png">
+      <Link>Resources\AdonitSDK.bundle\JTPP_Button_B.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JTPP_Button_B%402x.png">
+      <Link>Resources\AdonitSDK.bundle\JTPP_Button_B%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftA-Horizontal.png">
+      <Link>Resources\AdonitSDK.bundle\LeftA-Horizontal.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftA-Horizontal%402x.png">
+      <Link>Resources\AdonitSDK.bundle\LeftA-Horizontal%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftA-Horizontal%403x.png">
+      <Link>Resources\AdonitSDK.bundle\LeftA-Horizontal%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftB-Average.png">
+      <Link>Resources\AdonitSDK.bundle\LeftB-Average.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftB-Average%402x.png">
+      <Link>Resources\AdonitSDK.bundle\LeftB-Average%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftB-Average%403x.png">
+      <Link>Resources\AdonitSDK.bundle\LeftB-Average%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftC-Vertical.png">
+      <Link>Resources\AdonitSDK.bundle\LeftC-Vertical.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftC-Vertical%402x.png">
+      <Link>Resources\AdonitSDK.bundle\LeftC-Vertical%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftC-Vertical%403x.png">
+      <Link>Resources\AdonitSDK.bundle\LeftC-Vertical%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightA-Horizontal.png">
+      <Link>Resources\AdonitSDK.bundle\RightA-Horizontal.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightA-Horizontal%402x.png">
+      <Link>Resources\AdonitSDK.bundle\RightA-Horizontal%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightA-Horizontal%403x.png">
+      <Link>Resources\AdonitSDK.bundle\RightA-Horizontal%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightB-Average.png">
+      <Link>Resources\AdonitSDK.bundle\RightB-Average.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightB-Average%402x.png">
+      <Link>Resources\AdonitSDK.bundle\RightB-Average%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightB-Average%403x.png">
+      <Link>Resources\AdonitSDK.bundle\RightB-Average%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightC-Vertical.png">
+      <Link>Resources\AdonitSDK.bundle\RightC-Vertical.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightC-Vertical%402x.png">
+      <Link>Resources\AdonitSDK.bundle\RightC-Vertical%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightC-Vertical%403x.png">
+      <Link>Resources\AdonitSDK.bundle\RightC-Vertical%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIcon.png">
+      <Link>Resources\AdonitSDK.bundle\connectionIcon.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIcon%402x.png">
+      <Link>Resources\AdonitSDK.bundle\connectionIcon%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIcon%403x.png">
+      <Link>Resources\AdonitSDK.bundle\connectionIcon%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIconDisconnected.png">
+      <Link>Resources\AdonitSDK.bundle\connectionIconDisconnected.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIconDisconnected%402x.png">
+      <Link>Resources\AdonitSDK.bundle\connectionIconDisconnected%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIconDisconnected%403x.png">
+      <Link>Resources\AdonitSDK.bundle\connectionIconDisconnected%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\FPM-bZ-AqB-view-Xvj-0Q-ooG~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotBatteryViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectedViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotConnectionStatusViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotDisconnectedViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotPressToConnectViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotShortButtonsTableViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotStylusDetailTableViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\JotWritingStyleViewController~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\Kai-kc-1UU-view-mH9-9p-q6X~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\UINavigationController-WQh-qr-84m~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\YyA-YT-yNg-view-daT-lA-OZj~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\dtB-tO-xBf-view-2bn-E7-7yp~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\mrx-Gs-5KW-view-vOb-Vy-utL~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\p4f-Rj-cqB-view-iYF-un-vxo~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\s6B-Kb-hQX-view-S2f-BN-84O~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~ipad.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~ipad.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~ipad.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~ipad.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~iphone.nib\objects-8.0+.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~iphone.nib\objects-8.0+.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~iphone.nib\objects.nib">
+      <Link>Resources\AdonitSDK.bundle\JotSettings.storyboardc\zQv-SI-wo7-view-zzO-wF-Psq~iphone.nib\objects.nib</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings~ipad.storyboardc\Info-8.0+.plist">
+      <Link>Resources\AdonitSDK.bundle\JotSettings~ipad.storyboardc\Info-8.0+.plist</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings~ipad.storyboardc\Info.plist">
+      <Link>Resources\AdonitSDK.bundle\JotSettings~ipad.storyboardc\Info.plist</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings~iphone.storyboardc\Info-8.0+.plist">
+      <Link>Resources\AdonitSDK.bundle\JotSettings~iphone.storyboardc\Info-8.0+.plist</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings~iphone.storyboardc\Info.plist">
+      <Link>Resources\AdonitSDK.bundle\JotSettings~iphone.storyboardc\Info.plist</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingNativeLibrary Include="..\..\externals\AdonitSDK.framework\Versions\A\AdonitSDK">
+      <Link>AdonitSDK</Link>
+    </ObjcBindingNativeLibrary>
+    <ObjcBindingNativeLibrary Include="..\..\xcodeprojs\PSPDFAdonitStylusDriver\libPSPDFAdonitStylusDriver.a">
+      <Link>libPSPDFAdonitStylusDriver.a</Link>
+    </ObjcBindingNativeLibrary>
+  </ItemGroup>
+</Project>
