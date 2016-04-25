@@ -31,6 +31,7 @@ namespace PSPDFKit.iOS {
 		IndexedFTS = 1 << 6,
 		DigitalSignatures = 1 << 7,
 		RequireSignedSource = 1 << 8,
+		DocumentEditing = 1 << 9,
 
 		All = ulong.MaxValue
 	}
@@ -65,6 +66,8 @@ namespace PSPDFKit.iOS {
 		PageRenderClipRectTooLarge = 230,
 		PageRenderGraphicsContextNil = 240,
 		DocumentLocked = 300,
+		DocumentInvalidFormat = 301,
+    	DocumentUnsupportedSecurityScheme = 302,
 		FailedToLoadAnnotations = 400,
 		FailedToWriteAnnotations = 410,
 		WriteAnnotationsCancelled = 411,
@@ -99,6 +102,16 @@ namespace PSPDFKit.iOS {
 		OpenInNoApplicationsFound = 7000,
 		MessageNotSent = 7100,
 		EmailNotConfigured = 7200,
+		ProcessorAnnotationModificationError = 7300,
+    	ProcessorUnableToInsertPage = 7301,
+    	ProcessorUnableToFlattenAnnotation = 7302,
+    	ProcessorUnableToRemoveAnnotation = 7304,
+    	ProcessorUnableToIncludeDrawingBlock = 7305,
+		ProcessorUnableToAddItem = 7306,
+    	ProcessorUnableToWriteFile = 7307,
+    	ProcessorMiscError = 7308,
+    	DocumentEditorUnableToWriteFile = 7400,
+    	DocumentEditorInvalidDocument = 7401,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
 
@@ -128,7 +141,30 @@ namespace PSPDFKit.iOS {
 	[Native]
 	public enum PSPDFViewMode : ulong {
 		Document,
-		Thumbnails
+		Thumbnails,
+		DocumentEditor
+	}
+
+	[Native]
+	public enum PSPDFDocumentOrientation : long {
+		Portrait,
+		Landscape
+	}
+
+	[Native]
+	public enum PSPDFTapAction : ulong {
+		None,
+		Zoom,
+		SmartZoom
+	}
+
+	[Native]
+	public enum PSPDFControllerState : ulong {
+		Empty,
+		Loading,
+		Default,
+		Error,
+		Locked
 	}
 
 	[Native]
@@ -136,7 +172,8 @@ namespace PSPDFKit.iOS {
 		None,
 		AlertView,
 		OpenSafari,
-		InlineBrowser
+		InlineBrowser,
+		InlineBrowserLegacy
 	}
 
 	[Native]
@@ -362,6 +399,39 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
+	public enum PSPDFNewPageType : long {
+		EmptyPage,
+		TiledPatternPage,
+		FromDocument
+	}
+
+	[Native]
+	public enum PSPDFRectAlignment : long {
+		Center = 0,
+		Top,
+		TopLeft,
+		TopRight,
+		Left,
+		Bottom,
+		BottomLeft,
+		BottomRight,
+		Right
+	}
+
+	[Native]
+	public enum PSPDFAnnotationChange : long {
+		Flatten,
+		Remove,
+		Embed
+	}
+
+	[Native]
+	public enum PSPDFItemZPosition : long {
+		Foreground,
+		Background
+	}
+
+	[Native]
 	public enum PSPDFNamedActionType : ulong {
 		None,
 		NextPage,
@@ -494,7 +564,7 @@ namespace PSPDFKit.iOS {
 		Popup = 1 << 21,
 		PSPDFANnotationTypeWatermark = 1 << 22,
 		TrapNet = 1 << 23,
-		_3D = 1 << 24,
+		ThreeDimensional = 1 << 24,
 		Redact = 1 << 25,
 		All = ulong.MaxValue
 	}
@@ -905,18 +975,29 @@ namespace PSPDFKit.iOS {
 		BottomRight
 	}
 
+	[Native]
+	public enum PSPDFEditingOperation : ulong
+	{
+		Remove,
+		Move,
+		Insert,
+		Rotate
+	}
+
 	[Flags]
 	[Native]
 	public enum PSPDFDocumentSharingOptions : ulong {
 		None = 0,
 		CurrentPageOnly = 1 << 0,
-		VisiblePages = 1 << 1,
+		PageRange = 1 << 1,
 		AllPages = 1 << 2,
-		EmbedAnnotations = 1 << 3,
-		FlattenAnnotations = 1 << 4,
-		AnnotationsSummary = 1 << 5,
-		RemoveAnnotations = 1 << 6,
-		OriginalFile = 1 << 7
+		AnnotatedPages = 1 << 4,
+		VisiblePages = PageRange,
+		EmbedAnnotations = 1 << 8,
+		FlattenAnnotations = 1 << 9,
+		AnnotationsSummary = 1 << 10,
+		RemoveAnnotations = 1 << 11,
+		OriginalFile = 1 << 16
 	}
 
 	[Native]

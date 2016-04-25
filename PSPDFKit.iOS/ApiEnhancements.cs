@@ -478,7 +478,7 @@ namespace PSPDFKit.iOS {
 			}
 		}
 
-		public virtual NSDictionary<NSNumber, NSArray /*<PSPDFAnnotation>*/> LoadAnnotations (out NSError error)
+		public virtual NSDictionary<NSNumber, NSArray <PSPDFAnnotation>> LoadAnnotations (out NSError error)
 		{
 			unsafe {
 				IntPtr val;

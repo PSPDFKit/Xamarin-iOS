@@ -59,29 +59,16 @@ namespace PSPDFCatalog
 						status.Push (true, null);
 						// Create temp file and password
 						var tempPdf = NSUrl.FromFilename (Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString () + ".pdf"));
-						var password = new NSString ("test123");
+						var password = "test123";
 
-						// Lets create the dictionary options needed by the PSPDFProcesor
-						// With password protected pages, PSPDFProcessor can only add link annotations.
-						// We use a helper class to access the CGPDFContextKeys used by the dictionary
-						var processorOptions = new NSMutableDictionary<NSString, NSObject> ();
-						processorOptions.LowlevelSetObject (password, Helper.CGPDFContextUserPassword);
-						processorOptions.LowlevelSetObject (password, Helper.CGPDFContextOwnerPassword);
-						processorOptions.LowlevelSetObject (NSNumber.FromInt32 (128), Helper.CGPDFContextEncryptionKeyLength);
-						processorOptions.LowlevelSetObject (NSNumber.FromBoolean (true), PSPDFProcessorOptionKeys.AnnotationAsDictionaryKey.Handle);
-						processorOptions.LowlevelSetObject (NSNumber.FromObject (PSPDFAnnotationType.Link), PSPDFProcessorOptionKeys.AnnotationTypesKey.Handle);
-
-						// We create the page range we want to include in our pdf
-						var pageRanges = new [] { NSIndexSet.FromNSRange (new NSRange (0, (int)document.PageCount)) };
 						// We start a new task so this executes on a separated thread since it is a hevy task and we don't want to block the UI
 						await Task.Factory.StartNew (()=> {
 							NSError err;
-							PSPDFProcessor.DefaultProcessor.GeneratePdf (document: document, 
-								pageRanges: pageRanges,
-								fileURL: tempPdf,
-								options: processorOptions,
-								progressHandler: (currentPage, numberOfProcessedPages, totalPages) => InvokeOnMainThread (()=> status.Progress = ((float)numberOfProcessedPages / (float)totalPages)),
-								error: out err);
+							PSPDFProcessor.GeneratePdf (configuration: new PSPDFProcessorConfiguration (document), 
+							                            saveOptions: new PSPDFProcessorSaveOptions (password, password, NSNumber.FromInt32 (128)),
+							                            fileUrl: tempPdf,
+							                            progressHandler: (currentPage, totalPages) => InvokeOnMainThread (() => status.Progress = (nfloat) currentPage / totalPages),
+							                            error: out err);
 						});
 						InvokeOnMainThread (()=> {
 							status.Pop (true, null);
@@ -116,7 +103,7 @@ namespace PSPDFCatalog
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						document.OverrideClass (new Class (typeof (PSPDFBookmarkParser)), new Class (typeof (CustomBookmarkParser)));
 						var pdfViewer = new PSPDFViewController (document);
-						pdfViewer.RightBarButtonItems = new [] { pdfViewer.BookmarkButtonItem, pdfViewer.SearchButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.ViewModeButtonItem };
+						pdfViewer.NavigationItem.RightBarButtonItems = new [] { pdfViewer.SearchButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.BookmarkButtonItem };
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("Change link background color to red", () => {
