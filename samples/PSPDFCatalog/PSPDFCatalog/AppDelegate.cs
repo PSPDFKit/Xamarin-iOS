@@ -16,7 +16,6 @@ namespace PSPDFCatalog
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		// class-level declarations
-		
 		public override UIWindow Window {
 			get;
 			set;
@@ -29,7 +28,7 @@ namespace PSPDFCatalog
 		{
 			// Set your license key here. PSPDFKit is commercial software.
 			// Each PSPDFKit license is bound to a specific app bundle id.
-			// Visit https://customers.pspdfkit.com to get your demo or commercial license key.
+			// Visit https://customers.pspdfkit.com to get your license key.
 			PSPDFKitGlobal.SetLicenseKey("YOUR_LICENSE_KEY_GOES_HERE");
 
 			Window = new UIWindow(UIScreen.MainScreen.Bounds);
