@@ -25,23 +25,23 @@ namespace PSPDFCatalog
 		DVCMenu viewController;
 		UINavigationController navController;
 
-		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
+		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
 			// Set your license key here. PSPDFKit is commercial software.
 			// Each PSPDFKit license is bound to a specific app bundle id.
-			// Visit http://customers.pspdfkit.com to get your demo or commercial license key.
-			PSPDFKitGlobal.SetLicenseKey ("YOUR_LICENSE_KEY_GOES_HERE");
+			// Visit https://customers.pspdfkit.com to get your demo or commercial license key.
+			PSPDFKitGlobal.SetLicenseKey("YOUR_LICENSE_KEY_GOES_HERE");
 
-			Window = new UIWindow (UIScreen.MainScreen.Bounds);
+			Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
 			// Apply the PSPDFKit blue
-			Window.TintColor = UIColor.FromRGBA (0.110f, 0.529f, 0.757f, 1f);
+			Window.TintColor = UIColor.FromRGBA(0.110f, 0.529f, 0.757f, 1f);
 
-			viewController = new DVCMenu ();
-			navController = new UINavigationController (viewController);
+			viewController = new DVCMenu();
+			navController = new UINavigationController(viewController);
 			Window.RootViewController = navController;
 
-			Window.MakeKeyAndVisible ();
+			Window.MakeKeyAndVisible();
 			return true;
 		}
 	}
