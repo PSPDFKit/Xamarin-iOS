@@ -25,9 +25,9 @@ namespace PSPDFKit.iOS {
 		private static extern void _SetLocalizationDictionary (IntPtr localizationDict);
 
 		[Advice ("Set on the main thread omly")]
-		public static void SetLocalizationDictionary (NSDictionary localizationDict)
+		public static void SetLocalizationDictionary (NSDictionary<NSString, NSDictionary<NSString, NSString>> localizationDict)
 		{
-			_SetLocalizationDictionary (localizationDict.Handle);
+			_SetLocalizationDictionary (localizationDict == null ? IntPtr.Zero : localizationDict.Handle);
 		}
 
 		[DllImport ("__Internal", EntryPoint = "PSPDFBundleImage")]

@@ -53,6 +53,9 @@ namespace PSPDFKit.iOS {
 		OutOfMemory = 10,
 		PageInvalid = 100,
 		DocumentContainsNoPages = 101,
+		DocumentNotValid = 102,
+		DocumentLocked = 103,
+		DocumentInvalidFormat = 104,
 		UnableToOpenPDF = 200,
 		UnableToGetPageReference = 210,
 		UnableToGetStream = 211,
@@ -65,8 +68,6 @@ namespace PSPDFKit.iOS {
 		PageRenderSizeIsEmpty = 220,
 		PageRenderClipRectTooLarge = 230,
 		PageRenderGraphicsContextNil = 240,
-		DocumentLocked = 300,
-		DocumentInvalidFormat = 301,
     	DocumentUnsupportedSecurityScheme = 302,
 		FailedToLoadAnnotations = 400,
 		FailedToWriteAnnotations = 410,
@@ -89,6 +90,7 @@ namespace PSPDFKit.iOS {
 		XFDFParserAlreadyCompleted = 1010,
 		XFDFParserAlreadyStarted = 1020,
 		XMLParserError = 1100,
+		DigitalSignatureVerificationFailed = 1150,
 		XFDFWriterCannotWriteToStream = 1200,
 		FDFWriterCannotWriteToStream = 1250,
 		SoundEncoderInvalidInput = 1300,
@@ -671,6 +673,17 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
+	[Flags]
+	public enum PSPDFSettingsOptions : ulong {
+		None = 0,
+		ScrollDirection = 1 << 0,
+		PageTransition = 1 << 1,
+		Appearance = 1 << 2,
+		Brightness = 1 << 3,
+		All = ulong.MaxValue
+	}
+
+	[Native]
 	public enum PSPDFIconFitScaleMode : ulong {
 		Always,
 		IfBigger,
@@ -682,6 +695,13 @@ namespace PSPDFKit.iOS {
 	public enum PSPDFIconFitScaleType : ulong {
 		Anamorphic,
 		Proportional
+	}
+
+	[Native]
+	public enum PSPDFThumbnailFlowLayoutLineAlignment : long {
+		Left,
+		Center,
+		Right
 	}
 
 	[Flags]
@@ -997,7 +1017,8 @@ namespace PSPDFKit.iOS {
 		FlattenAnnotations = 1 << 9,
 		AnnotationsSummary = 1 << 10,
 		RemoveAnnotations = 1 << 11,
-		OriginalFile = 1 << 16
+		OriginalFile = 1 << 16,
+		Image = 1 << 17
 	}
 
 	[Native]
