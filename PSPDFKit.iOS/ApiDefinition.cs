@@ -1191,9 +1191,8 @@ namespace PSPDFKit.iOS {
 		[Export ("appearanceModeManager", ArgumentSemantic.Strong)]
 		PSPDFAppearanceModeManager AppearanceModeManager { get; }
 
-		// TODO: Expose once PSPDFBrightnessManager is public
-		//[Export ("brightnessManager", ArgumentSemantic.Strong)]
-		//PSPDFBrightnessManager BrightnessManager { get; }
+		[Export ("brightnessManager", ArgumentSemantic.Strong)]
+		PSPDFBrightnessManager BrightnessManager { get; }
 
 		[Export ("textSearch", ArgumentSemantic.Strong)]
 		PSPDFTextSearch TextSearch { get; }
@@ -4301,9 +4300,8 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (PSPDFStaticTableViewController))]
 	interface PSPDFBrightnessViewController {
 
-		// TODO: Expose once PSPDFBrightnessManager is public
-		//[Export ("brightnessManager", ArgumentSemantic.Retain), NullAllowed]
-		//PSPDFBrightnessManager BrightnessManager { get; set; }
+		[Export ("brightnessManager", ArgumentSemantic.Retain), NullAllowed]
+		PSPDFBrightnessManager BrightnessManager { get; set; }
 
 		[Export ("appearanceModeManager", ArgumentSemantic.Retain), NullAllowed]
 		PSPDFAppearanceModeManager AppearanceModeManager { get; set; }
@@ -7657,25 +7655,24 @@ namespace PSPDFKit.iOS {
 		CGPoint Point2 { get; set; }
 	}
 
-	// TODO: Expose once it is a public class
-	//[BaseType (typeof (NSObject))]
-	//interface PSPDFBrightnessManager {
+	[BaseType (typeof (NSObject))]
+	interface PSPDFBrightnessManager {
 
-	//	[Export ("wantsSoftwareDimming", ArgumentSemantic.Assign)]
-	//	bool WantsSoftwareDimming { get; set; }
+		[Export ("wantsSoftwareDimming", ArgumentSemantic.Assign)]
+		bool WantsSoftwareDimming { get; set; }
 
-	//	[Export ("wantsAdditionalSoftwareDimming", ArgumentSemantic.Assign)]
-	//	bool WantsAdditionalSoftwareDimming { get; set; }
+		[Export ("wantsAdditionalSoftwareDimming", ArgumentSemantic.Assign)]
+		bool WantsAdditionalSoftwareDimming { get; set; }
 
-	//	[Export ("additionalBrightnessDimmingFactor")]
-	//	nfloat AdditionalBrightnessDimmingFactor { get; set; }
+		[Export ("additionalBrightnessDimmingFactor")]
+		nfloat AdditionalBrightnessDimmingFactor { get; set; }
 
-	//	[Export ("maximumAdditionalBrightnessDimmingFactor")]
-	//	nfloat MaximumAdditionalBrightnessDimmingFactor { get; set; }
+		[Export ("maximumAdditionalBrightnessDimmingFactor")]
+		nfloat MaximumAdditionalBrightnessDimmingFactor { get; set; }
 
-	//	[Export ("brightness")]
-	//	nfloat Brightness { get; set; }
-	//}
+		[Export ("brightness")]
+		nfloat Brightness { get; set; }
+	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
 	interface PSPDFLinkAnnotation {
@@ -8430,8 +8427,8 @@ namespace PSPDFKit.iOS {
 		[Export ("newKnobViewForType:")]
 		IPSPDFKnobView NewKnobViewForType (PSPDFKnobType type);
 
-		[Export ("trackedAnnotation", ArgumentSemantic.Strong), NullAllowed]
-		PSPDFAnnotation TrackedAnnotation { get; }
+		[Export ("trackedAnnotations")]
+		NSSet<PSPDFAnnotation> TrackedAnnotations { get; }
 
 		[Export ("updateKnobsAnimated:")]
 		void UpdateKnobs (bool animated);
@@ -8812,6 +8809,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("item"), NullAllowed]
 		PSPDFProcessorItem Item { get; set; }
+
+		[Export ("pageMargins", ArgumentSemantic.Assign)]
+		UIEdgeInsets PageMargins { get; set; }
 	}
 
 	interface IPSPDFNewPageViewControllerDelegate { }
@@ -9112,6 +9112,9 @@ namespace PSPDFKit.iOS {
 		[Export ("temporaryDirectoryForDocumentSharingViewController:")]
 		[return: NullAllowed]
 		string GetTemporaryDirectoryForDocumentSharingViewController (PSPDFDocumentSharingViewController shareController);
+
+		[Export ("documentSharingViewController:willShareFiles:")]
+		PSPDFFile [] WillShareFiles (PSPDFDocumentSharingViewController shareController, PSPDFFile [] files);
 	}
 
 	[BaseType (typeof (PSPDFStaticTableViewController))]
@@ -9975,14 +9978,12 @@ namespace PSPDFKit.iOS {
 	delegate void PSPDFRenderDrawHandler (CGContext context, nuint page, CGRect cropBox, nuint rotation, [NullAllowed] NSDictionary<NSString, NSObject> options);
 
 	[BaseType (typeof (NSObject))]
-	[DisableDefaultCtor]
 	interface PSPDFProcessorConfiguration : INSCopying {
 		
 		[Export ("initWithDocument:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
 
-		[Export ("document")]
+		[Export ("document"), NullAllowed]
 		PSPDFDocument Document { get; }
 
 		[Export ("pageCount")]
@@ -10787,87 +10788,86 @@ namespace PSPDFKit.iOS {
 		UIViewController PrepareChoiceEditorController ();
 	}
 
-	// TODO: PSPDFFormInputAccessoryViewDelegate needs to be exposed in order to be used
 	[BaseType (typeof (PSPDFAnnotationView))]
-	interface PSPDFFormElementView { //: PSPDFFormInputAccessoryViewDelegate {
+	interface PSPDFFormElementView : PSPDFFormInputAccessoryViewDelegate {
 
 	}
 
-	//interface IPSPDFFormInputAccessoryViewDelegate { }
+	interface IPSPDFFormInputAccessoryViewDelegate { }
 
-	//[Protocol, Model]
-	//[BaseType (typeof (NSObject))]
-	//interface PSPDFFormInputAccessoryViewDelegate {
+	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFFormInputAccessoryViewDelegate {
 
-	//	[Export ("doneButtonPressedOnFormInputView:")]
-	//	[Abstract]
-	//	void DoneButtonPressed (PSPDFFormInputAccessoryView inputView);
+		[Export ("doneButtonPressedOnFormInputView:")]
+		[Abstract]
+		void DoneButtonPressed (PSPDFFormInputAccessoryView inputView);
 
-	//	[Export ("previousButtonPressedOnFormInputView:")]
-	//	[Abstract]
-	//	void PreviousButtonPressed (PSPDFFormInputAccessoryView inputView);
+		[Export ("previousButtonPressedOnFormInputView:")]
+		[Abstract]
+		void PreviousButtonPressed (PSPDFFormInputAccessoryView inputView);
 
-	//	[Export ("nextButtonPressedOnFormInputView:")]
-	//	[Abstract]
-	//	void NextButtonPressed (PSPDFFormInputAccessoryView inputView);
+		[Export ("nextButtonPressedOnFormInputView:")]
+		[Abstract]
+		void NextButtonPressed (PSPDFFormInputAccessoryView inputView);
 
-	//	[Export ("clearButtonPressedOnFormInputView:")]
-	//	[Abstract]
-	//	void ClearButtonPressed (PSPDFFormInputAccessoryView inputView);
+		[Export ("clearButtonPressedOnFormInputView:")]
+		[Abstract]
+		void ClearButtonPressed (PSPDFFormInputAccessoryView inputView);
 
-	//	[Export ("formInputViewShouldEnablePreviousButton:")]
-	//	[Abstract]
-	//	bool ShouldEnablePreviousButton (PSPDFFormInputAccessoryView inputView);
+		[Export ("formInputViewShouldEnablePreviousButton:")]
+		[Abstract]
+		bool ShouldEnablePreviousButton (PSPDFFormInputAccessoryView inputView);
 
-	//	[Export ("formInputViewShouldEnableNextButton:")]
-	//	[Abstract]
-	//	bool ShouldEnableNextButton (PSPDFFormInputAccessoryView inputView);
+		[Export ("formInputViewShouldEnableNextButton:")]
+		[Abstract]
+		bool ShouldEnableNextButton (PSPDFFormInputAccessoryView inputView);
 
-	//	[Export ("formInputViewShouldEnableClearButton:")]
-	//	[Abstract]
-	//	bool ShouldEnableClearButton (PSPDFFormInputAccessoryView inputView);
-	//}
+		[Export ("formInputViewShouldEnableClearButton:")]
+		[Abstract]
+		bool ShouldEnableClearButton (PSPDFFormInputAccessoryView inputView);
+	}
 
-	//[BaseType (typeof (UIView))]
-	//interface PSPDFFormInputAccessoryView {
-	//	[Export ("displayDoneButton")]
-	//	bool DisplayDoneButton { get; set; }
+	[BaseType (typeof (UIView))]
+	interface PSPDFFormInputAccessoryView {
+		[Export ("displayDoneButton")]
+		bool DisplayDoneButton { get; set; }
 
-	//	[Export ("displayClearButton")]
-	//	bool DisplayClearButton { get; set; }
+		[Export ("displayClearButton")]
+		bool DisplayClearButton { get; set; }
 
-	//	[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-	//	IPSPDFFormInputAccessoryViewDelegate Delegate { get; set; }
+		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
+		IPSPDFFormInputAccessoryViewDelegate Delegate { get; set; }
 
-	//	[Export ("updateToolbar")]
-	//	void UpdateToolbar ();
+		[Export ("updateToolbar")]
+		void UpdateToolbar ();
 
-	//	// Category SubclassingHooks
+		// Category SubclassingHooks
 
-	//	[Export ("nextButton", ArgumentSemantic.Strong)]
-	//	UIBarButtonItem NextButton { get; }
+		[Export ("nextButton", ArgumentSemantic.Strong)]
+		UIBarButtonItem NextButton { get; }
 
-	//	[Export ("prevButton", ArgumentSemantic.Strong)]
-	//	UIBarButtonItem PrevButton { get; }
+		[Export ("prevButton", ArgumentSemantic.Strong)]
+		UIBarButtonItem PrevButton { get; }
 
-	//	[Export ("doneButton", ArgumentSemantic.Strong)]
-	//	UIBarButtonItem DoneButton { get; }
+		[Export ("doneButton", ArgumentSemantic.Strong)]
+		UIBarButtonItem DoneButton { get; }
 
-	//	[Export ("clearButton", ArgumentSemantic.Strong)]
-	//	UIBarButtonItem ClearButton { get; }
+		[Export ("clearButton", ArgumentSemantic.Strong)]
+		UIBarButtonItem ClearButton { get; }
 
-	//	[Export ("nextButtonPressed:")]
-	//	void NextButtonPressed ([NullAllowed] NSObject sender);
+		[Export ("nextButtonPressed:")]
+		void NextButtonPressed ([NullAllowed] NSObject sender);
 
-	//	[Export ("prevButtonPressed:")]
-	//	void PrevButtonPressed ([NullAllowed] NSObject sender);
+		[Export ("prevButtonPressed:")]
+		void PrevButtonPressed ([NullAllowed] NSObject sender);
 
-	//	[Export ("doneButtonPressed:")]
-	//	void DoneButtonPressed ([NullAllowed] NSObject sender);
+		[Export ("doneButtonPressed:")]
+		void DoneButtonPressed ([NullAllowed] NSObject sender);
 
-	//	[Export ("clearButtonPressed:")]
-	//	void ClearButtonPressed ([NullAllowed] NSObject sender);
-	//}
+		[Export ("clearButtonPressed:")]
+		void ClearButtonPressed ([NullAllowed] NSObject sender);
+	}
 
 	[BaseType (typeof (PSPDFFormElementView))]
 	interface PSPDFTextFieldFormElementView {
@@ -10983,6 +10983,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("addTrustedCertificate:")]
 		void AddTrustedCertificate (PSPDFX509 x509);
+
+		[Export ("clearTrustedCertificates")]
+		void ClearTrustedCertificates ();
 	}
 
 	[DisableDefaultCtor]
@@ -11477,6 +11480,10 @@ namespace PSPDFKit.iOS {
 		void UpdateSubviewVisibility ();
 	}
 
+	[BaseType (typeof (PSPDFGalleryItem))]
+	interface PSPDFGalleryWebItem {
+	}
+
 	[BaseType (typeof (PSPDFGalleryContentView))]
 	interface PSPDFGalleryImageContentView {
 
@@ -11832,6 +11839,13 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (PSPDFGalleryItem))]
 	interface PSPDFGalleryUnknownItem {
 
+	}
+
+	[BaseType (typeof (PSPDFAnnotationView))]
+	interface PSPDFHostingAnnotationView : PSPDFRenderDelegate {
+
+		[Export ("annotationImageView", ArgumentSemantic.Strong)]
+		UIImageView AnnotationImageView { get; }
 	}
 
 	[DisableDefaultCtor]
@@ -12639,6 +12653,23 @@ namespace PSPDFKit.iOS {
 
 		[Export ("pspdf_drawingPointValue")]
 		PSPDFDrawingPoint GetDrawingPoint ();
+	}
+
+	delegate void PSPDFUsernameHelperCompletionHandler (string userName);
+
+	[BaseType (typeof (NSObject))]
+	interface PSPDFUsernameHelper {
+
+		[Static]
+		[Export ("isDefaultAnnotationUserNameSet")]
+		bool IsDefaultAnnotationUserNameSet { get; }
+
+		[Static]
+		[Export ("askForDefaultAnnotationUsernameIfNeeded:completionBlock:")]
+		void AskForDefaultAnnotationUsernameIfNeeded (PSPDFViewController pdfViewController, PSPDFUsernameHelperCompletionHandler completionHandler);
+
+		[Export ("askForDefaultAnnotationUsername:suggestedName:completionBlock:")]
+		void AskForDefaultAnnotationUsername (UIViewController viewController, [NullAllowed] string suggestedName, PSPDFUsernameHelperCompletionHandler completionHandler);
 	}
 }
 
