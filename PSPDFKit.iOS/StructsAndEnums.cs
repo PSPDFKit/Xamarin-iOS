@@ -114,6 +114,7 @@ namespace PSPDFKit.iOS {
     	ProcessorMiscError = 7308,
     	DocumentEditorUnableToWriteFile = 7400,
     	DocumentEditorInvalidDocument = 7401,
+		FailedToFetchResource = 8000,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
 
@@ -1179,5 +1180,19 @@ namespace PSPDFKit.iOS {
 	public enum PSPDFKnobType : ulong {
 		Outer,
 		Inner
+	}
+
+	[Native]
+	public enum PSPDFColorSet : ulong {
+		Default,
+		DefaultWithTransparency,
+		PageBackgrounds
+	}
+
+	[Native]
+	public enum PSPDFRenderType : ulong {
+		Page,
+		Processor,
+		All = ulong.MaxValue
 	}
 }
