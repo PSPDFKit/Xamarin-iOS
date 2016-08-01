@@ -12843,6 +12843,11 @@ namespace PSPDFKit.iOS {
 		bool IsDefaultAnnotationUserNameSet { get; }
 
 		[Static]
+		[NullAllowed]
+		[Export ("defaultAnnotationUsername")]
+		string DefaultAnnotationUsername { get; set; }
+
+		[Static]
 		[Export ("askForDefaultAnnotationUsernameIfNeeded:completionBlock:")]
 		void AskForDefaultAnnotationUsernameIfNeeded (PSPDFViewController pdfViewController, PSPDFUsernameHelperCompletionHandler completionHandler);
 
