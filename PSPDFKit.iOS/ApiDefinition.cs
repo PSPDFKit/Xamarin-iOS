@@ -12854,5 +12854,12 @@ namespace PSPDFKit.iOS {
 		[Export ("askForDefaultAnnotationUsername:suggestedName:completionBlock:")]
 		void AskForDefaultAnnotationUsername (UIViewController viewController, [NullAllowed] string suggestedName, PSPDFUsernameHelperCompletionHandler completionHandler);
 	}
+
+	[BaseType (typeof (UIActivityViewController))]
+	interface PSPDFActivityViewController {
+
+		[Export ("initWithActivityItems:applicationActivities:")]
+		IntPtr Constructor (NSObject [] activityItems, UIActivity [] applicationActivities);
+	}
 }
 
