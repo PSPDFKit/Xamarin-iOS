@@ -5537,6 +5537,9 @@ namespace PSPDFKit.iOS {
 		[Export ("thumbnailGridButton", ArgumentSemantic.Strong)]
 		UIButton ThumbnailGridButton { get; set; }
 
+		[Export ("thumbnailButtonColor", ArgumentSemantic.Strong)]
+		UIColor ThumbnailButtonColor { get; set; }
+
 		[Export ("updateLabelWithDocument:page:visiblePages:")]
 		bool UpdateLabel (PSPDFDocument document, nuint page, NSOrderedSet<NSNumber> visiblePages);
 
