@@ -50,13 +50,13 @@ namespace PSPDFCatalog
 			}
 		}
 
-		public PSPDFAnnotation [] AnnotationsForPage (nuint page)
+		public PSPDFAnnotation [] GetAnnotationsForPage (nuint pageIndex)
 		{
 			if (annotations == null)
 				annotations = new Dictionary<nuint, PSPDFAnnotation []> ((int)document.PageCount);
 
-			if (annotations.ContainsKey (page))
-				return annotations [page];
+			if (annotations.ContainsKey (pageIndex))
+				return annotations [pageIndex];
 
 			// it's important that this method is:
 			// - fast
@@ -65,18 +65,18 @@ namespace PSPDFCatalog
 			lock (this) {
 				// create new note annotation and add it to the dict.
 				var documentProvider = ProviderDelegate.ParentDocumentProvider;
-				var pageInfo = documentProvider.Document.GetPageInfo (page);
+				var pageInfo = documentProvider.Document.GetPageInfo (pageIndex);
 				var noteAnnotation = new PSPDFNoteAnnotation {
-					Page = page,
+					PageIndex = pageIndex,
 					DocumentProvider = documentProvider,
-					Contents = string.Format ("Annotation from the custom annotationProvider for page {0}.", page + 1),
+					Contents = string.Format ("Annotation from the custom annotationProvider for page {0}.", pageIndex + 1),
 					// place it top left (PDF coordinate space starts from bottom left)
 					BoundingBox = new CGRect (100, pageInfo.RotatedRect.Size.Height - 100, 32, 32),
 					Editable = false
 				};
-				annotations.Add (page, new PSPDFAnnotation [] { noteAnnotation });
+				annotations.Add (pageIndex, new PSPDFAnnotation [] { noteAnnotation });
 			}
-			return annotations [page];
+			return annotations [pageIndex];
 		}
 
 		void PickColor (object o, EventArgs e)

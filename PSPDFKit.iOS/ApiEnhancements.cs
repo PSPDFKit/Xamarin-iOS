@@ -6,6 +6,7 @@ using ObjCRuntime;
 using Foundation;
 using UIKit;
 using CoreGraphics;
+using System.Runtime.CompilerServices;
 
 namespace PSPDFKit.iOS {
 
@@ -28,16 +29,6 @@ namespace PSPDFKit.iOS {
 		public static void SetLocalizationDictionary (NSDictionary<NSString, NSDictionary<NSString, NSString>> localizationDict)
 		{
 			_SetLocalizationDictionary (localizationDict == null ? IntPtr.Zero : localizationDict.Handle);
-		}
-
-		[DllImport ("__Internal", EntryPoint = "PSPDFBundleImage")]
-		private static extern IntPtr _BundleImage (IntPtr imageName);
-
-		public static UIImage BundleImage (string imageName)
-		{
-			var ret = _BundleImage (new NSString (imageName).Handle);
-			var img = Runtime.GetNSObject<UIImage> (ret);
-			return img;
 		}
 	}
 
@@ -82,19 +73,6 @@ namespace PSPDFKit.iOS {
 				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
 
 				bool ret = _EnsureDataDirectoryExists (val_addr);
-				error = (NSError) Runtime.GetNSObject (val);
-
-				return ret;
-			}
-		}
-
-		public virtual bool SaveAnnotations (out NSError error)
-		{
-			unsafe {
-				IntPtr val;
-				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
-
-				bool ret = SaveAnnotations (val_addr);
 				error = (NSError) Runtime.GetNSObject (val);
 
 				return ret;
@@ -284,48 +262,6 @@ namespace PSPDFKit.iOS {
 				Marshal.FreeHGlobal (boundsPtr);
 			}
 			return result;
-		}
-	}
-
-	public partial class PSPDFBookmarkParser : NSObject {
-
-		public virtual bool ClearAllBookmarks (out NSError error)
-		{
-			unsafe {
-				IntPtr val;
-				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
-
-				bool ret = ClearAllBookmarksWithError (val_addr);
-				error = (NSError) Runtime.GetNSObject (val);
-
-				return ret;
-			}
-		}
-
-		public virtual PSPDFBookmark [] LoadBookmarks (out NSError error)
-		{
-			unsafe {
-				IntPtr val;
-				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
-
-				PSPDFBookmark [] ret = LoadBookmarksWithError (val_addr);
-				error = (NSError) Runtime.GetNSObject (val);
-
-				return ret;
-			}
-		}
-
-		public virtual bool SaveBookmarks (out NSError error)
-		{
-			unsafe {
-				IntPtr val;
-				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
-
-				bool ret = SaveBookmarksWithError (val_addr);
-				error = (NSError) Runtime.GetNSObject (val);
-
-				return ret;
-			}
 		}
 	}
 
@@ -727,6 +663,26 @@ namespace PSPDFKit.iOS {
 		{
 			var handle = new PSPDFX509 ().InitWithX509 (x509);
 			return Runtime.GetNSObject<PSPDFX509> (handle);
+		}
+	}
+
+	public partial class PSPDFStylusDriver
+	{
+		// HACK:
+		// - (instancetype)initWithDelegate:(id<PSPDFStylusDriverDelegate>)delegate;
+		[Export ("initWithDelegate:")]
+		[CompilerGenerated]
+		public PSPDFStylusDriver (IPSPDFStylusDriverDelegate del)
+			: base (NSObjectFlag.Empty)
+		{
+			if (del == null)
+				throw new ArgumentNullException ("del");
+			IsDirectBinding = GetType ().Assembly == global::ApiDefinition.Messaging.this_assembly;
+			if (IsDirectBinding) {
+				InitializeHandle (global::ApiDefinition.Messaging.IntPtr_objc_msgSend_IntPtr (this.Handle, Selector.GetHandle ("initWithDelegate:"), del.Handle), "initWithDelegate:");
+			} else {
+				InitializeHandle (global::ApiDefinition.Messaging.IntPtr_objc_msgSendSuper_IntPtr (this.SuperHandle, Selector.GetHandle ("initWithDelegate:"), del.Handle), "initWithDelegate:");
+			}
 		}
 	}
 

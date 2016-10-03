@@ -8,34 +8,39 @@ using PSPDFKit.iOS;
 
 namespace PSPDFCatalog
 {
-	public class CustomBookmarkParser : PSPDFBookmarkParser
+	[Register ("CustomBookmarkProvider")]
+	public class CustomBookmarkProvider : NSObject, IPSPDFBookmarkProvider
 	{
-		// MUST HAVE ctor when Subclassing!!! It will crash otherwise.
-		public CustomBookmarkParser (IntPtr handle) : base (handle)
+		List<PSPDFBookmark> bookmarks = new List<PSPDFBookmark> ();
+
+		public CustomBookmarkProvider (IntPtr handle) : base (handle)
 		{
 		}
 
-		public override bool AddBookmark (nuint page)
+		public CustomBookmarkProvider ()
 		{
-			var alert = new UIAlertView ("Bookmarking detected", string.Format ("You added page {0} to bookmarks", page + 1), null, "Ok", null);
-			alert.Show ();
-			return base.AddBookmark (page);
 		}
 
-		public override bool RemoveBookmark (nuint page)
-		{
-			var alert = new UIAlertView ("Remove Action", string.Format ("You removed page {0} from bookmarks", page + 1), null, "Ok", null);
-			alert.Show ();
-			return base.RemoveBookmark (page);
+		public PSPDFBookmark [] Bookmarks {
+			get {
+				return bookmarks.ToArray ();
+			}
 		}
 
-		public override bool SaveBookmarks (out NSError error)
+		public void Add (PSPDFBookmark bookmark)
 		{
-			InvokeOnMainThread (() => {
-				var alert = new UIAlertView ("Bookmark Subclass Message", string.Format ("Intercepted bookmark saving; current bookmarks are: {0}", Bookmarks.Count ()), null, "Ok", null);
-				alert.Show ();
-			});
-			return base.SaveBookmarks (out error);
+			bookmarks.Add (bookmark);
+			InvokeOnMainThread (() => PSPDFStatusHUDItem.GetSuccessHud ($"You added page {bookmark.PageIndex + 1} from bookmarks").PushAndPop (1, true, null));
+		}
+
+		public void Remove (PSPDFBookmark bookmark)
+		{
+			bookmarks.Remove (bookmark);
+		}
+
+		public void Save ()
+		{
+			// Do nothing here, since we are not storing bookmarks anywhere
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace PSPDFCatalog
 		[Export ("initWithFrame:")]
 		public CustomLinkAnnotationView (CGRect frame) : base (frame)
 		{
-			BorderColor = UIColor.Red.ColorWithAlpha (0.5f);
+			BackgroundColor = UIColor.Red.ColorWithAlpha (0.3f);
 		}
 	}
 }

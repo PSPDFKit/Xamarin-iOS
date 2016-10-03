@@ -73,8 +73,8 @@ namespace PSPDFKit.iOS {
 		FailedToWriteAnnotations = 410,
 		WriteAnnotationsCancelled = 411,
 		CannotEmbedAnnotations = 420,
-		FailedToLoadBookmarks = 450,
 		FailedToSaveBookmarks = 460,
+		FailedToSaveDocument = 470,
 		OutlineParser = 500,
 		UnableToConvertToDataRepresentation = 600,
 		RemoveCacheError = 700,
@@ -115,6 +115,8 @@ namespace PSPDFKit.iOS {
     	DocumentEditorUnableToWriteFile = 7400,
     	DocumentEditorInvalidDocument = 7401,
 		FailedToFetchResource = 8000,
+		FailedToSetResource = 8500,
+		FileCoordinationBackgroundTaskCreationFailed = 9000,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
 
@@ -186,13 +188,9 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
-	public enum PSPDFPageRenderingMode : ulong {
-		ThumbnailThenFullPage,
-		ThumbnailIfInMemoryThenFullPage,
-		FullPage,
-		FullPageBlocking,
-		ThumbnailThenRender,
-		Render
+	public enum PSPDFDrawCreateMode : ulong {
+		Separate,
+		MergeIfPossible
 	}
 
 	[Flags]
@@ -259,7 +257,7 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
-	public enum PSPDFCacheStatus : ulong {
+	public enum PSPDFCacheStatus : long {
 		NotCached,
 		InMemory,
 		OnDisk
@@ -275,28 +273,10 @@ namespace PSPDFKit.iOS {
 
 	[Flags]
 	[Native]
-	public enum PSPDFCacheOptions : ulong {
-		MemoryStoreIfVisible = 0,
-		MemoryStoreAlways = 1,
-		MemoryStoreNever = 2,
-		DiskLoadAsyncAndPreload = 0 << 3,
-		DiskLoadAsync = 1 << 3,
-		DiskLoadSyncAndPreload = 2 << 3,
-		DiskLoadSync = 3 << 3,
-		DiskLoadSkip = 4 << 3,
-		RenderQueue = 0 << 6,
-		RenderQueueBackground = 1 << 6,
-		RenderSync = 2 << 6,
-		RenderSkip = 3 << 6,
-		ActualityCheckAndRequest = 0 << 9,
-		ActualityIgnore = 1 << 9,
-		SizeRequireAboutExact = 0 << 12,
-		SizeRequireExact = 1 << 12,
-		SizeAllowLarger = 2 << 12,
-		SizeAllowLargerScaleSync = 3 << 12,
-		SizeAllowLargerScaleAsync = 4 << 12,
-		SizeGetLargestAvailable = 5 << 12,
-		SizeAllowSmaller = 6 << 12
+	public enum PSPDFCacheImageSizeMatching : ulong {
+		Exact = 0,
+		AllowLarger  = 1 << 0,
+		AllowSmaller = 1 << 1,
 	}
 
 	[Native]
@@ -307,11 +287,11 @@ namespace PSPDFKit.iOS {
 
 	[Native]
 	public enum PSPDFRenderQueuePriority : ulong {
-		VeryLow,
-		Low,
-		Normal,
-		High,
-		VeryHigh
+		Unspecified = 0,
+		Background = 100,
+		Utility = 200,
+		UserInitiated = 300,
+		UserInteractive = 400,
 	}
 
 	[Native]
@@ -681,6 +661,8 @@ namespace PSPDFKit.iOS {
 		PageTransition = 1 << 1,
 		Appearance = 1 << 2,
 		Brightness = 1 << 3,
+		PageMode = 1 << 4,
+		Default = ScrollDirection | PageTransition | Appearance | Brightness,
 		All = ulong.MaxValue
 	}
 
@@ -1164,12 +1146,6 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
-	public enum PSPDFSortOrder : ulong {
-		Custom,
-		PageBased
-	}
-
-	[Native]
 	public enum PSPDFScrollInsetAdjustment : ulong {
 		None,
 		FixedElements,
@@ -1194,5 +1170,41 @@ namespace PSPDFKit.iOS {
 		Page,
 		Processor,
 		All = ulong.MaxValue
+	}
+
+	[Native]
+	public enum PSPDFBookmarkManagerSortOrder : ulong {
+		Custom,
+		PageBased
+	}
+
+	[Native]
+	public enum PSPDFCacheStoragePolicy : long {
+		Automatic = 0,
+		Allowed,
+		AllowedInMemoryOnly,
+		NotAllowed,
+	}
+
+	[Native]
+	public enum PSPDFRenderRequestCachePolicy : long {
+		Default = 0,
+		ReloadIgnoreingCacheData,
+		ReturnCacheDataElseLoad,
+		ReturnCacheDataDontLoad,
+	}
+
+	[Native]
+	public enum PSPDFBookmarkIndicatorImageType : long {
+		Large,
+		Medium,
+		Small
+	}
+
+	[Native]
+	public enum PSPDFPageBookmarkIndicatorMode : ulong {
+		Off,
+		AlwaysOn,
+		OnWhenBookmarked
 	}
 }

@@ -5,8 +5,10 @@ using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
 
-namespace PSPDFKit.iOS.StylusSupport
-{
-	
+namespace PSPDFKit.iOS.StylusSupport {
+	[BaseType (typeof (NSObject))]
+	interface PSPDFJotTouchStylusDriver
+	{
+	}
 }
 

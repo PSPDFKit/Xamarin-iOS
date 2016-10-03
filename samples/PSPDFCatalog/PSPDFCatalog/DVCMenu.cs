@@ -1,17 +1,14 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using MonoTouch.Dialog;
 
 using Foundation;
 using UIKit;
-using ObjCRuntime;
 
 using PSPDFKit.iOS;
-
+using ObjCRuntime;
 
 namespace PSPDFCatalog
 {
@@ -25,7 +22,7 @@ namespace PSPDFCatalog
 
 		public DVCMenu () : base (UITableViewStyle.Grouped, null)
 		{
-			Root = new RootElement (PSPDFKitGlobal.SharedInstance.Version) {
+			Root = new RootElement (PSPDFKitGlobal.VersionString) {
 				new Section ("Start here") {
 					new StringElement ("PSPDFViewController Playground", () => {
 						var pdfViewer = new PlayGroundViewController (NSUrl.FromFilename (PSPDFKitFile));
@@ -65,7 +62,7 @@ namespace PSPDFCatalog
 						await Task.Factory.StartNew (()=> {
 							NSError err;
 							PSPDFProcessor.GeneratePdf (configuration: new PSPDFProcessorConfiguration (document), 
-							                            saveOptions: new PSPDFProcessorSaveOptions (password, password, NSNumber.FromInt32 (128)),
+							                            saveOptions: new PSPDFProcessorSaveOptions (password, password, PSPDFProcessorSaveOptions.KeyLengthAutomatic),
 							                            fileUrl: tempPdf,
 							                            progressHandler: (currentPage, totalPages) => InvokeOnMainThread (() => status.Progress = (nfloat) currentPage / totalPages),
 							                            error: out err);
@@ -101,18 +98,15 @@ namespace PSPDFCatalog
 					}),
 					new StringElement ("Capture Bookmarks", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						document.OverrideClass (new Class (typeof (PSPDFBookmarkParser)), new Class (typeof (CustomBookmarkParser)));
+						document.BookmarkManager.Provider = new IPSPDFBookmarkProvider [] { new CustomBookmarkProvider () };
 						var pdfViewer = new PSPDFViewController (document);
 						pdfViewer.NavigationItem.RightBarButtonItems = new [] { pdfViewer.SearchButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.BookmarkButtonItem };
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("Change link background color to red", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						// Note: You can also globally change the color using:
-						// PSPDFLinkAnnotationView.SetGlobalBorderColor = UIColor.Green;
-						// We don't use this in the example here since it would change the color globally for all examples.
 						var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
-							builder.OverrideClass (new Class (typeof (PSPDFLinkAnnotationView)), new Class (typeof (CustomLinkAnnotationView)));
+							builder.OverrideClass (typeof (PSPDFLinkAnnotationView), typeof (CustomLinkAnnotationView));
 						}));
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
@@ -146,9 +140,23 @@ namespace PSPDFCatalog
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("Stylus Support", () => {
+
+						// TODO: Stylus Support
+						// Uncomment all the needed driver lines once you added the corresponding Dll's.
+						//
+						// Please visit PSPDFKit support page for more information
+						// https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support/
+						//
+						PSPDFKitGlobal.SharedInstance.StylusManager.AvailableDriverClasses = new NSOrderedSet<Class> (
+							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFFiftyThreeStylusDriver)),
+							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFJotTouchStylusDriver)),
+							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFWacomStylusDriver)),
+							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFPogoStylusDriver))
+						);
+
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
-							builder.OverrideClass (new Class (typeof (PSPDFAnnotationToolbar)), new Class (typeof (PSCStylusEnabledAnnotationToolbar)));
+							builder.OverrideClass (typeof (PSPDFAnnotationToolbar), typeof (PSCStylusEnabledAnnotationToolbar));
 						}));
 						NavigationController.PushViewController (pdfViewer, true);
 					})
@@ -166,7 +174,7 @@ namespace PSPDFCatalog
 			NavigationController.NavigationBar.BarTintColor = barColor;
 			NavigationController.Toolbar.TintColor = barColor;
 			NavigationController.View.TintColor = UIColor.White;
-			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes () { ForegroundColor = UIColor.White };
+			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
 			NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;
 			NavigationController.SetToolbarHidden (true, animated);
 		}

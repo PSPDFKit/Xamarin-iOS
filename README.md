@@ -1,7 +1,7 @@
 Xamarin PSPDFKit for iOS Bindings
 =================================
 
-Xamarin.iOS Bindings for PSPDFKit 5.5.3 for iOS
+Xamarin.iOS Bindings for PSPDFKit 6.0.0 for iOS
 
 Please take a look at [our documentation](https://pspdfkit.com/guides/ios/current/other-languages/xamarin) for build instructions.  
 You can find instructions on how to add stylus support [here](https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support).

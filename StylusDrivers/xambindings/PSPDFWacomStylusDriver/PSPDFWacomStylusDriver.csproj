@@ -42,7 +42,6 @@
     <Compile Include="WacomDevice.linkwith.cs">
       <DependentUpon>WacomDevice.a</DependentUpon>
     </Compile>
-    <Compile Include="Loader.cs" />
     <Compile Include="libPSPDFWacomStylusDriver.linkwith.cs">
       <DependentUpon>libPSPDFWacomStylusDriver.a</DependentUpon>
     </Compile>

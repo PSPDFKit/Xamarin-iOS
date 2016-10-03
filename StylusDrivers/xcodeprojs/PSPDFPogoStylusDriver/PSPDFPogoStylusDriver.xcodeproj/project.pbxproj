@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA9E76061C95E16100869276 /* PSPDFPogoStylusDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9E76051C95E16100869276 /* PSPDFPogoStylusDriver.m */; };
 		FA9E760D1C95E19E00869276 /* PSPDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9E760C1C95E19E00869276 /* PSPDFKit.framework */; };
+		FADBED8B1D983834007405BA /* PSPDFPogoStylusDriver.h in Sources */ = {isa = PBXBuildFile; fileRef = FADBED8A1D983827007405BA /* PSPDFPogoStylusDriver.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 		FA9E760C1C95E19E00869276 /* PSPDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSPDFKit.framework; path = ../../externals/PSPDFKit.framework; sourceTree = "<group>"; };
 		FA9E760E1C95E1BD00869276 /* T1PogoManager */ = {isa = PBXFileReference; lastKnownFileType = folder; name = T1PogoManager; path = ../../externals/T1PogoManager; sourceTree = "<group>"; };
 		FA9E760F1C95E2BA00869276 /* NeededPrefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeededPrefix.pch; sourceTree = "<group>"; };
+		FADBED8A1D983827007405BA /* PSPDFPogoStylusDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSPDFPogoStylusDriver.h; path = ../../../externals/Drivers/PSPDFPogoStylusDriver.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 		FA9E76021C95E16100869276 /* PSPDFPogoStylusDriver */ = {
 			isa = PBXGroup;
 			children = (
+				FADBED8A1D983827007405BA /* PSPDFPogoStylusDriver.h */,
 				FA9E76051C95E16100869276 /* PSPDFPogoStylusDriver.m */,
 			);
 			path = PSPDFPogoStylusDriver;
@@ -126,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADBED8B1D983834007405BA /* PSPDFPogoStylusDriver.h in Sources */,
 				FA9E76061C95E16100869276 /* PSPDFPogoStylusDriver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +223,7 @@
 				FRAMEWORK_SEARCH_PATHS = ../../externals;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NeededPrefix.pch";
 				HEADER_SEARCH_PATHS = "../../externals/T1PogoManager/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -231,6 +236,7 @@
 				FRAMEWORK_SEARCH_PATHS = ../../externals;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/NeededPrefix.pch";
 				HEADER_SEARCH_PATHS = "../../externals/T1PogoManager/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -256,6 +262,7 @@
 				FA9E760B1C95E16100869276 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

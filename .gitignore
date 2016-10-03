@@ -6,6 +6,7 @@
 [Dd]ebug*/
 obj/
 tmp/
+StylusDrivers/externals/
 *.g.cs
 *.pidb
 *.dll
