@@ -3285,6 +3285,9 @@ namespace PSPDFKit.iOS {
 		[Export ("XMPMetadata"), NullAllowed]
 		string XmpMetadata { get; }
 
+		[Export ("setRotation:forPageAtIndex:")]
+		void SetRotation (nuint rotation, nuint pageIndex);
+
 		// PSPDFDocumentProvider (SubclassingHooks) Category
 
 		[Advice ("You shouldn't call this method directly, use the high-level save method in PSPDFDocument instead")]
