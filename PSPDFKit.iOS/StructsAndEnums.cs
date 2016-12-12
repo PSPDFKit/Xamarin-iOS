@@ -117,6 +117,7 @@ namespace PSPDFKit.iOS {
 		FailedToFetchResource = 8000,
 		FailedToSetResource = 8500,
 		FileCoordinationBackgroundTaskCreationFailed = 9000,
+		JsonDeserializationError = 9500,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
 
@@ -1206,5 +1207,32 @@ namespace PSPDFKit.iOS {
 		Off,
 		AlwaysOn,
 		OnWhenBookmarked
+	}
+
+	[Native]
+	public enum PSPDFDiskCacheFileFormat : long {
+		Jpeg,
+		Png
+	}
+
+	[Native]
+	public enum PSPDFLibrarySpotlightIndexingType : long {
+		Disabled = 0,
+		Enabled = 1,
+		EnabledWithFullText = 2
+	}
+
+	[Native]
+	public enum PSPDFSearchResultScope : long {
+		PageRange,
+		Document
+	}
+
+	[Native]
+	public enum PSPDFTabbedViewControllerCloseMode : long {
+		OnlySelectedTab,
+		AllTabs,
+		SizeDependent,
+		Disabled
 	}
 }
