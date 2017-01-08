@@ -109,9 +109,6 @@ namespace PSPDFKit.iOS {
 		[Export ("stylusManager", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFStylusManager StylusManager { get; }
 
-		[Export ("feedbackGenerator", ArgumentSemantic.Strong), NullAllowed]
-		NSObject /*SPDFFeedbackGenerator*/ FeedbackGenerator { get; }
-
 		// interface PSPDFKit (ImageLoading) Category
 
 		[Export ("imageNamed:")]
@@ -3654,6 +3651,13 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (PSPDFModel))]
 	interface PSPDFViewState : INSSecureCoding {
 
+		[DesignatedInitializer]
+		[Export ("initWithPageIndex:viewPort:selectionState:")]
+		IntPtr Constructor (nuint pageIndex, CGRect viewPort, [NullAllowed] PSPDFSelectionState selectionState);
+
+		[Export ("initWithPageIndex:selectionState:")]
+		IntPtr Constructor (nuint pageIndex, [NullAllowed] PSPDFSelectionState selectionState);
+
 		[Export ("initWithPageIndex:viewPort:")]
 		IntPtr Constructor (nuint pageIndex, CGRect viewPort);
 
@@ -3668,6 +3672,10 @@ namespace PSPDFKit.iOS {
 
 		[Export ("hasViewPort", ArgumentSemantic.Assign)]
 		bool HasViewPort { get; set; }
+
+		[NullAllowed]
+		[Export ("selectionState", ArgumentSemantic.Strong)]
+		PSPDFSelectionState SelectionState { get; }
 
 		[Export ("isEqualToViewState:withAccuracy:")]
 		bool IsEqualTo (PSPDFViewState other, nfloat leeway);
@@ -6141,6 +6149,10 @@ namespace PSPDFKit.iOS {
 		[Export ("indexedUIDCount", ArgumentSemantic.Assign)]
 		nint IndexedUidCount { get; }
 
+		[Export ("indexedDocumentWithUID:")]
+		[return: NullAllowed]
+		PSPDFDocument GetIndexedDocument (string uid);
+
 		[Export ("metadataForUID:")]
 		[return: NullAllowed]
 		NSDictionary MetadataFor (string uid);
@@ -6184,13 +6196,16 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFLibraryDataSource {
 
+		[Export ("libraryWillBeginIndexing:")]
+		void WillBeginIndexing (PSPDFLibrary library);
+
 		[Abstract]
 		[Export ("uidsOfDocumentsToBeIndexedByLibrary:")]
-		string [] UidsOfDocumentsToBeIndexedByLibrary (PSPDFLibrary library);
+		string [] GetUidsOfDocumentsToBeIndexed (PSPDFLibrary library);
 
 		[Abstract]
 		[Export ("uidsOfDocumentsToBeRemovedFromLibrary:")]
-		string [] UidsOfDocumentsToBeRemovedFromLibrary (PSPDFLibrary library);
+		string [] GetUidsOfDocumentsToBeRemoved (PSPDFLibrary library);
 
 		[Abstract]
 		[return: NullAllowed]
@@ -6292,6 +6307,9 @@ namespace PSPDFKit.iOS {
 
 	[BaseType (typeof (UITableViewCell))]
 	interface PSPDFDocumentPickerCell {
+
+		[Export ("configureWithDocument:useDocumentTitle:detailText:pageIndex:previewImage:")]
+		void Configure (PSPDFDocument document, bool useDocumentTitle, [NullAllowed] NSAttributedString detailText, nuint pageIndex, UIImage previewImage);
 
 		[Export ("rotatedPageRect", ArgumentSemantic.Assign)]
 		CGRect RotatedPageRect { get; set; }
@@ -13273,6 +13291,39 @@ namespace PSPDFKit.iOS {
 
 		[Export ("directoryEnumerationOptions", ArgumentSemantic.Assign)]
 		NSDirectoryEnumerationOptions DirectoryEnumerationOptions { get; }
+
+		[Export ("explicitModeEnabled")]
+		bool ExplicitModeEnabled { [Bind ("isExplicitModeEnabled")] get; }
+
+		[Export ("didAddOrModifyDocumentAtURL:")]
+		void DidAddOrModifyDocument (NSUrl url);
+
+		[Export ("didRemoveDocumentAtURL:")]
+		void DidRemoveDocument (NSUrl url);
+	}
+
+	[BaseType (typeof (NSObject))]
+	interface PSPDFSelectionState : INSSecureCoding {
+
+		[Static]
+		[return: NullAllowed]
+		[Export ("stateForSelectionView:")]
+		void GetState (PSPDFTextSelectionView selectionView);
+
+		[Export ("UID")]
+		string Uid { get; }
+
+		[Export ("selectionPageIndex")]
+		nuint SelectionPageIndex { get; }
+
+		[Export ("selectedGlyphs")]
+		PSPDFGlyph [] SelectedGlyphs { get; }
+
+		[Export ("selectedImage")]
+		PSPDFImageInfo SelectedImage { get; }
+
+		[Export ("isEqualToSelectionState:")]
+		bool IsEqualTo ([NullAllowed] PSPDFSelectionState selectionState);
 	}
 }
 
