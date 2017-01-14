@@ -35,11 +35,11 @@ namespace PSPDFKit.iOS {
 	public partial class PSPDFViewController {
 
 		[DllImport  ("__Internal", EntryPoint = "PSPDFChildViewControllerForClass")]
-		private static extern IntPtr _ChildViewControllerForClass (IntPtr controller, IntPtr controllerClass, bool onlyReturnIfVisible);
+		private static extern IntPtr _ChildViewControllerForClass (IntPtr controller, IntPtr controllerClass);
 
-		public static UIViewController ChildViewControllerForClass (UIViewController controller, Class controllerClass, bool onlyReturnIfVisible)
+		public static UIViewController ChildViewControllerForClass (UIViewController controller, Class controllerClass)
 		{
-			var ret = _ChildViewControllerForClass (controller != null ? controller.Handle : IntPtr.Zero, controllerClass.Handle, onlyReturnIfVisible);
+			var ret = _ChildViewControllerForClass (controller != null ? controller.Handle : IntPtr.Zero, controllerClass.Handle);
 			if (ret == IntPtr.Zero)
 				return null;
 
