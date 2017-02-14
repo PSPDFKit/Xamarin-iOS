@@ -124,7 +124,6 @@
     <Compile Include="Catalog\Subclassing\CustomLinkAnnotationView.cs" />
     <Compile Include="Catalog\Subclassing\CustomAnnotationProvider.cs" />
     <Compile Include="Catalog\Customization\PSCSimpleDrawingPDFViewController.cs" />
-    <Compile Include="Catalog\Subclassing\CustomPDFDocument.cs" />
     <Compile Include="Catalog\Customization\PSCustomTextSelectionMenuController.cs" />
     <Compile Include="Catalog\Customization\PSCStylusEnabledAnnotationToolbar.cs" />
   </ItemGroup>
