@@ -1235,4 +1235,11 @@ namespace PSPDFKit.iOS {
 		SizeDependent,
 		Disabled
 	}
+
+	[Native]
+	public enum PSPDFLibraryFtsVersion : ulong {
+		HighestAvailable,
+		Version4,
+		Version5
+	}
 }

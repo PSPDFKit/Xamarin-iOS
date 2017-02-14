@@ -53,4 +53,11 @@
     </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
+  <!-- Kill *.sh files inside PSPDFKit.framework -->
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <fileToDelete Include="$(ProjectDir)\PSPDFKit.framework\**\*.sh" />
+    </ItemGroup>
+    <Delete Files="@(fileToDelete)" />
+  </Target>
 </Project>
