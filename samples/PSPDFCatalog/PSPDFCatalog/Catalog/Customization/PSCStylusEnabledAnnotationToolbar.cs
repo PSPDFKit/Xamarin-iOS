@@ -12,11 +12,11 @@ namespace PSPDFCatalog {
 		public PSCStylusEnabledAnnotationToolbar (IntPtr handle) : base (handle) { }
 
 		// It is important that this ctor is decorated with its objc ctor name
-		[Export ("initWithAnnotationStateManager:")]
-		public PSCStylusEnabledAnnotationToolbar (PSPDFAnnotationStateManager annotationStateManager) : base (annotationStateManager)
-		{
-			AdditionalButtons = new UIButton[] { annotationStateManager.StylusStatusButton };
-		}
+		//[Export ("initWithAnnotationStateManager:")]
+		//public PSCStylusEnabledAnnotationToolbar (PSPDFAnnotationStateManager annotationStateManager) : base (annotationStateManager)
+		//{
+		//	AdditionalButtons = new UIButton[] { annotationStateManager.StylusStatusButton };
+		//}
 	}
 }
 

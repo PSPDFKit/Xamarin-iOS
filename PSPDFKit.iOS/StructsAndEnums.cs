@@ -65,6 +65,7 @@ namespace PSPDFKit.iOS {
 		AssetNameNotSet = 215,
 		CantCreateStreamFile = 216,
 		CantCreateStream = 217,
+		CoreAnnotationNotSet = 218,
 		PageRenderSizeIsEmpty = 220,
 		PageRenderClipRectTooLarge = 230,
 		PageRenderGraphicsContextNil = 240,
@@ -406,7 +407,8 @@ namespace PSPDFKit.iOS {
 	public enum PSPDFAnnotationChange : long {
 		Flatten,
 		Remove,
-		Embed
+		Embed,
+		Print
 	}
 
 	[Native]
@@ -641,17 +643,6 @@ namespace PSPDFKit.iOS {
 		None = 0,
 		PolygonCloud,
 		PolygonDimension
-	}
-
-	[Native]
-	public enum PSPDFAppearanceCharacteristicsTextPosition : ulong {
-		NoIcon,
-		NoCaption,
-		CaptionBelowIcon,
-		CaptionAboveIcon,
-		CaptionLeftFromIcon,
-		CaptionRightFromIcon,
-		CaptionOverlaid
 	}
 
 	[Native]
@@ -1001,6 +992,7 @@ namespace PSPDFKit.iOS {
 		FlattenAnnotations = 1 << 9,
 		AnnotationsSummary = 1 << 10,
 		RemoveAnnotations = 1 << 11,
+		FlattenAnnotationsForPrint = 1 << 12,
 		OriginalFile = 1 << 16,
 		Image = 1 << 17
 	}
@@ -1241,5 +1233,31 @@ namespace PSPDFKit.iOS {
 		HighestAvailable,
 		Version4,
 		Version5
+	}
+
+	[Native]
+	public enum PSPDFAnnotationStateManagerStylusMode : ulong {
+		FromStylusManager,
+		Direct,
+		Stylus
+	}
+
+	[Native]
+	public enum PSPDFFormFieldType : ulong {
+		Unknown,
+		PushButton,
+		RadioButton,
+		CheckBox,
+		Text,
+		ListBox,
+		ComboBox,
+		Signature
+	}
+
+	[Native]
+	public enum PSPDFPrintMode : ulong {
+		Interactive,
+		ChoosePrinterOnly,
+		PrintDirect
 	}
 }
