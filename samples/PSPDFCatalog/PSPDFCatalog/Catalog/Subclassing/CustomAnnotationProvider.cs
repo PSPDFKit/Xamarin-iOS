@@ -74,7 +74,8 @@ namespace PSPDFCatalog
 					BoundingBox = new CGRect (100, pageInfo.RotatedRect.Size.Height - 100, 32, 32),
 					Editable = false
 				};
-				annotations.Add (pageIndex, new PSPDFAnnotation [] { noteAnnotation });
+				if (!annotations.ContainsKey (pageIndex))
+					annotations.Add (pageIndex, new PSPDFAnnotation [] { noteAnnotation });
 			}
 			return annotations [pageIndex];
 		}

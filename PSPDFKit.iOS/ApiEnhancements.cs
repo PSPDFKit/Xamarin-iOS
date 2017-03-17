@@ -757,11 +757,4 @@ namespace PSPDFKit.iOS {
 			return _FromString (str == null ? IntPtr.Zero : new NSString (str).Handle);
 		}
 	}
-
-	//public partial class PSPDFBaseConfigurationBuilder {
-
-	//	public PSPDFBaseConfiguration<BuilderType> GetBuild<BuilderType> () where BuilderType : PSPDFBaseConfigurationBuilder {
-	//		return Runtime.GetNSObject<PSPDFBaseConfiguration<BuilderType>> (_GetBuild ());
-	//	}
-	//}
 }

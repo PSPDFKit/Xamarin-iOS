@@ -153,9 +153,8 @@ namespace PSPDFKit.iOS {
 		[Export ("configurationTargetClass")]
 		Class ConfigurationTargetClass { get; }
 
-		[Internal]
-		[Export ("build")] // TODO: Enable PSPDFBaseConfigurationBuilder API enhancement
-		IntPtr _GetBuild ();
+		[Export ("build")]
+		PSPDFBaseConfiguration GetBuild ();
 
 		[Export ("reset")]
 		void Reset ();
@@ -1753,6 +1752,12 @@ namespace PSPDFKit.iOS {
 
 		[Export ("documentByAppendingObjects:")]
 		PSPDFDocument DocumentByAppendingObjects (NSObject [] objects);
+
+		[Export ("documentId", ArgumentSemantic.Copy)]
+		NSData DocumentId { get; }
+
+		[Export ("documentIdString")]
+		string DocumentIdString { get; }
 
 		[Export ("UID"), NullAllowed]
 		string Uid { get; set; }
@@ -3365,6 +3370,9 @@ namespace PSPDFKit.iOS {
 		[Export ("allowAnnotationChanges", ArgumentSemantic.Assign)]
 		bool AllowAnnotationChanges { get; }
 
+		[Export ("fileId"), NullAllowed]
+		NSData FileId { get; }
+
 		[Export ("title")]
 		string Title { get; }
 
@@ -4965,6 +4973,7 @@ namespace PSPDFKit.iOS {
 	delegate void PSPDFWebViewControllerDelegateHandleExternalUrlHandler (bool switchedApplication);
 
 	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
 	interface PSPDFWebViewControllerDelegate : PSPDFExternalURLHandler {
 
 		[Export ("webViewControllerDidStartLoad:")]
@@ -6780,6 +6789,9 @@ namespace PSPDFKit.iOS {
 		PSPDFDocument Document { get; set; }
 
 		// PSPDFOutlineViewController (SubclassingHooks) Category
+
+		[Export ("shouldExpandCollapseOnRowSelection")]
+		bool ShouldExpandCollapseOnRowSelection ();
 
 		[Export ("outlineCellDidTapDisclosureButton:")]
 		void OutlineCellDidTapDisclosureButton (PSPDFOutlineCell cell);
@@ -8798,6 +8810,7 @@ namespace PSPDFKit.iOS {
 	interface IPSPDFAnnotationStyleViewControllerDelegate { }
 
 	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
 	interface PSPDFAnnotationStyleViewControllerDelegate : PSPDFOverridable {
 
 		[Export ("annotationStyleController:didChangeProperties:")][Abstract]
@@ -12067,6 +12080,7 @@ namespace PSPDFKit.iOS {
 	interface IPSPDFAvoidingScrollViewDelegate { }
 
 	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
 	interface PSPDFAvoidingScrollViewDelegate : IUIScrollViewDelegate {
 
 		[Export ("scrollViewShouldAvoidKeyboard:")]
@@ -12258,10 +12272,13 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFApplePencilDriver : PSPDFStylusDriver {
 
-		// Missing PSPDF_EXPORT
 		//[Field ("PSPDFApplePencilDetectedNotification", "__Internal")]
 		//[Notification]
 		//NSString ApplePencilDetectedNotification { get; }
+
+		//[Field ("PSPDFApplePencilDetectedChangedNotification", "__Internal")]
+		//[Notification]
+		//NSString ApplePencilDetectedChangedNotification { get; }
 
 		[DesignatedInitializer]
 		[Export ("initWithDelegate:")]
