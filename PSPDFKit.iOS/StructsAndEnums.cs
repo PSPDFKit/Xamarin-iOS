@@ -659,24 +659,11 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
-	public enum PSPDFIconFitScaleMode : ulong {
-		Always,
-		IfBigger,
-		IfSmaller,
-		Never
-	}
-
-	[Native]
-	public enum PSPDFIconFitScaleType : ulong {
-		Anamorphic,
-		Proportional
-	}
-
-	[Native]
 	public enum PSPDFThumbnailFlowLayoutLineAlignment : long {
 		Left,
-		Center,
-		Right
+	    Center,
+	    Right,
+	    PageBinding
 	}
 
 	[Flags]
@@ -1079,8 +1066,10 @@ namespace PSPDFKit.iOS {
 	[Native]
 	public enum PSPDFThumbnailFlowLayoutAttributesType : long {
 		Single,
-		Left,
-		Right
+	    Leading,
+	    Trailing,
+	    Left = Leading,
+	    Right = Trailing
 	}
 
 	[Native]
@@ -1259,5 +1248,12 @@ namespace PSPDFKit.iOS {
 		Interactive,
 		ChoosePrinterOnly,
 		PrintDirect
+	}
+
+	[Native]
+	public enum PSPDFPageBinding : long {
+		Unknown,
+		LeftEdge,
+		RightEdge
 	}
 }

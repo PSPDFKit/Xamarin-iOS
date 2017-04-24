@@ -471,6 +471,15 @@ namespace PSPDFKit.iOS {
 				state == null ? IntPtr.Zero : new NSString (state).Handle, 
 				variant == null ? IntPtr.Zero : new NSString (variant).Handle));
 		}
+
+		[DllImport ("__Internal", EntryPoint = "PSPDFAnnotationStateFromStateVariantIdentifier")]
+		private static extern IntPtr _StateFromStateVariantIdentifier (IntPtr state);
+
+		public static string StateFromStateVariantIdentifier (string stateVariant)
+		{
+			return (string) Runtime.GetNSObject<NSString>(_StateFromStateVariantIdentifier (
+				stateVariant == null ? IntPtr.Zero : new NSString (stateVariant).Handle));
+		}
 	}
 
 	public partial class PSPDFMenuItem : UIMenuItem {
