@@ -402,6 +402,9 @@ namespace PSPDFKit.iOS {
 		[Export ("allowBackgroundSaving", ArgumentSemantic.Assign)]
 		bool AllowBackgroundSaving { get; }
 
+		[Export ("soundAnnotationRecordingOptions", ArgumentSemantic.Assign)]
+		NSDictionary SoundAnnotationRecordingOptions { get; }
+
 		[Export ("soundAnnotationTimeLimit", ArgumentSemantic.Assign)]
 		double SoundAnnotationTimeLimit { get; }
 
@@ -709,6 +712,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("soundAnnotationTimeLimit", ArgumentSemantic.Assign)]
 		double SoundAnnotationTimeLimit { get; set; }
+
+		[Export ("soundAnnotationRecordingOptions", ArgumentSemantic.Assign)]
+		NSDictionary SoundAnnotationRecordingOptions { get; set; }
 
 		[Export ("shouldCacheThumbnails", ArgumentSemantic.Assign)]
 		bool ShouldCacheThumbnails { get; set; }
@@ -3481,12 +3487,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("clearCache")]
 		void ClearCache ();
-
-		[Export ("pauseCachingForService:")]
-		void PauseCachingForService (NSObject service);
-
-		[Export ("resumeCachingForService:")]
-		void ResumeCachingForService (NSObject service);
 	}
 
 	delegate NSData PSPDFDiskCacheEncryptionHelper (PSPDFRenderRequest request, NSData data);
@@ -3857,9 +3857,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("cancelAllJobs")]
 		void CancelAllJobs ();
-
-		[Export ("minimumProcessPriority", ArgumentSemantic.Assign)]
-		PSPDFRenderQueuePriority MinimumProcessPriority { get; set; }
 	}
 
 	[DisableDefaultCtor]
@@ -6392,26 +6389,40 @@ namespace PSPDFKit.iOS {
 		void UpdateStatusCell (PSPDFDocumentPickerIndexStatusCell cell);
 	}
 
-	[BaseType (typeof (UITableViewCell))]
+	[BaseType (typeof (PSPDFTableViewCell))]
 	interface PSPDFDocumentPickerCell {
 
 		[Export ("configureWithDocument:useDocumentTitle:detailText:pageIndex:previewImage:")]
 		void Configure (PSPDFDocument document, bool useDocumentTitle, [NullAllowed] NSAttributedString detailText, nuint pageIndex, UIImage previewImage);
 
-		[Export ("rotatedPageRect", ArgumentSemantic.Assign)]
-		CGRect RotatedPageRect { get; set; }
+		[Export ("document", ArgumentSemantic.Weak), NullAllowed]
+		PSPDFDocument Document { get; set; }
 
-		[Export ("pagePreviewImage", ArgumentSemantic.Strong), NullAllowed]
+		[Export ("pageIndex")]
+		nuint PageIndex { get; set; }
+
+		[NullAllowed, Export ("pagePreviewImage", ArgumentSemantic.Assign)]
 		UIImage PagePreviewImage { get; set; }
 
 		[Export ("setPagePreviewImage:animated:")]
 		void SetPagePreviewImage ([NullAllowed] UIImage pagePreviewImage, bool animated);
 
-		[Export ("document", ArgumentSemantic.Weak), NullAllowed]
-		PSPDFDocument Document { get; set; }
+		[Export ("pageImageView", ArgumentSemantic.Assign)]
+		UIImageView PageImageView { get; set; }
 
-		[Export ("pageIndex", ArgumentSemantic.Assign)]
-		nuint PageIndex { get; set; }
+		[Export ("titleLabel", ArgumentSemantic.Assign)]
+		UILabel TitleLabel { get; set; }
+
+		[Export ("detailLabel", ArgumentSemantic.Assign)]
+		UILabel DetailLabel { get; set; }
+
+		[Static]
+		[Export ("titleLabelFont")]
+		UIFont TitleLabelFont { get; }
+
+		[Static]
+		[Export ("detailLabelFont")]
+		UIFont DetailLabelFont { get; }
 	}
 
 	[BaseType (typeof (PSPDFSpinnerCell))]

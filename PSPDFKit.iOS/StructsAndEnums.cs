@@ -121,6 +121,9 @@ namespace PSPDFKit.iOS {
 		JsonDeserializationError = 9500,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
+		PKCS12CannotReadData = 300000,
+		PKCS12CannotCopyData = 300001,
+		PKCS12UnlockFailed = 300002,
 
 		Unknown = long.MaxValue
 	}
@@ -778,13 +781,6 @@ namespace PSPDFKit.iOS {
 		Number,
 		Date,
 		Time
-	}
-
-	[Native]
-	public enum PSPDFPKCS12Error : ulong {
-		None = 0,
-		CannotOpenFile,
-		CannotReadFile
 	}
 
 	[Native]
