@@ -32,6 +32,7 @@ namespace PSPDFKit.iOS {
 		DigitalSignatures = 1 << 7,
 		RequireSignedSource = 1 << 8,
 		DocumentEditing = 1 << 9,
+		UI = 1 << 10,
 
 		All = ulong.MaxValue
 	}
@@ -124,6 +125,7 @@ namespace PSPDFKit.iOS {
 		PKCS12CannotReadData = 300000,
 		PKCS12CannotCopyData = 300001,
 		PKCS12UnlockFailed = 300002,
+		SearchCouldNotLoadDocument = 400000,
 
 		Unknown = long.MaxValue
 	}
@@ -1020,7 +1022,7 @@ namespace PSPDFKit.iOS {
 	}
 
 	[Native]
-	public enum PSPDFStatefulTableViewState : ulong {
+	public enum PSPDFStatefulViewState : ulong {
 		Loading,
 		Empty,
 		Finished
@@ -1167,7 +1169,7 @@ namespace PSPDFKit.iOS {
 	[Native]
 	public enum PSPDFRenderRequestCachePolicy : long {
 		Default = 0,
-		ReloadIgnoreingCacheData,
+		ReloadIgnoringCacheData,
 		ReturnCacheDataElseLoad,
 		ReturnCacheDataDontLoad,
 	}

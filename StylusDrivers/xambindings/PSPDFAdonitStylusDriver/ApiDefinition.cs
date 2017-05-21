@@ -7,7 +7,7 @@ using CoreGraphics;
 
 namespace PSPDFKit.iOS.StylusSupport {
 	[BaseType (typeof (NSObject))]
-	interface PSPDFJotTouchStylusDriver
+	interface PSPDFAdonitStylusDriver : IPSPDFStylusDriver
 	{
 	}
 }

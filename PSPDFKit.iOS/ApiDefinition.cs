@@ -291,7 +291,7 @@ namespace PSPDFKit.iOS {
 		[Export ("typesShowingColorPresets", ArgumentSemantic.Assign)]
 		PSPDFAnnotationType TypesShowingColorPresets { get; }
 
-		[Export ("propertiesForAnnotations")]
+		[Export ("propertiesForAnnotations")] // PSPDFAnnotationString
 		NSDictionary<NSString, NSObject> PropertiesForAnnotations { get; }
 
 		[Export ("freeTextAccessoryViewEnabled")]
@@ -323,6 +323,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("shouldShowHUDOnViewWillAppear", ArgumentSemantic.Assign)]
 		bool ShouldShowHUDOnViewWillAppear { get; }
+
+		[Export ("pageGrabberEnabled", ArgumentSemantic.Assign)]
+		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; }
 
 		[Export ("allowToolbarTitleChange", ArgumentSemantic.Assign)]
 		bool AllowToolbarTitleChange { get; }
@@ -580,6 +583,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("shouldShowHUDOnViewWillAppear", ArgumentSemantic.Assign)]
 		bool ShouldShowHUDOnViewWillAppear { get; set; }
+
+		[Export ("pageGrabberEnabled", ArgumentSemantic.Assign)]
+		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; set; }
 
 		[Export ("allowToolbarTitleChange", ArgumentSemantic.Assign)]
 		bool AllowToolbarTitleChange { get; set; }
@@ -1341,6 +1347,9 @@ namespace PSPDFKit.iOS {
 		[Export ("overlayViewController"), NullAllowed]
 		IPSPDFControllerStateHandling OverlayViewController { get; set; }
 
+		[Export ("pageGrabberController"), NullAllowed]
+		PSPDFPageGrabberController PageGrabberController { get; }
+
 		[Export ("pageViewForPageAtIndex:")]
 		[return: NullAllowed]
 		PSPDFPageView GetPageView (nuint pageIndex);
@@ -1642,12 +1651,15 @@ namespace PSPDFKit.iOS {
 	interface PSPDFDocumentUnderlyingFileChangedNotificationEventArgs {
 		[Export ("PSPDFDocumentUnderlyingFileURLKey")]
 		NSUrl UnderlyingFileUrl { get; }
+
+		[Export ("PSPDFDocumentUnderlyingFileWillBeDeletedKey")]
+		NSNumber UnderlyingFileWillBeDeleted { get; }
 	}
 
 	delegate void PSPDFDocumentSaveHandler (NSError error, PSPDFAnnotation [] savedAnnotations);
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFDocument : PSPDFDocumentProviderDelegate, PSPDFOverridable, INSCopying, INSSecureCoding {
+	interface PSPDFDocument : PSPDFDocumentProviderDelegate, PSPDFOverridable, INSCopying, INSSecureCoding, PSPDFileCoordinationDelegate {
 
 		[Field ("PSPDFDocumentUnderlyingFileChangedNotification", "__Internal")]
 		[Notification (typeof (PSPDFDocumentUnderlyingFileChangedNotificationEventArgs))]
@@ -1683,7 +1695,10 @@ namespace PSPDFKit.iOS {
 
 		[Static]
 		[Export ("documentWithBaseURL:fileTemplate:startPage:endPage:")]
-		PSPDFDocument FromBaseUrl ([NullAllowed] NSUrl baseUrl, string fileTemplate, nint startPage, nint endPage);
+		PSPDFDocument FromBaseURL ([NullAllowed] NSUrl baseUrl, string fileTemplate, nint startPage, nint endPage);
+
+		[Export ("documentByAppendingObjects:")]
+		PSPDFDocument FromAppendingObjects (NSObject [] objects);
 
 		[Static]
 		[Export ("documentWithContent:")]
@@ -1721,44 +1736,80 @@ namespace PSPDFKit.iOS {
 		[Export ("initWithContent:signatures:")]
 		IntPtr Constructor ([NullAllowed] NSObject content, [NullAllowed] NSData [] signatures);
 
-		[Export ("isEqualToDocument:")]
-		bool IsEqualToDocument (PSPDFDocument otherDocument);
-
 		[Export ("delegate", ArgumentSemantic.Weak)][NullAllowed]
 		IPSPDFDocumentDelegate Delegate { get; set; }
 
-		[Export ("baseURL", ArgumentSemantic.Copy), NullAllowed]
-		NSUrl BaseUrl { get; }
+		[Export ("valid")]
+		bool Valid { [Bind ("isValid")] get; }
 
-		[Export ("files"), NullAllowed]
-		string [] Files { get; }
+		[NullAllowed, Export ("error")]
+		NSError Error { get; }
+
+		[Export ("isEqualToDocument:")]
+		bool IsEqualToDocument (PSPDFDocument otherDocument);
+
+		[NullAllowed, Export ("baseURL")]
+		NSUrl BaseUrl { get; }
 
 		[Export ("fileURL", ArgumentSemantic.Copy), NullAllowed]
 		NSUrl FileUrl { get; }
 
+		[Export ("fileURLs")]
+		NSUrl [] FileUrls { get; }
+
+		[Export ("files")]
+		string [] Files { get; }
+
+		[Export ("filePresenters")]
+		NSFilePresenter [] FilePresenters { get; }
+
 		[Export ("originalFile", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFFile OriginalFile { get; }
 
-		[Export ("filesWithBasePath")]
-		NSUrl [] FilesWithBasePath { get; }
+		[Export ("pathForPageAtIndex:")]
+		[return: NullAllowed]
+		NSUrl GetPathForPage (nuint pageIndex);
+
+		[Export ("fileIndexForPageAtIndex:")]
+		nint GetFileIndexForPage (nuint pageIndex);
+
+		[Export ("URLForFileIndex:")]
+		[return: NullAllowed]
+		NSUrl GetUrlForFileIndex (nuint fileIndex);
+
+		[Export ("fileName"), NullAllowed]
+		string FileName { get; }
+
+		[Export ("fileNameForPageAtIndex:")]
+		string GetFileNameForPage (nuint pageIndex);
+
+		[Export ("deleteFiles:")]
+		bool DeleteFiles ([NullAllowed] out NSError error);
 
 		[Export ("data", ArgumentSemantic.Copy), NullAllowed]
 		NSData Data { get; }
 
-		[Export ("dataArray"), NullAllowed]
+		[Export ("dataArray")]
 		NSData [] DataArray { get; }
 
 		[Export ("fileNamesWithDataDictionary")]
 		NSDictionary<NSString, NSData> FileNamesWithDataDictionary { get; }
 
-		[Export ("dataProviderArray"), NullAllowed]
+		[Export ("dataProviderArray")]
 		IPSPDFDataProvider [] DataProviderArray { get; }
 
 		[Export ("contentSignatures"), NullAllowed]
 		NSData [] ContentSignatures { get; }
 
-		[Export ("documentByAppendingObjects:")]
-		PSPDFDocument DocumentByAppendingObjects (NSObject [] objects);
+		[Export ("documentProviders")]
+		PSPDFDocumentProvider [] DocumentProviders { get; }
+
+		[Export ("documentProviderForPageAtIndex:")]
+		[return: NullAllowed]
+		PSPDFDocumentProvider GetDocumentProviderForPage (nuint pageIndex);
+
+		[Export ("pageOffsetForDocumentProvider:")]
+		nuint GetPageOffset (PSPDFDocumentProvider documentProvider);
 
 		[Export ("documentId", ArgumentSemantic.Copy), NullAllowed]
 		NSData DocumentId { get; }
@@ -1768,36 +1819,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("UID"), NullAllowed]
 		string Uid { get; set; }
-
-		[Export ("valid", ArgumentSemantic.Assign)]
-		bool Valid { [Bind ("isValid")] get; }
-
-		[Export ("error"), NullAllowed]
-		NSError Error { get; }
-
-		[Export ("documentProviders")]
-		PSPDFDocumentProvider [] DocumentProviders { get; }
-
-		[Export ("documentProviderForPageAtIndex:")]
-		PSPDFDocumentProvider DocumentProviderForPage (nuint pageIndex);
-
-		[Export ("pageOffsetForDocumentProvider:")]
-		nuint PageOffsetForDocumentProvider (PSPDFDocumentProvider documentProvider);
-
-		[Export ("pathForPageAtIndex:")]
-		NSUrl PathForPage (nuint pageIndex);
-
-		[Export ("fileIndexForPageAtIndex:")]
-		nint FileIndexForPage (nuint pageIndex);
-
-		[Export ("URLForFileIndex:")]
-		NSUrl UrlForFileIndex (nuint fileIndex);
-
-		[Export ("fileNameForPageAtIndex:")]
-		string GetFileName (nuint pageIndex);
-
-		[Export ("fileName")]
-		string FileName { get; }
 
 		[Export ("pageCount", ArgumentSemantic.Assign)]
 		nuint PageCount { get; }
@@ -1817,9 +1838,6 @@ namespace PSPDFKit.iOS {
 
 		[Export ("saveWithCompletionHandler:")]
 		void Save ([NullAllowed] PSPDFDocumentSaveHandler completionHandler);
-
-		[Export ("deleteFiles:")]
-		bool DeleteFiles (out NSError error);
 
 		// PSPDFDocument (Caching) Category
 
@@ -2325,6 +2343,11 @@ namespace PSPDFKit.iOS {
 		[Export ("singleTappedAtViewPoint:")]
 		bool SingleTappedAtViewPoint (CGPoint viewPoint);
 
+		[Advice ("Requires base call")]
+		[Export ("didSelectAnnotations:")]
+		void DidSelectAnnotations ([NullAllowed] PSPDFAnnotation [] annotations);
+
+		[Advice ("Requires base call")]
 		[Export ("didDeselectAnnotations:")]
 		void DidDeselectAnnotations (PSPDFAnnotation [] annotations);
 
@@ -3749,16 +3772,18 @@ namespace PSPDFKit.iOS {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFBookmark {
+	[DisableDefaultCtor]
+	interface PSPDFBookmark : INSCopying, INSMutableCopying {
 
 		[Export ("initWithAction:")]
+		[DesignatedInitializer]
 		IntPtr Constructor ([NullAllowed] PSPDFAction action);
 
-		[Export ("action", ArgumentSemantic.Strong), NullAllowed]
+		[Export ("action", ArgumentSemantic.Copy), NullAllowed]
 		PSPDFAction Action { get; }
 
 		[Export ("name"), NullAllowed]
-		string Name { get; set; }
+		string Name { get; }
 
 		[Export ("displayName"), NullAllowed]
 		string DisplayName { get; }
@@ -3770,6 +3795,27 @@ namespace PSPDFKit.iOS {
 
 		[Export ("pageIndex", ArgumentSemantic.Assign)]
 		uint PageIndex { get; }
+
+		// ProviderSupport (PSPDFBookmark) Category
+
+		[Export ("identifier")]
+		string Identifier { get; }
+
+		[Export ("sortKey"), NullAllowed]
+		NSNumber SortKey { get; }
+
+		[Export ("initWithIdentifier:action:name:sortKey:")]
+		IntPtr Constructor (string identifier, PSPDFAction action, [NullAllowed] string name, [NullAllowed] NSNumber sortKey);
+	}
+
+	[BaseType (typeof (PSPDFBookmark))]
+	interface PSPDFMutableBookmark {
+		
+		[Export ("action", ArgumentSemantic.Copy), New]
+		PSPDFAction Action { get; set; }
+
+		[Export ("name"), NullAllowed, New]
+		string Name { get; set; }
 	}
 
 	[DisableDefaultCtor]
@@ -3852,11 +3898,8 @@ namespace PSPDFKit.iOS {
 		[Export ("scheduleTasks:")]
 		void Schedule (PSPDFRenderTask [] tasks);
 
-		[Export ("concurrentRunningRenderRequests")]
-		nuint ConcurrentRunningRenderRequests { get; set; }
-
-		[Export ("cancelAllJobs")]
-		void CancelAllJobs ();
+		[Export ("cancelAllTasks")]
+		void CancelAllTasks ();
 	}
 
 	[DisableDefaultCtor]
@@ -3985,6 +4028,7 @@ namespace PSPDFKit.iOS {
 		bool CleanupIfTemporaryFile (NSUrl url);
 
 		[Export ("createTemporaryWritableDataProviderWithPrefix:")]
+		[return: NullAllowed]
 		[Abstract]
 		IPSPDFDataProvider CreateTemporaryWritableDataProvider ([NullAllowed] string prefix);
 
@@ -4022,7 +4066,7 @@ namespace PSPDFKit.iOS {
 
 		[Export ("fileExistsAtPath:isDirectory:")]
 		[Abstract]
-		bool FileExistsh ([NullAllowed] string path, bool isDirectory);
+		bool FileExistsh ([NullAllowed] string path, ref bool isDirectory);
 
 		[Export ("fileExistsAtURL:")]
 		[Abstract]
@@ -4030,7 +4074,7 @@ namespace PSPDFKit.iOS {
 
 		[Export ("fileExistsAtURL:isDirectory:")]
 		[Abstract]
-		bool FileExists ([NullAllowed] NSUrl url, bool isDirectory);
+		bool FileExists ([NullAllowed] NSUrl url, ref bool isDirectory);
 
 		[Export ("createFileAtPath:contents:attributes:")]
 		[Abstract]
@@ -4039,6 +4083,10 @@ namespace PSPDFKit.iOS {
 		[Export ("createDirectoryAtPath:withIntermediateDirectories:attributes:error:")]
 		[Abstract]
 		bool CreateDirectory (string path, bool createIntermediates, [NullAllowed] NSDictionary<NSString, NSObject> attributes, out NSError error);
+
+		[Abstract]
+		[Export ("createDirectoryAtURL:withIntermediateDirectories:attributes:error:")]
+		bool CreateDirectory (NSUrl url, bool createIntermediates, [NullAllowed] NSDictionary<NSString, NSObject> attributes, out NSError error);
 
 		[Export ("writeData:toFile:options:error:")]
 		[Abstract]
@@ -4127,6 +4175,61 @@ namespace PSPDFKit.iOS {
 		[Export ("fileHandleForUpdatingURL:error:withBlock:")]
 		[Abstract]
 		bool FileHandleForUpdating (NSUrl url, out NSError error, Func<NSFileHandle, bool> updater);
+
+		[Abstract]
+		[Export ("setUbiquitous:itemAtURL:destinationURL:error:")]
+		bool SetUbiquitous (bool flag, NSUrl url, NSUrl destinationUrl, out NSError error);
+
+		[Abstract]
+		[Export ("isUbiquitousItemAtURL:")]
+		bool IsUbiquitousItem (NSUrl url);
+
+		[Abstract]
+		[Export ("startDownloadingUbiquitousItemAtURL:error:")]
+		bool StartDownloadingUbiquitousItem (NSUrl url, out NSError error);
+
+		[Abstract]
+		[Export ("evictUbiquitousItemAtURL:error:")]
+		bool EvictUbiquitousItem (NSUrl url, out NSError error);
+
+		[Abstract]
+		[Export ("URLForUbiquityContainerIdentifier:")]
+		[return: NullAllowed]
+		NSUrl GetUrlForUbiquityContainerIdentifier ([NullAllowed] string containerIdentifier);
+
+		[Abstract]
+		[Export ("URLForPublishingUbiquitousItemAtURL:expirationDate:error:")]
+		[return: NullAllowed]
+		NSUrl GetUrlForPublishingUbiquitousItem (NSUrl url, out NSDate outDate, out NSError error);
+
+		[Abstract]
+		[NullAllowed, Export ("ubiquityIdentityToken", ArgumentSemantic.Copy)]
+		NSObject UbiquityIdentityToken { get; }
+
+		[Abstract]
+		[Export ("performBlockWithoutCoordination:")]
+		void PerformHandlerWithoutCoordination (Action handler);
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFFilePresenterCoordinator {
+		
+		[Static]
+		[Export ("observeFilePresenter:")]
+		void ObserveFilePresenter (NSFilePresenter filePresenter);
+
+		[Static]
+		[Export ("unobserveFilePresenter:")]
+		void UnobserveFilePresenter (NSFilePresenter filePresenter);
+
+		[Static]
+		[Export ("observeFilePresenters:")]
+		void ObserveFilePresenters ([NullAllowed] NSFilePresenter [] filePresenters);
+
+		[Static]
+		[Export ("unobserveFilePresenters:")]
+		void UnobserveFilePresenters ([NullAllowed] NSFilePresenter [] filePresenters);
 	}
 
 	[Static]
@@ -4731,7 +4834,7 @@ namespace PSPDFKit.iOS {
 	}
 
 	[BaseType (typeof (PSPDFBaseViewController))]
-	interface PSPDFNoteAnnotationViewController : PSPDFStyleable {
+	interface PSPDFNoteAnnotationViewController : IUITextViewDelegate, PSPDFStyleable {
 
 		[Export ("initWithAnnotation:")]
 		IntPtr Constructor (PSPDFAnnotation annotation);
@@ -4820,19 +4923,41 @@ namespace PSPDFKit.iOS {
 	}
 
 	[BaseType (typeof (PSPDFBaseTableViewController))]
-	interface PSPDFStatefulTableViewController {
+	interface PSPDFStatefulTableViewController : PSPDFStatefulViewControllerProtocol {
 
-		[Export ("emptyView", ArgumentSemantic.Strong), NullAllowed]
+		// Use the ones from PSPDFStatefulViewControllerProtocol
+		//[Export ("emptyView", ArgumentSemantic.Strong), NullAllowed]
+		//UIView EmptyView { get; set; }
+
+		//[Export ("loadingView", ArgumentSemantic.Strong), NullAllowed]
+		//UIView LoadingView { get; set; }
+
+		//[Export ("controllerState", ArgumentSemantic.Assign)]
+		//PSPDFStatefulViewState ControllerState { get; set; }
+
+		//[Export ("setControllerState:animated:")]
+		//void SetControllerState (PSPDFStatefulViewState controllerState, bool animated);
+	}
+
+	interface IPSPDFStatefulViewControllerProtocol { }
+
+	[Protocol]
+	interface PSPDFStatefulViewControllerProtocol : IUIContentContainer {
+		
+		[Abstract]
+        [Export ("emptyView", ArgumentSemantic.Assign), NullAllowed]
 		UIView EmptyView { get; set; }
 
-		[Export ("loadingView", ArgumentSemantic.Strong), NullAllowed]
+		[Abstract]
+		[Export ("loadingView", ArgumentSemantic.Assign), NullAllowed]
 		UIView LoadingView { get; set; }
 
+		[Abstract]
 		[Export ("controllerState", ArgumentSemantic.Assign)]
-		PSPDFStatefulTableViewState ControllerState { get; set; }
+		PSPDFStatefulViewState ControllerState { get; set; }
 
 		[Export ("setControllerState:animated:")]
-		void SetControllerState (PSPDFStatefulTableViewState controllerState, bool animated);
+		void SetControllerState (PSPDFStatefulViewState controllerState, bool animated);
 	}
 
 	[BaseType (typeof (PSPDFStatefulTableViewController))]
@@ -5675,6 +5800,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("didUpdateSearch:term:newSearchResults:pageIndex:")]
 		void DidUpdateSearch (PSPDFTextSearch textSearch, string searchTerm, PSPDFSearchResult [] searchResults, nuint pageIndex);
+
+		[Export ("didFailSearch:withError:")]
+		void DidFailSearch (PSPDFTextSearch textSearch, NSError error);
 
 		[Export ("didFinishSearch:term:searchResults:isFullSearch:pageTextFound:")]
 		void DidFinishSearch (PSPDFTextSearch textSearch, string searchTerm, PSPDFSearchResult [] searchResults, bool isFullSearch, bool pageTextFound);
@@ -6724,6 +6852,33 @@ namespace PSPDFKit.iOS {
 		PSPDFDocumentProvider DocumentProvider { get; }
 	}
 
+	interface IPSPDFPageGrabberView { }
+	
+	[Protocol]
+	interface PSPDFPageGrabberView {
+		
+		[Export ("setCollapsed:animated:")]
+		void SetCollapsed (bool collapsed, bool animated);
+	}
+
+	[BaseType (typeof (UIView))]
+	interface PSPDFPageGrabber {
+		
+		[Export ("grabberView", ArgumentSemantic.Assign)]
+		IPSPDFPageGrabberView GrabberView { get; set; }
+
+		[Export ("grabbing")]
+		bool Grabbing { [Bind ("isGrabbing")] get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFPageGrabberController {
+		
+		[Export ("pageGrabber")]
+		PSPDFPageGrabber PageGrabber { get; }
+	}
+
 	[BaseType (typeof (PSPDFModel))]
 	interface PSPDFOutlineElement {
 
@@ -6736,7 +6891,7 @@ namespace PSPDFKit.iOS {
 		[Export ("allFlattenedChildren")]
 		PSPDFOutlineElement [] AllFlattenedChildren { get; }
 
-		[Export ("parent", ArgumentSemantic.Retain), NullAllowed]
+		[Export ("parent", ArgumentSemantic.Weak)]
 		PSPDFOutlineElement Parent { get; }
 
 		[Export ("title"), NullAllowed]
@@ -7265,6 +7420,9 @@ namespace PSPDFKit.iOS {
 		[Field ("PSPDFVerticalAlignmentTransformerName", "__Internal")]
 		NSString PSPDFVerticalAlignmentTransformerName { get; }
 
+		[Field ("PSPDFFontSizeName", "__Internal")]
+		NSString PSPDFFontSizeName { get; }
+
 		[Static]
 		[return: NullAllowed]
 		[Export ("annotationFromJSONDictionary:documentProvider:error:")]
@@ -7297,6 +7455,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("locked", ArgumentSemantic.Assign)]
 		bool Locked { [Bind ("isLocked")] get; }
+
+		[Export("contentsLocked", ArgumentSemantic.Assign)]
+		bool ContentsLocked { [Bind("isContentsLocked")] get; }
 
 		[Export ("movable", ArgumentSemantic.Assign)]
 		bool Movable { [Bind ("isMovable")] get; }
@@ -8660,6 +8821,21 @@ namespace PSPDFKit.iOS {
 		bool ShouldAnimatedAnnotationChanges { get; set; }
 	}
 
+	interface IPSPDFileCoordinationDelegate { }
+
+	[Protocol, Model]
+	[BaseType (typeof(NSObject))]
+	interface PSPDFileCoordinationDelegate {
+		
+		[Abstract]
+		[Export ("presentedItemDidChangeForPresenter:")]
+		void PresentedItemDidChange (NSFilePresenter presenter);
+
+		[Abstract]
+		[Export ("accommodatePresentedItemDeletionForPresenter:withCompletionHandler:")]
+		void AccommodatePresentedItemDeletion (NSFilePresenter presenter, Action<NSError> completionHandler);
+	}
+
 	[BaseType (typeof (PSPDFAnnotationView))]
 	interface PSPDFFreeTextAnnotationView : IUITextViewDelegate {
 
@@ -8667,7 +8843,7 @@ namespace PSPDFKit.iOS {
 		IntPtr Constructor (CGRect frame);
 
 		[Export ("beginEditing")]
-		void BeginEditing ();
+		bool BeginEditing ();
 
 		[Export ("endEditing")]
 		void EndEditing ();
@@ -8793,7 +8969,7 @@ namespace PSPDFKit.iOS {
 		[Export ("showPreviewArea", ArgumentSemantic.Assign)]
 		bool ShowPreviewArea { get; set; }
 
-		[Static, NullAllowed]
+		[Static, NullAllowed] // PSPDFAnnotationString
 		[Export ("propertiesForAnnotations")]
 		NSDictionary<NSString, NSObject> PropertiesForAnnotations { get; set; }
 
@@ -8805,7 +8981,7 @@ namespace PSPDFKit.iOS {
 
 		// PSPDFAnnotationStyleViewController (SubclassingHooks)
 
-		[Export ("propertiesForAnnotations:")]
+		[Export ("propertiesForAnnotations:")] // PSPDFAnnotationString
 		NSArray<NSArray<NSString>> [] GetPropertiesForAnnotations (PSPDFAnnotation [] annotations);
 	}
 
@@ -9254,11 +9430,29 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFFileDataProvider : PSPDFDataProvider {
 
-		[Export ("initWithFileURL:error:")]
-		IntPtr Constructor (NSUrl fileUrl, out NSError error);
+		[Export ("initWithFileURL:baseURL:progress:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] NSUrl baseUrl, [NullAllowed] NSProgress progress);
 
-		[Export ("fileURL", ArgumentSemantic.Copy)]
-		NSUrl FileUrl { get; }
+		[Export ("initWithFileURL:baseURL:")]
+		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] NSUrl baseUrl);
+
+		[Export ("initWithFileURL:")]
+		IntPtr Constructor (NSUrl fileUrl);
+
+		// Use GetFileUrl
+        //[Export ("fileURL")]
+		//NSUrl FileUrl { get; }
+
+		[NullAllowed, Export ("baseURL")]
+		NSUrl BaseUrl { get; }
+	}
+
+	[BaseType (typeof (PSPDFFileDataProvider))]
+	interface PSPDFCoordinatedFileDataProvider : INSFilePresenter {
+		
+		[Export ("coordinationDelegate", ArgumentSemantic.Weak), NullAllowed]
+		IPSPDFileCoordinationDelegate CoordinationDelegate { get; set; }
 	}
 
 	[DisableDefaultCtor]
@@ -9978,28 +10172,10 @@ namespace PSPDFKit.iOS {
 
 		[Static]
 		[Export ("propertyKeys")]
-		NSOrderedSet<NSString> GetPropertyKeys ();
-
-		[Static]
-		[Export ("cachedPropertyKeys")]
-		NSString [] CachedPropertyKeys ();
-
-		[Static]
-		[Export ("cachedPropertyKeySet")]
-		NSObject CachedPropertyKeySet ();
-
-		[Static]
-		[Export ("propertyKeysWithReferentialEquality")]
-		NSOrderedSet<NSString> PropertyKeysWithReferentialEquality ();
+		NSOrderedSet<NSString> PropertyKeys { get; }
 
 		[Export ("dictionaryValue", ArgumentSemantic.Copy)]
 		NSDictionary<NSString, NSObject> DictionaryValue { get; }
-
-		[Export ("mergeValueForKey:fromModel:")]
-		void MergeValueForKey (string key, PSPDFModel model);
-
-		[Export ("mergeValuesForKeysFromModel:")]
-		void MergeValuesForKeysFromModel (PSPDFModel model);
 	}
 
 	interface IPSPDFMultiDocumentListControllerDelegate { }
@@ -10666,8 +10842,16 @@ namespace PSPDFKit.iOS {
 		PSPDFDataProviderAdditionalOperations AdditionalOperationsSupported { get; }
 
 		[Abstract]
+		[return: NullAllowed]
 		[Export ("readDataWithSize:atOffset:")]
 		NSData ReadData (ulong size, ulong offset);
+
+		[Export ("progress")]
+		[return: NullAllowed]
+		NSProgress GetProgress ();
+
+		[Export ("fileURL")]
+		NSUrl GetFileUrl ();
 
 		[return: NullAllowed]
 		[Export ("createDataSinkWithOptions:error:")]
@@ -10678,6 +10862,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("deleteDataWithError:")]
 		bool Delete (out NSError error);
+
+		[Export ("clearCache")]
+		void ClearCache ();	
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -11074,8 +11261,8 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (PSPDFFormElementView))]
 	interface PSPDFChoiceFormElementView {
 
-		[Export ("prepareChoiceEditorController")]
-		UIViewController PrepareChoiceEditorController ();
+		[Export ("prepareChoiceFormEditorController")]
+		NSObject PrepareChoiceFormEditorController ();
 	}
 
 	[BaseType (typeof (PSPDFAnnotationView))]
@@ -12500,6 +12687,18 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFMediaPlayerController {
 
+		[Notification]
+		[Field ("PSPDFMediaPlayerControllerPlaybackDidStartNotification", "__Internal")]
+		NSString PlaybackDidStartNotification { get; }
+
+		[Notification]
+		[Field ("PSPDFMediaPlayerControllerPlaybackDidPauseNotification", "__Internal")]
+		NSString PlaybackDidPauseNotification { get; }
+
+		[Notification]
+		[Field ("PSPDFMediaPlayerControllerPlaybackDidFinishNotification", "__Internal")]
+		NSString PlaybackDidFinishNotification { get; }
+
 		[Export ("initWithContentURL:")]
 		IntPtr Constructor (NSUrl contentUrl);
 
@@ -13070,7 +13269,7 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (NSValue))]
 	interface NSValue_PSPDFModel {
 		
-		[Static]
+        [Static]
 		[Export ("pspdf_valueWithDrawingPoint:")]
 		NSValue FromDrawingPoint (PSPDFDrawingPoint point);
 
@@ -13173,6 +13372,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("pdfRect")]
 		CGSize PdfRect { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
+
+		[Export ("imageScale")]
+		nfloat ImageScale { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
 
 		[Export ("annotations", ArgumentSemantic.Copy), NullAllowed]
 		PSPDFAnnotation [] Annotations { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }

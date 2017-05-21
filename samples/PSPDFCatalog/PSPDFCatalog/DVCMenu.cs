@@ -141,17 +141,18 @@ namespace PSPDFCatalog
 						// Please visit PSPDFKit support page for more information
 						// https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support/
 						//
-						PSPDFKitGlobal.SharedInstance.StylusManager.AvailableDriverClasses = new NSOrderedSet<Class> (
-							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFFiftyThreeStylusDriver)),
-							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFJotTouchStylusDriver)),
-							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFWacomStylusDriver)),
-							//new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFPogoStylusDriver))
+						PSPDFKitGlobal.SharedInstance.StylusManager.AvailableDriverClasses = new NSOrderedSet (
+							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFAdonitStylusDriver)),
+							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFFiftyThreeStylusDriver)),
+							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFWacomStylusDriver)),
+							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFPogoStylusDriver))
 						);
 
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
-							builder.OverrideClass (typeof (PSPDFAnnotationToolbar), typeof (PSCStylusEnabledAnnotationToolbar));
-						}));
+						var pdfViewer = new PSPDFViewController (document);
+
+						pdfViewer.AnnotationToolbarController.AnnotationToolbar.ShowingStylusButton = true;
+
 						NavigationController.PushViewController (pdfViewer, true);
 					})
 				},
