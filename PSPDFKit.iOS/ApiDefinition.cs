@@ -6366,7 +6366,7 @@ namespace PSPDFKit.iOS {
 		NSDictionary MetadataFor (string uid);
 
 		[Export ("dataSource", ArgumentSemantic.Strong), NullAllowed]
-		IPSPDFLibraryDataSource DataSource { get; }
+		IPSPDFLibraryDataSource DataSource { get; set; }
 
 		[Export ("updateIndex")]
 		void UpdateIndex ();
