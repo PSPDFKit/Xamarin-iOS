@@ -31,6 +31,9 @@ namespace PSPDFKit.iOS {
 		[Field ("PSPDFCoordinatedFileManagerKey", "__Internal")]
 		NSString CoordinatedFileManagerKey { get; }
 
+		[Field ("PSPDFFileCoordinationEnabledKey", "__Internal")]
+		NSString FileCoordinationEnabledKey { get; }
+
 		[Field ("PSPDFWebKitLegacyModeKey", "__Internal")]
 		NSString WebKitLegacyModeKey { get; }
 
@@ -104,11 +107,14 @@ namespace PSPDFKit.iOS {
 		[Export ("application", ArgumentSemantic.Strong)]
 		IPSPDFApplication Application { get; }
 
-		[Export ("speechSynthesizer", ArgumentSemantic.Strong)]
-		PSPDFSpeechController SpeechSynthesizer { get; }
+		[Export ("speechController", ArgumentSemantic.Strong)]
+		PSPDFSpeechController SpeechController { get; }
 
 		[Export ("stylusManager", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFStylusManager StylusManager { get; }
+
+		[Export ("screenController", ArgumentSemantic.Strong), NullAllowed]
+		PSPDFScreenController ScreenController { get; }
 
 		// interface PSPDFKit (ImageLoading) Category
 
@@ -1545,6 +1551,15 @@ namespace PSPDFKit.iOS {
 		[Export ("pdfViewController:didRenderPageView:")]
 		void DidRenderPageView (PSPDFViewController pdfController, PSPDFPageView pageView);
 
+		[Export ("pdfViewController:willScheduleRenderTaskForPageView:")]
+		void WillScheduleRenderTask (PSPDFViewController pdfController, PSPDFPageView pageView);
+
+		[Export ("pdfViewController:didFinishRenderTaskForPageView:")]
+		void DidFinishRenderTask (PSPDFViewController pdfController, PSPDFPageView pageView);
+
+		[Export ("pdfViewController:didUpdateContentImageForPageView:isPlaceholder:")]
+		void DidUpdateContentImage (PSPDFViewController pdfController, PSPDFPageView pageView, bool isPlaceholder);
+
 		[Export ("pdfViewController:didLoadPageView:")]
 		void DidLoadPageView (PSPDFViewController pdfController, PSPDFPageView pageView);
 
@@ -2854,6 +2869,10 @@ namespace PSPDFKit.iOS {
 		bool Reloading { [Bind ("isReloading")] get; }
 
 		[Abstract]
+		[Export ("viewLoaded")]
+		bool ViewLoaded { [Bind ("isViewLoaded")] get; }
+
+		[Abstract]
 		[Export ("visiblePageViews")]
 		PSPDFPageView [] VisiblePageViews { get; }
 
@@ -3575,11 +3594,23 @@ namespace PSPDFKit.iOS {
 		bool RenderAppearanceStream (PSPDFAnnotation annotation, CGContext context, [NullAllowed] NSDictionary options, out NSError error);
 	}
 
+	interface RenderResultDidChangeEventArgs {
+		[Export ("PSPDFRenderManagerRenderResultChangedDocumentKey")]
+		PSPDFDocument Document { get; }
+
+		[Export ("PSPDFRenderManagerRenderResultChangedPagesKey")]
+		NSIndexSet Pages { get; }
+	}
+
 	interface IPSPDFRenderManager { }
 
 	[Protocol, Model]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFRenderManager {
+
+		[Field ("PSPDFRenderManagerRenderResultDidChangeNotification", "__Internal")]
+		[Notification (typeof (RenderResultDidChangeEventArgs))]
+		NSString RenderResultDidChangeNotification { get; }
 
 		[Field ("PSPDFPageRendererPageInfoKey", "__Internal")]
 		NSString PageInfoKey { get; }
@@ -4216,18 +4247,18 @@ namespace PSPDFKit.iOS {
 	interface PSPDFFilePresenterCoordinator {
 		
 		[Static]
+		[Export ("sharedCoordinator", ArgumentSemantic.Retain)]
+		PSPDFFilePresenterCoordinator SharedCoordinator { get; }
+		
 		[Export ("observeFilePresenter:")]
 		void ObserveFilePresenter (NSFilePresenter filePresenter);
 
-		[Static]
 		[Export ("unobserveFilePresenter:")]
 		void UnobserveFilePresenter (NSFilePresenter filePresenter);
 
-		[Static]
 		[Export ("observeFilePresenters:")]
 		void ObserveFilePresenters ([NullAllowed] NSFilePresenter [] filePresenters);
 
-		[Static]
 		[Export ("unobserveFilePresenters:")]
 		void UnobserveFilePresenters ([NullAllowed] NSFilePresenter [] filePresenters);
 	}
@@ -6171,6 +6202,16 @@ namespace PSPDFKit.iOS {
 		nfloat CornerRadiusProportion { get; set; }
 	}
 
+	[BaseType (typeof (PSPDFSearchResult))]
+	interface PSPDFLibraryPreviewResult {
+
+		[Export ("annotationObjectNumber", ArgumentSemantic.Assign)]
+		nint AnnotationObjectNumber { get; }
+
+		[Export ("isAnnotationResult", ArgumentSemantic.Assign)]
+		bool IsAnnotationResult { get; }
+	}
+
 	interface IPSPDFInlineSearchManagerDelegate { }
 
 	[Protocol, Model]
@@ -6309,6 +6350,9 @@ namespace PSPDFKit.iOS {
 		[Export ("spotlightIndexingType")]
 		PSPDFLibrarySpotlightIndexingType SpotlightIndexingType { get; }
 
+		[Export ("shouldIndexAnnotations")]
+		bool ShouldIndexAnnotations { get; set; }
+
 		[Export ("tokenizer"), NullAllowed]
 		string Tokenizer { get; }
 
@@ -6333,6 +6377,12 @@ namespace PSPDFKit.iOS {
 		[Field ("PSPDFLibraryMatchExactWordsOnlyKey", "__Internal")]
 		NSString MatchExactWordsOnlyKey { get; }
 
+		[Field ("PSPDFLibraryExcludeAnnotationsKey", "__Internal")]
+		NSString ExcludeAnnotationsKey { get; }
+
+		[Field ("PSPDFLibraryExcludeDocumentTextKey", "__Internal")]
+		NSString ExcludeDocumentTextKey { get; }
+
 		[Field ("PSPDFLibraryPreviewRangeKey", "__Internal")]
 		NSString PreviewRangeKey { get; }
 
@@ -6340,7 +6390,7 @@ namespace PSPDFKit.iOS {
 		void DocumentUidsMatchingString (string searchString, [NullAllowed] NSDictionary<NSString, NSObject> options, [NullAllowed] Action<string, NSDictionary<NSString, NSIndexSet>> completionHandler);
 
 		[Export ("documentUIDsMatchingString:options:completionHandler:previewTextHandler:")]
-		void DocumentUidsMatchingString (string searchString, [NullAllowed] NSDictionary<NSString, NSObject> options, [NullAllowed] Action<NSString, NSDictionary<NSString, NSIndexSet>> completionHandler, [NullAllowed] Action<NSString, NSDictionary<NSString, NSSet<PSPDFSearchResult>>> previewTextHandler);
+		void DocumentUidsMatchingString (string searchString, [NullAllowed] NSDictionary<NSString, NSObject> options, [NullAllowed] Action<NSString, NSDictionary<NSString, NSIndexSet>> completionHandler, [NullAllowed] Action<NSString, NSDictionary<NSString, NSSet>> previewTextHandler);
 
 		[Export ("indexStatusForUID:withProgress:")]
 		PSPDFLibraryIndexStatus IndexStatus (string uid, out nfloat outProgress);
@@ -11138,7 +11188,7 @@ namespace PSPDFKit.iOS {
 		bool IsSigned { get; }
 
 		[Export ("signatureInfo", ArgumentSemantic.Strong), NullAllowed]
-		PSPDFSignatureInfo SignatureInfo { get; set; }
+		PSPDFSignatureInfo SignatureInfo { get; }
 
 		[Export ("overlappingInkSignature"), NullAllowed]
 		PSPDFInkAnnotation OverlappingInkSignature { get; }
@@ -11158,26 +11208,26 @@ namespace PSPDFKit.iOS {
 		[Export ("date"), NullAllowed]
 		string Date { get; }
 
-		[Export ("R", ArgumentSemantic.Assign)]
-		nint R { get; }
+		[Export ("revisionNumber", ArgumentSemantic.Assign)]
+		nint RevisionNumber { get; }
 
-		[Export ("OS"), NullAllowed]
-		string OS { get; }
+		[Export ("operatingSystem"), NullAllowed]
+		string OperatingSystem { get; }
 
 		[Export ("preRelease", ArgumentSemantic.Strong), NullAllowed]
 		NSNumber PreRelease { get; }
 
-		[Export ("nonEFontNoWarn", ArgumentSemantic.Strong), NullAllowed]
-		NSNumber NonEFontNoWarn { get; }
+		[Export ("nonEmbeddedFontNoWarning", ArgumentSemantic.Strong), NullAllowed]
+		NSNumber NonEmbeddedFontNoWarning { get; }
 
 		[Export ("trustedMode", ArgumentSemantic.Strong), NullAllowed]
 		NSNumber TrustedMode { get; }
 
-		[Export ("V", ArgumentSemantic.Assign)]
-		nint V { get; }
+		[Export ("minimumVersion", ArgumentSemantic.Assign)]
+		nint MinimumVersion { get; }
 
-		[Export ("REx"), NullAllowed]
-		string REx { get; }
+		[Export ("textRevision"), NullAllowed]
+		string TextRevision { get; }
 	}
 
 	[BaseType (typeof (PSPDFModel))]
@@ -11604,23 +11654,23 @@ namespace PSPDFKit.iOS {
 	}
 
 	[DisableDefaultCtor]
-	[BaseType (typeof (PSPDFModel))]
+	[BaseType (typeof (NSObject))]
 	interface PSPDFDigitalSignatureReference {
 
 		[Export ("transformMethod", ArgumentSemantic.Assign)]
-		PSPDFDigitalSignatureReferenceTransformMethod TransformMethod { get; set; }
+		PSPDFDigitalSignatureReferenceTransformMethod TransformMethod { get; }
 
 		[Export ("transformParams", ArgumentSemantic.Copy), NullAllowed]
-		NSDictionary<NSString, NSObject> TransformParams { get; set; }
+		NSDictionary<NSString, NSObject> TransformParams { get; }
 
 		[Export ("digestMethod"), NullAllowed]
-		string DigestMethod { get; set; }
+		string DigestMethod { get; }
 
 		[Export ("digestValue"), NullAllowed]
-		string DigestValue { get; set; }
+		string DigestValue { get; }
 
 		[Export ("digestLocation", ArgumentSemantic.Assign)]
-		NSRange DigestLocation { get; set; }
+		NSRange DigestLocation { get; }
 	}
 
 	[DisableDefaultCtor]
@@ -12793,6 +12843,9 @@ namespace PSPDFKit.iOS {
 		[Export ("mediaPlayerControllerDidFinishPlaying:")]
 		void DidFinishPlaying (PSPDFMediaPlayerController controller);
 
+		[Export ("mediaPlayerController:didSeekToTime:")]
+		void DidSeekToTime (PSPDFMediaPlayerController controller, CMTime seekTime);
+
 		[Export ("mediaPlayerController:externalPlaybackActiveDidChange:")]
 		void ExternalPlaybackActiveDidChange (PSPDFMediaPlayerController controller, bool externalPlaybackActive);
 
@@ -13242,6 +13295,36 @@ namespace PSPDFKit.iOS {
 		void UpdateConfiguration (PSPDFAppearanceModeManager manager, PSPDFConfigurationBuilder builder, PSPDFAppearanceMode mode);
 	}
 
+	interface IPSPDFScreenControllerDelegate { }
+
+	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFScreenControllerDelegate {
+		
+		[Export ("screenController:didStartMirroringForScreen:")]
+		void DidStartMirroring (PSPDFScreenController screenController, UIScreen screen);
+
+		[Export ("screenController:didStopMirroringForScreen:")]
+		void DidStopMirroring (PSPDFScreenController screenController, UIScreen screen);
+	}
+
+	[BaseType (typeof (NSObject))]
+	interface PSPDFScreenController {
+
+		[Export ("pdfControllerToMirror", ArgumentSemantic.Retain), NullAllowed]
+		PSPDFViewController PdfControllerToMirror { get; set; }
+
+		[Export ("mirrorControllerForScreen:")]
+		[return: NullAllowed]
+		PSPDFViewController MirrorController (UIScreen screen);
+
+		[Export ("externalScreensDisableScreenDimming", ArgumentSemantic.Assign)]
+		bool ExternalScreensDisableScreenDimming { get; set; }
+
+		[Export ("delegate", ArgumentSemantic.Weak)][NullAllowed]
+		IPSPDFScreenControllerDelegate Delegate { get; set; }
+	}
+
 	interface PSPDFAppearanceModeManagerEventArgs {
 		
 		[Export ("PSPDFAppearanceModeChangedAnimatedKey")]
@@ -13348,6 +13431,12 @@ namespace PSPDFKit.iOS {
 
 		[Field ("PSPDFRenderOptionBackgroundFillColorKey", "__Internal")]
 		NSString BackgroundFillColorKey { get; }
+
+		[Field ("PSPDFRenderOptionTextRenderingUseCoreGraphicsKey", "__Internal")]
+		NSString TextRenderingUseCoreGraphicsKey { get; }
+
+		[Field ("PSPDFRenderOptionTextRenderingClearTypeEnabledKey", "__Internal")]
+		NSString TextRenderingClearTypeEnabledKey { get; }
 
 		[Field ("PSPDFRenderOptionInteractiveFormFillColorKey", "__Internal")]
 		NSString InteractiveFormFillColorKey { get; }
