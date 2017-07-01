@@ -125,6 +125,11 @@ namespace PSPDFKit.iOS {
 		PKCS12CannotReadData = 300000,
 		PKCS12CannotCopyData = 300001,
 		PKCS12UnlockFailed = 300002,
+		PKCS12NoItemsFound = 300003,
+		PKCS12NoPrivateKeyFound = 300004,
+		PKCS12PrivateKeyError = 300005,
+		PKCS12CertificateNotFound = 300006,
+		PKCS12CertificateError = 300007,
 		SearchCouldNotLoadDocument = 400000,
 
 		Unknown = long.MaxValue
@@ -799,7 +804,11 @@ namespace PSPDFKit.iOS {
 		CannotNotInitPKCS7 = 258,
 		CannotGeneratePKCS7Signature = 259,
 		CannotWritePKCS7Signature = 260,
-		OpenSSLCannotVerifySignature = 261
+		CannotVerifySignature = 261,
+		CannotSaveToDestination = 262,
+		UnsupportedSubfilterType = 263,
+		CannotFindSignature = 264,
+		CannotSignAttributes = 264
 	}
 
 	[Native]

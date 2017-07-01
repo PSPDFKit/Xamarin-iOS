@@ -565,22 +565,6 @@ namespace PSPDFKit.iOS {
 		}
 	}
 
-	public partial class PSPDFSigner : NSObject {
-
-		public virtual NSData SignHash (NSData hash, PSPDFSigningAlgorithm algorithm, out NSError error)
-		{
-			unsafe {
-				IntPtr val;
-				IntPtr val_addr = (IntPtr) ((IntPtr *) &val);
-
-				NSData ret = SignHash (hash, algorithm, val_addr);
-				error = (NSError) Runtime.GetNSObject (val);
-
-				return ret;
-			}
-		}
-	}
-
 	public partial class PSPDFGalleryVideoItem : PSPDFGalleryItem {
 
 		[DllImport ("__Internal", EntryPoint = "PSPDFGalleryVideoItemQualityFromString")]
@@ -646,33 +630,6 @@ namespace PSPDFKit.iOS {
 
 		public const UILayoutPriority CenterPriority = UILayoutPriority.DefaultHigh - 10;
 		public static readonly nfloat DefaultMargin = 8;
-	}
-
-	public partial class PSPDFRSAKey : NSObject {
-
-		public static PSPDFRSAKey FromKey (IntPtr key)
-		{
-			var handle = new PSPDFRSAKey ().InitWithKey (key);
-			return Runtime.GetNSObject<PSPDFRSAKey> (handle);
-		}
-	}
-
-	public partial class PSPDFSignatureDigest : NSObject {
-
-		public static PSPDFSignatureDigest FromBio (IntPtr bio)
-		{
-			var handle = new PSPDFSignatureDigest ().InitWithBIO (bio);
-			return Runtime.GetNSObject<PSPDFSignatureDigest> (handle);
-		}
-	}
-
-	public partial class PSPDFX509 : NSObject {
-
-		public static PSPDFX509 FromX509 (IntPtr x509)
-		{
-			var handle = new PSPDFX509 ().InitWithX509 (x509);
-			return Runtime.GetNSObject<PSPDFX509> (handle);
-		}
 	}
 
 	public partial class PSPDFStylusDriver {

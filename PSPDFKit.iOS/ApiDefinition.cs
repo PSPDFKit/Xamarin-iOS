@@ -1157,55 +1157,70 @@ namespace PSPDFKit.iOS {
 
 	interface IPSPDFAnnotationStyleManager { }
 
-	[Protocol, Model]
-	[BaseType (typeof (NSObject))]
+	[Protocol]
 	interface PSPDFAnnotationStyleManager {
 
 		[Abstract]
 		[Export ("styleKeys", ArgumentSemantic.Copy), NullAllowed]
-		NSSet StyleKeys { get; set; }
+		NSSet<NSString> StyleKeys { get; set; }
+
+		[Abstract]
+		[Export ("stylesForKey:")]
+		[return: NullAllowed]
+		PSPDFAnnotationStyle [] GetStyles (NSString key);
 
 		[Abstract]
 		[Export ("shouldUpdateDefaultsForAnnotationChanges")]
 		bool ShouldUpdateDefaultsForAnnotationChanges { get; set; }
 
-		[Export ("setupDefaultStylesIfNeeded")][Abstract]
+		[Abstract]
+		[Export ("setupDefaultStylesIfNeeded")]
 		void SetupDefaultStylesIfNeeded ();
 
-		[Export ("stylesForKey:")][Abstract]
-		[return: NullAllowed]
-		PSPDFAnnotationStyle [] StylesForKey (NSString key);
-
-		[Export ("addStyle:forKey:")][Abstract]
+		[Abstract]
+		[Export ("addStyle:forKey:")]
 		void AddStyle (PSPDFAnnotationStyle style, NSString key);
 
-		[Export ("removeStyle:forKey:")][Abstract]
+		[Abstract]
+		[Export ("removeStyle:forKey:")]
 		void RemoveStyle (PSPDFAnnotationStyle style, NSString key);
 
-		[Export ("lastUsedStyleForKey:")][Abstract]
-		PSPDFAnnotationStyle LastUsedStyleForKey (NSString key);
+		[Abstract]
+		[Export ("lastUsedStyleForKey:")]
+		PSPDFAnnotationStyle GetLastUsedStyle (NSString key);
 
-		[Export ("lastUsedProperty:forKey:")][Abstract]
-		NSObject LastUsedProperty (string styleProperty, NSString key);
+		[Abstract]
+		[Export ("lastUsedProperty:forKey:")]
+		NSObject GetLastUsedProperty (string styleProperty, NSString key);
 
-		[Export ("setLastUsedValue:forProperty:forKey:")][Abstract]
+		[Abstract]
+		[Export ("setLastUsedValue:forProperty:forKey:")]
 		void SetLastUsedValue (NSObject value, string styleProperty, NSString key);
 
-		[Export ("defaultPresetsForKey:type:")][Abstract]
+		[Abstract]
+		[Export ("defaultPresetsForKey:type:")]
 		[return: NullAllowed]
-		PSPDFModel [] DefaultPresetsForKey (NSString key, NSString type);
+		PSPDFModel [] GetDefaultPresets (NSString key, NSString type);
 
-		[Export ("presetsForKey:type:")][Abstract]
-		PSPDFModel [] PresetsForKey (NSString key, NSString type);
+		[Abstract]
+		[Export ("setDefaultPresets:forKey:type:")]
+		void SetDefaultPresets ([NullAllowed] PSPDFModel [] presets, NSString key, NSString type);
 
-		[Export ("setPresets:forKey:type:")][Abstract]
+		[Abstract]
+		[Export ("presetsForKey:type:")]
+		PSPDFModel [] GetPresets (NSString key, NSString type);
+
+		[Abstract]
+		[Export ("setPresets:forKey:type:")]
 		void SetPresets ([NullAllowed] PSPDFModel [] presets, NSString key, NSString type);
 
-		[Export ("isPresetModifiedAtIndex:forKey:type:")][Abstract]
-		bool IsPresetModifiedAtIndex (nuint index, NSString key, NSString type);
+		[Abstract]
+		[Export ("isPresetModifiedAtIndex:forKey:type:")]
+		bool IsPresetModified (nuint index, NSString key, NSString type);
 
-		[Export ("resetPresetAtIndex:forKey:type:")][Abstract]
-		bool ResetPresetAtIndex (nuint index, NSString key, NSString type);
+		[Abstract]
+		[Export ("resetPresetAtIndex:forKey:type:")]
+		bool ResetPreset (nuint index, NSString key, NSString type);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -1584,6 +1599,7 @@ namespace PSPDFKit.iOS {
 		[Export ("pdfViewController:didEndPageZooming:atScale:")]
 		void DidEndPageZooming (PSPDFViewController pdfController, UIScrollView scrollView, nfloat scale);
 
+		[return: NullAllowed]
 		[Export ("pdfViewController:documentForRelativePath:")]
 		PSPDFDocument DocumentForRelativePath (PSPDFViewController pdfController, string relativePath);
 
@@ -2076,6 +2092,11 @@ namespace PSPDFKit.iOS {
 		[Static]
 		[Export ("validateLibraryMetadata:")]
 		bool ValidateLibraryMetadata (NSDictionary metadata);
+
+		// PSPDFDocument (TextParser) Category
+
+		[Export ("watermarkFilterEnabled")]
+		bool WatermarkFilterEnabled { [Bind ("isWatermarkFilterEnabled")] get; set; }
 
 		// PSPDFDocument (ObjectFinder) Category
 
@@ -4033,7 +4054,7 @@ namespace PSPDFKit.iOS {
 		[Export ("hasIncompleteUndoActions")]
 		bool HasIncompleteUndoActions { get; }
 
-		[Export ("incompleteUndoActionName")]
+		[Export ("incompleteUndoActionName"), NullAllowed]
 		string IncompleteUndoActionName { get; }
 	}
 
@@ -5496,6 +5517,7 @@ namespace PSPDFKit.iOS {
 		[Export ("script"), NullAllowed]
 		string Script { get; }
 
+		[return: NullAllowed]
 		[Export ("executeScriptAppliedToDocumentProvider:application:eventDictionary:sender:error:")]
 		NSDictionary<NSString, NSObject> ExecuteScriptAppliedToDocumentProvider (PSPDFDocumentProvider documentProvider, [NullAllowed] NSObject application, [NullAllowed] NSDictionary<NSString, NSObject> eventDictionary, NSObject sender, out NSError error);
 	}
@@ -5979,8 +6001,8 @@ namespace PSPDFKit.iOS {
 		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFGlyph [] glyphs, CGRect frame, nuint pageRotation);
 
-		[Export ("initWithGlyphs:")]
-		IntPtr Constructor (PSPDFGlyph [] glyphs);
+		[Export ("initWithGlyphs:pageRotation:")]
+		IntPtr Constructor (PSPDFGlyph [] glyphs, nuint pageRotation);
 
 		[Export ("frame")]
 		CGRect Frame { get; }
@@ -6158,10 +6180,10 @@ namespace PSPDFKit.iOS {
 	interface PSPDFSearchResult : INativeObject {
 
 		[Export ("initWithDocumentUID:pageIndex:range:previewText:rangeInPreviewText:selection:annotation:")]
-		IntPtr Constructor (string documentUid, nuint pageIndex, NSRange range, [NullAllowed] string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
+		IntPtr Constructor (string documentUid, nuint pageIndex, NSRange range, string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
 
 		[Export ("initWithDocument:pageIndex:range:previewText:rangeInPreviewText:selection:annotation:")]
-		IntPtr Constructor (PSPDFDocument document, nuint pageIndex, NSRange range, [NullAllowed] string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
+		IntPtr Constructor (PSPDFDocument document, nuint pageIndex, NSRange range, string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
 
 		[Export ("pageIndex", ArgumentSemantic.Assign)]
 		nuint PageIndex { get; }
@@ -6178,7 +6200,7 @@ namespace PSPDFKit.iOS {
 		[Export ("documentUID")]
 		string DocumentUid { get; }
 
-		[Export ("selection", ArgumentSemantic.Strong)]
+		[Export ("selection", ArgumentSemantic.Strong), NullAllowed]
 		PSPDFTextBlock Selection { get; }
 
 		[Export ("document", ArgumentSemantic.Weak), NullAllowed]
@@ -8503,6 +8525,7 @@ namespace PSPDFKit.iOS {
 		[Export ("setLastUsedColor:annotationString:")] // PSPDFAnnotationString
 		void SetLastUsedColor ([NullAllowed] UIColor lastUsedDrawColor, NSString annotationString);
 
+		[return: NullAllowed]
 		[Export ("lastUsedColorForAnnotationString:")] // PSPDFAnnotationString
 		UIColor LastUsedColor (NSString annotationString);
 
@@ -8602,10 +8625,10 @@ namespace PSPDFKit.iOS {
 
 	interface IPSPDFAnnotationViewProtocol { }
 
-	[Protocol, Model]
-	[BaseType (typeof (NSObject))]
+	[Protocol]
 	interface PSPDFAnnotationViewProtocol {
 
+		[NullAllowed]
 		[Export ("annotation")]
 		PSPDFAnnotation GetAnnotation ();
 
@@ -9686,8 +9709,8 @@ namespace PSPDFKit.iOS {
 		[Export ("flexible", ArgumentSemantic.Weak)]
 		bool Flexible { [Bind ("isFlexible")] get; set; }
 
-		[Export ("setTintColorDidChangeBlock:")]
-		void SetTintColorDidChangeHandler (Action<UIColor> handler);
+		[Export ("tintColorDidChangeBlock", ArgumentSemantic.Copy), NullAllowed]
+		Action<UIColor> TintColorDidChangeHandler { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFToolbarButton))]
@@ -11444,7 +11467,7 @@ namespace PSPDFKit.iOS {
 		UITextView SetTextViewForEditing { get; }
 	}
 
-	delegate void PSPDFPKCS12UnlockHandler (PSPDFX509 x509, PSPDFRSAKey pk, NSError error);
+	delegate void PSPDFPKCS12UnlockHandler (PSPDFX509 x509, PSPDFPrivateKey pk, NSError error);
 
 	[DisableDefaultCtor]
 	[BaseType (typeof (NSObject))]
@@ -11472,39 +11495,30 @@ namespace PSPDFKit.iOS {
 		[Export ("p12", ArgumentSemantic.Retain)]
 		PSPDFPKCS12 P12 { get; }
 
-		[Export ("pkey", ArgumentSemantic.Retain), NullAllowed]
-		PSPDFRSAKey PKey { get; set; }
+		[Export ("privateKey", ArgumentSemantic.Retain), NullAllowed]
+		PSPDFPrivateKey PrivateKey { get; set; }
 
 		[Export ("signFormElement:usingPassword:writeTo:completion:")]
 		void SignFormElement (PSPDFSignatureFormElement element, string password, string path, [NullAllowed] PSPDFPKCS12SignerSignHandler completion);
 	}
 
-	[PrivateDefaultCtorAttribute]
+	[PrivateDefaultCtor]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFRSAKey {
 
-		[Export ("initWithKey:")][Internal]
-		IntPtr InitWithKey (IntPtr key);
+		[Export ("publicKeyScheme")]
+		string PublicKeyScheme { get; }
 
-		[Export ("key")]
-		IntPtr Key { get; }
+		[Export ("keyLength")]
+		nint KeyLength { get; }
 	}
 
-	[PrivateDefaultCtor]
 	[BaseType (typeof (NSObject))]
-	interface PSPDFSignatureDigest {
+	[PrivateDefaultCtor]
+	interface PSPDFPrivateKey {
 
-		[Export ("initWithBIO:")][Internal]
-		IntPtr InitWithBIO (IntPtr bio);
-
-		[Export ("bio")]
-		IntPtr Bio { get; }
-
-		[Export ("digestRange:fileHandle:")]
-		void DigestRange (NSRange range, NSFileHandle fileHandle);
-
-		[Export ("digestData:")]
-		void DigestData (NSData data);
+		[Export ("encryptionAlgorithm")]
+		string EncryptionAlgorithm { get; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -11568,18 +11582,12 @@ namespace PSPDFKit.iOS {
 		[Export ("displayName")]
 		string DisplayName { get; }
 
-		[Export ("signingAlgorithm")]
-		PSPDFSigningAlgorithm SigningAlgorithm { get; }
-
 		[Export ("requestSigningCertificate:completionBlock:")]
 		void RequestSigningCertificate (UINavigationController controller, [NullAllowed] Action<PSPDFX509, NSError> completionHandler);
 
 		[Advice ("Requires call to base if overridden")]
 		[Export ("signFormElement:withCertificate:writeTo:completion:")]
 		void SignFormElement (PSPDFSignatureFormElement element, PSPDFX509 x509, string path, [NullAllowed] Action<bool, PSPDFDocument, NSError> done);
-
-		[Export ("signHash:algorithm:error:"), Internal]
-		NSData SignHash (NSData hash, PSPDFSigningAlgorithm algorithm, IntPtr error);
 	}
 
 	[DisableDefaultCtor]
@@ -11620,22 +11628,17 @@ namespace PSPDFKit.iOS {
 
 		[Static]
 		[Export ("adobeCA")]
-		PSPDFX509 AdobeCA { get; }
+		PSPDFX509 GetAdobeCA ();
 
 		[Static]
 		[Export ("certificatesFromPKCS7Data:error:")]
-		PSPDFX509 [] CertificatesFromPKCS7Data (NSData data, out NSError error);
-
-		[Export ("initWithX509:")][Internal]
-		IntPtr InitWithX509 (IntPtr x509);
-
-		[Export ("cert")]
-		IntPtr Cert { get; }
+		[return: NullAllowed]
+		PSPDFX509 [] GetCertificatesFromPKCS7Data (NSData data, [NullAllowed] out NSError error);
 
 		[Export ("publicKey")]
 		PSPDFRSAKey PublicKey { get; }
 
-		[Export ("commonName")]
+		[Export ("commonName"), NullAllowed]
 		string CommonName { get; }
 	}
 
@@ -11644,15 +11647,13 @@ namespace PSPDFKit.iOS {
 	interface PSPDFSignatureStatus {
 
 		[Export ("initWithSigner:signingDate:wasModified:")]
-		IntPtr Constructor (string signer, NSDate date, bool wasModified);
+		[DesignatedInitializer]
+		IntPtr Constructor ([NullAllowed] string signer, [NullAllowed] NSDate date, bool wasModified);
 
-		[Export ("reportSignatureProblem:")]
-		void ReportSignatureProblem (int error);
-
-		[Export ("signer")]
+		[Export ("signer"), NullAllowed]
 		string Signer { get; }
 
-		[Export ("signingDate", ArgumentSemantic.Copy)]
+		[Export ("signingDate", ArgumentSemantic.Copy), NullAllowed]
 		NSDate SigningDate { get; }
 
 		[Export ("wasModified")]
@@ -13288,10 +13289,10 @@ namespace PSPDFKit.iOS {
 	interface UISearchController_PSPDFKitAdditions {
 		
 		[Export ("pspdf_searchResultsTableView")]
-		UITableView Pspdf_SearchResultsTableView ();
+		UITableView PSPdfSearchResultsTableView ();
 
-		[Export ("pspdf_install352525StatusBarWorkaroundOn:")]
-		void Pspdf_install352525StatusBarWorkaroundOn (UIViewController controller);
+		[Export ("pspdf_installWorkaroundsOn:")]
+		void PSPdfInstallWorkaroundsOn (UIViewController controller);
 	}
 
 	interface IPSPDFAppearanceModeManagerDelegate { }
