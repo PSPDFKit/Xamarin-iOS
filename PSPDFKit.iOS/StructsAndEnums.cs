@@ -1254,4 +1254,11 @@ namespace PSPDFKit.iOS {
 		LeftEdge,
 		RightEdge
 	}
+
+	[Native]
+	public enum PSPDFLibraryIndexingPriority : ulong {
+		Background,
+		Low,
+		High
+	}
 }

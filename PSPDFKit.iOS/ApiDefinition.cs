@@ -34,6 +34,9 @@ namespace PSPDFKit.iOS {
 		[Field ("PSPDFFileCoordinationEnabledKey", "__Internal")]
 		NSString FileCoordinationEnabledKey { get; }
 
+		[Field ("PSPDFLibraryIndexingPriorityKey", "__Internal")]
+		NSString LibraryIndexingPriorityKey { get; }
+
 		[Field ("PSPDFWebKitLegacyModeKey", "__Internal")]
 		NSString WebKitLegacyModeKey { get; }
 
@@ -6341,6 +6344,11 @@ namespace PSPDFKit.iOS {
 		[return: NullAllowed]
 		PSPDFLibrary FromPath (string path, PSPDFLibraryFtsVersion ftsVersion, [NullAllowed] string tokenizer, out NSError error);
 
+		[Static]
+		[Export ("libraryWithPath:indexingPriority:ftsVersion:tokenizer:error:")]
+		[return: NullAllowed]
+		PSPDFLibrary FromPath (string path, PSPDFLibraryIndexingPriority priority, PSPDFLibraryFtsVersion ftsVersion, [NullAllowed] string tokenizer, out NSError error);
+
 		[Export ("defaultLibraryPath")]
 		string DefaultLibraryPath { get; }
 
@@ -6447,6 +6455,10 @@ namespace PSPDFKit.iOS {
 		[Static]
 		[Export ("encryptedLibraryWithPath:encryptionKeyProvider:ftsVersion:tokenizer:error:")]
 		PSPDFLibrary GetEncryptedLibrary (string path, [NullAllowed] Func<NSData> encryptionKeyProvider, PSPDFLibraryFtsVersion ftsVersion, [NullAllowed] string tokenizer, out NSError error);
+
+		[Static]
+		[Export ("encryptedLibraryWithPath:encryptionKeyProvider:indexingPriority:ftsVersion:tokenizer:error:")]
+		PSPDFLibrary GetEncryptedLibrary (string path, [NullAllowed] Func<NSData> encryptionKeyProvider, PSPDFLibraryIndexingPriority priority, PSPDFLibraryFtsVersion ftsVersion, [NullAllowed] string tokenizer, [NullAllowed] out NSError error);
 
 		[Export ("encrypted", ArgumentSemantic.Assign)]
 		bool Encrypted { [Bind ("isEncrypted")] get; }
@@ -10909,6 +10921,9 @@ namespace PSPDFKit.iOS {
 
 		[Export ("replaceWithDataSink:")]
 		bool Replace (IPSPDFDataSink replacementDataSink);
+
+		[Export ("canWrite")]
+		bool CanWrite { get; }
 
 		[Export ("deleteDataWithError:")]
 		bool Delete (out NSError error);
