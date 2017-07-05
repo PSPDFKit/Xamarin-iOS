@@ -16,5 +16,5 @@ Minimum Requirements
 
 In order to build this binding project you need:
 
-- **Xamarin Studio 6.0 +**
+- **Xamarin Studio 6.0 + or Visual Studio**
 - **Xamarin.iOS 9.8 +**
