@@ -808,7 +808,7 @@ namespace PSPDFKit.iOS {
 		CannotSaveToDestination = 262,
 		UnsupportedSubfilterType = 263,
 		CannotFindSignature = 264,
-		CannotSignAttributes = 264
+		CannotSignAttributes = 265
 	}
 
 	[Native]
