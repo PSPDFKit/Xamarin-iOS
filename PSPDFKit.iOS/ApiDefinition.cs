@@ -4896,7 +4896,7 @@ namespace PSPDFKit.iOS {
 	}
 
 	[BaseType (typeof (PSPDFBaseViewController))]
-	interface PSPDFNoteAnnotationViewController : IUITextViewDelegate, PSPDFStyleable {
+	interface PSPDFNoteAnnotationViewController : IUIGestureRecognizerDelegate, IUITextViewDelegate, PSPDFStyleable {
 
 		[Export ("initWithAnnotation:")]
 		IntPtr Constructor (PSPDFAnnotation annotation);
