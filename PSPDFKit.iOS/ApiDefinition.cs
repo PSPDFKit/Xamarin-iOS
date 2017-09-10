@@ -7903,7 +7903,7 @@ namespace PSPDFKit.iOS {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFControllerStateHandling {
 		[Abstract]
-		[Export ("document", ArgumentSemantic.Assign), NullAllowed]
+		[Export ("document", ArgumentSemantic.Weak), NullAllowed]
 		PSPDFDocument Document { get; set; }
 
 		[Abstract]
@@ -13748,7 +13748,7 @@ namespace PSPDFKit.iOS {
 		[Export ("indexItemDescriptorForDocumentWithUID:")]
 		PSPDFFileIndexItemDescriptor GetIndexItemDescriptor (string uid);
 
-		[Export ("documentProvider", ArgumentSemantic.Weak), NullAllowed]
+		[Export ("documentProvider", ArgumentSemantic.Weak)]
 		IPSPDFLibraryFileSystemDataSourceDocumentProvider DocumentProvider { get; }
 
 		[Export ("explicitModeEnabled")]
