@@ -18,3 +18,7 @@ In order to build this binding project you need:
 
 - **Xamarin Studio 6.0 + or Visual Studio**
 - **Xamarin.iOS 9.8 +**
+
+## Contributing
+  
+Please ensure [you signed our CLA](https://pspdfkit.com/guides/web/current/miscellaneous/contributing/) so we can accept your contributions.
