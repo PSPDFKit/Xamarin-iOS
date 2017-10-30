@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using Foundation;
 using CoreGraphics;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
+using UIKit;
 
-namespace PSPDFCatalog
-{
-	public class AnnotationsFromCodeViewController : PSPDFViewController
-	{
+namespace PSPDFCatalog {
+	public class AnnotationsFromCodeViewController : PSPDFViewController {
 		PSPDFAnnotation [] annotationsArr;
 
-		public AnnotationsFromCodeViewController (NSData documentData) : base (new PSPDFDocument (documentData))
+		public AnnotationsFromCodeViewController (NSUrl document) : base (new PSPDFDocument (document))
 		{
 			Document.Title = "Programmatically create annotations";
 			Document.AnnotationSaveMode = PSPDFAnnotationSaveMode.Disabled;
 
 			var annotationsList = new List<PSPDFAnnotation> ();
-			var maxHeight = Document.GetPageInfo (0).RotatedRect.Size.Height;
+			uint targetPage = 0;
+			var pageInfo = Document.GetPageInfo (targetPage);
+			CGRect viewRect = UIScreen.MainScreen.Bounds;
+			var maxHeight = pageInfo.RotatedRect.Size.Height;
 			for (int i = 0; i < 5; i++) {
-				var note = new PSPDFNoteAnnotation () {
+				var note = new PSPDFNoteAnnotation {
 					// width/height will be ignored for note annotations.
 					BoundingBox = new CGRect (100, (50 + i * maxHeight / 5), 32, 32),
 					Contents = string.Format ("Note {0}", (5 - i)) // notes are added bottom-up
@@ -29,25 +32,26 @@ namespace PSPDFCatalog
 
 			// Ink Annotation sample
 			var inkAnnot = new PSPDFInkAnnotation ();
-			inkAnnot.Lines = new List<NSValue[]> () {
-				new [] {
-					NSValue.FromCGPoint (new CGPoint (480.93079f, 596.0625f)),
-					NSValue.FromCGPoint (new CGPoint (476.8027f, 592.96881f)),
-					NSValue.FromCGPoint (new CGPoint (468.54639f, 585.75f)),
-					NSValue.FromCGPoint (new CGPoint (456.1619f, 574.40631f)),
-					NSValue.FromCGPoint (new CGPoint (436.5531f, 550.6875f)),
-					NSValue.FromCGPoint (new CGPoint (357.086f, 434.15631f)),
-					NSValue.FromCGPoint (new CGPoint (294.1315f, 359.90631f)),
-					NSValue.FromCGPoint (new CGPoint (226.01691f, 284.625f)),
-					NSValue.FromCGPoint (new CGPoint (176.4789f, 222.75f))
-				}
-			};
+			var linesArr = NSArray<NSValue>.FromNSObjects (
+				NSValue.FromCGPoint (new CGPoint (480.93079f, 596.0625f)),
+				NSValue.FromCGPoint (new CGPoint (476.8027f, 592.96881f)),
+				NSValue.FromCGPoint (new CGPoint (468.54639f, 585.75f)),
+				NSValue.FromCGPoint (new CGPoint (456.1619f, 574.40631f)),
+				NSValue.FromCGPoint (new CGPoint (436.5531f, 550.6875f)),
+				NSValue.FromCGPoint (new CGPoint (357.086f, 434.15631f)),
+				NSValue.FromCGPoint (new CGPoint (294.1315f, 359.90631f)),
+				NSValue.FromCGPoint (new CGPoint (226.01691f, 284.625f)),
+				NSValue.FromCGPoint (new CGPoint (176.4789f, 222.75f))
+		   	);
+			var lines = new NSArray<NSValue> [] { linesArr };
+
+			inkAnnot.Lines = PSPDFInkAnnotation.ConvertViewLinesToPdfLines (lines, pageInfo.Rect, pageInfo.Rotation, viewRect);
 			inkAnnot.LineWidth = 5;
-			inkAnnot.Color = UIKit.UIColor.White;
+			inkAnnot.Color = UIColor.White;
 			annotationsList.Add (inkAnnot);
 
 			annotationsArr = annotationsList.ToArray ();
-			Document.AddAnnotations (annotationsArr, null);
+			Document.AddAnnotations (annotationsArr, options: null);
 		}
 	}
 }

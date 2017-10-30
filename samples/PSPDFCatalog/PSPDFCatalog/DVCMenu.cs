@@ -7,13 +7,11 @@ using MonoTouch.Dialog;
 using Foundation;
 using UIKit;
 
-using PSPDFKit.iOS;
-using ObjCRuntime;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 
-namespace PSPDFCatalog
-{
-	public partial class DVCMenu : DialogViewController
-	{
+namespace PSPDFCatalog {
+	public class DVCMenu : DialogViewController {
 		public static readonly string HackerMonthlyFile = "Pdf/hackermonthly-issue.pdf";
 		public static readonly string ProtectedFile = "Pdf/protected.pdf";
 		public static readonly string PSPDFKitFile = "Pdf/PSPDFKit QuickStart Guide.pdf";
@@ -31,10 +29,8 @@ namespace PSPDFCatalog
 				},
 				new Section ("Annotations"){
 					new StringElement ("Annotations From Code", () => {
-						// we use a NSData document here but it'll work even better with a file-based variant.
-						NSError err;
-						var documentData = NSData.FromUrl (NSUrl.FromFilename (HackerMonthlyFile), NSDataReadingOptions.Mapped, out err);
-						var pdfViewer = new AnnotationsFromCodeViewController (documentData);
+						var documenturl = NSUrl.FromFilename (HackerMonthlyFile);
+						var pdfViewer = new AnnotationsFromCodeViewController (documenturl);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 				},
@@ -52,20 +48,19 @@ namespace PSPDFCatalog
 					}),
 					new StringElement ("Create Password Protected PDF", async () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						var status = PSPDFStatusHUDItem.GetProgressHud ("Preparing");
-						status.Push (true, null);
+						var status = PSPDFStatusHUDItem.CreateProgress ("Preparing");
+						await status.PushAsync (true);
 						// Create temp file and password
 						var tempPdf = NSUrl.FromFilename (Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString () + ".pdf"));
 						var password = "test123";
 
 						// We start a new task so this executes on a separated thread since it is a hevy task and we don't want to block the UI
 						await Task.Factory.StartNew (()=> {
-							NSError err;
-							PSPDFProcessor.GeneratePdf (configuration: new PSPDFProcessorConfiguration (document), 
-							                            saveOptions: new PSPDFProcessorSaveOptions (password, password, PSPDFProcessorSaveOptions.KeyLengthAutomatic),
+							PSPDFProcessor.GeneratePdf (configuration: new PSPDFProcessorConfiguration (document),
+														securityOptions: new PSPDFDocumentSecurityOptions (password, password, PSPDFDocumentSecurityOptions.KeyLengthAutomatic),
 							                            fileUrl: tempPdf,
 							                            progressHandler: (currentPage, totalPages) => InvokeOnMainThread (() => status.Progress = (nfloat) currentPage / totalPages),
-							                            error: out err);
+							                            error: out var error);
 						});
 						InvokeOnMainThread (()=> {
 							status.Pop (true, null);
@@ -78,18 +73,19 @@ namespace PSPDFCatalog
 				new Section ("Subclassing", "Examples how to subclass PSPDFKit."){
 					new StringElement ("Annotation Link Editor", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						var editableTypes = new NSSet<NSString> (
-							PSPDFAnnotationString.Link, // Important!!
-							PSPDFAnnotationString.Highlight,
-							PSPDFAnnotationString.Underline,
-							PSPDFAnnotationString.Squiggly,
-							PSPDFAnnotationString.StrikeOut,
-							PSPDFAnnotationString.Note,
-							PSPDFAnnotationString.FreeText,
-							PSPDFAnnotationString.Ink,
-							PSPDFAnnotationString.Square,
-							PSPDFAnnotationString.Circle,
-							PSPDFAnnotationString.Stamp );
+						var editableTypes = new [] {
+							PSPDFAnnotationStringUI.Link, // Important!!
+							PSPDFAnnotationStringUI.Highlight,
+							PSPDFAnnotationStringUI.Underline,
+							PSPDFAnnotationStringUI.Squiggly,
+							PSPDFAnnotationStringUI.StrikeOut,
+							PSPDFAnnotationStringUI.Note,
+							PSPDFAnnotationStringUI.FreeText,
+							PSPDFAnnotationStringUI.Ink,
+							PSPDFAnnotationStringUI.Square,
+							PSPDFAnnotationStringUI.Circle,
+							PSPDFAnnotationStringUI.Stamp
+						};
 
 						var pdfViewer = new LinkEditorViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
 							builder.EditableAnnotationTypes = editableTypes;
@@ -141,7 +137,7 @@ namespace PSPDFCatalog
 						// Please visit PSPDFKit support page for more information
 						// https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support/
 						//
-						PSPDFKitGlobal.SharedInstance.StylusManager.AvailableDriverClasses = new NSOrderedSet (
+						PSPDFKitGlobal.SharedInstance.GetStylusManager ().AvailableDriverClasses = new NSOrderedSet (
 							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFAdonitStylusDriver)),
 							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFFiftyThreeStylusDriver)),
 							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFWacomStylusDriver)),
@@ -156,7 +152,6 @@ namespace PSPDFCatalog
 						NavigationController.PushViewController (pdfViewer, true);
 					})
 				},
-
 			};
 		}
 

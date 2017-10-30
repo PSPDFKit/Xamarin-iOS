@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}</ProjectGuid>
+    <ProjectGuid>{A48DA6FC-C52F-44B3-9F9D-DD6D964C1254}</ProjectGuid>
     <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>PSPDFKit.Core</RootNamespace>
-    <AssemblyName>PSPDFKit.iOS</AssemblyName>
+    <RootNamespace>PSPDFKit.UI</RootNamespace>
+    <AssemblyName>PSPDFKit.iOS.UI</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <DefineConstants>__IOS__;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -43,19 +44,20 @@
     <ObjcBindingApiDefinition Include="Enums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="LibraryConstant.cs" />
-    <ObjcBindingCoreSource Include="Structs.cs" />
+    <ProjectReference Include="..\PSPDFKit.iOS\PSPDFKit.iOS.csproj">
+      <Project>{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}</Project>
+      <Name>PSPDFKit.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <NativeReference Include="PSPDFKit.framework">
+    <NativeReference Include="PSPDFKitUI.framework">
       <Kind>Framework</Kind>
     </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
-  <!-- Kill *.sh files inside PSPDFKit.framework -->
   <Target Name="BeforeBuild">
     <ItemGroup>
-      <fileToDelete Include="$(ProjectDir)\PSPDFKit.framework\**\*.sh" />
+      <fileToDelete Include="$(ProjectDir)\PSPDFKitUI.framework\**\*.sh" />
     </ItemGroup>
     <Delete Files="@(fileToDelete)" />
   </Target>

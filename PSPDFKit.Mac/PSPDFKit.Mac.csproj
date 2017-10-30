@@ -3,60 +3,64 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}</ProjectGuid>
-    <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{247559E5-C890-4F1F-A964-3B300A6272E9}</ProjectGuid>
+    <ProjectTypeGuids>{810C163F-4746-4721-8B8E-88A3673A62EA};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>PSPDFKit.Core</RootNamespace>
-    <AssemblyName>PSPDFKit.iOS</AssemblyName>
-    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>PSPDFKit.Mac</AssemblyName>
+    <MacResourcePrefix>Resources</MacResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>__UNIFIED__;__MOBILE__;DEBUG;__IOS__;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;DEBUG;__MAC__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <ProcessEnums>true</ProcessEnums>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <DefineConstants>__IOS__;</DefineConstants>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__MAC__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <ProcessEnums>true</ProcessEnums>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.Mac" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApiEnhancements.cs" />
+    <Compile Include="..\PSPDFKit.iOS\ApiEnhancements.cs">
+      <Link>ApiEnhancements.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
-    <ObjcBindingApiDefinition Include="Enums.cs" />
+    <ObjcBindingApiDefinition Include="..\PSPDFKit.iOS\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
+    <ObjcBindingApiDefinition Include="..\PSPDFKit.iOS\Enums.cs">
+      <Link>Enums.cs</Link>
+    </ObjcBindingApiDefinition>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="LibraryConstant.cs" />
-    <ObjcBindingCoreSource Include="Structs.cs" />
+    <ObjcBindingCoreSource Include="..\PSPDFKit.iOS\LibraryConstant.cs">
+      <Link>LibraryConstant.cs</Link>
+    </ObjcBindingCoreSource>
+    <ObjcBindingCoreSource Include="..\PSPDFKit.iOS\Structs.cs">
+      <Link>Structs.cs</Link>
+    </ObjcBindingCoreSource>
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="PSPDFKit.framework">
       <Kind>Framework</Kind>
     </NativeReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
-  <!-- Kill *.sh files inside PSPDFKit.framework -->
-  <Target Name="BeforeBuild">
-    <ItemGroup>
-      <fileToDelete Include="$(ProjectDir)\PSPDFKit.framework\**\*.sh" />
-    </ItemGroup>
-    <Delete Files="@(fileToDelete)" />
-  </Target>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.ObjcBinding.CSharp.targets" />
 </Project>

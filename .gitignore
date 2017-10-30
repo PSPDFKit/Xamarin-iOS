@@ -12,3 +12,4 @@ StylusDrivers/externals/
 *.dll
 *.mdb
 *.framework
+tools/

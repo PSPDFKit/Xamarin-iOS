@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Foundation;
-using UIKit;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 
-namespace PSPDFCatalog
-{
+namespace PSPDFCatalog {
 	[Register ("CustomBookmarkProvider")]
-	public class CustomBookmarkProvider : NSObject, IPSPDFBookmarkProvider
-	{
+	public class CustomBookmarkProvider : NSObject, IPSPDFBookmarkProvider {
 		List<PSPDFBookmark> bookmarks = new List<PSPDFBookmark> ();
 
 		public CustomBookmarkProvider (IntPtr handle) : base (handle)
@@ -27,20 +24,22 @@ namespace PSPDFCatalog
 			}
 		}
 
-		public void Add (PSPDFBookmark bookmark)
-		{
-			bookmarks.Add (bookmark);
-			InvokeOnMainThread (() => PSPDFStatusHUDItem.GetSuccessHud ($"You added page {bookmark.PageIndex + 1} from bookmarks").PushAndPop (1, true, null));
-		}
-
-		public void Remove (PSPDFBookmark bookmark)
-		{
-			bookmarks.Remove (bookmark);
-		}
-
 		public void Save ()
 		{
 			// Do nothing here, since we are not storing bookmarks anywhere
+		}
+
+		public bool AddBookmark (PSPDFBookmark bookmark)
+		{
+			bookmarks.Add (bookmark);
+			InvokeOnMainThread (() => PSPDFStatusHUDItem.CreateSuccess ($"You added page {bookmark.PageIndex + 1} from bookmarks").PushAndPop (1, true, null));
+			return true;
+		}
+
+		public bool RemoveBookmark (PSPDFBookmark bookmark)
+		{
+			bookmarks.Remove (bookmark);
+			return true;
 		}
 	}
 }

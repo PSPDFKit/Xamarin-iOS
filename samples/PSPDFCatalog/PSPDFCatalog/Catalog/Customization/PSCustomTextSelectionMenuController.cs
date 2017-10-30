@@ -5,14 +5,15 @@ using Foundation;
 using UIKit;
 using CoreGraphics;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 using ObjCRuntime;
 
 namespace PSPDFCatalog {
 	
 	public class PSCustomTextSelectionMenuController : PSPDFViewController, IPSPDFViewControllerDelegate {
 		
-		public PSCustomTextSelectionMenuController () : base ()
+		public PSCustomTextSelectionMenuController ()
 		{
 			Delegate = this;
 		}

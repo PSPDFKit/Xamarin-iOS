@@ -157,8 +157,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PSPDFKit.iOS\PSPDFKit.iOS.csproj">
-      <Project>{05D55D07-A317-401C-91B3-24B1E44BC3AC}</Project>
+      <Project>{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}</Project>
       <Name>PSPDFKit.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PSPDFKit.iOS.UI\PSPDFKit.iOS.UI.csproj">
+      <Project>{A48DA6FC-C52F-44B3-9F9D-DD6D964C1254}</Project>
+      <Name>PSPDFKit.iOS.UI</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

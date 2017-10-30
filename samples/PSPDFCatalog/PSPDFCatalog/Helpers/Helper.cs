@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Foundation;
-using UIKit;
 using ObjCRuntime;
 
-namespace PSPDFCatalog
-{
-	public static class Helper
-	{
+namespace PSPDFCatalog {
+	public static class Helper {
 		static IntPtr kCGPDFContextUserPassword;
 		public static IntPtr CGPDFContextUserPassword {
 			get {

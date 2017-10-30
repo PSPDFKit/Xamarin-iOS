@@ -1,7 +1,8 @@
-Xamarin PSPDFKit for iOS Bindings
-=================================
+Xamarin PSPDFKit for iOS and Mac Bindings
+=========================================
 
-Xamarin.iOS Bindings for PSPDFKit 6.9.3 for iOS
+- Xamarin.iOS Bindings for PSPDFKit 7.0.3 for iOS
+- Xamarin.Mac Bindings for PSPDFKit 2.0.1 for macOS
 
 Xamarin.Android Bindings for PSPDFKit for Android: [PSPDFKit/Xamarin-Android](https://github.com/PSPDFKit/Xamarin-Android)
 
@@ -16,8 +17,9 @@ Minimum Requirements
 
 In order to build this binding project you need:
 
-- **Xamarin Studio 6.0 + or Visual Studio**
-- **Xamarin.iOS 9.8 +**
+- **Visual Studio**
+- **Xamarin.iOS 11.0 +**
+- **Xamarin.Mac 4.0 +**
 
 ## Contributing
   

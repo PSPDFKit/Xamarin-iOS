@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Foundation;
 using UIKit;
 using CoreGraphics;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 
-namespace PSPDFCatalog
-{
-	public class CustomLinkAnnotationView : PSPDFLinkAnnotationView
-	{
+namespace PSPDFCatalog {
+	public class CustomLinkAnnotationView : PSPDFLinkAnnotationView {
 		// MUST HAVE ctor when Subclassing!!! It will crash otherwise.
 		public CustomLinkAnnotationView (IntPtr handle) : base (handle)
 		{

@@ -5,7 +5,8 @@ using Foundation;
 using UIKit;
 using CoreGraphics;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 
 namespace PSPDFCatalog
 {
@@ -50,7 +51,7 @@ namespace PSPDFCatalog
 			}
 		}
 
-		public PSPDFAnnotation [] GetAnnotationsForPage (nuint pageIndex)
+		public PSPDFAnnotation [] GetAnnotations (nuint pageIndex)
 		{
 			if (annotations == null)
 				annotations = new Dictionary<nuint, PSPDFAnnotation []> ((int)document.PageCount);

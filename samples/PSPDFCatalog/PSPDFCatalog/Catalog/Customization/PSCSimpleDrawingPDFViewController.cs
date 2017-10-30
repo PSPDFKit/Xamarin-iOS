@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Foundation;
 using UIKit;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 
-namespace PSPDFCatalog
-{
-	public class PSCSimpleDrawingPDFViewController : PSPDFViewController
-	{
+namespace PSPDFCatalog {
+	public class PSCSimpleDrawingPDFViewController : PSPDFViewController {
 		public UIButton DrawButton { get; set; }
 
 		public PSCSimpleDrawingPDFViewController (PSPDFDocument document) : base (document)
@@ -46,13 +43,13 @@ namespace PSPDFCatalog
 		void HandleTouchUpInside (object sender, EventArgs e)
 		{
 			AnnotationStateManager.DrawColor = UIColor.Red;
-			AnnotationStateManager.ToggleState (PSPDFAnnotationString.Ink);
+			AnnotationStateManager.ToggleState (PSPDFAnnotationString.Ink.GetConstant ());
 			UpdateDrawButtonAppearance ();
 		}
 
 		void UpdateDrawButtonAppearance ()
 		{
-			if (AnnotationStateManager.State == PSPDFAnnotationString.Ink)
+			if (AnnotationStateManager.State == PSPDFAnnotationString.Ink.GetConstant ())
 				DrawButton.BackgroundColor = UIColor.FromRGBA (0.846f, 1.0f, 0.871f, 1.0f);
 			else
 				DrawButton.BackgroundColor = UIColor.Green;

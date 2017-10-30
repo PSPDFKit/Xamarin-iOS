@@ -1,12 +1,11 @@
 ﻿using System;
 using Foundation;
 
-using PSPDFKit.iOS;
+using PSPDFKit.Core;
+using PSPDFKit.UI;
 
-namespace PSPDFCatalog
-{
-	public class PlayGroundViewController : PSPDFViewController
-	{
+namespace PSPDFCatalog {
+	public class PlayGroundViewController : PSPDFViewController {
 		public PlayGroundViewController (PSPDFDocument document) : base (document)
 		{
 		}

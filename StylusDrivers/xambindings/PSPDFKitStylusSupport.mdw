@@ -4,6 +4,6 @@
     <Item>PSPDFFiftyThreeStylusDriver/PSPDFFiftyThreeStylusDriver.sln</Item>
     <Item>PSPDFPogoStylusDriver/PSPDFPogoStylusDriver.sln</Item>
     <Item>PSPDFWacomStylusDriver/PSPDFWacomStylusDriver.sln</Item>
-    <Item>../../PSPDFKit.iOS/PSPDFKit.iOS.sln</Item>
+    <Item>../../PSPDFKit.sln</Item>
   </Items>
 </WorkspaceItem>
