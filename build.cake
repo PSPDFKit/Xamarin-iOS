@@ -66,6 +66,26 @@ Task ("iOSInstant")
 	}
 );
 
+Task ("ios")
+	.Description ("Builds iOS PSPDFKit dlls.\n")
+	.IsDependentOn ("Clean")
+	.IsDependentOn ("iOSCore")
+	.IsDependentOn ("iOSUI")
+	.IsDependentOn ("iOSInstant")
+	.Does (() => {
+		Information ("DONE! You will find the PSPDFKit.*.dll's in the root folder.");
+	}
+);
+
+Task ("mac")
+	.Description ("Builds macOS PSPDFKit dlls.\n")
+	.IsDependentOn ("Clean")
+	.IsDependentOn ("MacCore")
+	.Does (() => {
+		Information ("DONE! You will find the PSPDFKit.*.dll's in the root folder.");
+	}
+);
+
 Task ("Default")
 	.Description ("Builds all PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
