@@ -59,7 +59,7 @@ We are using [Cake](https://cakebuild.net) as our build system, this allows us t
 
 #### Advanced build
 
-We use the `Default` build task which builds all binding projects as long as the frameworks are present inside each directory (see **Setp 2 - Copy required files**), if an optional framework is not present this Task will just skip.
+We use the `Default` build task which builds all binding projects as long as the frameworks are present inside each directory (see **Step 2 - Copy required files**), if an optional framework is not present this Task will just skip.
 
 In the case you just want the Mac bits to be built you can do `./build.sh --target mac`. Here are the most common tasks available in the build script, they are particularly useful when you are integrating this into a CI Server.
 
@@ -75,7 +75,7 @@ To list all available tasks you can do `./build.sh --showdescription`.
 
 ## Step 4 - Integrating into your project
 
-Add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponfing using statements depending on the dlls referenced into your project.
+Add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponding using statements depending on the dlls referenced into your project.
 
 ```csharp
 using PSPDFKit.Core;
