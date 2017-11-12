@@ -99,7 +99,7 @@ You can find a sample project by opening `PSPDFKit.sln` and find it inside `iOS/
 
 # Stylus Support
 
-You can find instructions on how to add stylus support [here](https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support).
+You can find instructions on how to add stylus support [here](StylusDrivers/).
 
 
 # Contributing

@@ -6,6 +6,7 @@ using MonoTouch.Dialog;
 
 using Foundation;
 using UIKit;
+using ObjCRuntime;
 
 using PSPDFKit.Core;
 using PSPDFKit.UI;
@@ -138,10 +139,10 @@ namespace PSPDFCatalog {
 						// https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support/
 						//
 						PSPDFKitGlobal.SharedInstance.GetStylusManager ().AvailableDriverClasses = new NSOrderedSet (
-							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFAdonitStylusDriver)),
-							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFFiftyThreeStylusDriver)),
-							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFWacomStylusDriver)),
-							//(INativeObject) new Class (typeof (PSPDFKit.iOS.StylusSupport.PSPDFPogoStylusDriver))
+							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFAdonitStylusDriver)),
+							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFFiftyThreeStylusDriver)),
+							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFWacomStylusDriver)),
+							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFPogoStylusDriver))
 						);
 
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));

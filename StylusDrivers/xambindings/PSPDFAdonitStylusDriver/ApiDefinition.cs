@@ -4,12 +4,17 @@ using UIKit;
 using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
-using PSPDFKit.UI;
 
-namespace PSPDFKit.iOS.StylusSupport {
+namespace PSPDFKit.UI.StylusSupport {
 	[BaseType (typeof (NSObject))]
-	interface PSPDFAdonitStylusDriver : IPSPDFStylusDriver
-	{
+	interface PSPDFAdonitStylusDriver : IPSPDFStylusDriver {
+
+		[Export ("initWithDelegate:")]
+		IntPtr Constructor (IPSPDFStylusDriverDelegate @delegate);
+
+		[Static]
+		[Export ("driverInfo")]
+		NSDictionary DriverInfo { get; }
 	}
 }
 

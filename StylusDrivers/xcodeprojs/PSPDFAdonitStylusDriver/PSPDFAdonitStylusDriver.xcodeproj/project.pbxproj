@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA4228EF1FB89E9100C099A1 /* PSPDFKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4228EE1FB89E9100C099A1 /* PSPDFKitUI.framework */; };
 		FA9E75B71C951BB900869276 /* PSPDFAdonitStylusDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9E75B61C951BB900869276 /* PSPDFAdonitStylusDriver.m */; };
 		FA9E75BE1C952F4A00869276 /* PSPDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9E75BD1C952F4A00869276 /* PSPDFKit.framework */; };
 		FA9E75C01C952F7000869276 /* AdonitSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA9E75BF1C952F7000869276 /* AdonitSDK.framework */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		FA2110941D9835D700151628 /* PSPDFAdonitStylusDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PSPDFAdonitStylusDriver.h; path = ../../../externals/Drivers/PSPDFAdonitStylusDriver.h; sourceTree = "<group>"; };
+		FA4228EE1FB89E9100C099A1 /* PSPDFKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSPDFKitUI.framework; path = ../../externals/PSPDFKitUI.framework; sourceTree = "<group>"; };
 		FA9E75B11C951BB900869276 /* libPSPDFAdonitStylusDriver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPSPDFAdonitStylusDriver.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA9E75B61C951BB900869276 /* PSPDFAdonitStylusDriver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PSPDFAdonitStylusDriver.m; path = ../../../externals/Drivers/PSPDFAdonitStylusDriver.m; sourceTree = "<group>"; };
 		FA9E75BD1C952F4A00869276 /* PSPDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSPDFKit.framework; path = ../../externals/PSPDFKit.framework; sourceTree = "<group>"; };
@@ -41,6 +43,7 @@
 			files = (
 				FA9E75C01C952F7000869276 /* AdonitSDK.framework in Frameworks */,
 				FA9E75BE1C952F4A00869276 /* PSPDFKit.framework in Frameworks */,
+				FA4228EF1FB89E9100C099A1 /* PSPDFKitUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +55,7 @@
 			children = (
 				FA9E75BF1C952F7000869276 /* AdonitSDK.framework */,
 				FA9E75BD1C952F4A00869276 /* PSPDFKit.framework */,
+				FA4228EE1FB89E9100C099A1 /* PSPDFKitUI.framework */,
 				FA9E75B31C951BB900869276 /* PSPDFAdonitStylusDriver */,
 				FA9E75B21C951BB900869276 /* Products */,
 				FA9E75DC1C953B7000869276 /* NeededPrefix.pch */,
