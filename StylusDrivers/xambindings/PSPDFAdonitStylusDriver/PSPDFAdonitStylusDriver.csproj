@@ -69,14 +69,137 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Assets.car">
-      <Link>AdonitSDK.bundle\Assets.car</Link>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Adobe_Ink.png">
+      <Link>AdonitSDK.bundle\Adobe_Ink.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Adobe_Ink%402x.png">
+      <Link>AdonitSDK.bundle\Adobe_Ink%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Adobe_Ink%403x.png">
+      <Link>AdonitSDK.bundle\Adobe_Ink%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Adonit_Pixel.png">
+      <Link>AdonitSDK.bundle\Adonit_Pixel.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Adonit_Pixel%402x.png">
+      <Link>AdonitSDK.bundle\Adonit_Pixel%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Adonit_Pixel%403x.png">
+      <Link>AdonitSDK.bundle\Adonit_Pixel%403x.png</Link>
     </BundleResource>
     <BundleResource Include="..\..\externals\AdonitSDK.bundle\DebugOptionsTableViewCell.nib">
       <Link>AdonitSDK.bundle\DebugOptionsTableViewCell.nib</Link>
     </BundleResource>
     <BundleResource Include="..\..\externals\AdonitSDK.bundle\Info.plist">
       <Link>AdonitSDK.bundle\Info.plist</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_1.0.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_1.0.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_1.0%402x.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_1.0%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_1.0%403x.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_1.0%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_1.5.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_1.5.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_1.5%402x.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_1.5%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_1.5%403x.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_1.5%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_4.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_4.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_4%402x.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_4%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\Jot_Touch_4%403x.png">
+      <Link>AdonitSDK.bundle\Jot_Touch_4%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftA-Horizontal.png">
+      <Link>AdonitSDK.bundle\LeftA-Horizontal.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftA-Horizontal%402x.png">
+      <Link>AdonitSDK.bundle\LeftA-Horizontal%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftA-Horizontal%403x.png">
+      <Link>AdonitSDK.bundle\LeftA-Horizontal%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftB-Average.png">
+      <Link>AdonitSDK.bundle\LeftB-Average.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftB-Average%402x.png">
+      <Link>AdonitSDK.bundle\LeftB-Average%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftB-Average%403x.png">
+      <Link>AdonitSDK.bundle\LeftB-Average%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftC-Vertical.png">
+      <Link>AdonitSDK.bundle\LeftC-Vertical.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftC-Vertical%402x.png">
+      <Link>AdonitSDK.bundle\LeftC-Vertical%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\LeftC-Vertical%403x.png">
+      <Link>AdonitSDK.bundle\LeftC-Vertical%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightA-Horizontal.png">
+      <Link>AdonitSDK.bundle\RightA-Horizontal.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightA-Horizontal%402x.png">
+      <Link>AdonitSDK.bundle\RightA-Horizontal%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightA-Horizontal%403x.png">
+      <Link>AdonitSDK.bundle\RightA-Horizontal%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightB-Average.png">
+      <Link>AdonitSDK.bundle\RightB-Average.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightB-Average%402x.png">
+      <Link>AdonitSDK.bundle\RightB-Average%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightB-Average%403x.png">
+      <Link>AdonitSDK.bundle\RightB-Average%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightC-Vertical.png">
+      <Link>AdonitSDK.bundle\RightC-Vertical.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightC-Vertical%402x.png">
+      <Link>AdonitSDK.bundle\RightC-Vertical%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\RightC-Vertical%403x.png">
+      <Link>AdonitSDK.bundle\RightC-Vertical%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIcon.png">
+      <Link>AdonitSDK.bundle\connectionIcon.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIcon%402x.png">
+      <Link>AdonitSDK.bundle\connectionIcon%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIcon%403x.png">
+      <Link>AdonitSDK.bundle\connectionIcon%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIconDisconnected.png">
+      <Link>AdonitSDK.bundle\connectionIconDisconnected.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIconDisconnected%402x.png">
+      <Link>AdonitSDK.bundle\connectionIconDisconnected%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\connectionIconDisconnected%403x.png">
+      <Link>AdonitSDK.bundle\connectionIconDisconnected%403x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\shortcutButtonIndicator.png">
+      <Link>AdonitSDK.bundle\shortcutButtonIndicator.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\shortcutButtonIndicator%402x.png">
+      <Link>AdonitSDK.bundle\shortcutButtonIndicator%402x.png</Link>
+    </BundleResource>
+    <BundleResource Include="..\..\externals\AdonitSDK.bundle\shortcutButtonIndicator%403x.png">
+      <Link>AdonitSDK.bundle\shortcutButtonIndicator%403x.png</Link>
     </BundleResource>
     <BundleResource Include="..\..\externals\AdonitSDK.bundle\JotSettings.storyboardc\DebugStatusViewController.nib">
       <Link>AdonitSDK.bundle\JotSettings.storyboardc\DebugStatusViewController.nib</Link>
