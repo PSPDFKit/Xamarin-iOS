@@ -76,6 +76,7 @@ namespace PSPDFKit.Core {
 		ProcessorMiscError = 7308,
 		DocumentEditorUnableToWriteFile = 7400,
 		DocumentEditorInvalidDocument = 7401,
+		DocumentEditorInaccessibleDocument = 7402,
 		FailedToFetchResource = 8000,
 		FailedToSetResource = 8500,
 		JsonDeserializationError = 9500,
@@ -297,7 +298,7 @@ namespace PSPDFKit.Core {
 		MouseDown,
 		MouseUp,
 		ReceiveFocus,
-		LooseFocus,
+		LoseFocus,
 		PageOpened,
 		PageClosed,
 		PageVisible,
@@ -754,7 +755,8 @@ namespace PSPDFKit.Core {
 		None,
 		Finger,
 		ApplePencil,
-		ThirdPartyStylus
+		ThirdPartyStylus,
+		Mouse,
 	}
 
 	[Native]

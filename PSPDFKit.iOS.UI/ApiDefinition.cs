@@ -2191,6 +2191,12 @@ namespace PSPDFKit.UI {
 		[Export ("selectAllPagesButton")]
 		PSPDFToolbarButton SelectAllPagesButton { get; }
 
+		[Export ("copyPagesButton")]
+		PSPDFToolbarButton CopyPagesButton { get; }
+
+		[Export ("pastePagesButton")]
+		PSPDFToolbarButton PastePagesButton { get; }
+
 		[Export ("undoButton")]
 		PSPDFToolbarButton UndoButton { get; }
 
@@ -2262,6 +2268,12 @@ namespace PSPDFKit.UI {
 		[Export ("toggleNewPageController:presentationOptions:")]
 		[return: NullAllowed]
 		PSPDFNewPageViewController ToggleNewPageController ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary options);
+
+		[Export ("copySelectedPagesToPasteboard")]
+		void CopySelectedPagesToPasteboard ();
+
+		[Export ("pastePagesFromPasteboard")]
+		void PastePagesFromPasteboard ();
 
 		[Wrap ("ToggleNewPageController (sender, presentationOptions?.Dictionary)")]
 		PSPDFNewPageViewController ToggleNewPageController (NSObject sender, PSPDFPresentationOptions presentationOptions);
@@ -2726,6 +2738,9 @@ namespace PSPDFKit.UI {
 		[Export ("setSpreadIndex:animated:")]
 		void SetSpreadIndex (nint spreadIndex, bool animated);
 
+		[Export ("scrollToSpreadAtIndex:scrollPosition:animated:")]
+		void ScrollToSpread (nint spreadIndex, PSPDFSpreadScrollPosition scrollPosition, bool animated);
+
 		[Export ("continuousSpreadIndex")]
 		nfloat ContinuousSpreadIndex { get; set; }
 
@@ -2770,9 +2785,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("spreadBasedZooming")]
 		bool SpreadBasedZooming { get; set; }
-
-		[Export ("pagingEnabled")]
-		bool PagingEnabled { get; set; }
 
 		[Export ("scrollViewFrameInsets")]
 		UIEdgeInsets ScrollViewFrameInsets { get; }
@@ -5064,7 +5076,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("requestImageForPageAtIndex:availableSize:completionHandler:")]
-		IPSPDFPageCellImageRequestToken RequestImageForPage (nuint pageIndex, CGSize size, Action<UIImage> completionHandler);
+		IPSPDFPageCellImageRequestToken RequestImageForPage (nuint pageIndex, CGSize size, Action<UIImage, NSError> completionHandler);
 	}
 
 	[BaseType (typeof (UICollectionViewCell))]
@@ -5165,13 +5177,10 @@ namespace PSPDFKit.UI {
 		[Export ("thumbnailButtonColor", ArgumentSemantic.Strong)]
 		UIColor ThumbnailButtonColor { get; set; }
 
-		[Export ("updateLabelWithDocument:pageRange:")]
-		bool UpdateLabel (PSPDFDocument document, NSRange pageRange);
+		[NullAllowed, Export ("labelFormatter", ArgumentSemantic.Copy)]
+		PSPDFPageLabelFormatter LabelFormatter { get; set; }
 
 		// PSPDFPageLabelView (SubclassingHooks) Category
-
-		[Export ("pageLabelWithDocument:pageIndex:visiblePageIndexes:")]
-		string GetPageLabel (PSPDFDocument document, nuint pageIndex, NSIndexSet visiblePageIndexes);
 
 		[Export ("updateFrame")]
 		void UpdateFrame ();

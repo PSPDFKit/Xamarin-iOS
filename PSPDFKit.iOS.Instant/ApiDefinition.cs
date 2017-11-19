@@ -22,7 +22,9 @@ namespace PSPDFKit.Instant {
 		SavingDisabled = 9,
 		RequestFailed = 16,
 		InvalidServerData = 17,
-		InvalidRequest = 18
+		InvalidRequest = 18,
+		OldClient = 21,
+		OldServer = 22,
 	}
 
 	[Static]
@@ -197,5 +199,8 @@ namespace PSPDFKit.Instant {
 
 		[Export ("syncChanges:")]
 		void SyncChanges ([NullAllowed] NSObject sender);
+
+		[Export ("shouldShowCriticalErrors")]
+		bool ShouldShowCriticalErrors { get; set; }
 	}
 }

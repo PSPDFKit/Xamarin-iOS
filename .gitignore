@@ -13,6 +13,7 @@ StylusDrivers/externals/
 *.mdb
 *.framework
 tools/
+packages/
 
 # Xcode
 #

@@ -3,6 +3,7 @@
 using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
+using CoreFoundation;
 
 #if __IOS__
 using UIKit;
@@ -370,6 +371,9 @@ namespace PSPDFKit.Core {
 		[Export ("noteIconPoint")]
 		CGPoint NoteIconPoint { get; }
 
+		[Export ("shouldDrawNoteIconIfNeeded")]
+		bool ShouldDrawNoteIconIfNeeded { get; }
+
 		// PSPDFAnnotation (Advanced) Category
 
 		[Export ("shouldUpdatePropertiesOnBoundsChange")]
@@ -454,9 +458,6 @@ namespace PSPDFKit.Core {
 		[Field ("PSPDFAnnotationDrawFlattenedKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString DrawFlattenedKey { get; }
 
-		[Field ("PSPDFAnnotationIgnoreNoteIndicatorIconKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString IgnoreNoteIndicatorIconKey { get; }
-
 		[Field ("PSPDFAnnotationDrawForPrintingKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString DrawForPrintingKey { get; }
 
@@ -470,7 +471,6 @@ namespace PSPDFKit.Core {
 	[StrongDictionary ("PSPDFAnnotationDrawOptionsKeys")]
 	interface PSPDFAnnotationDrawOptions {
 		bool DrawFlattened { get; set; }
-		bool IgnoreNoteIndicatorIcon { get; set; }
 		bool DrawForPrinting { get; set; }
 	}
 
@@ -579,9 +579,6 @@ namespace PSPDFKit.Core {
 
 	interface PSPDFAnnotationChangedNotificationEventArgs {
 
-		[Export ("PSPDFAnnotationChangedNotificationAnimatedKey")]
-		bool Animated { get; set; }
-
 		[Export ("PSPDFAnnotationChangedNotificationIgnoreUpdateKey")]
 		bool IgnoreUpdate { get; set; }
 
@@ -597,12 +594,16 @@ namespace PSPDFKit.Core {
 
 		[Field ("PSPDFAnnotationOptionSuppressNotificationsKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString SuppressNotificationsKey { get; }
+
+		[Field ("PSPDFAnnotationOptionAnimateViewKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString AnimateViewKey { get; }
 	}
 
 	[StrongDictionary ("PSPDFAnnotationOptionsKeys")]
 	interface PSPDFAnnotationOptions {
 		bool UserCreated { get; set; }
 		bool SuppressNotifications { get; set; }
+		bool AnimateView { get; set; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -1768,6 +1769,9 @@ namespace PSPDFKit.Core {
 
 		[Export ("clearCache")]
 		void ClearCache ();
+
+		[Export ("useDiskCache")]
+		bool UseDiskCache ();
 	}
 
 	interface IPSPDFDataSink { }
@@ -2017,6 +2021,9 @@ namespace PSPDFKit.Core {
 
 		[Export ("ensureDataDirectoryExistsWithError:")]
 		bool EnsureDataDirectoryExists ([NullAllowed] out NSError error);
+
+		[Export ("useDiskCache")]
+		bool UseDiskCache { get; set; }
 
 		// PSPDFDocument (Security) Category
 
@@ -2346,6 +2353,7 @@ namespace PSPDFKit.Core {
 	}
 
 	delegate void PSPDFDocumentEditorSaveHandler ([NullAllowed] PSPDFDocument document, [NullAllowed] NSError error);
+	delegate void PSPDFDocumentEditorImportHandler ([NullAllowed] PSPDFEditingChange [] changes, [NullAllowed] NSError error);
 
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDocumentEditor {
@@ -2413,6 +2421,9 @@ namespace PSPDFKit.Core {
 		[Async]
 		[Export ("exportPages:toPath:withCompletionBlock:")]
 		void ExportPages (NSIndexSet pageIndexes, string path, [NullAllowed] PSPDFDocumentEditorSaveHandler handler);
+
+		[Export ("importPagesTo:fromDocument:withCompletionBlock:queue:")]
+		void ImportPages (nuint index, PSPDFDocument sourceDocument, [NullAllowed] PSPDFDocumentEditorImportHandler handler, DispatchQueue queue);
 
 		[Export ("imageForPageAtIndex:size:scale:")]
 		[return: NullAllowed]
@@ -2607,7 +2618,7 @@ namespace PSPDFKit.Core {
 
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDocumentProvider {
-		
+
 		[NullAllowed, Export ("dataProvider")]
 		IPSPDFDataProviding DataProvider { get; }
 
@@ -4508,6 +4519,7 @@ namespace PSPDFKit.Core {
 	interface PSPDFModel : INSCopying, INSCoding {
 
 		[Static]
+		[return: NullAllowed]
 		[Export ("modelWithDictionary:error:")]
 		PSPDFModel FromDictionary ([NullAllowed] NSDictionary dictionaryValue, [NullAllowed] out NSError error);
 
@@ -6478,5 +6490,19 @@ namespace PSPDFKit.Core {
 
 		[Export ("writeAnnotations:toDataSink:documentProvider:error:")]
 		bool WriteAnnotations (PSPDFAnnotation [] annotations, IPSPDFDataSink dataSink, PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+	}
+
+	[BaseType (typeof (NSFormatter))]
+	interface PSPDFPageLabelFormatter {
+
+		[Static]
+		[Export ("localizedStringFromPageRange:document:")]
+		string GetLocalizedString (NSRange pageRange, PSPDFDocument document);
+
+		[NullAllowed, Export ("document")]
+		PSPDFDocument Document { get; set; }
+
+		[Export ("stringFromRange:")]
+		string GetString (NSRange pageRange);
 	}
 }

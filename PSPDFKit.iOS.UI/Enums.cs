@@ -239,7 +239,8 @@ namespace PSPDFKit.UI {
 	[Native]
 	public enum PSPDFDrawCreateMode : ulong {
 		Separate,
-		MergeIfPossible
+		MergeIfPossible,
+		Automatic,
 	}
 
 	[Native]
@@ -888,4 +889,10 @@ namespace PSPDFKit.UI {
 		All = 16777215
 	}
 
+	[Native]
+	public enum PSPDFSpreadScrollPosition : long {
+		Start,
+		Middle,
+		End,
+	}
 }

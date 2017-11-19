@@ -66,9 +66,16 @@ Task ("iOSInstant")
 	}
 );
 
+Task ("RestoreNugets")
+	.Does (() => {
+		Information ("=== Restoring NuGets ===");
+		NuGetRestore ("./PSPDFKit.sln");
+});
+
 Task ("ios")
 	.Description ("Builds iOS PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
+	.IsDependentOn ("RestoreNugets")
 	.IsDependentOn ("iOSCore")
 	.IsDependentOn ("iOSUI")
 	.IsDependentOn ("iOSInstant")
@@ -89,6 +96,7 @@ Task ("mac")
 Task ("Default")
 	.Description ("Builds all PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
+	.IsDependentOn ("RestoreNugets")
 	.IsDependentOn ("iOSCore")
 	.IsDependentOn ("iOSUI")
 	.IsDependentOn ("iOSInstant")
@@ -113,29 +121,34 @@ Task ("Clean")
 		if (FileExists ("./PSPDFKit.Mac.dll"))
 			DeleteFile ("./PSPDFKit.Mac.dll");
 
+		var delDirSettings = new DeleteDirectorySettings { Recursive = true, Force = true };
+
 		if (DirectoryExists ("./PSPDFKit.iOS/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS/bin", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.iOS/bin", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.iOS/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS/obj", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.iOS/obj", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.iOS.UI/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS.UI/bin", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.iOS.UI/bin", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.iOS.UI/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS.UI/obj", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.iOS.UI/obj", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.iOS.Instant/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS.Instant/bin", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.iOS.Instant/bin", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.iOS.Instant/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS.Instant/obj", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.iOS.Instant/obj", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.Mac/bin/"))
-			DeleteDirectory ("./PSPDFKit.Mac/bin", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.Mac/bin", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.Mac/obj/"))
-			DeleteDirectory ("./PSPDFKit.Mac/obj", new DeleteDirectorySettings { Recursive = true, Force = true });
+			DeleteDirectory ("./PSPDFKit.Mac/obj", delDirSettings);
+
+		if (DirectoryExists ("./packages/"))
+			DeleteDirectory ("./packages", delDirSettings);
 	}
 );
 
