@@ -5349,6 +5349,10 @@ namespace PSPDFKit.Core {
 	[BaseType (typeof (PSPDFRenderRequest))]
 	interface PSPDFMutableRenderRequest {
 
+		[Export ("initWithDocument:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFDocument document);
+
 		[Export ("document", ArgumentSemantic.Strong), Override]
 		PSPDFDocument Document { get; set; }
 
