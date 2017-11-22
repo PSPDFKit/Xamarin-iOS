@@ -8,7 +8,7 @@ Minimum Requirements
 
 In order to build this binding project you need:
 
-- **Visual Studio for Mac or Windows**
+- **Visual Studio for Mac**
 - **Xamarin.Mac 4.0 +**
 
 Build Instructions
@@ -28,7 +28,7 @@ Build Instructions
 
 ## Step 3 - Get your dll
 
-### Using Visual Studio for Mac or Windows
+### Using Visual Studio for Mac
 
 1. Open `PSPDFKit.sln` located in the root folder.
 2. Build the `macOS` solution.
@@ -36,9 +36,9 @@ Build Instructions
 
 ### Using command line / terminal
 
-We are using [Cake](https://cakebuild.net) as our build system, this allows us to build on both Windows and Mac from a single script.
+We are using [Cake](https://cakebuild.net) as our build system..
 
-1. Run `./build.sh --target mac` (Mac) / `.\build.ps1 --target mac` (Windows) command from the root directory.
+1. Run `./build.sh --target mac` command from the root directory.
 2. The resulting dll will be inside the root folder.
 
 ## Step 4 - Add the reference
