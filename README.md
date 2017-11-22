@@ -98,13 +98,13 @@ public override bool FinishedLaunching (UIApplication application, NSDictionary 
 You can find several sample projects in the `Examples` folder.
 
 ### PSPDFCatalog
-![PSPDFCatalog](https://github.com/PSPDFKit/Xamarin-iOS/blob/christoph/update-examples-readme/Images/Catalog.png?raw=true)
+![PSPDFCatalog](https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Images/Catalog.png?raw=true)
 
 ### Xamarin.Forms
-![Xamarin.Forms](images/XForms.png?raw=true)
+![Xamarin.Forms](https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Images/XForms.png?raw=true)
 
 ### MacPDFViewer
-![MacPDFViewer](images/macOS.png?raw=true)
+![MacPDFViewer](https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Images/macOS.png?raw=true)
 
 
 # Stylus Support
