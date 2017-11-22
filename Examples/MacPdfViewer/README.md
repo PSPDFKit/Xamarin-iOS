@@ -50,4 +50,4 @@ We are using [Cake](https://cakebuild.net) as our build system, this allows us t
 
 Build the `MacPDFViewer` project. The result should look like this:
 
-<img width="50%" src="Images/macOS.png"/>
+<img width="50%" src="../../Images/macOS.png"/>
