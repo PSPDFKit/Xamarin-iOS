@@ -95,7 +95,17 @@ public override bool FinishedLaunching (UIApplication application, NSDictionary 
 
 # Examples
 
-You can find a sample project by opening `PSPDFKit.sln` and find it inside `iOS/Examples` solution folder. A Mac sample is comming soon.
+You can find several sample projects in the `Examples` folder.
+
+### PSPDFCatalog
+![PSPDFCatalog](https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Images/Catalog.png?raw=true)
+
+### Xamarin.Forms
+![Xamarin.Forms](https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Images/XForms.png?raw=true)
+
+### MacPDFViewer
+![MacPDFViewer](https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Images/macOS.png?raw=true)
+
 
 # Stylus Support
 
