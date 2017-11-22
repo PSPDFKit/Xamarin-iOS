@@ -98,7 +98,7 @@ public override bool FinishedLaunching (UIApplication application, NSDictionary 
 You can find several sample projects in the `Examples` folder.
 
 ### PSPDFCatalog
-![PSPDFCatalog](../Xamarin-iOS/Images/Catalog.png?raw=true)
+![PSPDFCatalog](https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg?raw=true "Dog1")
 
 ### Xamarin.Forms
 ![Xamarin.Forms](images/XForms.png?raw=true)
