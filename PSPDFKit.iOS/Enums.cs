@@ -80,6 +80,8 @@ namespace PSPDFKit.Core {
 		FailedToFetchResource = 8000,
 		FailedToSetResource = 8500,
 		JsonDeserializationError = 9500,
+		JsonSerializationError = 9501,
+		JsonSerializationUnsupportedAnnotationTypeError = 9502,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
 		PKCS12CannotReadData = 300000,

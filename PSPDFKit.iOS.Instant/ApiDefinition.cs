@@ -20,6 +20,9 @@ namespace PSPDFKit.Instant {
 		DatabaseAccessFailed = 6,
 		CouldNotWriteToDisk = 7,
 		SavingDisabled = 9,
+		UnmanagedDocument = 10,
+		NoSuchAnnotation = 11,
+		UnmanagedAnnotation = 12,
 		RequestFailed = 16,
 		InvalidServerData = 17,
 		InvalidRequest = 18,
@@ -38,6 +41,9 @@ namespace PSPDFKit.Instant {
 
 		[Field ("PSPDFInstantErrorDocumentKey", PSPDFKitGlobal.LibraryPath)]
 		NSString DocumentKey { get; }
+
+		[Field ("PSPDFInstantErrorAnnotationIdentifierKey", PSPDFKitGlobal.LibraryPath)]
+		NSString AnnotationIdentifierKey { get; }
 
 		[Field ("PSPDFInstantErrorSQLiteExtendedErrorCodeKey", PSPDFKitGlobal.LibraryPath)]
 		NSString SQLiteExtendedErrorCodeKey { get; }
@@ -173,6 +179,16 @@ namespace PSPDFKit.Instant {
 		[Abstract]
 		[Export ("updateAuthenticationToken:")]
 		void UpdateAuthenticationToken (string authenticationToken);
+
+		[Abstract]
+		[Export ("identifierForAnnotation:error:")]
+		[return: NullAllowed]
+		string GetIdentifier (PSPDFAnnotation annotation, [NullAllowed] out NSError error);
+
+		[Abstract]
+		[Export ("annotationWithIdentifier:forDocument:error:")]
+		[return: NullAllowed]
+		PSPDFAnnotation GetAnnotation (string identifier, PSPDFDocument document, [NullAllowed] out NSError error);
 
 		[Abstract]
 		[Export ("sync")]

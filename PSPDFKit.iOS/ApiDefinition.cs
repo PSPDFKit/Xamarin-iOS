@@ -106,7 +106,7 @@ namespace PSPDFKit.Core {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAction : PSPDFJSONSerializing, INativeObject {
+	interface PSPDFAction : INSSecureCoding, INativeObject {
 
 		[Field ("PSPDFActionTypeTransformerName", PSPDFKitLibraryPath.LibraryPath)]
 		NSString TypeTransformerName { get; }
@@ -180,12 +180,7 @@ namespace PSPDFKit.Core {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAnnotation : PSPDFUndoSupport, PSPDFJSONSerializing, INativeObject {
-
-		[Static]
-		[Export ("annotationFromJSONDictionary:documentProvider:error:")]
-		[return: NullAllowed]
-		PSPDFAnnotation FromJsonDictionary (NSDictionary jsonDictionary, [NullAllowed] PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+	interface PSPDFAnnotation : PSPDFUndoSupport, INativeObject {
 
 		[Static]
 		[Export ("isWriteable")]
@@ -450,6 +445,18 @@ namespace PSPDFKit.Core {
 		[Static]
 		[Export ("undoCoalescingForKey:")]
 		PSPDFUndoCoalescing GetUndoCoalescing (string key);
+
+		// PSPDFAnnotation (InstantJSON) Category
+
+		[Static]
+		[Export ("annotationFromInstantJSON:documentProvider:error:")]
+		[return: NullAllowed]
+		PSPDFAnnotation FromInstantJson (NSData instantJson, [NullAllowed] PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+
+		[Static]
+		[Export ("generateInstantJSONWithError:")]
+		[return: NullAllowed]
+		NSData GenerateInstantJson ([NullAllowed] out NSError error);
 	}
 
 	[Static]
@@ -2240,6 +2247,17 @@ namespace PSPDFKit.Core {
 		[Advice ("Options parameter comes from 'PSPDFObjectsKeys'.")]
 		[Export ("objectsAtPDFRect:pageIndex:options:")]
 		NSDictionary<NSString, NSObject> GetObjectsAtPdfRect (CGRect pdfRect, nuint pageIndex, [NullAllowed] NSDictionary<NSString, NSNumber> options);
+
+		// PSPDFAnnotation (InstantJSON) Category
+
+		[Static]
+		[Export ("applyInstantJSONFromDataProvider:toDocumentProvider:error:")]
+		bool ApplyInstantJson (IPSPDFDataProviding dataProvider, PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+
+		[Static]
+		[Export ("generateInstantJSONFromDocumentProvider:error:")]
+		[return: NullAllowed]
+		NSData GenerateInstantJson (PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
 	}
 
 	[Static]
@@ -3474,7 +3492,7 @@ namespace PSPDFKit.Core {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFFormField : PSPDFUndoSupport, PSPDFJSONSerializing {
+	interface PSPDFFormField : PSPDFUndoSupport {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -3930,62 +3948,6 @@ namespace PSPDFKit.Core {
 		[Abstract]
 		[Export ("launchURL:newFrame:")]
 		void LaunchUrl (string cUrl, [NullAllowed] NSNumber bNewFrame);
-	}
-
-	interface IPSPDFJSONSerializing { }
-
-	[Protocol] // TODO: Inline this guys into any class that implements them
-	interface PSPDFJSONSerializing {
-
-		// The following methods must be manually added to any class implementing PSPDFJSONSerializing
-
-		//[Static, Abstract]
-		//[Export ("JSONKeyPathsByPropertyKey")]
-		//NSDictionary GetJsonKeyPathsByPropertyKey ();
-
-		//[Static]
-		//[Export ("JSONTransformerForKey:")]
-		//[return: NullAllowed]
-		//NSValueTransformer GetJsonTransformer (string key);
-
-		//[Static]
-		//[Export ("classForParsingJSONDictionary:")]
-		//[return: NullAllowed]
-		//Class GetClassForParsingJsonDictionary (NSDictionary jsonictionary);
-	}
-
-	[BaseType (typeof (NSObject))]
-	interface PSPDFJSONAdapter {
-
-		[Export ("model")]
-		IPSPDFJSONSerializing Model { get; }
-
-		[Static]
-		[Export ("modelOfClass:fromJSONDictionary:error:")]
-		PSPDFModel GetModel (Class modelClass, NSDictionary jsonDictionary, [NullAllowed] out NSError error);
-
-		[Static]
-		[Wrap ("GetModel (new Class (modelType), jsonDictionary, out error)")]
-		PSPDFModel GetModel (Type modelType, NSDictionary jsonDictionary, [NullAllowed] out NSError error);
-
-		[Static]
-		[Export ("JSONDictionaryFromModel:")]
-		[return: NullAllowed]
-		NSDictionary GetJsonDictionary (IPSPDFJSONSerializing model);
-
-		[Export ("initWithJSONDictionary:modelClass:error:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (NSDictionary jsonDictionary, Class modelClass, [NullAllowed] out NSError error);
-
-		[Wrap ("this (jsonDictionary, new Class (modelType), out error)")]
-		IntPtr Constructor (NSDictionary jsonDictionary, Type modelType, [NullAllowed] out NSError error);
-
-		[Export ("initWithModel:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (IPSPDFJSONSerializing model);
-
-		[NullAllowed, Export ("JSONDictionary")]
-		NSDictionary JsonDictionary { get; }
 	}
 
 	interface IPSPDFSettings { }
