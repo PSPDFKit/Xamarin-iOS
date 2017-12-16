@@ -293,6 +293,44 @@ namespace PSPDFKit.Core {
 		[Advice ("Set on the main thread only.")]
 		public static void SetLocalizationDictionary (NSDictionary<NSString, NSDictionary<NSString, NSString>> localizationDict) =>
 			_SetLocalizationDictionary (localizationDict == null ? IntPtr.Zero : localizationDict.Handle);
+
+		// Manually bind block
+
+		delegate IntPtr SetLocalizationBlockHandler (IntPtr block, IntPtr strToLocalize);
+		static readonly SetLocalizationBlockHandler callback = TrampolineSetLocalizationBlockHandler;
+
+#if __IOS__
+		[MonoPInvokeCallback (typeof (SetLocalizationBlockHandler))]
+#endif
+		static unsafe IntPtr TrampolineSetLocalizationBlockHandler (IntPtr block, IntPtr strToLocalize)
+		{
+			var descriptor = (BlockLiteral*) block;
+			var func = (PSPDFLocalizationHandler) (descriptor->Target);
+			var retval = func (NSString.FromHandle (strToLocalize));
+			return NSString.CreateNative (retval, autorelease: true);
+		}
+
+		public delegate string PSPDFLocalizationHandler (string stringToLocalize);
+
+		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFSetLocalizationBlock")]
+		static unsafe extern void _SetLocalizationHandler (void* localizationDict);
+
+		public static void SetLocalizationHandler (PSPDFLocalizationHandler localizationHandler)
+		{
+			if (localizationHandler == null)
+				throw new ArgumentNullException (nameof (localizationHandler));
+
+			unsafe {
+				BlockLiteral* block_ptr_handler;
+				BlockLiteral block_handler;
+				block_handler = new BlockLiteral ();
+				block_ptr_handler = &block_handler;
+				block_handler.SetupBlock (callback, localizationHandler);
+
+				_SetLocalizationHandler ((void*) block_ptr_handler);
+				block_ptr_handler->CleanupBlock ();
+			}
+		}
 	}
 
 	public partial class PSPDFPageInfo : NSObject {
