@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using MonoTouch.Dialog;
@@ -115,6 +116,19 @@ namespace PSPDFCatalog {
 						var pdfViewer = new PSPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
 					})
+				},
+				new Section ("Toolbar Customizations"){
+					new StringElement ("Remove Ink from the annotation toolbar", () => {
+						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
+						var pdfController = new PSPDFViewController (document);
+						pdfController.NavigationItem.RightBarButtonItems = new [] { pdfController.AnnotationButtonItem };
+
+						// remove ink from the EditableAnnotationTypes array
+						var editableTypes = pdfController.Configuration.EditableAnnotationTypes.Where (annotStr => annotStr != PSPDFAnnotationStringUI.Ink).ToArray ();
+						pdfController.AnnotationToolbarController.AnnotationToolbar.EditableAnnotationTypes = editableTypes;
+
+						NavigationController.PushViewController (pdfController, true);
+					}),
 				},
 				new Section ("PSPDFViewController Customization"){
 					new StringElement ("Custom Google Text Selection Menu", () => {
