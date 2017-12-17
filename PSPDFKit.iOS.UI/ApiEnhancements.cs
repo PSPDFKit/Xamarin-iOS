@@ -48,6 +48,14 @@ namespace PSPDFKit.UI {
 		}
 	}
 
+	public partial class PSPDFAnnotationToolbar {
+
+		public PSPDFAnnotationStringUI [] EditableAnnotationTypes {
+			get => WeakEditableAnnotationTypes?.ToArray ()?.Select (x => PSPDFAnnotationStringUIExtensions.GetValue (x))?.ToArray ();
+			set => WeakEditableAnnotationTypes = value == null ? null : new NSSet<NSString> (value.Select (x => x.GetConstant ())?.ToArray ());
+		}
+	}
+
 	public partial class PSPDFBaseViewController {
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFSafePreferredInterfaceOrientation")]
