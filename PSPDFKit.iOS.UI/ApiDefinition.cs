@@ -3259,6 +3259,14 @@ namespace PSPDFKit.UI {
 		[Async]
 		[Export ("hideAndRemoveAnimated:completion:")]
 		void HideAndRemove (bool animated, [NullAllowed] PSPDFToolbarCompletionHandler completion);
+
+		// PSPDFFlexibleToolbarContainer (SubclassingHooks) Category
+
+		[Export ("rectForToolbarPosition:")]
+		CGRect GetRect (PSPDFFlexibleToolbarPosition toolbarPosition);
+
+		[Export ("animateToolbarPositionChangeFrom:to:")]
+		void AnimateToolbarPositionChange (PSPDFFlexibleToolbarPosition currentPosition, PSPDFFlexibleToolbarPosition newPosition);
 	}
 
 	[BaseType (typeof (UIView))]
