@@ -210,6 +210,13 @@ namespace PSPDFKit.Instant {
 	[BaseType (typeof (PSPDFViewController))]
 	interface PSPDFInstantViewController {
 
+		[Export ("initWithDocument:configuration:")]
+		[DesignatedInitializer]
+		IntPtr Constructor ([NullAllowed] PSPDFDocument document, [NullAllowed] PSPDFConfiguration configuration);
+
+		[Export ("initWithDocument:")]
+		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+
 		[Export ("shouldListenForServerChangesWhenVisible")]
 		bool ShouldListenForServerChangesWhenVisible { get; set; }
 

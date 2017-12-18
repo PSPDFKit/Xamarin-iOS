@@ -23,6 +23,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -95,10 +96,17 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -113,6 +121,9 @@
     <Compile Include="Catalog\Subclassing\CustomAnnotationProvider.cs" />
     <Compile Include="Catalog\Customization\PSCSimpleDrawingPDFViewController.cs" />
     <Compile Include="Catalog\Customization\PSCustomTextSelectionMenuController.cs" />
+    <Compile Include="Catalog\Instant\WebPreviewApiClient.cs" />
+    <Compile Include="Catalog\Instant\InstantExampleViewController.cs" />
+    <Compile Include="Catalog\Instant\InstantDocumentViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -123,6 +134,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Catalog\Subclassing\" />
     <Folder Include="Catalog\Customization\" />
+    <Folder Include="Catalog\Instant\" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -163,6 +175,10 @@
     <ProjectReference Include="..\..\..\PSPDFKit.iOS.UI\PSPDFKit.iOS.UI.csproj">
       <Project>{A48DA6FC-C52F-44B3-9F9D-DD6D964C1254}</Project>
       <Name>PSPDFKit.iOS.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PSPDFKit.iOS.Instant\PSPDFKit.iOS.Instant.csproj">
+      <Project>{3D9F8DF9-451B-46AB-8A42-51D58E3E003E}</Project>
+      <Name>PSPDFKit.iOS.Instant</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

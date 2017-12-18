@@ -27,7 +27,11 @@ namespace PSPDFCatalog {
 					new StringElement ("PSPDFViewController Playground", () => {
 						var pdfViewer = new PlayGroundViewController (NSUrl.FromFilename (PSPDFKitFile));
 						NavigationController.PushViewController (pdfViewer, true);
-					})
+					}),
+					new StringElement ("PSPDFKit Instant", () => {
+						var instantExample = new InstantExampleViewController ();
+						NavigationController.PushViewController (instantExample, true);
+					}),
 				},
 				new Section ("Annotations"){
 					new StringElement ("Annotations From Code", () => {
