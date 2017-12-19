@@ -99,7 +99,7 @@ Support for Instant was added with the Xamarin.iOS Bindings for PSPDFKit 7.2.0 f
 
 With PSPDFKit Instant, it’s easier than ever to add real-time collaboration features to your PSPDFKit-powered app, allowing your users to seamlessly share, edit, and annotate PDF documents across iOS, Android, and web. With just a few lines of code, PSPDFKit Instant gives your users a massive productivity boost.
 
-For more information about Instant, please have a look at our [website][https://pspdfkit.com/instant/]
+For more information about Instant, please have a look at our [website](https://pspdfkit.com/instant/)
 
 # Examples
 
@@ -107,13 +107,12 @@ You can find several sample projects in the `Examples` folder, including a catal
 
 ### PSPDFKit Instant Example
 
-This example is included in the PSPDFCatalog example. You can also find it [here][Instant Example].
+This example is included in the PSPDFCatalog example, but you can also find the code [here][Instant Example].
 
-The PSPDFKit Instant example shows how easy and efficient Instant works. Just go the [Instant demo page][https://pspdfkit.com/instant/demo/] and tap on "Instant on iOS", this will show a code at step three, which you have to enter in the example. Afterwards you'll be connected to the server and you can start testing!
+The PSPDFKit Instant example shows how easy and efficient Instant works. Just go the [Instant demo page](https://pspdfkit.com/instant/demo/) and tap on "Instant on iOS", this will show a code at step three, which you have to enter in the example. Afterwards you'll be connected to the server and you can start testing!
 
 <img width="50%" src="Images/Instant-device.png"/>
 <img width="50%" src="Images/Instant-desktop.png"/>
-
 
 ### PSPDFCatalog
 <img width="60%" src="Images/Catalog.png"/>
