@@ -93,9 +93,36 @@ public override bool FinishedLaunching (UIApplication application, NSDictionary 
 }
 ```
 
+# PSPDFKit Instant
+
+Support for Instant was added with the Xamarin.iOS Bindings for PSPDFKit 7.2.0 for iOS.
+
+With PSPDFKit Instant, it’s easier than ever to add real-time collaboration features to your PSPDFKit-powered app, allowing your users to seamlessly share, edit, and annotate PDF documents across iOS, Android, and web. With just a few lines of code, PSPDFKit Instant gives your users a massive productivity boost.
+
+For more information about Instant, please have a look at our [website](https://pspdfkit.com/instant/).
+
 # Examples
 
 You can find several sample projects in the `Examples` folder, including a catalog, Xamarin.Forms, and macOS example.
+
+### PSPDFKit Instant Example
+
+This example is included in the PSPDFCatalog example, but you can also find the code [here][Instant Example].
+
+The PSPDFKit Instant example shows how easy and efficient Instant works. Just go the [Instant demo page](https://pspdfkit.com/instant/demo/) and tap on `Instant on iOS`, this will show a code at step three, which you have to enter in the example on your device. Afterwards you'll be connected to the server and you can start testing!
+
+<div id="image-table">
+     <table>
+  	    <tr>
+      	    <td>
+             <img width="80%" src="Images/Instant-device.PNG"/>
+           </td>
+           <td>
+             <img width="80%" src="Images/Instant-desktop.PNG"/>
+           </td>
+       </tr>
+    </table>
+</div>
 
 ### PSPDFCatalog
 <img width="60%" src="Images/Catalog.png"/>
@@ -113,5 +140,8 @@ You can find instructions on how to add stylus support [here](StylusDrivers/).
 
 
 # Contributing
-  
+
 Please ensure [you signed our CLA](https://pspdfkit.com/guides/web/current/miscellaneous/contributing/) so we can accept your contributions.
+
+
+[Instant Example]: https://github.com/PSPDFKit/Xamarin-iOS/tree/master/Examples/PSPDFCatalog/PSPDFCatalog/Catalog/Instant
