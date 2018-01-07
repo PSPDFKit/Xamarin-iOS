@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -42,5 +42,19 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Recording sound annotations requires the microphone.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Pictures captured with the camera can be added to the document as image annotations.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Pictures from the photo library can be added to the document as image annotations.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Images from documents and annotations can be saved to the photo library.</string>
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true/>
 </dict>
 </plist>

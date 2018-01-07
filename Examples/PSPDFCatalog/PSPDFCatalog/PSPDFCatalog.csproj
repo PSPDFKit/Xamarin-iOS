@@ -181,4 +181,5 @@
       <Name>PSPDFKit.iOS.Instant</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>
