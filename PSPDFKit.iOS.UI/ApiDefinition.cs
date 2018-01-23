@@ -191,7 +191,7 @@ namespace PSPDFKit.UI {
 		[Export ("dateAndUserLabel")]
 		UILabel DateAndUserLabel { get; }
 
-		[NullAllowed, Export ("annotation", ArgumentSemantic.Strong)]
+		[NullAllowed, Export ("annotation", ArgumentSemantic.Copy)]
 		PSPDFAnnotation Annotation { get; set; }
 
 		// PSPDFAnnotationCell (SubclassingHooks) Category
@@ -1952,6 +1952,10 @@ namespace PSPDFKit.UI {
 
 		[Export ("dragAndDropConfiguration")]
 		PSPDFDragAndDropConfiguration DragAndDropConfiguration { get; }
+
+		[Static]
+		[Export ("imageConfiguration")]
+		PSPDFConfiguration ImageConfiguration { get; }
 	}
 
 	interface IPSPDFContainerViewControllerDelegate { }
@@ -2302,8 +2306,8 @@ namespace PSPDFKit.UI {
 		[Export ("cellClass", ArgumentSemantic.Strong)]
 		new Class CellClass { get; set; }
 
-		[NullAllowed, Export ("documentEditor")]
-		PSPDFDocumentEditor DocumentEditor { get; }
+		[NullAllowed, Export ("documentEditor", ArgumentSemantic.Strong)]
+		PSPDFDocumentEditor DocumentEditor { get; set; }
 
 		[Export ("toolbarController")]
 		PSPDFDocumentEditorToolbarController ToolbarController { get; }
@@ -4207,6 +4211,11 @@ namespace PSPDFKit.UI {
 
 		[Export ("allowedImageQualities", ArgumentSemantic.Assign)]
 		PSPDFImageQuality AllowedImageQualities { get; set; }
+
+		// PSPDFImagePickerController (SubclassingHooks)
+
+		[Export ("availableImagePickerSourceTypes")]
+		NSNumber[] AvailableImagePickerSourceTypes { get; }
 	}
 
 	interface IPSPDFInlineSearchManagerDelegate { }
@@ -5842,11 +5851,8 @@ namespace PSPDFKit.UI {
 		[Export ("updateToolbarForced")]
 		void UpdateToolbarForced ();
 
-		[Export ("updatePageMarker")]
-		void UpdatePageMarker ();
-
 		[Export ("pageIndex")]
-		nuint PageIndex { get; }
+		nuint PageIndex { get; set; }
 
 		[Export ("allowTapsOutsidePageArea")]
 		bool AllowTapsOutsidePageArea { get; set; }

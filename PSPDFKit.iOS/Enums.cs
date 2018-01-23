@@ -545,11 +545,12 @@ namespace PSPDFKit.Core {
 	[Native]
 	public enum PSPDFLogLevelMask : ulong {
 		Nothing = 0,
-		Error = 1 << 0,
-		Warning = 1 << 1,
-		Info = 1 << 2,
-		Debug = 1 << 3,
-		Verbose = 1 << 4,
+		Critical = 1 << 0,
+		Error = 1 << 1,
+		Warning = 1 << 2,
+		Info = 1 << 3,
+		Debug = 1 << 4,
+		Verbose = 1 << 5,
 		All = ulong.MaxValue
 	}
 
@@ -849,5 +850,9 @@ namespace PSPDFKit.Core {
 		All
 	}
 
-
+	[Native]
+	public enum PSPDFSignatureIntegrityStatus : long {
+		Ok = 0,
+		TamperedDocument
+	}
 }

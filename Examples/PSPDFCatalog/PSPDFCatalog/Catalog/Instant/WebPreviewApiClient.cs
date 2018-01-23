@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 namespace PSPDFCatalog {
 	public class WebPreviewApiClient {
 
-		public const int CodeLength = 6;
+		public const int CodeLength = 7;
 		static readonly string instantCodeEndpointUrl = "https://web-preview.pspdfkit.com/api/";
 		readonly HttpClient httpClient = new HttpClient ();
 

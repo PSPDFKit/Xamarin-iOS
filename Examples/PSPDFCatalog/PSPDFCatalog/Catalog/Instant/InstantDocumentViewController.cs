@@ -22,7 +22,7 @@ namespace PSPDFCatalog {
 			//so we need to keep references to the client and document descriptor otherwise with no
 
 			//strong references they would deallocate and syncing would stop.
-			client = new PSPDFInstantClient (NSUrl.FromString (docInfo.ServerUrl));
+			client = new PSPDFInstantClient (NSUrl.FromString (docInfo.ServerUrl), out var err);
 			documentDescriptor = client.GetDocumentDescriptor (docInfo.DocumentId, out var error);
 
 			// Store document code and URL (which also contains the code) for sharing later.

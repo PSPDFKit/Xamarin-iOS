@@ -895,4 +895,10 @@ namespace PSPDFKit.UI {
 		Middle,
 		End,
 	}
+
+	[Native]
+	//[ErrorDomain ("PSPDFGalleryManifestErrorDomain")] TODO: enable once generator bug is fixed
+	public enum PSPDFGalleryManifestErrorCode : long {
+		NoDataSourceProvided
+	}
 }

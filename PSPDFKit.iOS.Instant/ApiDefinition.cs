@@ -30,6 +30,16 @@ namespace PSPDFKit.Instant {
 		OldServer = 22,
 	}
 
+	[Native]
+	public enum PSPDFInstantDocumentState : long {
+		Unknown,
+		Clean,
+		Dirty,
+		SendingChanges,
+		ReceivingChanges,
+		Invalid
+	}
+
 	[Static]
 	interface PSPDFInstantErrorKeys {
 
@@ -71,6 +81,14 @@ namespace PSPDFKit.Instant {
 		[Notification (typeof (PSPDFInstantErrorNotificationEventArgs))]
 		NSString DidFailDownloadNotification { get; }
 
+		[Field ("PSPDFInstantDidBeginSyncingNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString DidBeginSyncingNotification { get; }
+
+		[Field ("PSPDFInstantSyncCycleDidChangeStateNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString SyncCycleDidChangeStateNotification { get; }
+
 		[Field ("PSPDFInstantDidFailSyncingNotification", PSPDFKitGlobal.LibraryPath)]
 		[Notification (typeof (PSPDFInstantErrorNotificationEventArgs))]
 		NSString DidFailSyncingNotification { get; }
@@ -78,6 +96,10 @@ namespace PSPDFKit.Instant {
 		[Field ("PSPDFInstantDidFailAuthenticationNotification", PSPDFKitGlobal.LibraryPath)]
 		[Notification]
 		NSString DidFailAuthenticationNotification { get; }
+
+		[Field ("PSPDFInstantDidFinishSyncingNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString DidFinishSyncingNotification { get; }
 
 		[Field ("PSPDFInstantDidUpdateAuthenticationTokenNotification", PSPDFKitGlobal.LibraryPath)]
 		[Notification (typeof (PSPDFInstantDidUpdateAuthenticationTokenNotificationEventArgs))]
@@ -94,9 +116,9 @@ namespace PSPDFKit.Instant {
 		[Export ("dataDirectory")]
 		NSUrl DataDirectory { get; }
 
-		[Export ("initWithServerURL:")]
+		[Export ("initWithServerURL:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl serverUrl);
+		IntPtr Constructor (NSUrl serverUrl, [NullAllowed] out NSError error);
 
 		[Export ("serverURL")]
 		NSUrl ServerUrl { get; }
@@ -127,10 +149,6 @@ namespace PSPDFKit.Instant {
 		void DidFailDownload (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor, NSError error);
 
 		[Abstract]
-		[Export ("instantClient:didFailSyncingDocument:error:")]
-		void DidFailSyncingDocument (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor, NSError error);
-
-		[Abstract]
 		[Export ("instantClient:didFailAuthenticationForDocument:")]
 		void DidFailAuthentication (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor);
 
@@ -141,6 +159,18 @@ namespace PSPDFKit.Instant {
 		[Abstract]
 		[Export ("instantClient:didFailUpdatingAuthenticationTokenForDocument:error:")]
 		void DidFailUpdatingAuthenticationToken (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor, NSError error);
+
+		[Export ("instantClient:didBeginSyncingDocument:")]
+		void DidBeginSyncing (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor);
+
+		[Export ("instantClient:didChangeSyncStateForDocument:")]
+		void DidChangeSyncState (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor);
+
+		[Export ("instantClient:didFailSyncingDocument:error:")]
+		void DidFailSyncing (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor, NSError error);
+
+		[Export ("instantClient:didFinishSyncingDocument:")]
+		void DidFinishSyncing (PSPDFInstantClient instantClient, IPSPDFInstantDocumentDescriptor documentDescriptor);
 	}
 
 	interface IPSPDFInstantDocumentDescriptor { }
@@ -155,6 +185,10 @@ namespace PSPDFKit.Instant {
 		[Abstract]
 		[Export ("downloaded")]
 		bool Downloaded { [Bind ("isDownloaded")] get; }
+
+		[Abstract]
+		[Export ("documentState")]
+		PSPDFInstantDocumentState DocumentState { get; }
 
 		[Abstract]
 		[Export ("downloadDocumentUsingAuthenticationToken:error:")]
@@ -193,6 +227,10 @@ namespace PSPDFKit.Instant {
 		[Abstract]
 		[Export ("sync")]
 		void Sync ();
+
+		[Abstract]
+		[Export ("stopSyncing:")]
+		void StopSyncing (bool cancelCurrentRequest);
 
 		[Abstract]
 		[Export ("delayForSyncingLocalChanges")]

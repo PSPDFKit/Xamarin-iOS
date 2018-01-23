@@ -2366,6 +2366,10 @@ namespace PSPDFKit.Core {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDocumentEditorDelegate {
 
+		[Abstract]
+		[Export ("documentEditorRequestsFullReload:")]
+		void RequestsFullReload (PSPDFDocumentEditor editor);
+
 		[Export ("documentEditor:didPerformChanges:")]
 		void DidPerformChanges (PSPDFDocumentEditor editor, PSPDFEditingChange [] changes);
 	}
@@ -2424,6 +2428,9 @@ namespace PSPDFKit.Core {
 
 		[Export ("canUndo")]
 		bool CanUndo { get; }
+
+		[Export ("reset")]
+		void Reset ();
 
 		[Export ("canSave")]
 		bool CanSave { get; }
@@ -3125,18 +3132,12 @@ namespace PSPDFKit.Core {
 	[DisableDefaultCtor]
 	interface PSPDFFileDataProvider : PSPDFFileDataProviding {
 
-		[Export ("initWithFileURL:baseURL:progress:")]
+		[Export ("initWithFileURL:progress:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] NSUrl BaseUrl, [NullAllowed] NSProgress progress);
-
-		[Export ("initWithFileURL:baseURL:")]
-		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] NSUrl BaseUrl);
+		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] NSProgress progress);
 
 		[Export ("initWithFileURL:")]
 		IntPtr Constructor (NSUrl fileUrl);
-
-		[NullAllowed, Export ("baseURL")]
-		NSUrl BaseUrl { get; }
 	}
 
 	interface IPSPDFFileDataProviding { }
@@ -3715,6 +3716,26 @@ namespace PSPDFKit.Core {
 	[BaseType (typeof (PSPDFMarkupAnnotation))]
 	interface PSPDFHighlightAnnotation {
 
+	}
+
+	[BaseType (typeof (PSPDFDocument))]
+	interface PSPDFImageDocument {
+
+		[Export ("initWithImageURL:")]
+		IntPtr Constructor (NSUrl imageURL);
+
+		[NullAllowed, Export ("imageURL")]
+		NSUrl ImageUrl { get; }
+
+		[Export ("compressionQuality")]
+		nfloat CompressionQuality { get; set; }
+
+		[Static]
+		[Export ("supportedContentTypes")]
+		NSSet<NSString> SupportedContentTypes { get; }
+
+		[Export ("waitUntilLoaded")]
+		void WaitUntilLoaded ();
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -5743,14 +5764,17 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("signingDate", ArgumentSemantic.Copy)]
 		NSDate SigningDate { get; }
 
-		[Export ("wasModified")]
-		bool WasModified { get; }
+		[Export ("coversEntireDocument")]
+		bool CoversEntireDocument { get; }
 
 		[Export ("problems")]
 		string [] Problems { get; }
 
 		[Export ("severity", ArgumentSemantic.Assign)]
 		PSPDFSignatureStatusSeverity Severity { get; set; }
+
+		[Export ("signatureIntegrityStatus", ArgumentSemantic.Assign)]
+		PSPDFSignatureIntegrityStatus SignatureIntegrityStatus { get; }
 
 		[Export ("summary")]
 		string Summary { get; }
