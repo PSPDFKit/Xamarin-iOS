@@ -4354,6 +4354,9 @@ namespace PSPDFKit.Core {
 		[Export ("directoryEnumerationOptions", ArgumentSemantic.Assign)]
 		NSDirectoryEnumerationOptions DirectoryEnumerationOptions { get; set; }
 
+		[Export ("allowedPathExtensions"), NullAllowed]
+		NSSet<NSString> AllowedPathExtensions { get; set; }
+
 		[Export ("indexItemDescriptorForDocumentWithUID:")]
 		[return: NullAllowed]
 		PSPDFFileIndexItemDescriptor GetIndexItemDescriptorForDocument (string documentUid);
