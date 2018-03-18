@@ -118,12 +118,12 @@ namespace PSPDFKit.Core {
 	public partial class PSPDFGlyph : NSObject {
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFRectsFromGlyphs")]
-		static extern IntPtr _RectsFromGlyphs (IntPtr glyphs, CGRect boundingBox, nint pageRotation);
+		static extern IntPtr _RectsFromGlyphs (IntPtr glyphs, CGRect boundingBox);
 
-		public static NSValue [] GetRectsFromGlyphs (PSPDFGlyph [] glyphs, CGRect boundingBox, nint pageRotation)
+		public static NSValue [] GetRectsFromGlyphs (PSPDFGlyph [] glyphs, CGRect boundingBox)
 		{
 			if (glyphs == null)
-				return NSArray.ArrayFromHandle<NSValue> (_RectsFromGlyphs (IntPtr.Zero, boundingBox, pageRotation));
+				return NSArray.ArrayFromHandle<NSValue> (_RectsFromGlyphs (IntPtr.Zero, boundingBox));
 
 			var objs = new List<NSObject> ();
 
@@ -131,13 +131,13 @@ namespace PSPDFKit.Core {
 				objs.Add (glyph);
 
 			NSArray arry = NSArray.FromNSObjects (objs.ToArray ());
-			return NSArray.ArrayFromHandle<NSValue> (_RectsFromGlyphs (arry.Handle, boundingBox, pageRotation));
+			return NSArray.ArrayFromHandle<NSValue> (_RectsFromGlyphs (arry.Handle, boundingBox));
 		}
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFBoundingBoxFromGlyphs")]
-		static extern CGRect _BoundingBoxFromGlyphs (IntPtr glyphs, nint pageRotation);
+		static extern CGRect _BoundingBoxFromGlyphs (IntPtr glyphs);
 
-		public static CGRect GetBoundingBoxFromGlyphs (PSPDFGlyph [] glyphs, nint pageRotation)
+		public static CGRect GetBoundingBoxFromGlyphs (PSPDFGlyph [] glyphs)
 		{
 			var objs = new List<NSObject> ();
 
@@ -145,7 +145,7 @@ namespace PSPDFKit.Core {
 				objs.Add (glyph);
 
 			NSArray arry = NSArray.FromNSObjects (objs.ToArray ());
-			return _BoundingBoxFromGlyphs (arry.Handle, pageRotation);
+			return _BoundingBoxFromGlyphs (arry.Handle);
 		}
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFStringFromGlyphs")]

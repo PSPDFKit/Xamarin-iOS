@@ -84,6 +84,8 @@ namespace PSPDFKit.Core {
 		JsonSerializationUnsupportedAnnotationTypeError = 9502,
 		FeatureNotEnabled = 100000,
 		SecurityNoPermission = 200000,
+		SecurityOwnerPasswordNotSet = 200001,
+		SecurityInvalidKeyLength = 200002,
 		PKCS12CannotReadData = 300000,
 		PKCS12CannotCopyData = 300001,
 		PKCS12UnlockFailed = 300002,
@@ -92,6 +94,7 @@ namespace PSPDFKit.Core {
 		PKCS12PrivateKeyError = 300005,
 		PKCS12CertificateNotFound = 300006,
 		PKCS12CertificateError = 300007,
+		PKCS12WrongPassword = 300008,
 		SearchCouldNotLoadDocument = 400000,
 
 		Unknown = long.MaxValue
@@ -782,7 +785,8 @@ namespace PSPDFKit.Core {
 		CannotSaveToDestination = 262,
 		UnsupportedSubfilterType = 263,
 		CannotFindSignature = 264,
-		CannotSignAttributes = 265
+		CannotSignAttributes = 265,
+		CannotSignFormElement = 272
 	}
 
 	public enum PSPDFSoundAnnotationEncoding {
@@ -854,5 +858,32 @@ namespace PSPDFKit.Core {
 	public enum PSPDFSignatureIntegrityStatus : long {
 		Ok = 0,
 		TamperedDocument
+	}
+
+	[Native]
+	public enum PSPDFRotation : ulong {
+		Zero = 0,
+		Ninety = 90,
+		OneHundredEighty = 180,
+		TwoHundredSeventy = 270
+	}
+
+	[Native]
+	public enum PSPDFSignatureEncryptionAlgorithm : ulong {
+		Rsa,
+		Dsa,
+		Ecdsa,
+		Unknown
+	}
+
+	[Native]
+	public enum PSPDFSignatureHashAlgorithm : ulong {
+		Md5,
+		Sha160,
+		Sha224,
+		Sha256,
+		Sha386,
+		Sha512,
+		Unknown
 	}
 }

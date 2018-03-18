@@ -430,6 +430,14 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
+	public enum PSPDFDocumentViewLayoutPageMode : long {
+		Single,
+		Leading,
+		Trailing,
+		Center
+	}
+
+	[Native]
 	[Flags]
 	public enum PSPDFDragType : ulong {
 		None = 0,
@@ -851,9 +859,9 @@ namespace PSPDFKit.UI {
 
 	[Native]
 	public enum PSPDFThumbnailFlowLayoutAttributesType : long {
-		Single,
-		Leading,
-		Trailing
+		Single = PSPDFDocumentViewLayoutPageMode.Single,
+		Leading = PSPDFDocumentViewLayoutPageMode.Leading,
+		Trailing = PSPDFDocumentViewLayoutPageMode.Trailing
 	}
 
 	[Native]

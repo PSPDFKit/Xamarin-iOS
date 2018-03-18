@@ -124,7 +124,7 @@ namespace PSPDFKit.Core {
 		[Export ("subActions", ArgumentSemantic.Strong)]
 		PSPDFAction [] SubActions { get; set; }
 
-		[Export ("options", ArgumentSemantic.Copy), NullAllowed]
+		[Export ("options"), NullAllowed]
 		NSDictionary<NSString, NSObject> Options { get; }
 
 		[Export ("localizedDescriptionWithDocumentProvider:")]
@@ -1541,15 +1541,21 @@ namespace PSPDFKit.Core {
 
 		// PSPDFContainerAnnotationProvider (SubclassingHooks) Category
 
-		[Export ("addAnnotations:options:")]
-		[Advice ("Requires base call if override.")]
-		[return: NullAllowed]
-		PSPDFAnnotation [] AddAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary<NSString, NSObject> options);
+		[Static]
+		[Export ("shouldTrackDeletions")]
+		bool ShouldTrackDeletions { get; }
 
-		[Export ("removeAnnotations:options:")]
-		[Advice ("Requires base call if override.")]
-		[return: NullAllowed]
-		PSPDFAnnotation [] RemoveAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary<NSString, NSObject> options);
+		[Export ("clearNeedsSaveFlag")]
+		void ClearNeedsSaveFlag ();
+
+		[Export ("registerAnnotationsForUndo:")]
+		void RegisterAnnotationsForUndo (PSPDFAnnotation [] annotations);
+
+		[Export ("annotationCache")]
+		NSMutableDictionary<NSNumber, NSArray<PSPDFAnnotation>> AnnotationCache { get; }
+
+		[Export ("willInsertAnnotations:")]
+		void WillInsertAnnotations (PSPDFAnnotation [] annotations);
 
 		[Export ("performBlockForReading:")]
 		void PerformActionForReading (Action action);
@@ -1566,6 +1572,16 @@ namespace PSPDFKit.Core {
 		[Export ("setAnnotations:append:")]
 		void SetAnnotations (PSPDFAnnotation [] annotations, bool append);
 
+		[Export ("addAnnotations:options:")]
+		[Advice ("Requires base call if override.")]
+		[return: NullAllowed]
+		PSPDFAnnotation[] AddAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary<NSString, NSObject> options);
+
+		[Export ("removeAnnotations:options:")]
+		[Advice ("Requires base call if override.")]
+		[return: NullAllowed]
+		PSPDFAnnotation [] RemoveAnnotations (PSPDFAnnotation[] annotations, [NullAllowed] NSDictionary<NSString, NSObject> options);
+
 		[Export ("removeAllAnnotationsWithOptions:")]
 		void RemoveAllAnnotations (NSDictionary<NSString, NSObject> options);
 
@@ -1575,20 +1591,8 @@ namespace PSPDFKit.Core {
 		[Export ("annotations")]
 		NSDictionary<NSNumber, NSArray<PSPDFAnnotation>> Annotations { get; }
 
-		[Export ("clearNeedsSaveFlag")]
-		void ClearNeedsSaveFlag ();
-
 		[Export ("setAnnotationCacheDirect:")]
 		void SetAnnotationCacheDirect (NSDictionary<NSNumber, NSArray<PSPDFAnnotation>> annotationCache);
-
-		[Export ("registerAnnotationsForUndo:")]
-		void RegisterAnnotationsForUndo (PSPDFAnnotation [] annotations);
-
-		[Export ("annotationCache")]
-		NSMutableDictionary<NSNumber, NSArray<PSPDFAnnotation>> AnnotationCache { get; }
-
-		[Export ("willInsertAnnotations:")]
-		void WillInsertAnnotations (PSPDFAnnotation [] annotations);
 
 		// PSPDFUndoSupport protocol support
 
@@ -1918,6 +1922,9 @@ namespace PSPDFKit.Core {
 		[Export ("isEqualToDocument:")]
 		bool IsEqualTo (PSPDFDocument otherDocument);
 
+		[Export ("features")]
+		PSPDFDocumentFeatures Features { get; }
+
 		[NullAllowed, Export ("fileURL")]
 		NSUrl FileUrl { get; }
 
@@ -2200,6 +2207,7 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("didCreateDocumentProviderBlock", ArgumentSemantic.Copy)]
 		Action<PSPDFDocumentProvider> DidCreateDocumentProviderHandler { get; set; }
 
+		[return: NullAllowed]
 		[Export ("fileNameForIndex:")]
 		string GetFileName (nuint fileIndex);
 
@@ -2757,18 +2765,18 @@ namespace PSPDFKit.Core {
 		[Field ("PSPDFDocumentSecurityOptionsKeyLengthAutomatic", PSPDFKitLibraryPath.LibraryPath)]
 		nuint KeyLengthAutomatic { get; }
 
-		[Export ("initWithOwnerPassword:userPassword:")]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword);
+		[Export ("initWithOwnerPassword:userPassword:error:")]
+		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, [NullAllowed] out NSError error);
 
-		[Export ("initWithOwnerPassword:userPassword:keyLength:")]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength);
+		[Export ("initWithOwnerPassword:userPassword:keyLength:error:")]
+		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, [NullAllowed] out NSError error);
 
-		[Export ("initWithOwnerPassword:userPassword:keyLength:permissions:")]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions);
+		[Export ("initWithOwnerPassword:userPassword:keyLength:permissions:error:")]
+		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, [NullAllowed] out NSError error);
 
-		[Export ("initWithOwnerPassword:userPassword:keyLength:permissions:encryptionAlgorithm:")]
+		[Export ("initWithOwnerPassword:userPassword:keyLength:permissions:encryptionAlgorithm:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, PSPDFDocumentEncryptionAlgorithm encryptionAlgorithm);
+		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, PSPDFDocumentEncryptionAlgorithm encryptionAlgorithm, [NullAllowed] out NSError error);
 
 		[NullAllowed, Export ("ownerPassword")]
 		string OwnerPassword { get; }
@@ -3979,7 +3987,7 @@ namespace PSPDFKit.Core {
 		[Abstract]
 		[Export ("objectForKeyedSubscript:")]
 		[return: NullAllowed]
-		NSObject GetObjectForKeyedSubscript (NSObject key);
+		NSObject GetObject (NSObject key);
 
 		[Abstract]
 		[Export ("boolForKey:")]
@@ -4047,7 +4055,7 @@ namespace PSPDFKit.Core {
 		bool IsFeatureEnabled (PSPDFFeatureMask feature);
 
 		[Export ("setObject:forKeyedSubscript:")]
-		void SetObject (NSObject @object, INSCopying key);
+		void SetObject (NSObject @object, NSString key);
 
 		[Export ("cache")]
 		PSPDFCache Cache { get; }
@@ -4074,7 +4082,7 @@ namespace PSPDFKit.Core {
 		IPSPDFDatabaseEncryptionProvider DatabaseEncryptionProvider { get; set; }
 
 		[Export ("injectDependentProperties:")]
-		nuint InjectDependentProperties (NSObject @object);
+		nint InjectDependentProperties (NSObject @object);
 
 		// PSPDFKit (ImageLoading) Category
 		[Static]
@@ -4831,8 +4839,8 @@ namespace PSPDFKit.Core {
 	[DisableDefaultCtor]
 	interface PSPDFPrivateKey {
 
-		[Export ("encryptionAlgorithm")]
-		string EncryptionAlgorithm { get; }
+		[Export ("signatureEncryptionAlgorithm")]
+		PSPDFSignatureEncryptionAlgorithm SignatureEncryptionAlgorithm { get; }
 	}
 
 	delegate void PSPDFProgressHandler (nuint currentPage, nuint totalPages);
@@ -5406,6 +5414,9 @@ namespace PSPDFKit.Core {
 		[Export ("cancelled")]
 		bool Cancelled { [Bind ("isCancelled")] get; }
 
+		[Export ("completed")]
+		bool Completed { [Bind ("isCompleted")] get; }
+
 		[Export ("cancel")]
 		void Cancel ();
 
@@ -5803,7 +5814,7 @@ namespace PSPDFKit.Core {
 	delegate void PSPDFSignerSignFormElementSinkHandler (bool success, IPSPDFDataSink document, NSError error);
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFSigner : INSCoding {
+	interface PSPDFSigner : PSPDFExternalSignature, INSCoding {
 
 		[Export ("filter")]
 		string Filter { get; }
@@ -5820,6 +5831,9 @@ namespace PSPDFKit.Core {
 		[Export ("location")]
 		string Location { get; }
 
+		[NullAllowed, Export ("externalSignatureDelegate", ArgumentSemantic.Weak)]
+		IPSPDFExternalSignature ExternalSignatureDelegate { get; set; }
+
 		[Async]
 		[Export ("requestSigningCertificate:completionBlock:")]
 		void RequestSigningCertificate (NSObject sourceController, [NullAllowed] Action<PSPDFX509, NSError> completion);
@@ -5835,6 +5849,7 @@ namespace PSPDFKit.Core {
 		void SignFormElement (PSPDFSignatureFormElement element, PSPDFX509 certificate, IPSPDFDataSink dataSink, [NullAllowed] PSPDFSignatureAppearance signatureAppearance, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties, [NullAllowed] PSPDFSignerSignFormElementSinkHandler completion);
 	}
 
+	[DisableDefaultCtor]
 	[BaseType (typeof (PSPDFAnnotation))]
 	interface PSPDFSoundAnnotation {
 
@@ -5842,7 +5857,10 @@ namespace PSPDFKit.Core {
 		[Export ("recordingAnnotationAvailable")]
 		bool RecordingAnnotationAvailable { get; }
 
-		[Export ("initRecorderWithOptions:")]
+		[Export ("initWithRecorder")]
+		IntPtr Constructor ();
+
+		[Export ("initWithRecorderOptions:")]
 		IntPtr Constructor ([NullAllowed] NSDictionary options);
 
 		[Export ("initWithURL:error:")]
@@ -6497,5 +6515,76 @@ namespace PSPDFKit.Core {
 
 		[Export ("stringFromRange:")]
 		string GetString (NSRange pageRange);
+	}
+
+	interface IPSPDFDocumentFeaturesSource { }
+
+	[Protocol, Model]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFDocumentFeaturesSource {
+
+		[Abstract]
+		[NullAllowed, Export ("features", ArgumentSemantic.Weak)]
+		PSPDFDocumentFeatures Features { get; set; }
+
+		[Export ("canModify")]
+		bool GetCanModify ();
+
+		[Export ("canEditBookmarks")]
+		bool GetCanEditBookmarks ();
+
+		[Export ("canPrint")]
+		bool GetCanPrint ();
+	}
+
+	interface IPSPDFDocumentFeaturesObserver { }
+
+	[Protocol]
+	interface PSPDFDocumentFeaturesObserver {
+
+		[Abstract]
+		[Export ("bindToObjectLifetime:")]
+		void BindToObjectLifetime (NSObject @object);
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFDocumentFeatures : PSPDFDocumentFeaturesSource {
+
+		[Export ("initWithDocument:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFDocument document);
+
+		[Export ("addSources:")]
+		void AddSources (IPSPDFDocumentFeaturesSource [] sources);
+
+		[Export ("removeSources:")]
+		void RemoveSources (IPSPDFDocumentFeaturesSource [] sources);
+
+		[Export ("updateFeatures")]
+		void UpdateFeatures ();
+
+		[Export ("addObserverForFeature:updateHandler:")]
+		IPSPDFDocumentFeaturesObserver AddObserver (Selector feature, Action<bool> handler);
+
+		[Export ("removeObserver:")]
+		void RemoveObserver (IPSPDFDocumentFeaturesObserver observer);
+
+		[Export ("traceFeature:")]
+		void TraceFeature (Selector selector);
+	}
+
+	interface IPSPDFExternalSignature { }
+
+	[Protocol]
+	interface PSPDFExternalSignature {
+
+		[Abstract]
+		[Export ("signData:hashAlgorithm:")]
+		NSData SignData (NSData data, PSPDFSignatureHashAlgorithm hashAlgorithm);
+
+		[Abstract]
+		[Export ("encryptionAlgorithm")]
+		PSPDFSignatureEncryptionAlgorithm EncryptionAlgorithm { get; }
 	}
 }

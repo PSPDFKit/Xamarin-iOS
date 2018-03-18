@@ -7,7 +7,6 @@ using MonoTouch.Dialog;
 
 using Foundation;
 using UIKit;
-using ObjCRuntime;
 
 using PSPDFKit.Core;
 using PSPDFKit.UI;
@@ -63,7 +62,7 @@ namespace PSPDFCatalog {
 						// We start a new task so this executes on a separated thread since it is a hevy task and we don't want to block the UI
 						await Task.Factory.StartNew (()=> {
 							PSPDFProcessor.GeneratePdf (configuration: new PSPDFProcessorConfiguration (document),
-														securityOptions: new PSPDFDocumentSecurityOptions (password, password, PSPDFDocumentSecurityOptions.KeyLengthAutomatic),
+														securityOptions: new PSPDFDocumentSecurityOptions (password, password, PSPDFDocumentSecurityOptions.KeyLengthAutomatic, out var err),
 							                            fileUrl: tempPdf,
 							                            progressHandler: (currentPage, totalPages) => InvokeOnMainThread (() => status.Progress = (nfloat) currentPage / totalPages),
 							                            error: out var error);
@@ -79,22 +78,10 @@ namespace PSPDFCatalog {
 				new Section ("Subclassing", "Examples how to subclass PSPDFKit."){
 					new StringElement ("Annotation Link Editor", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						var editableTypes = new [] {
-							PSPDFAnnotationStringUI.Link, // Important!!
-							PSPDFAnnotationStringUI.Highlight,
-							PSPDFAnnotationStringUI.Underline,
-							PSPDFAnnotationStringUI.Squiggly,
-							PSPDFAnnotationStringUI.StrikeOut,
-							PSPDFAnnotationStringUI.Note,
-							PSPDFAnnotationStringUI.FreeText,
-							PSPDFAnnotationStringUI.Ink,
-							PSPDFAnnotationStringUI.Square,
-							PSPDFAnnotationStringUI.Circle,
-							PSPDFAnnotationStringUI.Stamp
-						};
-
 						var pdfViewer = new LinkEditorViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
-							builder.EditableAnnotationTypes = editableTypes;
+							var editableTypes = builder.EditableAnnotationTypes.ToList ();
+							editableTypes.Add (PSPDFAnnotationStringUI.Link);
+							builder.EditableAnnotationTypes = editableTypes.ToArray ();
 						}));
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
@@ -102,7 +89,7 @@ namespace PSPDFCatalog {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						document.BookmarkManager.Provider = new IPSPDFBookmarkProvider [] { new CustomBookmarkProvider () };
 						var pdfViewer = new PSPDFViewController (document);
-						pdfViewer.NavigationItem.RightBarButtonItems = new [] { pdfViewer.SearchButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.BookmarkButtonItem };
+						pdfViewer.NavigationItem.SetRightBarButtonItems (new [] { pdfViewer.ThumbnailsButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.SearchButtonItem, pdfViewer.BookmarkButtonItem }, PSPDFViewMode.Document, false);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("Change link background color to red", () => {

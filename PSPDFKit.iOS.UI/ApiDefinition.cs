@@ -1566,7 +1566,7 @@ namespace PSPDFKit.UI {
 		bool AnnotationEntersEditModeAfterSecondTapEnabled { get; set; }
 
 		[Advice ("You can use 'EditableAnnotationTypes' for a more strongly typed access.")]
-		[Export ("editableAnnotationTypes")]
+		[NullAllowed, Export ("editableAnnotationTypes", ArgumentSemantic.Copy)]
 		NSSet<NSString> WeakEditableAnnotationTypes { get; set; }
 
 		[Export ("autosaveEnabled")]
@@ -1759,7 +1759,7 @@ namespace PSPDFKit.UI {
 		bool TextSelectionShouldSnapToWord { get; }
 
 		[Advice ("You can use 'EditableAnnotationTypes' for a more strongly typed access.")]
-		[Export ("editableAnnotationTypes")]
+		[NullAllowed, Export ("editableAnnotationTypes", ArgumentSemantic.Copy)]
 		NSSet<NSString> WeakEditableAnnotationTypes { get; }
 
 		[Export ("typesShowingColorPresets")]
@@ -2100,6 +2100,7 @@ namespace PSPDFKit.UI {
 		void SetControllerState (PSPDFControllerState state, [NullAllowed] NSError error, bool animated);
 	}
 
+	[DisableDefaultCtor]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDigitalSignatureCoordinator {
 
@@ -7105,14 +7106,14 @@ namespace PSPDFKit.UI {
 		[Export ("selectionHitTestExtension")]
 		nfloat SelectionHitTestExtension { get; set; }
 
-		[Export ("firstLineRect")]
-		CGRect FirstLineRect { get; }
+		[Export ("selectionRects")]
+		NSValue [] SelectionRects { get; }
 
-		[Export ("innerRect")]
-		CGRect InnerRect { get; }
+		[Export ("rectForFirstBlock")]
+		CGRect RectForFirstBlock { get; }
 
-		[Export ("lastLineRect")]
-		CGRect LastLineRect { get; }
+		[Export ("rectForLastBlock")]
+		CGRect RectForLastBlock { get; }
 
 		[Export ("updateMenuAnimated:")]
 		bool UpdateMenu (bool animated);
@@ -7208,8 +7209,8 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (UICollectionViewLayoutAttributes))]
 	interface PSPDFThumbnailFlowLayoutAttributes {
 
-		[Export ("type", ArgumentSemantic.Assign)]
-		PSPDFThumbnailFlowLayoutAttributesType Type { get; set; }
+		[Export ("pageMode", ArgumentSemantic.Assign)]
+		PSPDFDocumentViewLayoutPageMode PageMode { get; set; }
 	}
 
 	[BaseType (typeof (UICollectionViewLayout))]
@@ -7232,22 +7233,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("stickyHeaderEnabled")]
 		bool StickyHeaderEnabled { get; set; }
-
-		[Export ("doublePageModeDisabled")]
-		bool DoublePageModeDisabled { get; set; }
-
-		[Export ("doublePageMode")]
-		bool DoublePageMode { get; }
-
-		[NullAllowed, Export ("presentationContext", ArgumentSemantic.Weak)]
-		IPSPDFPresentationContext PresentationContext { get; set; }
-
-		[Export ("typeForIndexPath:usingDoublePageMode:")]
-		PSPDFThumbnailFlowLayoutAttributesType GetType (NSIndexPath indexPath, bool usingDoublePageMode);
-
-		[Export ("indexPathForDoublePage:")]
-		[return: NullAllowed]
-		NSIndexPath GetIndexPathForDoublePage (NSIndexPath indexPath);
 	}
 
 	interface IPSPDFCollectionViewDelegateThumbnailFlowLayout { }
@@ -7264,6 +7249,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("collectionView:layout:referenceSizeForHeaderInSection:")]
 		CGSize GetReferenceSizeForHeaderInSection (UICollectionView collectionView, UICollectionViewLayout layout, nint section);
+
+		[Export ("collectionView:layout:pageModeForItemAtIndexPath:")]
+		PSPDFDocumentViewLayoutPageMode GetPageModeForItemAtIndexPath (UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath);
 	}
 
 	[BaseType (typeof (PSPDFPageCell))]
@@ -7303,7 +7291,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (UICollectionViewController))]
-	interface PSPDFThumbnailViewController : IUICollectionViewDataSource, IUICollectionViewDelegate, PSPDFViewModePresenter {
+	interface PSPDFThumbnailViewController : IUICollectionViewDataSource, IUICollectionViewDelegate, PSPDFViewModePresenter, PSPDFCollectionViewDelegateThumbnailFlowLayout {
 
 		[NullAllowed, Export ("dataSource", ArgumentSemantic.Weak)]
 		IPSPDFPresentationContext DataSource { get; set; }

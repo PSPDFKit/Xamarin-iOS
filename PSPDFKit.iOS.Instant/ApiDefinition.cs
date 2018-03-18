@@ -19,6 +19,7 @@ namespace PSPDFKit.Instant {
 		AlreadyDownloaded = 5,
 		DatabaseAccessFailed = 6,
 		CouldNotWriteToDisk = 7,
+		InvalidUrl = 8,
 		SavingDisabled = 9,
 		UnmanagedDocument = 10,
 		NoSuchAnnotation = 11,
