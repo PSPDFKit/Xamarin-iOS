@@ -14,6 +14,7 @@ StylusDrivers/externals/
 *.framework
 tools/
 packages/
+.vs/
 
 # Xcode
 #

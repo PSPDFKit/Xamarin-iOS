@@ -3026,7 +3026,7 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("fileURL")]
 		NSUrl FileUrl { get; }
 
-		[NullAllowed, Export ("fileData", ArgumentSemantic.Copy)]
+		[NullAllowed, Export ("fileData")]
 		NSData FileData { get; }
 
 		[Export ("mimeType")]
@@ -6586,5 +6586,20 @@ namespace PSPDFKit.Core {
 		[Abstract]
 		[Export ("encryptionAlgorithm")]
 		PSPDFSignatureEncryptionAlgorithm EncryptionAlgorithm { get; }
+	}
+
+	delegate string PSPDFAESCryptoDataSinkPassphraseProvider ();
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFAESCryptoDataSink : PSPDFDataSink {
+
+		[Export ("initWithUID:passphraseProvider:options:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (string uid, PSPDFAESCryptoDataSinkPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
+
+		[Export ("initWithURL:passphraseProvider:options:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (NSUrl fileUrl, PSPDFAESCryptoDataSinkPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
 	}
 }
