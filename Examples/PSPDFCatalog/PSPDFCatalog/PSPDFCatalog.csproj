@@ -100,7 +100,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +124,7 @@
     <Compile Include="Catalog\Instant\WebPreviewApiClient.cs" />
     <Compile Include="Catalog\Instant\InstantExampleViewController.cs" />
     <Compile Include="Catalog\Instant\InstantDocumentViewController.cs" />
+    <Compile Include="Catalog\Customization\PSCRotatePagePDFViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -135,6 +136,7 @@
     <Folder Include="Catalog\Subclassing\" />
     <Folder Include="Catalog\Customization\" />
     <Folder Include="Catalog\Instant\" />
+    <Folder Include="Resources\Images.xcassets\LaunchLogo.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -160,9 +162,13 @@
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\defaultpng-iPhone-6-plus-landscape.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\defaultpng-iPhone-6-plus.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\defaultpng-iPhone-6.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchLogo.imageset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchLogo.imageset\LaunchLogo.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Default-568h%402x.png" />
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
     <BundleResource Include="Resources\Pdf\PSPDFKit QuickStart Guide.pdf" />
     <BundleResource Include="Resources\Pdf\protected.pdf" />
     <BundleResource Include="Resources\Pdf\hackermonthly-issue.pdf" />
@@ -181,5 +187,5 @@
       <Name>PSPDFKit.iOS.Instant</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Import Project="..\..\..\packages\NETStandard.Library.2.0.2\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\..\packages\NETStandard.Library.2.0.2\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

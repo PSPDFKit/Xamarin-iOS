@@ -337,6 +337,12 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("annotationIcon")]
 		UIImage AnnotationIcon { get; }
 
+		[Export ("reply")]
+		bool Reply { [Bind ("isReply")] get; }
+
+		[NullAllowed, Export ("inReplyToAnnotation", ArgumentSemantic.Strong)]
+		PSPDFAnnotation InReplyToAnnotation { get; set; }
+
 		[Export ("isEqualToAnnotation:")]
 		bool IsEqualTo (PSPDFAnnotation otherAnnotation);
 
@@ -640,7 +646,7 @@ namespace PSPDFKit.Core {
 		[Export ("annotationProviders", ArgumentSemantic.Copy)]
 		IPSPDFAnnotationProvider [] AnnotationProviders { get; set; }
 
-		[Export ("fileAnnotationProvider")]
+		[Export ("fileAnnotationProvider"), NullAllowed]
 		PSPDFFileAnnotationProvider FileAnnotationProvider { get; }
 
 		[Export ("annotationsForPageAtIndex:type:")]
@@ -1998,10 +2004,6 @@ namespace PSPDFKit.Core {
 		[return: NullAllowed]
 		PSPDFPageInfo GetPageInfo (nuint pageIndex);
 
-		[Export ("nearestPageInfoForPageAtIndex:")]
-		[return: NullAllowed]
-		PSPDFPageInfo GetNearestPageInfoForPage (nuint pageIndex);
-
 		[Export ("saveWithOptions:error:")]
 		bool Save ([NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
 
@@ -2049,9 +2051,6 @@ namespace PSPDFKit.Core {
 
 		[Export ("isEncrypted")]
 		bool IsEncrypted { get; }
-
-		[NullAllowed, Export ("encryptionFilter")]
-		string EncryptionFilter { get; }
 
 		[Export ("isLocked")]
 		bool IsLocked { get; }
@@ -3052,8 +3051,11 @@ namespace PSPDFKit.Core {
 	interface PSPDFFileAnnotationProvider {
 
 		[Export ("initWithDocumentProvider:")]
-		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+
+		[Export ("initWithDocumentProvider:fileURL:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFDocumentProvider documentProvider, [NullAllowed] NSUrl annotationFileUrl);
 
 		[Export ("autodetectTextLinkTypes", ArgumentSemantic.Assign)]
 		PSPDFTextCheckingType AutodetectTextLinkTypes { get; set; }
@@ -3081,9 +3083,6 @@ namespace PSPDFKit.Core {
 		[Export ("clearCache")]
 		void ClearCache ();
 
-		[Export ("tryLoadAnnotationsFromFileWithError:")]
-		bool TryLoadAnnotationsFromFile ([NullAllowed] out NSError error);
-
 		// PSPDFFileAnnotationProvider (Advanced) Category
 
 		[Export ("saveableTypes", ArgumentSemantic.Assign)]
@@ -3092,8 +3091,8 @@ namespace PSPDFKit.Core {
 		[Export ("parsableTypes", ArgumentSemantic.Assign)]
 		PSPDFAnnotationType ParsableTypes { get; set; }
 
-		[Export ("annotationsPath"), NullAllowed]
-		string AnnotationsPath { get; set; }
+		[Export ("annotationsPath")]
+		string AnnotationsPath { get; }
 
 		// PSPDFFileAnnotationProvider (SubclassingHooks) Category
 
@@ -3688,11 +3687,14 @@ namespace PSPDFKit.Core {
 		[Export ("lineBreaker")]
 		bool LineBreaker { get; }
 
-		[Export ("isWordBreaker")]
-		bool IsWordBreaker { get; }
+		[Export ("wordBreaker")]
+		bool WordBreaker { [Bind ("isWordBreaker")] get; }
 
 		[Export ("isWordOrLineBreaker")]
 		bool IsWordOrLineBreaker { get; }
+
+		[Export ("generated")]
+		bool Generated { [Bind ("isGenerated")] get; }
 
 		[Export ("indexOnPage")]
 		nint IndexOnPage { get; }
@@ -4622,6 +4624,12 @@ namespace PSPDFKit.Core {
 
 		[Export ("iconName")]
 		string IconName { get; set; }
+
+		[Export ("authorStateModel", ArgumentSemantic.Assign)]
+		PSPDFAnnotationAuthorStateModel AuthorStateModel { get; set; }
+
+		[Export ("authorState", ArgumentSemantic.Assign)]
+		PSPDFAnnotationAuthorState AuthorState { get; set; }
 
 		// PSPDFNoteAnnotation (SubclassingHooks) Category
 
@@ -6026,27 +6034,24 @@ namespace PSPDFKit.Core {
 	[DisableDefaultCtor]
 	interface PSPDFTextBlock : INSCopying, INSSecureCoding {
 
-		[Export ("initWithGlyphs:frame:pageRotation:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFGlyph [] glyphs, CGRect frame, nuint pageRotation);
+		[Export ("initWithGlyphs:frame:")]
+		IntPtr Constructor (PSPDFGlyph[] glyphs, CGRect frame);
 
-		[Export ("initWithGlyphs:pageRotation:")]
-		IntPtr Constructor (PSPDFGlyph [] glyphs, nuint pageRotation);
+		[Export ("initWithRange:text:frame:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (NSRange textRange, string text, CGRect frame);
 
 		[Export ("frame")]
 		CGRect Frame { get; }
 
-		[Export ("glyphs", ArgumentSemantic.Copy)]
-		PSPDFGlyph [] Glyphs { get; }
+		[Export ("range")]
+		NSRange Range { get; }
 
 		[Export ("words", ArgumentSemantic.Copy)]
 		PSPDFWord [] Words { get; }
 
 		[Export ("content")]
 		string Content { get; }
-
-		[Export ("pageRotation")]
-		nuint PageRotation { get; }
 
 		[Export ("isEqualToTextBlock:")]
 		bool IsEqualTo (PSPDFTextBlock otherBlock);
@@ -6402,13 +6407,12 @@ namespace PSPDFKit.Core {
 	[DisableDefaultCtor]
 	interface PSPDFWord : INSCopying, INSSecureCoding {
 
-		[Export ("initWithGlyphs:pageRotation:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFGlyph [] wordGlyphs, nuint pageRotation);
+		[Export ("initWithGlyphs:frame:")]
+		IntPtr Constructor (PSPDFGlyph [] wordGlyphs, CGRect frame);
 
-		[Export ("initWithFrame:pageRotation:")]
+		[Export ("initWithRange:text:frame:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (CGRect wordFrame, nuint pageRotation);
+		IntPtr Constructor (NSRange textRange, string text, CGRect frame);
 
 		[Export ("stringValue")]
 		string StringValue { get; }
@@ -6416,14 +6420,11 @@ namespace PSPDFKit.Core {
 		[Export ("frame", ArgumentSemantic.Assign)]
 		CGRect Frame { get; set; }
 
-		[Export ("glyphs", ArgumentSemantic.Copy)]
-		PSPDFGlyph [] Glyphs { get; set; }
+		[Export ("range")]
+		NSRange Range { get; }
 
 		[Export ("lineBreaker")]
 		bool LineBreaker { get; set; }
-
-		[Export ("pageRotation")]
-		nuint PageRotation { get; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -6535,6 +6536,9 @@ namespace PSPDFKit.Core {
 
 		[Export ("canPrint")]
 		bool GetCanPrint ();
+
+		[Export ("canShowAnnotationReplies")]
+		bool GetCanShowAnnotationReplies ();
 	}
 
 	interface IPSPDFDocumentFeaturesObserver { }
@@ -6554,6 +6558,9 @@ namespace PSPDFKit.Core {
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFDocument document);
+
+		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
+		PSPDFDocument Document { get; }
 
 		[Export ("addSources:")]
 		void AddSources (IPSPDFDocumentFeaturesSource [] sources);

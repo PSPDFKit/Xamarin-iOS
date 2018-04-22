@@ -200,6 +200,16 @@ namespace PSPDFKit.UI {
 
 	public partial class PSPDFThumbnailViewController {
 
+		public PSPDFThumbnailViewFilter [] FilterOptions {
+			get => WeakFilterOptions?.Select (x => PSPDFThumbnailViewFilterExtensions.GetValue (x))?.ToArray ();
+			set => WeakFilterOptions = value?.Select (x => x.GetConstant ())?.ToArray ();
+		}
+
+		public PSPDFThumbnailViewFilter ActiveFilter {
+			get => PSPDFThumbnailViewFilterExtensions.GetValue (WeakActiveFilter);
+			set => WeakActiveFilter = value.GetConstant ();
+		}
+
 		public Type CellClassType {
 			get => CellClass == null ? null : Class.Lookup (CellClass);
 			set => CellClass = value == null ? throw new ArgumentNullException (nameof (value)) : new Class (value);

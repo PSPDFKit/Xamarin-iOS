@@ -28,6 +28,9 @@ namespace PSPDFKit.Core {
 		PageRenderGraphicsContextNil = 240,
 		DocumentUnsupportedSecurityScheme = 302,
 		FailedToLoadAnnotations = 400,
+		ExternalAnnotationFileLoadingDisabled = 401,
+		ExternalAnnotationFileMissing = 402,
+		ExternalAnnotationFileEmpty = 403,
 		FailedToWriteAnnotations = 410,
 		CannotEmbedAnnotations = 420,
 		FailedToSaveBookmarks = 460,
@@ -541,6 +544,7 @@ namespace PSPDFKit.Core {
 		RequireSignedSource = 1 << 8,
 		DocumentEditing = 1 << 9,
 		UI = 1 << 10,
+		AnnotationReplies = 1 << 11,
 
 		All = ulong.MaxValue
 	}
@@ -882,8 +886,28 @@ namespace PSPDFKit.Core {
 		Sha160,
 		Sha224,
 		Sha256,
-		Sha386,
+		Sha384,
+		Sha386 = Sha384,
 		Sha512,
-		Unknown
+		Unknown,
+	}
+
+	[Native]
+	public enum PSPDFAnnotationAuthorStateModel : ulong {
+		Unspecified,
+		Marked,
+		Review
+	}
+
+	[Native]
+	public enum PSPDFAnnotationAuthorState : ulong {
+		Unspecified,
+		Marked,
+		Unmarked,
+		Accepted,
+		Rejected,
+		Cancelled,
+		Completed,
+		None
 	}
 }

@@ -909,4 +909,14 @@ namespace PSPDFKit.UI {
 	public enum PSPDFGalleryManifestErrorCode : long {
 		NoDataSourceProvided
 	}
+
+	public enum PSPDFThumbnailViewFilter {
+		[DefaultEnumValue]
+		[Field ("PSPDFThumbnailViewFilterShowAll", PSPDFKitGlobal.LibraryPath)]
+		ShowAll,
+		[Field ("PSPDFThumbnailViewFilterBookmarks", PSPDFKitGlobal.LibraryPath)]
+		Bookmarks,
+		[Field ("PSPDFThumbnailViewFilterAnnotations", PSPDFKitGlobal.LibraryPath)]
+		Annotations,
+	}
 }

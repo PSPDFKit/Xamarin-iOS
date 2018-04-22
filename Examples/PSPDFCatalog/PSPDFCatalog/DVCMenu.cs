@@ -121,7 +121,19 @@ namespace PSPDFCatalog {
 						NavigationController.PushViewController (pdfController, true);
 					}),
 				},
-				new Section ("PSPDFViewController Customization"){
+				new Section ("View Customizations") {
+					new StringElement ("Rotate pages", () => {
+						// The document needs to be in a writable location
+						var tmp = Path.GetTempPath ();
+						var writablePdf = Path.Combine (tmp, "writable.pdf");
+						File.Copy (PSPDFKitFile, writablePdf, true);
+
+						var document = new PSPDFDocument (NSUrl.FromFilename (writablePdf));
+						var pdfViewer = new PSCRotatePagePDFViewController (document);
+						NavigationController.PushViewController (pdfViewer, true);
+					}),
+				},
+				new Section ("PSPDFViewController Customization") {
 					new StringElement ("Custom Google Text Selection Menu", () => {
 						var pdfViewer = new PSCustomTextSelectionMenuController {
 							Document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile))

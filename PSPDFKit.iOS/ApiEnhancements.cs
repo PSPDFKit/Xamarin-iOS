@@ -161,6 +161,28 @@ namespace PSPDFKit.Core {
 			NSArray arr = NSArray.FromNSObjects (objs.ToArray ());
 			return (string) Runtime.GetNSObject<NSString> (_StringFromGlyphs (arr.Handle));
 		}
+
+		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFRangeFromGlyphs")]
+		static extern NSRange _RangeFromGlyphs (IntPtr glyphs);
+
+		public static NSRange GetRangeFromGlyphs (PSPDFGlyph [] glyphs)
+		{
+			var objs = new List<NSObject> ();
+
+			foreach (var glyph in glyphs)
+				objs.Add (glyph);
+
+			NSArray arr = NSArray.FromNSObjects (objs.ToArray ());
+			return _RangeFromGlyphs (arr.Handle);
+		}
+
+		public static NSRange InvalidGlyphRange {
+			get {
+				IntPtr RTLD_MAIN_ONLY = Dlfcn.dlopen (PSPDFKitGlobal.DlPath, 0);
+				var ptr = Dlfcn.GetIntPtr (RTLD_MAIN_ONLY, "PSPDFInvalidGlyphRange");
+				return (NSRange) Marshal.PtrToStructure (ptr, typeof (NSRange));
+			}
+		}
 	}
 
 	public partial class PSPDFInkAnnotation {

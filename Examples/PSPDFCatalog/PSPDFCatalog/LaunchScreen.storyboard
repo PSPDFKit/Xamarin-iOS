@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="E7j-mt-YZc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="sPN-Rk-ZHH">
+            <objects>
+                <viewController id="E7j-mt-YZc" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EtK-iU-zMp"/>
+                        <viewControllerLayoutGuide type="bottom" id="OnJ-v5-DJu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="m68-IJ-WTZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e12-JX-Oau" misplaced="YES" ambiguous="YES" image="LaunchLogo">
+                                <rect key="frame" x="117" y="278" width="180" height="180"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.37" blue="0.47999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="e12-JX-Oau" firstAttribute="centerY" secondItem="m68-IJ-WTZ" secondAttribute="centerY" id="M2g-ph-jMu"/>
+                            <constraint firstItem="e12-JX-Oau" firstAttribute="centerX" secondItem="m68-IJ-WTZ" secondAttribute="centerX" id="g70-6Q-nT2"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2d9-jg-V5v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="399.375" y="382.4133"/>
+        </scene>
+    </scenes>
+</document>
