@@ -31,7 +31,7 @@ Build Instructions
 
 ## Step 2 - Copy required files
 
-1. Download PSPDFKit for iOS and/or Mac from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already.
+1. Download PSPDFKit for iOS and/or Mac from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow).
 2. Open the dmg file you downloaded in step 1 and copy the following files into the specified directories:
 
 iOS: From **PSPDFKit-for-iOS** dmg.
