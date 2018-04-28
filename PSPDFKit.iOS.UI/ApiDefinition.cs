@@ -6344,6 +6344,9 @@ namespace PSPDFKit.UI {
 		[Export ("drawView")]
 		PSPDFDrawView DrawView { get; }
 
+		[NullAllowed, Export ("signer")]
+		PSPDFSigner Signer { get; }
+
 		[Export ("colorButtonForColor:")]
 		PSPDFColorButton ColorButtonForColor (UIColor color);
 
