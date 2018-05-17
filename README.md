@@ -142,7 +142,7 @@ The PSPDFKit Instant example shows how easy and efficient Instant works. Just go
 <img width="60%" src="Images/Catalog.png"/>
 
 ### Xamarin.Forms
-<img width="50%" src="Images/XForms.png"/>
+<img width="60%" src="Images/XForms.png"/>
 
 ### MacPDFViewer
 <img width="50%" src="Images/macOS.png"/>
