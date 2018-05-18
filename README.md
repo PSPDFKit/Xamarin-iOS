@@ -111,7 +111,7 @@ For more information about Instant, please have a look at our [website](https://
 
 You can find several sample projects in the `Examples` folder, including a catalog, Xamarin.Forms, and macOS example.
 
-## How to run the example projects
+## How to Run the Example Projects
 
 1. Complete **Step 2**.
 2. Open the `PSPDFKit.iOS.sln` solution in Visual Studio.
