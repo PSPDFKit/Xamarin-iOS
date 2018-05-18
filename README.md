@@ -111,6 +111,14 @@ For more information about Instant, please have a look at our [website](https://
 
 You can find several sample projects in the `Examples` folder, including a catalog, Xamarin.Forms, and macOS example.
 
+## How to Run the Example Projects
+
+1. Complete **Step 2**.
+2. Open the `PSPDFKit.iOS.sln` solution in Visual Studio.
+3. Select the example project and device you want to run it on (alternatively you can also right-click on the project and select "Build `Project Name`").
+<img width="60%" src="Images/Project-setup.png"/>
+4. Tap on the triangle on the left to run the project.
+
 ### PSPDFKit Instant Example
 
 This example is included in the PSPDFCatalog example, but you can also find the code [here][Instant Example].
@@ -131,13 +139,21 @@ The PSPDFKit Instant example shows how easy and efficient Instant works. Just go
 </div>
 
 ### PSPDFCatalog
-<img width="60%" src="Images/Catalog.png"/>
+
+The `PSPDFCatalog` project includes various examples for pretty much every use-case and will help you to build your own app with PSPDFKit.
+
+<img width="80%" src="Images/Catalog.png"/>
 
 ### Xamarin.Forms
-<img width="50%" src="Images/XForms.png"/>
+
+The `XFSample.iOS` project is an example showcasing how to build an app with PSPDFKit using Xamarin.Forms.
+<img width="80%" src="Images/XForms.png"/>
 
 ### MacPDFViewer
-<img width="50%" src="Images/macOS.png"/>
+
+`MacPDFViewer` is an easy example on how build a PDF viewer on Mac.
+
+<img width="80%" src="Images/macOS.png"/>
 
 
 # Stylus Support
