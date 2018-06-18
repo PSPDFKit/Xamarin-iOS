@@ -53,19 +53,19 @@ namespace PSPDFCatalog {
 					}),
 					new StringElement ("Create Password Protected PDF", async () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						var status = PSPDFStatusHUDItem.CreateProgress ("Preparing");
+						var status = PSPDFStatusHUDItem.CreateIndeterminateProgress ("Preparing");
 						await status.PushAsync (true);
 						// Create temp file and password
 						var tempPdf = NSUrl.FromFilename (Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString () + ".pdf"));
 						var password = "test123";
 
+						var configuration = new PSPDFProcessorConfiguration (document);
+						var secOptions = new PSPDFDocumentSecurityOptions (password, password, PSPDFDocumentSecurityOptions.KeyLengthAutomatic, out var err);
+
 						// We start a new task so this executes on a separated thread since it is a hevy task and we don't want to block the UI
 						await Task.Factory.StartNew (()=> {
-							PSPDFProcessor.GeneratePdf (configuration: new PSPDFProcessorConfiguration (document),
-														securityOptions: new PSPDFDocumentSecurityOptions (password, password, PSPDFDocumentSecurityOptions.KeyLengthAutomatic, out var err),
-							                            fileUrl: tempPdf,
-							                            progressHandler: (currentPage, totalPages) => InvokeOnMainThread (() => status.Progress = (nfloat) currentPage / totalPages),
-							                            error: out var error);
+							var processor = new PSPDFProcessor (configuration, secOptions);
+							processor.WriteToFile (tempPdf);
 						});
 						InvokeOnMainThread (()=> {
 							status.Pop (true, null);

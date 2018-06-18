@@ -420,4 +420,14 @@ namespace PSPDFKit.Core {
 			set => SetNumberValue (PSPDFDocument.WriteOptionsGenerateAppearanceStreamForTypeKey, (nuint) (ulong) value);
 		}
 	}
+
+	public partial class PSPDFPageTemplate {
+		public PSPDFPageTemplate (PSPDFDocument document, nuint sourcePageIndex, bool useTiledPattern = false)
+		{
+			if (useTiledPattern)
+				InitializeHandle (InitWithTiledPattern (document, sourcePageIndex));
+			else
+				InitializeHandle (InitWithDocument (document, sourcePageIndex));
+		}
+	}
 }

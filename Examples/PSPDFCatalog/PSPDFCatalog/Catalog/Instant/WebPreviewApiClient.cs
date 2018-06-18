@@ -34,7 +34,7 @@ namespace PSPDFCatalog {
 				using (var json = new JsonTextReader (reader)) {
 					return InstantDocumentInfo.FromJson (json);
 				}
-			} catch (HttpRequestException ex) {
+			} catch (Exception ex) {
 				Console.WriteLine (ex.Message);
 				return null;
 			}

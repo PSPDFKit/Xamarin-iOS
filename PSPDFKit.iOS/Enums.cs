@@ -77,6 +77,7 @@ namespace PSPDFKit.Core {
 		ProcessorUnableToAddItem = 7306,
 		ProcessorUnableToWriteFile = 7307,
 		ProcessorMiscError = 7308,
+		ProcessorCancelled = 7309,
 		DocumentEditorUnableToWriteFile = 7400,
 		DocumentEditorInvalidDocument = 7401,
 		DocumentEditorInaccessibleDocument = 7402,
@@ -545,6 +546,7 @@ namespace PSPDFKit.Core {
 		DocumentEditing = 1 << 9,
 		UI = 1 << 10,
 		AnnotationReplies = 1 << 11,
+		ImageDocument = 1 << 12,
 
 		All = ulong.MaxValue
 	}
@@ -624,24 +626,6 @@ namespace PSPDFKit.Core {
 		SaveAs,
 		Info,
 		Unknown = ulong.MaxValue
-	}
-
-	[Native]
-	public enum PSPDFNewPageType : long {
-		EmptyPage,
-		TiledPatternPage,
-		FromDocument
-	}
-
-	public enum PSPDFNewPagePattern {
-		[Field ("PSPDFNewPagePatternDot5mm", PSPDFKitLibraryPath.LibraryPath)]
-		Dot5mm,
-		[Field ("PSPDFNewPagePatternGrid5mm", PSPDFKitLibraryPath.LibraryPath)]
-		Grid5mm,
-		[Field ("PSPDFNewPagePatternLines5mm", PSPDFKitLibraryPath.LibraryPath)]
-		Lines5mm,
-		[Field ("PSPDFNewPagePatternLines7mm", PSPDFKitLibraryPath.LibraryPath)]
-		Lines7mm,
 	}
 
 	public enum PSPDFPageBinding : long {
@@ -909,5 +893,45 @@ namespace PSPDFKit.Core {
 		Cancelled,
 		Completed,
 		None
+	}
+
+	public enum PSPDFFileIconName {
+		[Field ("PSPDFFileIconNamePaperclip", PSPDFKitLibraryPath.LibraryPath)]
+		Paperclip,
+		[Field ("PSPDFFileIconNameGraph", PSPDFKitLibraryPath.LibraryPath)]
+		Graph,
+		[Field ("PSPDFFileIconNameTag", PSPDFKitLibraryPath.LibraryPath)]
+		Tag,
+		[Field ("PSPDFFileIconNamePushPin", PSPDFKitLibraryPath.LibraryPath)]
+		PushPin,
+	}
+
+	[Native]
+	public enum PSPDFImageSaveMode : long {
+		Flatten = 0,
+		FlattenAndEmbed = 1
+	}
+
+	public enum PSPDFTemplateIdentifier {
+		[Field ("PSPDFTemplateIdentifierBlank", PSPDFKitLibraryPath.LibraryPath)]
+		Blank,
+		[Field ("PSPDFTemplateIdentifierDot5mm", PSPDFKitLibraryPath.LibraryPath)]
+		Dot5mm,
+		[Field ("PSPDFTemplateIdentifierGrid5mm", PSPDFKitLibraryPath.LibraryPath)]
+		Grid5mm,
+		[Field ("PSPDFTemplateIdentifierLines5mm", PSPDFKitLibraryPath.LibraryPath)]
+		Lines5mm,
+		[Field ("PSPDFTemplateIdentifierLines7mm", PSPDFKitLibraryPath.LibraryPath)]
+		Lines7mm,
+		[DefaultEnumValue]
+		[Field (null)]
+		Null,
+	}
+
+	[Native]
+	public enum PSPDFNewPageType : long {
+		EmptyPage,
+		TiledPatternPage,
+		FromDocument,
 	}
 }

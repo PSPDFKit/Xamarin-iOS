@@ -23,14 +23,14 @@ namespace PSPDFCatalog {
 
 			//strong references they would deallocate and syncing would stop.
 			client = new PSPDFInstantClient (NSUrl.FromString (docInfo.ServerUrl), out var err);
-			documentDescriptor = client.GetDocumentDescriptor (docInfo.DocumentId, out var error);
+			documentDescriptor = client.GetDocumentDescriptor (docInfo.Jwt, out var error);
 
 			// Store document code and URL (which also contains the code) for sharing later.
 			documentCode = docInfo.EncodedDocumentId;
 			webUrl = NSUrl.FromString (docInfo.Url);
 
 			// Tell Instant to download the document from web-preview’s PSPDFKit Server instance.
-			documentDescriptor.DownloadDocument (docInfo.Jwt, out var derror);
+			documentDescriptor.Download (docInfo.Jwt, out var _);
 
 			// Get the `PSPDFDocument` from Instant.
 			Document = documentDescriptor.EditableDocument;

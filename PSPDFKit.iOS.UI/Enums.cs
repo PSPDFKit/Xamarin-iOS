@@ -767,7 +767,8 @@ namespace PSPDFKit.UI {
 	public enum PSPDFSelectableCollectionViewCellStyle : ulong {
 		None,
 		Checkmark,
-		Border
+		Border,
+		DimmedBackgroundWithCheckmark,
 	}
 
 	[Native]
