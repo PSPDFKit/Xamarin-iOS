@@ -31,6 +31,10 @@ namespace PSPDFCatalog {
 						var instantExample = new InstantExampleViewController ();
 						NavigationController.PushViewController (instantExample, true);
 					}),
+					new StringElement ("Tabbed Bar", () => {
+						var tabbed = new TabbedExampleViewController ();
+						NavigationController.PushViewController (tabbed, true);
+					}),
 				},
 				new Section ("Annotations"){
 					new StringElement ("Annotations From Code", () => {
