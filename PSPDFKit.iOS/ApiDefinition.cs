@@ -2263,7 +2263,6 @@ namespace PSPDFKit.Core {
 		[Export ("applyInstantJSONFromDataProvider:toDocumentProvider:error:")]
 		bool ApplyInstantJson (IPSPDFDataProviding dataProvider, PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
 
-		[Static]
 		[Export ("generateInstantJSONFromDocumentProvider:error:")]
 		[return: NullAllowed]
 		NSData GenerateInstantJson (PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
