@@ -226,14 +226,6 @@ namespace PSPDFKit.Core {
 		_3D,
 		[Field ("PSPDFAnnotationStringRedact", PSPDFKitLibraryPath.LibraryPath)]
 		Redact,
-		[Field ("PSPDFAnnotationStringInkVariantPen", PSPDFKitLibraryPath.LibraryPath)]
-		InkVariantPen,
-		[Field ("PSPDFAnnotationStringInkVariantHighlighter", PSPDFKitLibraryPath.LibraryPath)]
-		InkVariantHighlighter,
-		[Field ("PSPDFAnnotationStringLineVariantArrow", PSPDFKitLibraryPath.LibraryPath)]
-		LineVariantArrow,
-		[Field ("PSPDFAnnotationStringFreeTextVariantCallout", PSPDFKitLibraryPath.LibraryPath)]
-		FreeTextVariantCallout,
 	}
 
 	[Native]
@@ -913,6 +905,9 @@ namespace PSPDFKit.Core {
 	}
 
 	public enum PSPDFTemplateIdentifier {
+		[DefaultEnumValue]
+		[Field (null)]
+		Null,
 		[Field ("PSPDFTemplateIdentifierBlank", PSPDFKitLibraryPath.LibraryPath)]
 		Blank,
 		[Field ("PSPDFTemplateIdentifierDot5mm", PSPDFKitLibraryPath.LibraryPath)]
@@ -923,9 +918,6 @@ namespace PSPDFKit.Core {
 		Lines5mm,
 		[Field ("PSPDFTemplateIdentifierLines7mm", PSPDFKitLibraryPath.LibraryPath)]
 		Lines7mm,
-		[DefaultEnumValue]
-		[Field (null)]
-		Null,
 	}
 
 	[Native]
@@ -933,5 +925,41 @@ namespace PSPDFKit.Core {
 		EmptyPage,
 		TiledPatternPage,
 		FromDocument,
+	}
+
+	public enum PSPDFAnnotationVariantString {
+		[DefaultEnumValue]
+		[Field (null)]
+		Null,
+		[Field ("PSPDFAnnotationVariantStringInkPen", PSPDFKitLibraryPath.LibraryPath)]
+		InkPen,
+		[Field ("PSPDFAnnotationVariantStringInkHighlighter", PSPDFKitLibraryPath.LibraryPath)]
+		InkHighlighter,
+		[Field ("PSPDFAnnotationVariantStringLineArrow", PSPDFKitLibraryPath.LibraryPath)]
+		LineArrow,
+		[Field ("PSPDFAnnotationVariantStringFreeTextCallout", PSPDFKitLibraryPath.LibraryPath)]
+		FreeTextCallout,
+	}
+
+	public enum PSPDFAnnotationStateVariantId {
+		[DefaultEnumValue]
+		[Field (null)]
+		Null,
+		[Field ("PSPDFAnnotationStateVariantIDMake", PSPDFKitLibraryPath.LibraryPath)]
+		Make,
+	}
+
+	[Native]
+	public enum PSPDFJavaScriptStatus : long {
+		Disabled,
+		Enabled,
+		EnabledDoNotDisturb,
+	}
+
+	[Native]
+	public enum PSPDFDocumentPermissionsLevel : ulong {
+		None = 0,
+		User,
+		Owner,
 	}
 }

@@ -78,7 +78,7 @@ namespace PSPDFKit.Core {
 	}
 
 	public partial class PSPDFAnnotationGroupItem {
-		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFAnnotationStateVariantIdentifier")]
+		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFAnnotationStateVariantIDMake")]
 		private static extern IntPtr _VariantIdentifier (IntPtr state, IntPtr variant);
 
 		public static NSString GetStateVariantIdentifier (NSString state, NSString variant)
@@ -88,14 +88,14 @@ namespace PSPDFKit.Core {
 				variant == null ? IntPtr.Zero : variant.Handle));
 		}
 
-		public static PSPDFAnnotationString GetStateVariantIdentifier (PSPDFAnnotationString annotationType, PSPDFAnnotationString annotationVariant)
+		public static PSPDFAnnotationStateVariantId GetStateVariantIdentifier (PSPDFAnnotationString annotationType, PSPDFAnnotationVariantString annotationVariant)
 		{
-			return PSPDFAnnotationStringExtensions.GetValue (GetStateVariantIdentifier (annotationType.GetConstant (), annotationVariant.GetConstant ()));
+			return PSPDFAnnotationStateVariantIdExtensions.GetValue (GetStateVariantIdentifier (annotationType.GetConstant (), annotationVariant.GetConstant ()));
 		}
 
-		public static PSPDFAnnotationString GetStateVariantIdentifier (PSPDFAnnotationString annotationType)
+		public static PSPDFAnnotationStateVariantId GetStateVariantIdentifier (PSPDFAnnotationString annotationType)
 		{
-			return PSPDFAnnotationStringExtensions.GetValue (GetStateVariantIdentifier (annotationType.GetConstant (), null));
+			return PSPDFAnnotationStateVariantIdExtensions.GetValue (GetStateVariantIdentifier (annotationType.GetConstant (), null));
 		}
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFAnnotationStateFromStateVariantIdentifier")]

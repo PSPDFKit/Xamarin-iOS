@@ -154,7 +154,7 @@ namespace MacPdfViewer {
 			builder.AppendLine ($"Annotations enabled: {document.AnnotationsEnabled}");
 			builder.AppendLine ($"Bookmarks enabled: {document.BookmarksEnabled}");
 			builder.AppendLine ($"Forms enabled: {document.FormsEnabled}");
-			builder.AppendLine ($"JavaScript enabled: {document.JavaScriptEnabled}");
+			builder.AppendLine ($"IsJavaScriptStatusEnabled enabled: {document.IsJavaScriptStatusEnabled}");
 			builder.AppendLine ();
 
 			builder.AppendLine ("Security");

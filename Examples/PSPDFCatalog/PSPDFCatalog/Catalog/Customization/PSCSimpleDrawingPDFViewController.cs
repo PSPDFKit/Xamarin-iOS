@@ -43,13 +43,13 @@ namespace PSPDFCatalog {
 		void HandleTouchUpInside (object sender, EventArgs e)
 		{
 			AnnotationStateManager.DrawColor = UIColor.Red;
-			AnnotationStateManager.ToggleState (PSPDFAnnotationString.Ink.GetConstant ());
+			AnnotationStateManager.ToggleState (PSPDFAnnotationStringUI.Ink);
 			UpdateDrawButtonAppearance ();
 		}
 
 		void UpdateDrawButtonAppearance ()
 		{
-			if (AnnotationStateManager.State == PSPDFAnnotationString.Ink.GetConstant ())
+			if (AnnotationStateManager.State == PSPDFAnnotationStringUI.Ink)
 				DrawButton.BackgroundColor = UIColor.FromRGBA (0.846f, 1.0f, 0.871f, 1.0f);
 			else
 				DrawButton.BackgroundColor = UIColor.Green;

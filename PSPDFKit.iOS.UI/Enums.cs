@@ -71,14 +71,6 @@ namespace PSPDFKit.UI {
 		_3D,
 		[Field ("PSPDFAnnotationStringRedact", PSPDFKitGlobal.LibraryPath)]
 		Redact,
-		[Field ("PSPDFAnnotationStringInkVariantPen", PSPDFKitGlobal.LibraryPath)]
-		InkVariantPen,
-		[Field ("PSPDFAnnotationStringInkVariantHighlighter", PSPDFKitGlobal.LibraryPath)]
-		InkVariantHighlighter,
-		[Field ("PSPDFAnnotationStringLineVariantArrow", PSPDFKitGlobal.LibraryPath)]
-		LineVariantArrow,
-		[Field ("PSPDFAnnotationStringFreeTextVariantCallout", PSPDFKitGlobal.LibraryPath)]
-		FreeTextVariantCallout,
 
 		// UI
 		[Field ("PSPDFAnnotationStringSelectionTool", PSPDFKitGlobal.LibraryPath)]
@@ -403,6 +395,8 @@ namespace PSPDFKit.UI {
 		Annotations,
 		[Field ("PSPDFDocumentInfoOptionEmbeddedFiles", PSPDFKitGlobal.LibraryPath)]
 		EmbeddedFiles,
+		[Field ("PSPDFDocumentInfoOptionDocumentInfo", PSPDFKitGlobal.LibraryPath)]
+		DocumentInfo,
 	}
 
 	[Native]
@@ -419,7 +413,8 @@ namespace PSPDFKit.UI {
 		RemoveAnnotations = 1 << 11,
 		FlattenAnnotationsForPrint = 1 << 12,
 		OriginalFile = 1 << 16,
-		Image = 1 << 17
+		Image = 1 << 17,
+		ImageWithMetadata = 1 << 18,
 	}
 
 	[Native]
@@ -919,5 +914,21 @@ namespace PSPDFKit.UI {
 		Bookmarks,
 		[Field ("PSPDFThumbnailViewFilterAnnotations", PSPDFKitGlobal.LibraryPath)]
 		Annotations,
+	}
+
+	[Native]
+	public enum PSPDFMarkupAnnotationMergeBehavior : ulong {
+		Never = 0,
+		IfColorMatches,
+	}
+
+	[Native]
+	[Flags]
+	public enum PSPDFDocumentEditorInteractiveCapabilities : ulong {
+		None = 0,
+		ImportPdfs = 1 << 0,
+		ImportImages = 1 << 1,
+		ExportPages = 1 << 2,
+		All = ulong.MaxValue
 	}
 }

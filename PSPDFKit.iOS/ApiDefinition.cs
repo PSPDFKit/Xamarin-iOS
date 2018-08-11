@@ -319,9 +319,6 @@ namespace PSPDFKit.Core {
 		[Export ("boundingBox", ArgumentSemantic.Assign)]
 		CGRect BoundingBox { get; set; }
 
-		[Export ("rotation")]
-		nuint Rotation { get; set; }
-
 		[NullAllowed, Export ("rects", ArgumentSemantic.Copy)]
 		NSValue [] Rects { get; set; }
 
@@ -457,12 +454,20 @@ namespace PSPDFKit.Core {
 		[Static]
 		[Export ("annotationFromInstantJSON:documentProvider:error:")]
 		[return: NullAllowed]
-		PSPDFAnnotation FromInstantJson (NSData instantJson, [NullAllowed] PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+		PSPDFAnnotation FromInstantJson (NSData instantJson, PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
 
-		[Static]
 		[Export ("generateInstantJSONWithError:")]
 		[return: NullAllowed]
 		NSData GenerateInstantJson ([NullAllowed] out NSError error);
+
+		[Export ("hasBinaryInstantJSONAttachment")]
+		bool HasBinaryInstantJsonAttachment { get; }
+
+		[Export ("writeBinaryInstantJSONAttachmentToDataSink:error:")]
+		bool WriteBinaryInstantJsonAttachment (IPSPDFDataSink dataSink, [NullAllowed] out NSError error);
+
+		[Export ("attachBinaryInstantJSONAttachmentFromDataProvider:error:")]
+		bool AttachBinaryInstantJsonAttachment (IPSPDFDataProviding dataProvider, [NullAllowed] out NSError error);
 	}
 
 	[Static]
@@ -527,13 +532,7 @@ namespace PSPDFKit.Core {
 		nuint Choice { get; set; }
 
 		[Export ("updateChoiceToItemWithType:variant:")]
-		bool UpdateChoiceToItem (NSString type, [NullAllowed] NSString variant);
-
-		[Wrap ("UpdateChoiceToItem (annotationType.GetConstant (), null)")]
-		bool UpdateChoiceToItem (PSPDFAnnotationString annotationType);
-
-		[Wrap ("UpdateChoiceToItem (annotationType.GetConstant (), annotationVariant.GetConstant ())")]
-		bool UpdateChoiceToItem (PSPDFAnnotationString annotationType, PSPDFAnnotationString annotationVariant);
+		bool UpdateChoiceToItem ([BindAs (typeof (PSPDFAnnotationString))] NSString type, [BindAs (typeof (PSPDFAnnotationVariantString))] NSString variant);
 	}
 
 	delegate UIImage PSPDFAnnotationGroupItemConfigurationHandler (PSPDFAnnotationGroupItem item, [NullAllowed] NSObject container, UIColor tintColor);
@@ -544,47 +543,27 @@ namespace PSPDFKit.Core {
 
 		[Static]
 		[Export ("itemWithType:")]
-		PSPDFAnnotationGroupItem FromType (NSString type);
-
-		[Static]
-		[Wrap ("FromType (annotationType.GetConstant ())")]
-		PSPDFAnnotationGroupItem FromType (PSPDFAnnotationString annotationType);
+		PSPDFAnnotationGroupItem FromType ([BindAs (typeof (PSPDFAnnotationString))] NSString annotationType);
 
 		[Static]
 		[Export ("itemWithType:variant:")]
-		PSPDFAnnotationGroupItem FromType (NSString type, [NullAllowed] NSString variant);
-
-		[Static]
-		[Wrap ("FromType (annotationType.GetConstant (), annotationVariant.GetConstant ())")]
-		PSPDFAnnotationGroupItem FromType (PSPDFAnnotationString annotationType, PSPDFAnnotationString annotationVariant);
+		PSPDFAnnotationGroupItem FromType ([BindAs (typeof (PSPDFAnnotationString))] NSString annotationType, [NullAllowed] [BindAs (typeof (PSPDFAnnotationVariantString))] NSString annotationVariant);
 
 		[Static]
 		[Export ("itemWithType:variant:configurationBlock:")]
-		PSPDFAnnotationGroupItem FromType (NSString type, [NullAllowed] NSString variant, PSPDFAnnotationGroupItemConfigurationHandler handler);
-
-		[Static]
-		[Wrap ("FromType (annotationType.GetConstant (), annotationVariant.GetConstant (), handler)")]
-		PSPDFAnnotationGroupItem FromType (PSPDFAnnotationString annotationType, PSPDFAnnotationString annotationVariant, PSPDFAnnotationGroupItemConfigurationHandler handler);
-
-		[Static]
-		[Wrap ("FromType (annotationType.GetConstant (), null, handler)")]
-		PSPDFAnnotationGroupItem FromType (PSPDFAnnotationString annotationType, PSPDFAnnotationGroupItemConfigurationHandler handler);
+		PSPDFAnnotationGroupItem FromType ([BindAs (typeof (PSPDFAnnotationString))] NSString annotationType, [NullAllowed] [BindAs (typeof (PSPDFAnnotationVariantString))] NSString annotationVariant, PSPDFAnnotationGroupItemConfigurationHandler handler);
 
 		[Static]
 		[Export ("defaultConfigurationBlock")]
 		PSPDFAnnotationGroupItemConfigurationHandler DefaultConfigurationHandler { get; }
 
+		[BindAs (typeof (PSPDFAnnotationString))]
 		[Export ("type")]
-		NSString WeakType { get; }
+		NSString Type { get; }
 
-		[Wrap ("PSPDFAnnotationStringExtensions.GetValue (WeakType)")]
-		PSPDFAnnotationString Type { get; }
-
+		[BindAs (typeof (PSPDFAnnotationVariantString))]
 		[NullAllowed, Export ("variant")]
-		NSString WeakVariant { get; }
-
-		[Wrap ("PSPDFAnnotationStringExtensions.GetValue (WeakVariant)")]
-		PSPDFAnnotationString Variant { get; }
+		NSString Variant { get; }
 
 		[Export ("configurationBlock", ArgumentSemantic.Copy)]
 		PSPDFAnnotationGroupItemConfigurationHandler ConfigurationHandler { get; }
@@ -1855,8 +1834,8 @@ namespace PSPDFKit.Core {
 		[Export ("fileFormat", ArgumentSemantic.Assign)]
 		PSPDFDiskCacheFileFormat FileFormat { get; set; }
 
-		[Export ("jpegCompression")]
-		nfloat JpegCompression { get; set; }
+		[Export ("compression")]
+		nfloat Compression { get; set; }
 
 		[NullAllowed, Export ("encryptionHelper", ArgumentSemantic.Copy)]
 		PSPDFDiskCacheEncryptionHelper EncryptionHelper { get; set; }
@@ -2058,6 +2037,9 @@ namespace PSPDFKit.Core {
 		[Export ("isLocked")]
 		bool IsLocked { get; }
 
+		[Export ("isUnlockedWithFullAccess")]
+		bool IsUnlockedWithFullAccess { get; }
+
 		[Export ("permissions")]
 		PSPDFDocumentPermissions Permissions { get; }
 
@@ -2092,8 +2074,11 @@ namespace PSPDFKit.Core {
 		[Export ("formsEnabled")]
 		bool FormsEnabled { [Bind ("areFormsEnabled")] get; set; }
 
-		[Export ("javaScriptEnabled")]
-		bool JavaScriptEnabled { [Bind ("isJavaScriptEnabled")] get; set; }
+		[Export ("javaScriptStatus", ArgumentSemantic.Assign)]
+		PSPDFJavaScriptStatus JavaScriptStatus { get; set; }
+
+		[Export ("isJavaScriptStatusEnabled")]
+		bool IsJavaScriptStatusEnabled { get; }
 
 		[NullAllowed, Export ("formParser")]
 		PSPDFFormParser FormParser { get; }
@@ -2388,6 +2373,8 @@ namespace PSPDFKit.Core {
 
 	delegate void PSPDFDocumentEditorSaveHandler ([NullAllowed] PSPDFDocument document, [NullAllowed] NSError error);
 	delegate void PSPDFDocumentEditorImportHandler ([NullAllowed] PSPDFEditingChange [] changes, [NullAllowed] NSError error);
+	delegate void PSPDFDocumentEditorGroupDatesHandler ([BlockCallback] PSPDFDocumentEditorGroupDatesHandlerCompletion response);
+	delegate void PSPDFDocumentEditorGroupDatesHandlerCompletion (bool completed);
 
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDocumentEditor {
@@ -2414,8 +2401,14 @@ namespace PSPDFKit.Core {
 		[Export ("pageSizeForPageAtIndex:")]
 		CGSize GetPageSize (nuint pageIndex);
 
-		[Export ("addPageAt:withConfiguration:")]
-		PSPDFEditingChange [] AddPage (nuint index, PSPDFNewPageConfiguration configuration);
+		[Export ("addPagesInRange:withConfiguration:")]
+		PSPDFEditingChange [] AddPages (NSRange range, PSPDFNewPageConfiguration configuration);
+
+		[Export ("groupUpdates:")]
+		void GroupUpdates (PSPDFDocumentEditorGroupDatesHandler updateHandler);
+
+		[Export ("groupUpdates:completion:")]
+		void GroupUpdates (PSPDFDocumentEditorGroupDatesHandler updateHandler, [NullAllowed] Action<PSPDFEditingChange []> completionHandler);
 
 		[Export ("movePages:to:")]
 		PSPDFEditingChange [] MovePages (NSIndexSet pageIndexes, nuint destination);
@@ -2460,7 +2453,7 @@ namespace PSPDFKit.Core {
 		void ExportPages (NSIndexSet pageIndexes, string path, [NullAllowed] PSPDFDocumentEditorSaveHandler handler);
 
 		[Export ("importPagesTo:fromDocument:withCompletionBlock:queue:")]
-		void ImportPages (nuint index, PSPDFDocument sourceDocument, [NullAllowed] PSPDFDocumentEditorImportHandler handler, DispatchQueue queue);
+		NSProgress ImportPages (nuint index, PSPDFDocument sourceDocument, [NullAllowed] PSPDFDocumentEditorImportHandler handler, [NullAllowed] DispatchQueue queue);
 
 		[Export ("imageForPageAtIndex:size:scale:")]
 		[return: NullAllowed]
@@ -2637,7 +2630,7 @@ namespace PSPDFKit.Core {
 		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
 
-		[Export ("document")]
+		[Export ("document", ArgumentSemantic.Weak)]
 		PSPDFDocument Document { get; }
 
 		[Export ("documentProvider")]
@@ -2695,8 +2688,20 @@ namespace PSPDFKit.Core {
 		[Export ("permissions")]
 		PSPDFDocumentPermissions Permissions { get; }
 
+		[Export ("permissionsLevel")]
+		PSPDFDocumentPermissionsLevel PermissionsLevel { get; }
+
 		[Export ("isEncrypted")]
 		bool IsEncrypted { get; }
+
+		[Export ("isEncryptedWithUserPassword")]
+		bool IsEncryptedWithUserPassword { get; }
+
+		[Export ("isUnlockedWithFullAccess")]
+		bool IsUnlockedWithFullAccess { get; }
+
+		[Export ("isUnlockedWithUserPassword")]
+		bool IsUnlockedWithUserPassword { get; }
 
 		[Export ("isLocked")]
 		bool IsLocked { get; }
@@ -2710,7 +2715,7 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("fileId", ArgumentSemantic.Copy)]
 		NSData FileId { get; }
 
-		[Export ("title")]
+		[Export ("title"), NullAllowed]
 		string Title { get; }
 
 		[Export ("textParserForPageAtIndex:")]
@@ -3632,7 +3637,7 @@ namespace PSPDFKit.Core {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFFreeTextAnnotation {
+	interface PSPDFFreeTextAnnotation : PSPDFRotatable {
 
 		[Field ("PSPDFFreeTextAnnotationIntentTransformerName", PSPDFKitLibraryPath.LibraryPath)]
 		NSString IntentTransformerName { get; }
@@ -4219,6 +4224,12 @@ namespace PSPDFKit.Core {
 		[Export ("libraryWillBeginIndexing:")]
 		void WillBeginIndexing (PSPDFLibrary library);
 
+		[Export ("library:didFinishIndexingDocumentWithUID:success:")]
+		void DidFinishIndexingDocument (PSPDFLibrary library, string documentUid, bool success);
+
+		[Export ("library:didRemoveDocumentWithUID:")]
+		void DidRemoveDocument (PSPDFLibrary library, string documentUid);
+
 		[Abstract]
 		[Export ("uidsOfDocumentsToBeIndexedByLibrary:")]
 		string [] GetUidsOfDocumentsToBeIndexed (PSPDFLibrary library);
@@ -4595,6 +4606,9 @@ namespace PSPDFKit.Core {
 		[Export ("document")]
 		PSPDFDocument Document { get; }
 
+		[Export ("documentProvider")]
+		PSPDFDocumentProvider DocumentProvider { get; }
+
 		[Export ("pageInfo")]
 		PSPDFPageInfo PageInfo { get; }
 
@@ -4852,9 +4866,6 @@ namespace PSPDFKit.Core {
 		[Field ("PSPDFProcessorStripEmptyPagesKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString StripEmptyPagesKey { get; }
 
-		[Field ("PSPDFProcessorSkipPDFCreationKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString SkipPdfCreationKey { get; }
-
 		[Field ("PSPDFProcessorDocumentTitleKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString DocumentTitleKey { get; }
 
@@ -4885,7 +4896,6 @@ namespace PSPDFKit.Core {
 		int NumberOfPages { get; set; }
 		double AdditionalDelay { get; set; }
 		bool StripEmptyPages { get; set; }
-		bool SkipPdfCreation { get; set; }
 		string DocumentTitle { get; set; }
 		bool AllowsCopying { get; set; }
 		bool AllowsPrinting { get; set; }
@@ -5872,7 +5882,7 @@ namespace PSPDFKit.Core {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFStampAnnotation {
+	interface PSPDFStampAnnotation : PSPDFRotatable {
 
 		[Static]
 		[Export ("stampColorForSubject:")]
@@ -6625,5 +6635,13 @@ namespace PSPDFKit.Core {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFRetainExistingAppearanceStreamGenerator : PSPDFAppearanceStreamGenerating {
 
+	}
+
+	[Protocol]
+	interface PSPDFRotatable {
+
+		[Abstract]
+		[Export ("rotation")]
+		nuint Rotation { get; set; }
 	}
 }
