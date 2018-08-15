@@ -29,6 +29,9 @@ namespace PSPDFCatalog {
 			documentCode = docInfo.EncodedDocumentId;
 			webUrl = NSUrl.FromString (docInfo.Url);
 
+			// Remove local storage before downloading in case the app crashed and we didn't remove it `ViewDidDisappear`.
+			documentDescriptor.RemoveLocalStorage(out var localStorageError);
+
 			// Tell Instant to download the document from web-preview’s PSPDFKit Server instance.
 			documentDescriptor.Download (docInfo.Jwt, out var _);
 
