@@ -62,23 +62,13 @@ namespace PSPDFCatalog {
 			}
 		}
 
-		protected override void Dispose (bool disposing)
+		public override void ViewDidDisappear(bool animated)
 		{
-			if (disposing) {
-				// Since this demo is ephemeral, clean up immediately.
-				// Note that this also cancels syncing that is in-progress.
-				documentDescriptor.RemoveLocalStorage (out var error);
-			}
-			base.Dispose (disposing);
+			base.ViewDidDisappear(animated);
+
+			// Since this demo is ephemeral, clean up immediately.
+			// Note that this also cancels syncing that is in-progress.
+			documentDescriptor.RemoveLocalStorage(out var error);
 		}
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-
-            // Since this demo is ephemeral, clean up immediately.
-            // Note that this also cancels syncing that is in-progress.
-            documentDescriptor.RemoveLocalStorage(out var error);
-        }
 	}
 }
