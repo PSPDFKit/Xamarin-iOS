@@ -71,5 +71,14 @@ namespace PSPDFCatalog {
 			}
 			base.Dispose (disposing);
 		}
+
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+
+            // Since this demo is ephemeral, clean up immediately.
+            // Note that this also cancels syncing that is in-progress.
+            documentDescriptor.RemoveLocalStorage(out var error);
+        }
 	}
 }
