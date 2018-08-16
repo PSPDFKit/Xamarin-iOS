@@ -23,6 +23,10 @@ namespace PSPDFCatalog {
 
 			//strong references they would deallocate and syncing would stop.
 			client = new PSPDFInstantClient (NSUrl.FromString (docInfo.ServerUrl), out var err);
+
+			// Remove local storage before downloading in case the app crashed and we didn't remove it `ViewDidDisappear`.
+			client.RemoveLocalStorage(out var localStorageError);
+
 			documentDescriptor = client.GetDocumentDescriptor (docInfo.Jwt, out var error);
 
 			// Store document code and URL (which also contains the code) for sharing later.
