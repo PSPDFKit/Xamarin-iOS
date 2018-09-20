@@ -430,4 +430,20 @@ namespace PSPDFKit.Core {
 				InitializeHandle (InitWithDocument (document, sourcePageIndex));
 		}
 	}
+
+	public partial class PSPDFRenderRequest {
+		public virtual PSPDFRenderOptions Options {
+			get => new PSPDFRenderOptions (WeakOptions);
+
+			[NotImplemented (@"Only available on PSPDFMutableRenderRequest")]
+			set => throw new NotImplementedException ("Only available on PSPDFMutableRenderRequest");
+		}
+	}
+
+	public partial class PSPDFMutableRenderRequest {
+		public override PSPDFRenderOptions Options {
+			get => new PSPDFRenderOptions (WeakOptions);
+			set => WeakOptions = value?.Dictionary;
+		}
+	}
 }

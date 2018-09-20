@@ -5232,7 +5232,7 @@ namespace PSPDFKit.Core {
 		PSPDFAnnotation [] Annotations { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
 
 		[Export ("options", ArgumentSemantic.Copy)]
-		NSDictionary Options { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
+		NSDictionary WeakOptions { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
 
 		[Export ("userInfo", ArgumentSemantic.Copy)]
 		NSDictionary UserInfo { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
@@ -5270,13 +5270,97 @@ namespace PSPDFKit.Core {
 		PSPDFAnnotation [] Annotations { get; set; }
 
 		[Export ("options", ArgumentSemantic.Copy), Override]
-		NSDictionary Options { get; set; }
+		NSDictionary WeakOptions { get; set; }
 
 		[Export ("cachePolicy", ArgumentSemantic.Assign), Override]
 		PSPDFRenderRequestCachePolicy CachePolicy { get; set; }
 
 		[Export ("userInfo", ArgumentSemantic.Copy), Override]
 		NSDictionary UserInfo { get; set; }
+	}
+
+	[Static]
+	interface PSPDFRenderOptionsKeys {
+
+		[Field ("PSPDFRenderOptionPreserveAspectRatioKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString PreserveAspectRatioKey { get; }
+
+		[Field ("PSPDFRenderOptionIgnoreDisplaySettingsKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString IgnoreDisplaySettingsKey { get; }
+
+		[Field ("PSPDFRenderOptionPageColorKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString PageColorKey { get; }
+
+		[Field ("PSPDFRenderOptionInvertedKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString InvertedKey { get; }
+
+		[Field ("PSPDFRenderOptionFiltersKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString FiltersKey { get; }
+
+		[Field ("PSPDFRenderOptionInterpolationQualityKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString InterpolationQualityKey { get; }
+
+		[Field ("PSPDFRenderOptionSkipPageContentKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString SkipPageContentKey { get; }
+
+		[Field ("PSPDFRenderOptionOverlayAnnotationsKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString OverlayAnnotationsKey { get; }
+
+		[Field ("PSPDFRenderOptionSkipAnnotationArrayKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString SkipAnnotationsKey { get; }
+
+		[Field ("PSPDFRenderOptionIgnorePageClipKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString IgnorePageClipKey { get; }
+
+		[Field ("PSPDFRenderOptionAllowAntiAliasingKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString AllowAntiAliasingKey { get; }
+
+		[Field ("PSPDFRenderOptionBackgroundFillColorKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString BackgroundFillColorKey { get; }
+
+		[Field ("PSPDFRenderOptionTextRenderingUseCoreGraphicsKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString TextRenderingUseCoreGraphicsKey { get; }
+
+		[Field ("PSPDFRenderOptionTextRenderingClearTypeEnabledKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString TextRenderingClearTypeEnabledKey { get; }
+
+		[Field ("PSPDFRenderOptionInteractiveFormFillColorKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString InteractiveFormFillColorKey { get; }
+
+		[Field ("PSPDFRenderOptionDrawBlockKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString DrawHandlerKey { get; }
+
+		[Field ("PSPDFRenderOptionDrawSignHereOverlay", PSPDFKitLibraryPath.LibraryPath)]
+		NSString DrawSignHereOverlayKey { get; }
+
+#if __IOS__
+		[Field ("PSPDFRenderOptionCIFilterKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString CIFiltersKey { get; }
+#endif
+	}
+
+	[StrongDictionary ("PSPDFRenderOptionsKeys")]
+	interface PSPDFRenderOptions {
+		bool PreserveAspectRatio { get; set; }
+		bool IgnoreDisplaySettings { get; set; }
+		UIColor PageColor { get; set; }
+		bool Inverted { get; set; }
+		uint Filters { get; set; }
+		NSNumber InterpolationQuality { get; set; }
+		bool SkipPageContent { get; set; }
+		bool OverlayAnnotations { get; set; }
+		PSPDFAnnotation [] SkipAnnotations { get; set; }
+		bool IgnorePageClip { get; set; }
+		bool AllowAntiAliasing { get; set; }
+		UIColor BackgroundFillColor { get; set; }
+		bool TextRenderingUseCoreGraphics { get; set; }
+		bool TextRenderingClearTypeEnabled { get; set; }
+		UIColor InteractiveFormFillColor { get; set; }
+		bool DrawSignHereOverlay { get; set; }
+#if __IOS__
+		[Advice ("This can be a 'CIFilter' or an 'NSArray<CIFilter>'.")]
+		NSObject CIFilters { get; set; }
+#endif
 	}
 
 	interface IPSPDFRenderTaskDelegate { }
