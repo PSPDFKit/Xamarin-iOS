@@ -2149,19 +2149,34 @@ namespace PSPDFKit.Core {
 
 		[Export ("imageForPageAtIndex:size:clippedToRect:annotations:options:error:")]
 		[return: NullAllowed]
-		UIImage GetImage (nuint pageIndex, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary<NSString, NSObject> options, [NullAllowed] out NSError error);
+		UIImage GetImage (nuint pageIndex, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary dictOptions, [NullAllowed] out NSError error);
+
+		[Wrap ("GetImage (pageIndex, size, clipRect, annotations, options?.Dictionary, out error)")]
+		UIImage GetImage (nuint pageIndex, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] PSPDFRenderOptions options, [NullAllowed] out NSError error);
 
 		[Export ("renderPageAtIndex:context:size:clippedToRect:annotations:options:error:")]
-		bool RenderPage (nuint pageIndex, CGContext context, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary<NSString, NSObject> options, [NullAllowed] out NSError error);
+		bool RenderPage (nuint pageIndex, CGContext context, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary dictOptions, [NullAllowed] out NSError error);
+
+		[Wrap ("RenderPage (pageIndex, context, size, clipRect, annotations, options?.Dictionary, out error)")]
+		bool RenderPage (nuint pageIndex, CGContext context, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] PSPDFRenderOptions options, [NullAllowed] out NSError error);
 
 		[Export ("setRenderOptions:type:")]
-		void SetRenderOptions ([NullAllowed] NSDictionary<NSString, NSObject> options, PSPDFRenderType type);
+		void SetRenderOptions ([NullAllowed] NSDictionary dictOptions, PSPDFRenderType type);
+
+		[Wrap ("SetRenderOptions (options?.Dictionary, type)")]
+		void SetRenderOptions ([NullAllowed] PSPDFRenderOptions options, PSPDFRenderType type);
 
 		[Export ("updateRenderOptions:type:")]
-		void UpdateRenderOptions (NSDictionary<NSString, NSObject> options, PSPDFRenderType type);
+		void UpdateRenderOptions (NSDictionary dictOptions, PSPDFRenderType type);
+
+		[Wrap ("UpdateRenderOptions (options?.Dictionary, type)")]
+		void UpdateRenderOptions (PSPDFRenderOptions options, PSPDFRenderType type);
 
 		[Export ("renderOptionsForType:context:")]
-		NSDictionary<NSString, NSObject> GetRenderOptions (PSPDFRenderType type, [NullAllowed] NSObject context);
+		NSDictionary GetRenderOptionsDict (PSPDFRenderType type, [NullAllowed] NSObject context);
+
+		[Wrap ("new PSPDFRenderOptions (GetRenderOptionsDict (type, context))")]
+		PSPDFRenderOptions GetRenderOptions (PSPDFRenderType type, [NullAllowed] NSObject context);
 
 		[Export ("renderAnnotationTypes", ArgumentSemantic.Assign)]
 		PSPDFAnnotationType RenderAnnotationTypes { get; set; }
