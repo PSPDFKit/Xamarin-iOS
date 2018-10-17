@@ -9,10 +9,7 @@ namespace PSPDFCatalog {
 	public class TabbedExampleViewController : PSPDFTabbedViewController, IPSPDFTabbedViewControllerDelegate {
 		public UIBarButtonItem ClearTabsButtonItem { get; set; }
 
-		public TabbedExampleViewController ()
-		{
-			Title = "Tabbed Bar";
-		}
+		public TabbedExampleViewController () => Title = "Tabbed Bar";
 
 		public override void CommonInit (PSPDFViewController pdfController)
 		{
@@ -20,8 +17,13 @@ namespace PSPDFCatalog {
 
 			pdfController = PdfController;
 			Delegate = this;
+
+			var sharingConfiguration = PSPDFDocumentSharingConfiguration.FromConfigurationBuilder ((builder) => {
+				builder.ApplicationActivitiesAsTypes = new [] { PSPDFActivityType.OpenIn, PSPDFActivityType.Message, PSPDFActivityType.AirDrop };
+			});
+
 			pdfController.UpdateConfiguration (builder => {
-				builder.ApplicationActivitiesAsTypes = new [] { PSPDFActivityType.Search, PSPDFActivityType.OpenIn, PSPDFActivityType.Bookmarks };
+				builder.SharingConfigurations = new[] { sharingConfiguration };
 			});
 
 			NavigationItem.LeftItemsSupplementBackButton = true;

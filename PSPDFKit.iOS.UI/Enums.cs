@@ -51,6 +51,8 @@ namespace PSPDFKit.UI {
 		Sound,
 		[Field ("PSPDFAnnotationStringImage", PSPDFKitGlobal.LibraryPath)]
 		Image,
+		[Field ("PSPDFAnnotationStringRedaction", PSPDFKitGlobal.LibraryPath)]
+		Redaction,
 		[Field ("PSPDFAnnotationStringWidget", PSPDFKitGlobal.LibraryPath)]
 		Widget,
 		[Field ("PSPDFAnnotationStringFile", PSPDFKitGlobal.LibraryPath)]
@@ -69,8 +71,6 @@ namespace PSPDFKit.UI {
 		TrapNet,
 		[Field ("PSPDFAnnotationString3D", PSPDFKitGlobal.LibraryPath)]
 		_3D,
-		[Field ("PSPDFAnnotationStringRedact", PSPDFKitGlobal.LibraryPath)]
-		Redact,
 
 		// UI
 		[Field ("PSPDFAnnotationStringSelectionTool", PSPDFKitGlobal.LibraryPath)]
@@ -102,12 +102,6 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
-	public enum PSPDFBackButtonStyle : ulong {
-		Flat,
-		Modern
-	}
-
-	[Native]
 	public enum PSPDFBookmarkIndicatorImageType : long {
 		Large,
 		Medium,
@@ -136,61 +130,53 @@ namespace PSPDFKit.UI {
 		PageBackgrounds
 	}
 
-	public enum PSPDFActivityType {
-		[DefaultEnumValue]
-		[Field (null)]
-		Null,
-		[Field ("PSPDFActivityTypeGoToPage", PSPDFKitGlobal.LibraryPath)]
-		GoToPage,
-		[Field ("PSPDFActivityTypeSearch", PSPDFKitGlobal.LibraryPath)]
-		Search,
-		[Field ("PSPDFActivityTypeOutline", PSPDFKitGlobal.LibraryPath)]
-		Outline,
-		[Field ("PSPDFActivityTypeBookmarks", PSPDFKitGlobal.LibraryPath)]
-		Bookmarks,
-		[Field ("PSPDFActivityTypeOpenIn", PSPDFKitGlobal.LibraryPath)]
-		OpenIn,
-		// TODO: This needs a generator fix
-		//[Field ("UIActivityTypePostToFacebook", Constants.UIKitLibrary)]
-		//PostToFacebook,
-		//[Field ("UIActivityTypePostToTwitter", Constants.UIKitLibrary)]
-		//PostToTwitter,
-		//[Field ("UIActivityTypePostToWeibo", Constants.UIKitLibrary)]
-		//PostToWeibo,
-		//[Field ("UIActivityTypeMessage", Constants.UIKitLibrary)]
-		//Message,
-		//[Field ("UIActivityTypeMail", Constants.UIKitLibrary)]
-		//Mail,
-		//[Field ("UIActivityTypePrint", Constants.UIKitLibrary)]
-		//Print,
-		//[Field ("UIActivityTypeCopyToPasteboard", Constants.UIKitLibrary)]
-		//CopyToPasteboard,
-		//[Field ("UIActivityTypeAssignToContact", Constants.UIKitLibrary)]
-		//AssignToContact,
-		//[Field ("UIActivityTypeSaveToCameraRoll", Constants.UIKitLibrary)]
-		//SaveToCameraRoll,
-		//[Field ("UIActivityTypeAddToReadingList", Constants.UIKitLibrary)]
-		//AddToReadingList,
-		//[Field ("UIActivityTypePostToFlickr", Constants.UIKitLibrary)]
-		//PostToFlickr,
-		//[Field ("UIActivityTypePostToVimeo", Constants.UIKitLibrary)]
-		//PostToVimeo,
-		//[Field ("UIActivityTypePostToTencentWeibo", Constants.UIKitLibrary)]
-		//PostToTencentWeibo,
-		//[Field ("UIActivityTypeAirDrop", Constants.UIKitLibrary)]
-		//AirDrop,
-		//[Field ("UIActivityTypeOpenInIBooks", Constants.UIKitLibrary)]
-		//OpenInIBooks,
-		//[Field ("UIActivityTypeMarkupAsPDF", Constants.UIKitLibrary)]
-		//MarkupAsPdf,
-	}
+	// TODO: See Helpers/PSPDFActivityType.cs, manually bound due to a generator bug
+	//public enum PSPDFActivityType {
+	//	[DefaultEnumValue]
+	//	[Field (null)]
+	//	Null,
+	//	[Field ("PSPDFActivityTypeOpenIn", PSPDFKitGlobal.LibraryPath)]
+	//	OpenIn,
+	//	// TODO: This needs a generator fix
+	//	[Field ("UIActivityTypePostToFacebook", Constants.UIKitLibrary)]
+	//	PostToFacebook,
+	//	[Field ("UIActivityTypePostToTwitter", Constants.UIKitLibrary)]
+	//	PostToTwitter,
+	//	[Field ("UIActivityTypePostToWeibo", Constants.UIKitLibrary)]
+	//	PostToWeibo,
+	//	[Field ("UIActivityTypeMessage", Constants.UIKitLibrary)]
+	//	Message,
+	//	[Field ("UIActivityTypeMail", Constants.UIKitLibrary)]
+	//	Mail,
+	//	[Field ("UIActivityTypePrint", Constants.UIKitLibrary)]
+	//	Print,
+	//	[Field ("UIActivityTypeCopyToPasteboard", Constants.UIKitLibrary)]
+	//	CopyToPasteboard,
+	//	[Field ("UIActivityTypeAssignToContact", Constants.UIKitLibrary)]
+	//	AssignToContact,
+	//	[Field ("UIActivityTypeSaveToCameraRoll", Constants.UIKitLibrary)]
+	//	SaveToCameraRoll,
+	//	[Field ("UIActivityTypeAddToReadingList", Constants.UIKitLibrary)]
+	//	AddToReadingList,
+	//	[Field ("UIActivityTypePostToFlickr", Constants.UIKitLibrary)]
+	//	PostToFlickr,
+	//	[Field ("UIActivityTypePostToVimeo", Constants.UIKitLibrary)]
+	//	PostToVimeo,
+	//	[Field ("UIActivityTypePostToTencentWeibo", Constants.UIKitLibrary)]
+	//	PostToTencentWeibo,
+	//	[Field ("UIActivityTypeAirDrop", Constants.UIKitLibrary)]
+	//	AirDrop,
+	//	[Field ("UIActivityTypeOpenInIBooks", Constants.UIKitLibrary)]
+	//	OpenInIBooks,
+	//	[Field ("UIActivityTypeMarkupAsPDF", Constants.UIKitLibrary)]
+	//	MarkupAsPdf,
+	//}
 
 	[Native]
 	public enum PSPDFPageTransition : ulong {
 		ScrollPerSpread,
 		ScrollContinuous,
 		Curl,
-		ScrollPerPage = ScrollPerSpread
 	}
 
 	[Native]
@@ -243,6 +229,7 @@ namespace PSPDFKit.UI {
 		Define = 1 << 1,
 		Wikipedia = 1 << 2,
 		Speak = 1 << 3,
+		Share = 1 << 4,
 		All = ulong.MaxValue
 	}
 
@@ -353,7 +340,7 @@ namespace PSPDFKit.UI {
 	[Flags]
 	public enum PSPDFSignatureBiometricPropertiesOption : ulong {
 		None = 0,
-		Pressue = 1 << 0,
+		Pressure = 1 << 0,
 		TimePoints = 1 << 1,
 		TouchRadius = 1 << 2,
 		InputMethod = 1 << 3,
@@ -367,20 +354,6 @@ namespace PSPDFKit.UI {
 		Default,
 		Error,
 		Locked
-	}
-
-	public enum PSPDFDocumentAction {
-		[DefaultEnumValue]
-		[Field (null)]
-		Null,
-		[Field ("PSPDFDocumentActionPrint", PSPDFKitGlobal.LibraryPath)]
-		Print,
-		[Field ("PSPDFDocumentActionEmail", PSPDFKitGlobal.LibraryPath)]
-		Email,
-		[Field ("PSPDFDocumentActionOpenIn", PSPDFKitGlobal.LibraryPath)]
-		OpenIn,
-		[Field ("PSPDFDocumentActionMessage", PSPDFKitGlobal.LibraryPath)]
-		Message,
 	}
 
 	public enum PSPDFDocumentInfoOption {
@@ -397,24 +370,6 @@ namespace PSPDFKit.UI {
 		EmbeddedFiles,
 		[Field ("PSPDFDocumentInfoOptionDocumentInfo", PSPDFKitGlobal.LibraryPath)]
 		DocumentInfo,
-	}
-
-	[Native]
-	[Flags]
-	public enum PSPDFDocumentSharingOptions : ulong {
-		None = 0,
-		CurrentPageOnly = 1 << 0,
-		PageRange = 1 << 1,
-		AllPages = 1 << 2,
-		AnnotatedPages = 1 << 4,
-		EmbedAnnotations = 1 << 8,
-		FlattenAnnotations = 1 << 9,
-		AnnotationsSummary = 1 << 10,
-		RemoveAnnotations = 1 << 11,
-		FlattenAnnotationsForPrint = 1 << 12,
-		OriginalFile = 1 << 16,
-		Image = 1 << 17,
-		ImageWithMetadata = 1 << 18,
 	}
 
 	[Native]
@@ -592,7 +547,9 @@ namespace PSPDFKit.UI {
 		[Field ("PSPDFTextMenuSpeak", PSPDFKitGlobal.LibraryPath)]
 		Speak,
 		[Field ("PSPDFTextMenuPause", PSPDFKitGlobal.LibraryPath)]
-		Pause
+		Pause,
+		[Field ("PSPDFTextMenuShare", PSPDFKitGlobal.LibraryPath)]
+		Share,
 	}
 
 	public enum PSPDFAnnotationMenu {
@@ -641,6 +598,8 @@ namespace PSPDFKit.UI {
 		Strikeout,
 		[Field ("PSPDFAnnotationMenuSquiggle", PSPDFKitGlobal.LibraryPath)]
 		Squiggle,
+		[Field ("PSPDFAnnotationMenuRedaction", PSPDFKitGlobal.LibraryPath)]
+		Redaction,
 		[Field ("PSPDFAnnotationMenuThickness", PSPDFKitGlobal.LibraryPath)]
 		Thickness,
 		[Field ("PSPDFAnnotationMenuPlay", PSPDFKitGlobal.LibraryPath)]
@@ -769,13 +728,13 @@ namespace PSPDFKit.UI {
 	[Native]
 	[Flags]
 	public enum PSPDFSettingsOptions : ulong {
-		None = 0,
 		ScrollDirection = 1 << 0,
 		PageTransition = 1 << 1,
 		Appearance = 1 << 2,
 		Brightness = 1 << 3,
 		PageMode = 1 << 4,
-		Default = ScrollDirection | PageTransition | Appearance | Brightness,
+		SpreadFitting = 1 << 5,
+		Default = ScrollDirection | PageTransition | SpreadFitting | Appearance | Brightness,
 		All = ulong.MaxValue
 	}
 
@@ -854,13 +813,6 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
-	public enum PSPDFThumbnailFlowLayoutAttributesType : long {
-		Single = PSPDFDocumentViewLayoutPageMode.Single,
-		Leading = PSPDFDocumentViewLayoutPageMode.Leading,
-		Trailing = PSPDFDocumentViewLayoutPageMode.Trailing
-	}
-
-	[Native]
 	public enum PSPDFThumbnailFlowLayoutLineAlignment : long {
 		Left,
 		Center,
@@ -930,5 +882,60 @@ namespace PSPDFKit.UI {
 		ImportImages = 1 << 1,
 		ExportPages = 1 << 2,
 		All = ulong.MaxValue
+	}
+
+	[Native]
+	public enum PSPDFButtonStyle : ulong {
+		Flat,
+		Modern,
+	}
+
+	[Native]
+	public enum PSPDFDocumentSharingStep : ulong {
+		Configuration,
+		Destination,
+	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFDocumentSharingFileFormatOptions : ulong {
+		Pdf = 1uL << 0,
+		Original = 1uL << 1,
+		Image = 1uL << 2,
+	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFDocumentSharingPagesOptions : ulong {
+		Current = 1uL << 0,
+		Range = 1uL << 1,
+		All = 1uL << 2,
+		Annotated = 1uL << 3,
+	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFDocumentSharingAnnotationOptions : ulong {
+		Embed = 1uL << 0,
+		Flatten = 1uL << 1,
+		FlattenForPrint = 1uL << 2,
+		Summary = 1uL << 3,
+		Remove = 1uL << 4,
+	}
+
+	public enum PSPDFDocumentSharingDestination {
+		[DefaultEnumValue]
+		[Field ("PSPDFDocumentSharingDestinationPrint", PSPDFKitGlobal.LibraryPath)]
+		Print,
+		[Field ("PSPDFDocumentSharingDestinationExport", PSPDFKitGlobal.LibraryPath)]
+		Export,
+		[Field ("PSPDFDocumentSharingDestinationActivity", PSPDFKitGlobal.LibraryPath)]
+		Activity,
+		[Field ("PSPDFDocumentSharingDestinationMessages", PSPDFKitGlobal.LibraryPath)]
+		Messages,
+		[Field ("PSPDFDocumentSharingDestinationEmail", PSPDFKitGlobal.LibraryPath)]
+		Email,
+		[Field ("PSPDFDocumentSharingDestinationOtherApplication", PSPDFKitGlobal.LibraryPath)]
+		OtherApplication,
 	}
 }

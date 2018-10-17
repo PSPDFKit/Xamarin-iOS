@@ -249,32 +249,32 @@ namespace PSPDFKit.Core {
 			_BoundingBoxFromLines (lines.Handle, lineWidth);
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertViewLinesToPDFLines")]
-		static extern IntPtr _ConvertViewLinesToPDFLines (IntPtr lines, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern IntPtr _ConvertViewLinesToPDFLines (IntPtr lines, IntPtr pageInfo, CGRect viewBounds);
 
-		public static NSArray<NSValue> [] ConvertViewLinesToPdfLines (NSArray<NSValue> [] lines, CGRect cropBox, nuint rotation, CGRect bounds)
+		public static NSArray<NSValue> [] ConvertViewLinesToPdfLines (NSArray<NSValue> [] lines, PSPDFPageInfo pageInfo, CGRect viewBounds)
 		{
 			var arr = NSArray.FromNSObjects (lines);
-			var ret = _ConvertViewLinesToPDFLines (arr.Handle, cropBox, rotation, bounds);
+			var ret = _ConvertViewLinesToPDFLines (arr.Handle, pageInfo.Handle, viewBounds);
 			return NSArray.ArrayFromHandle<NSArray<NSValue>> (ret);
 		}
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertViewLineToPDFLines")]
-		static extern IntPtr _ConvertViewLineToPDFLines (IntPtr line, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern IntPtr _ConvertViewLineToPDFLines (IntPtr line, IntPtr pageInfo, CGRect bounds);
 
-		public static NSValue [] ConvertViewLineToPdfLines (NSValue [] line, CGRect cropBox, nuint rotation, CGRect bounds)
+		public static NSValue [] ConvertViewLineToPdfLines (NSValue [] line, PSPDFPageInfo pageInfo, CGRect bounds)
 		{
 			var arr = NSArray.FromNSObjects (line);
-			var ret = _ConvertViewLineToPDFLines (arr.Handle, cropBox, rotation, bounds);
+			var ret = _ConvertViewLineToPDFLines (arr.Handle, pageInfo.Handle, bounds);
 			return NSArray.ArrayFromHandle<NSValue> (ret);
 		}
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertPDFLinesToViewLines")]
-		static extern IntPtr _ConvertPDFLinesToViewLines (IntPtr lines, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern IntPtr _ConvertPDFLinesToViewLines (IntPtr lines, IntPtr pageInfo, CGRect viewBounds);
 
-		public static NSArray<NSValue> [] ConvertPdfLinesToViewLines (NSArray<NSValue> [] lines, CGRect cropBox, nuint rotation, CGRect bounds)
+		public static NSArray<NSValue> [] ConvertPdfLinesToViewLines (NSArray<NSValue> [] lines, PSPDFPageInfo pageInfo, CGRect viewBounds)
 		{
 			var arr = NSArray.FromNSObjects (lines);
-			var ret = _ConvertPDFLinesToViewLines (arr.Handle, cropBox, rotation, bounds);
+			var ret = _ConvertPDFLinesToViewLines (arr.Handle, pageInfo.Handle, viewBounds);
 			return NSArray.ArrayFromHandle<NSArray<NSValue>> (ret);
 		}
 	}
@@ -360,16 +360,24 @@ namespace PSPDFKit.Core {
 		public static readonly nuint PageNull = nuint.MaxValue;
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertViewPointToPDFPoint")]
-		public static extern CGPoint ConvertViewPointToPdfPoint (CGPoint viewPoint, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern CGPoint _ConvertViewPointToPdfPoint (CGPoint viewPoint, IntPtr pageInfo, CGRect bounds);
+
+		public static CGPoint ConvertViewPointToPdfPoint (CGPoint viewPoint, PSPDFPageInfo pageInfo, CGRect viewBounds) => _ConvertViewPointToPdfPoint (viewPoint, pageInfo.Handle, viewBounds);
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertPDFPointToViewPoint")]
-		public static extern CGPoint ConvertPdfPointToViewPoint (CGPoint pdfPoint, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern CGPoint _ConvertPdfPointToViewPoint (CGPoint pdfPoint, IntPtr pageInfo, CGRect bounds);
+
+		public static CGPoint ConvertPdfPointToViewPoint (CGPoint pdfPoint, PSPDFPageInfo pageInfo, CGRect viewBounds) => _ConvertPdfPointToViewPoint (pdfPoint, pageInfo.Handle, viewBounds);
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertPDFRectToViewRect")]
-		public static extern CGRect ConvertPdfRectToViewRect (CGRect pdfRect, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern CGRect _ConvertPdfRectToViewRect (CGRect pdfRect, IntPtr pageInfo, CGRect viewBounds);
+
+		public static CGRect ConvertPdfRectToViewRect (CGRect pdfRect, PSPDFPageInfo pageInfo, CGRect viewBounds) => _ConvertPdfRectToViewRect (pdfRect, pageInfo.Handle, viewBounds);
 
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFConvertViewRectToPDFRect")]
-		public static extern CGRect ConvertViewRectToPdfRect (CGRect viewRect, CGRect cropBox, nuint rotation, CGRect bounds);
+		static extern CGRect _ConvertViewRectToPdfRect (CGRect viewRect, IntPtr pageInfo, CGRect viewBounds);
+
+		public static CGRect ConvertViewRectToPdfRect (CGRect viewRect, PSPDFPageInfo pageInfo, CGRect viewBounds) => _ConvertViewRectToPdfRect (viewRect, pageInfo.Handle, viewBounds);
 	}
 
 	public partial class PSPDFProcessor : NSObject {

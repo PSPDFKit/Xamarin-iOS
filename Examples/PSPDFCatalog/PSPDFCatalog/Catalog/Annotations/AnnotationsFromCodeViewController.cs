@@ -24,7 +24,7 @@ namespace PSPDFCatalog {
 			uint targetPage = 0;
 			var pageInfo = Document.GetPageInfo (targetPage);
 			CGRect viewRect = UIScreen.MainScreen.Bounds;
-			var maxHeight = pageInfo.RotatedRect.Size.Height;
+			var maxHeight = pageInfo.Size.Height;
 			for (int i = 0; i < 5; i++) {
 				var note = new PSPDFNoteAnnotation {
 					// width/height will be ignored for note annotations.
@@ -49,7 +49,7 @@ namespace PSPDFCatalog {
 		   	);
 			var lines = new NSArray<NSValue> [] { linesArr };
 
-			inkAnnot.Lines = PSPDFInkAnnotation.ConvertViewLinesToPdfLines (lines, pageInfo.Rect, pageInfo.Rotation, viewRect);
+			inkAnnot.Lines = PSPDFInkAnnotation.ConvertViewLinesToPdfLines (lines, pageInfo, viewRect);
 			inkAnnot.LineWidth = 5;
 			inkAnnot.Color = UIColor.White;
 			annotationsList.Add (inkAnnot);

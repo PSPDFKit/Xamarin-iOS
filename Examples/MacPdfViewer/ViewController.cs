@@ -59,11 +59,11 @@ namespace MacPdfViewer {
 				return;
 			}
 
-			var pageRect = pageInfo.Rect;
+			var pageSize = pageInfo.Size;
 			var pageImageViewSize = PdfImageView.Bounds.Size;
 
 			var pageImageWidth = pageImageViewSize.Width;
-			var pageImageHeight = (nfloat) Math.Ceiling (pageImageWidth * (pageRect.Height / pageRect.Width));
+			var pageImageHeight = (nfloat) Math.Ceiling (pageImageWidth * (pageSize.Height / pageSize.Width));
 
 			// Rendering a page requires you to first set up a rendering request and
 			// specify what and how exactly we want to render.

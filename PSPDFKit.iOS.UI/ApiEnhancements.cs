@@ -71,58 +71,12 @@ namespace PSPDFKit.UI {
 			get => WeakEditableAnnotationTypes?.ToArray ()?.Select (x => PSPDFAnnotationStringUIExtensions.GetValue (x))?.ToArray ();
 			set => WeakEditableAnnotationTypes = value == null ? null : new NSSet<NSString> (value.Select (x => x.GetConstant ())?.ToArray ());
 		}
-
-		public UIActivity [] ApplicationActivitiesAsObjects {
-			get => ApplicationActivities?.OfType<UIActivity> ()?.ToArray ();
-			set => ApplicationActivities = value?.OfType<NSObject> ()?.ToArray ();
-		}
-
-		public PSPDFActivityType [] ApplicationActivitiesAsTypes {
-			get => ApplicationActivities?.Select (x => PSPDFActivityTypeExtensions.GetValue ((NSString) x))?.ToArray ();
-			set => ApplicationActivities = value?.Select (x => (NSObject) x.GetConstant ())?.ToArray ();
-		}
-
-		public PSPDFActivityType [] ExcludedActivityTypes {
-			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();
-			set => WeakExcludedActivityTypes = value?.Select (x => x.GetConstant ())?.ToArray ();
-		}
 	}
 
 	public partial class PSPDFConfiguration {
 
 		public PSPDFAnnotationStringUI [] EditableAnnotationTypes {
 			get => WeakEditableAnnotationTypes?.ToArray ()?.Select (x => PSPDFAnnotationStringUIExtensions.GetValue (x))?.ToArray ();
-		}
-
-		public UIActivity [] ApplicationActivitiesAsObjects {
-			get => ApplicationActivities?.OfType<UIActivity> ()?.ToArray ();
-		}
-
-		public PSPDFActivityType [] ApplicationActivitiesAsTypes {
-			get => ApplicationActivities?.Select (x => PSPDFActivityTypeExtensions.GetValue ((NSString) x))?.ToArray ();
-		}
-
-		public PSPDFActivityType [] ExcludedActivityTypes {
-			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();
-		}
-	}
-
-	public partial class PSPDFDocumentActionExecutorOptions : PSPDFPresentationOptions {
-
-		[Preserve (Conditional = true)]
-		public PSPDFDocumentActionExecutorOptions () : base (new NSMutableDictionary ()) { }
-
-		[Preserve (Conditional = true)]
-		public PSPDFDocumentActionExecutorOptions (NSDictionary dictionary) : base (dictionary) { }
-
-		public NSOrderedSet VisiblePages {
-			get => Dictionary [PSPDFDocumentActionExecutorOptionsKeys.VisiblePagesKey] as NSOrderedSet;
-			set => SetNativeValue (PSPDFDocumentActionExecutorOptionsKeys.VisiblePagesKey, value);
-		}
-
-		public NSDictionary SharingOptions {
-			get => GetNSDictionary (PSPDFDocumentActionExecutorOptionsKeys.SharingOptionsKey);
-			set => SetNativeValue (PSPDFDocumentActionExecutorOptionsKeys.SharingOptionsKey, value);
 		}
 	}
 
@@ -226,6 +180,39 @@ namespace PSPDFKit.UI {
 		public void EraseAt (PSPDFDrawingPoint [] locations)
 		{
 			EraseAt (locations.Select (l => (null as NSValue).FromPSPDFDrawingPoint (l)).ToArray ());
+		}
+	}
+
+	public partial class PSPDFDocumentSharingConfigurationBuilder {
+
+		public UIActivity [] ApplicationActivitiesAsObjects {
+			get => ApplicationActivities?.OfType<UIActivity> ()?.ToArray ();
+			set => ApplicationActivities = value?.OfType<NSObject> ()?.ToArray ();
+		}
+
+		public PSPDFActivityType [] ApplicationActivitiesAsTypes {
+			get => ApplicationActivities?.Select (x => PSPDFActivityTypeExtensions.GetValue ((NSString) x))?.ToArray ();
+			set => ApplicationActivities = value?.Select (x => (NSObject) x.GetConstant ())?.ToArray ();
+		}
+
+		public PSPDFActivityType [] ExcludedActivityTypes {
+			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();
+			set => WeakExcludedActivityTypes = value?.Select (x => x.GetConstant ())?.ToArray ();
+		}
+	}
+
+	public partial class PSPDFDocumentSharingConfiguration {
+
+		public UIActivity[] ApplicationActivitiesAsObjects {
+			get => ApplicationActivities?.OfType<UIActivity> ()?.ToArray ();
+		}
+
+		public PSPDFActivityType [] ApplicationActivitiesAsTypes {
+			get => ApplicationActivities?.Select (x => PSPDFActivityTypeExtensions.GetValue ((NSString) x))?.ToArray ();
+		}
+
+		public PSPDFActivityType [] ExcludedActivityTypes {
+			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();
 		}
 	}
 }

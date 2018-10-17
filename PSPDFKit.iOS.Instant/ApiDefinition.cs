@@ -33,6 +33,9 @@ namespace PSPDFKit.Instant {
 		OldServer = 22,
 		InvalidJwt = 32,
 		UserIdMismatch = 33,
+		AttachmentNotLoaded = 40,
+		NoSuchAttachment = 41,
+		CouldNotCreateAttachment = 42,
 	}
 
 	[Native]

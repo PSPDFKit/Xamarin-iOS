@@ -65,6 +65,7 @@ namespace PSPDFKit.Core {
 		FormValidationError = 5000,
 		FormRemovalError = 5500,
 		FormInsertionError = 5501,
+		FormResetError = 5502,
 		ImageProcessorInvalidImage = 6000,
 		OpenInNoApplicationsFound = 7000,
 		MessageNotSent = 7100,
@@ -100,6 +101,7 @@ namespace PSPDFKit.Core {
 		PKCS12CertificateError = 300007,
 		PKCS12WrongPassword = 300008,
 		SearchCouldNotLoadDocument = 400000,
+		ShapeTransformationInvalidInput = 500000,
 
 		Unknown = long.MaxValue
 	}
@@ -206,6 +208,8 @@ namespace PSPDFKit.Core {
 		Sound,
 		[Field ("PSPDFAnnotationStringImage", PSPDFKitLibraryPath.LibraryPath)]
 		Image,
+		[Field ("PSPDFAnnotationStringRedaction", PSPDFKitLibraryPath.LibraryPath)]
+		Redaction,
 		[Field ("PSPDFAnnotationStringWidget", PSPDFKitLibraryPath.LibraryPath)]
 		Widget,
 		[Field ("PSPDFAnnotationStringFile", PSPDFKitLibraryPath.LibraryPath)]
@@ -224,8 +228,6 @@ namespace PSPDFKit.Core {
 		TrapNet,
 		[Field ("PSPDFAnnotationString3D", PSPDFKitLibraryPath.LibraryPath)]
 		_3D,
-		[Field ("PSPDFAnnotationStringRedact", PSPDFKitLibraryPath.LibraryPath)]
-		Redact,
 	}
 
 	[Native]
@@ -257,7 +259,7 @@ namespace PSPDFKit.Core {
 		Watermark = 1 << 22,
 		TrapNet = 1 << 23,
 		ThreeDimensional = 1 << 24,
-		Redact = 1 << 25,
+		Redaction = 1 << 25,
 		All = ulong.MaxValue
 	}
 
@@ -539,6 +541,8 @@ namespace PSPDFKit.Core {
 		UI = 1 << 10,
 		AnnotationReplies = 1 << 11,
 		ImageDocument = 1 << 12,
+		Redaction = 1 << 13,
+		Comparison = 1 << 14,
 
 		All = ulong.MaxValue
 	}
@@ -785,6 +789,7 @@ namespace PSPDFKit.Core {
 		Stopped = 0,
 		Recording,
 		RecordingPaused,
+		RecordingFinished,
 		Playing,
 		PlaybackPaused
 	}
@@ -863,7 +868,6 @@ namespace PSPDFKit.Core {
 		Sha224,
 		Sha256,
 		Sha384,
-		Sha386 = Sha384,
 		Sha512,
 		Unknown,
 	}
@@ -935,6 +939,8 @@ namespace PSPDFKit.Core {
 		InkPen,
 		[Field ("PSPDFAnnotationVariantStringInkHighlighter", PSPDFKitLibraryPath.LibraryPath)]
 		InkHighlighter,
+		[Field ("PSPDFAnnotationVariantStringInkMagic", PSPDFKitLibraryPath.LibraryPath)]
+		InkMagic,
 		[Field ("PSPDFAnnotationVariantStringLineArrow", PSPDFKitLibraryPath.LibraryPath)]
 		LineArrow,
 		[Field ("PSPDFAnnotationVariantStringFreeTextCallout", PSPDFKitLibraryPath.LibraryPath)]

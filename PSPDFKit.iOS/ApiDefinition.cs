@@ -464,10 +464,11 @@ namespace PSPDFKit.Core {
 		bool HasBinaryInstantJsonAttachment { get; }
 
 		[Export ("writeBinaryInstantJSONAttachmentToDataSink:error:")]
-		bool WriteBinaryInstantJsonAttachment (IPSPDFDataSink dataSink, [NullAllowed] out NSError error);
+		[return: NullAllowed]
+		string WriteBinaryInstantJsonAttachment (IPSPDFDataSink dataSink, [NullAllowed] out NSError error);
 
-		[Export ("attachBinaryInstantJSONAttachmentFromDataProvider:error:")]
-		bool AttachBinaryInstantJsonAttachment (IPSPDFDataProviding dataProvider, [NullAllowed] out NSError error);
+		[Export ("attachBinaryInstantJSONAttachmentFromDataProvider:mimeType:error:")]
+		bool AttachBinaryInstantJsonAttachment (IPSPDFDataProviding dataProvider, [NullAllowed] string mimeType, [NullAllowed] out NSError error);
 	}
 
 	[Static]
@@ -581,9 +582,6 @@ namespace PSPDFKit.Core {
 	[Static]
 	interface PSPDFAnnotationOptionsKeys {
 
-		[Field ("PSPDFAnnotationOptionUserCreatedKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString UserCreatedKey { get; }
-
 		[Field ("PSPDFAnnotationOptionSuppressNotificationsKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString SuppressNotificationsKey { get; }
 
@@ -593,7 +591,6 @@ namespace PSPDFKit.Core {
 
 	[StrongDictionary ("PSPDFAnnotationOptionsKeys")]
 	interface PSPDFAnnotationOptions {
-		bool UserCreated { get; set; }
 		bool SuppressNotifications { get; set; }
 		bool AnimateView { get; set; }
 	}
@@ -946,18 +943,9 @@ namespace PSPDFKit.Core {
 		[Export ("annotationSummaryForPages:")]
 		NSAttributedString GetAnnotationSummary (NSIndexSet pages);
 
-		[Export ("temporaryTextFileURLForPages:error:")]
-		[return: NullAllowed]
-		NSUrl GetTemporaryTextFileUrl (NSIndexSet pages, [NullAllowed] out NSError error);
-
-		[Static]
-		[Export ("temporaryTextFileURLForDocuments:error:")]
-		[return: NullAllowed]
-		NSUrl GetTemporaryTextFileUrl (PSPDFDocument [] documents, [NullAllowed] out NSError error);
-
-		[Static]
-		[Export ("annotationSummaryForDocuments:")]
-		NSAttributedString GetAnnotationSummary (PSPDFDocument [] documents);
+		[Async]
+		[Export ("temporaryPDFFileURLForPages:completionBlock:")]
+		void GenerateTemporaryPdfFileUrl (NSIndexSet pages, Action<NSUrl, NSError> completionHandler);
 	}
 
 	[BaseType (typeof (PSPDFModel))]
@@ -1852,6 +1840,9 @@ namespace PSPDFKit.Core {
 
 		[Field ("PSPDFDocumentSaveOptionSecurityOptions", PSPDFKitLibraryPath.LibraryPath)]
 		NSString SecurityOptionsKey { get; }
+
+		[Field ("PSPDFDocumentSaveOptionApplyRedactions", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ApplyRedactionsKey { get; }
 	}
 
 	[StrongDictionary ("PSPDFDocumentSaveOptionsKeys")]
@@ -1859,6 +1850,7 @@ namespace PSPDFKit.Core {
 
 		bool ForceRewrite { get; set; }
 		PSPDFDocumentSecurityOptions SecurityOptions { get; set; }
+		bool ApplyRedactions { get; set; }
 	}
 
 	[StrongDictionary ("PSPDFDocument")]
@@ -2755,8 +2747,8 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("XMPMetadata")]
 		string XmpMetadata { get; }
 
-		[Export ("setRotation:forPageAtIndex:")]
-		void SetRotation (nuint rotation, nuint pageIndex);
+		[Export ("setRotationOffset:forPageAtIndex:")]
+		void SetRotationOffset (nuint rotation, nuint pageIndex);
 
 		[Export ("resolveNamedDestination:")]
 		nuint ResolveNamedDestination (string namedDestination);
@@ -3069,8 +3061,8 @@ namespace PSPDFKit.Core {
 	interface PSPDFFileAnnotation {
 
 		[BindAs (typeof (PSPDFFileIconName))]
-		[Export ("appearanceName")]
-		NSString AppearanceName { get; set; }
+		[Export ("iconName")]
+		NSString IconName { get; set; }
 
 		[NullAllowed, Export ("embeddedFile", ArgumentSemantic.Strong)]
 		PSPDFEmbeddedFile EmbeddedFile { get; set; }
@@ -3649,6 +3641,9 @@ namespace PSPDFKit.Core {
 
 		[Export ("removeFormFields:error:")]
 		bool RemoveFormFields (PSPDFFormField [] formFields, [NullAllowed] out NSError error);
+
+		[Export ("resetForm:withFlags:error:")]
+		bool ResetForm (PSPDFFormField [] formFields, PSPDFResetFormActionFlag resetFormActionFlags, [NullAllowed] out NSError error);
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
@@ -3756,7 +3751,7 @@ namespace PSPDFKit.Core {
 		PSPDFAnnotation [] Annotations { get; }
 	}
 
-	[BaseType (typeof (PSPDFMarkupAnnotation))]
+	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
 	interface PSPDFHighlightAnnotation {
 
 		[Static]
@@ -3878,20 +3873,6 @@ namespace PSPDFKit.Core {
 		string Script { get; }
 	}
 
-	[Category]
-	[BaseType (typeof (PSPDFDocumentProvider))]
-	interface PSPDFDocumentProvider_JavascriptAdditions {
-
-		[Export ("configureDocumentScriptExecutor:")]
-		void ConfigureDocumentScriptExecutor (NSObject vm);
-
-		[Export ("configureJavaScriptPlatformDelegate:")]
-		void ConfigureJavaScriptPlatformDelegate (NSObject platformDelegate);
-
-		[Export ("updateCalculatedFieldsDependingOnForm:error:")]
-		bool UpdateCalculatedFieldsDependingOnForm ([NullAllowed] PSPDFFormElement sourceForm, [NullAllowed] out NSError error);
-	}
-
 	interface IPSPDFSettings { }
 
 	[Protocol]
@@ -3934,6 +3915,12 @@ namespace PSPDFKit.Core {
 
 		[Field ("PSPDFWebKitLegacyModeKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString WebKitLegacyModeKey { get; }
+
+		[Field ("PSPDFKitDebugModeKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString DebugModeKey { get; }
+
+		[Field ("PSPDFAdditionalFontDirectories", PSPDFKitLibraryPath.LibraryPath)]
+		NSString AdditionalFontDirectoriesKey { get; }
 
 		[Static]
 		[Export ("sharedInstance")]
@@ -4154,6 +4141,12 @@ namespace PSPDFKit.Core {
 
 		[Export ("automaticallyPauseLongRunningTasks")]
 		bool AutomaticallyPauseLongRunningTasks { get; set; }
+
+		[Export ("maximumContiguousIndexingTime")]
+		double MaximumContiguousIndexingTime { get; set; }
+
+		[Export ("automaticPauseDuration")]
+		double AutomaticPauseDuration { get; set; }
 
 		[Async (ResultTypeName = "PSPDFLibraryFindDocumentUidsResults")]
 		[Export ("documentUIDsMatchingString:options:completionHandler:")]
@@ -4393,24 +4386,6 @@ namespace PSPDFKit.Core {
 		void SetPSPDFAccessibility (string str);
 	}
 
-	[Abstract]
-	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFMarkupAnnotation {
-
-		//[Static]
-		//[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
-		//[return: NullAllowed] // TODO: Add to subclasses
-		//PSPDFMarkupAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph [] glyphs, nint pageRotation);
-
-		//[Static]
-		//[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]
-		//[return: NullAllowed] // TODO: Add to subclasses
-		//PSPDFMarkupAnnotation FromRects ([BindAs (typeof (CGRect []))] NSValue [] rects, CGRect boundingBox, nuint pageIndex);
-
-		[Export ("highlightedString")]
-		string HighlightedString { get; }
-	}
-
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
 	interface PSPDFMemoryCache {
@@ -4633,7 +4608,7 @@ namespace PSPDFKit.Core {
 		// PSPDFPage (AnnotationFactory) Category
 
 		[Export ("createStampAnnotationWithImage:")]
-		PSPDFStampAnnotation CreateStampAnnotation (UIImage iamge);
+		PSPDFStampAnnotation CreateStampAnnotation (UIImage image);
 
 		[Export ("createFreeTextAnnotationWithContents:")]
 		PSPDFFreeTextAnnotation CreateFreeTextAnnotation (string contents);
@@ -4649,29 +4624,29 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
 
-		[Export ("rect")]
-		CGRect Rect { get; }
+		[Export ("size")]
+		CGSize Size { get; }
 
-		[Export ("rotation")]
-		nuint Rotation { get; }
+		[Export ("savedRotation")]
+		PSPDFRotation SavedRotation { get; }
 
-		[NullAllowed, Export ("additionalActions", ArgumentSemantic.Copy)]
-		NSDictionary<NSNumber, PSPDFAction> AdditionalActions { get; }
+		[Export ("rotationOffset")]
+		PSPDFRotation RotationOffset { get; }
 
-		[Export ("rotatedRect")]
-		CGRect RotatedRect { get; }
-
-		[Export ("rotationTransform")]
-		CGAffineTransform RotationTransform { get; }
-
-		[Export ("allowAnnotationCreation")]
-		bool AllowAnnotationCreation { get; }
+		[Export ("transform")]
+		CGAffineTransform Transform { get; }
 
 		[Export ("mediaBox")]
 		CGRect MediaBox { get; }
 
 		[Export ("cropBox")]
 		CGRect CropBox { get; }
+
+		[NullAllowed, Export ("additionalActions", ArgumentSemantic.Copy)]
+		NSDictionary<NSNumber, PSPDFAction> AdditionalActions { get; }
+
+		[Export ("allowAnnotationCreation")]
+		bool AllowAnnotationCreation { get; }
 	}
 
 	delegate void PSPDFPKCS12UnlockHandler ([NullAllowed] PSPDFX509 x509, [NullAllowed] PSPDFPrivateKey pk, [NullAllowed] NSError error);
@@ -4690,6 +4665,7 @@ namespace PSPDFKit.Core {
 	}
 
 	delegate void PSPDFPKCS12SignerSignFormElementCompletionHandler (bool success, PSPDFDocument document, NSError error);
+	delegate void PSPDFPKCS12SignerSignFormElementDataSinkCompletionHandler (bool success, IPSPDFDataSink dataSink, NSError error);
 
 	[BaseType (typeof (PSPDFSigner))]
 	[DisableDefaultCtor]
@@ -4699,20 +4675,8 @@ namespace PSPDFKit.Core {
 		[DesignatedInitializer]
 		IntPtr Constructor (string displayName, PSPDFPKCS12 p12);
 
-		[Export ("displayName"), New]
-		string DisplayName { get; }
-
-		[Export ("reason"), New]
-		string Reason { get; set; }
-
-		[Export ("location"), New]
-		string Location { get; set; }
-
 		[Export ("p12")]
 		PSPDFPKCS12 P12 { get; }
-
-		[NullAllowed, Export ("privateKey", ArgumentSemantic.Strong)]
-		PSPDFPrivateKey PrivateKey { get; set; }
 
 		[Async (ResultTypeName = "PSPDFPKCS12SignerSignFormElementCompletionHandlerResult")]
 		[Export ("signFormElement:usingPassword:writeTo:completion:")]
@@ -4720,7 +4684,15 @@ namespace PSPDFKit.Core {
 
 		[Async (ResultTypeName = "PSPDFPKCS12SignerSignFormElementCompletionHandlerResult")]
 		[Export ("signFormElement:usingPassword:writeTo:appearance:biometricProperties:completion:")]
-		void SignFormElement (PSPDFSignatureFormElement element, string password, string path, [NullAllowed] PSPDFSignatureAppearance signatureAppearance, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties, [NullAllowed] PSPDFPKCS12SignerSignFormElementCompletionHandler completionBlock);
+		void SignFormElement (PSPDFSignatureFormElement element, string password, string path, [NullAllowed] PSPDFSignatureAppearance signatureAppearance, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties, [NullAllowed] PSPDFPKCS12SignerSignFormElementCompletionHandler completionHandler);
+
+		[Async (ResultTypeName = "PSPDFPKCS12SignerSignFormElementDataSinkCompletionHandlerResult")]
+		[Export ("signFormElement:usingPassword:writeToDataSink:completionBlock:")]
+		void SignFormElement (PSPDFSignatureFormElement element, string password, IPSPDFDataSink dataSink, [NullAllowed] PSPDFPKCS12SignerSignFormElementDataSinkCompletionHandler completionHandler);
+
+		[Async (ResultTypeName = "PSPDFPKCS12SignerSignFormElementCompletionHandlerResult")]
+		[Export ("signFormElement:usingPassword:writeTo:completionBlock:")]
+		void SignFormElement2 (PSPDFSignatureFormElement element, string password, string path, [NullAllowed] PSPDFPKCS12SignerSignFormElementCompletionHandler completionHandler);
 	}
 
 	[BaseType (typeof (PSPDFAbstractLineAnnotation))]
@@ -4820,6 +4792,7 @@ namespace PSPDFKit.Core {
 		[Export ("generatePDFFromURL:")]
 		PSPDFConversionOperation GeneratePdf (NSUrl inputUrl);
 
+		[Async]
 		[Export ("generatePDFFromURL:completionBlock:")]
 		PSPDFConversionOperation GeneratePdf (NSUrl inputUrl, [NullAllowed] Action<NSData, NSError> completion);
 #endif
@@ -4993,7 +4966,7 @@ namespace PSPDFKit.Core {
 		void ChangeMediaBox (nuint pageIndex, CGRect rect);
 
 		[Export ("addNewPageAtIndex:configuration:")]
-		void AddNewPage (nuint destinationPageIndex, [NullAllowed] PSPDFNewPageConfiguration newPageConfiguation);
+		void AddNewPage (nuint destinationPageIndex, [NullAllowed] PSPDFNewPageConfiguration newPageConfiguration);
 
 		[Export ("modifyAnnotationsOfTypes:change:")]
 		void ModifyAnnotations (PSPDFAnnotationType annotationTypes, PSPDFAnnotationChange annotationChange);
@@ -5009,6 +4982,18 @@ namespace PSPDFKit.Core {
 
 		[Export ("drawOnAllCurrentPages:")]
 		void DrawOnAllCurrentPages (PSPDFRenderDrawHandler drawHandler);
+
+		[Export ("changeStrokeColorOnPageAtIndex:toColor:")]
+		void ChangeStrokeColorOnPage (nuint pageIndex, UIColor color);
+
+		[Export ("mergePageFromDocument:password:sourcePageIndex:destinationPageIndex:transform:blendMode:")]
+		void MergePage (PSPDFDocument sourceDocument, [NullAllowed] string password, nuint sourcePageIndex, nuint destinationPageIndex, CGAffineTransform transform, CGBlendMode blendMode);
+
+		[Export ("applyRedactions")]
+		void ApplyRedactions ();
+
+		[Export ("applyRedactionsOnPageAtIndex:")]
+		void ApplyRedactionsOnPage (nuint pageIndex);
 
 		// PSPDFProcessorConfiguration (Metadata) Category
 
@@ -5348,6 +5333,9 @@ namespace PSPDFKit.Core {
 		[Field ("PSPDFRenderOptionDrawSignHereOverlay", PSPDFKitLibraryPath.LibraryPath)]
 		NSString DrawSignHereOverlayKey { get; }
 
+		[Field ("PSPDFRenderOptionDrawRedactionsAsRedacted", PSPDFKitLibraryPath.LibraryPath)]
+		NSString DrawRedactionsAsRedactedKey { get; }
+
 #if __IOS__
 		[Field ("PSPDFRenderOptionCIFilterKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString CIFiltersKey { get; }
@@ -5372,6 +5360,7 @@ namespace PSPDFKit.Core {
 		bool TextRenderingClearTypeEnabled { get; set; }
 		UIColor InteractiveFormFillColor { get; set; }
 		bool DrawSignHereOverlay { get; set; }
+		bool DrawRedactionsAsRedacted { get; set; }
 #if __IOS__
 		[Advice ("This can be a 'CIFilter' or an 'NSArray<CIFilter>'.")]
 		NSObject CIFilters { get; set; }
@@ -5817,7 +5806,7 @@ namespace PSPDFKit.Core {
 	delegate void PSPDFSignerSignFormElementSinkHandler (bool success, IPSPDFDataSink document, NSError error);
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFSigner : PSPDFExternalSignature, INSCoding {
+	interface PSPDFSigner : PSPDFDocumentSignerDelegate, PSPDFDocumentSignerDataSource, PSPDFExternalSignature, INSCoding {
 
 		[Export ("filter")]
 		string Filter { get; }
@@ -5834,22 +5823,34 @@ namespace PSPDFKit.Core {
 		[Export ("location")]
 		string Location { get; }
 
+		[NullAllowed, Export ("privateKey", ArgumentSemantic.Assign)]
+		PSPDFPrivateKey PrivateKey { get; set; }
+
 		[NullAllowed, Export ("externalSignatureDelegate", ArgumentSemantic.Weak)]
 		IPSPDFExternalSignature ExternalSignatureDelegate { get; set; }
+
+		[NullAllowed, Export ("dataSource", ArgumentSemantic.Weak)]
+		IPSPDFDocumentSignerDataSource DataSource { get; set; }
+
+		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
+		IPSPDFDocumentSignerDelegate Delegate { get; set; }
 
 		[Async]
 		[Export ("requestSigningCertificate:completionBlock:")]
 		void RequestSigningCertificate (NSObject sourceController, [NullAllowed] Action<PSPDFX509, NSError> completion);
 
-		[Async (ResultTypeName = "PSPDFSignerSignFormElementResult")]
-		[Export ("signFormElement:withCertificate:writeTo:appearance:biometricProperties:completionBlock:")]
-		[Advice ("Requires base call if override.")]
-		void SignFormElement (PSPDFSignatureFormElement element, PSPDFX509 certificate, string path, [NullAllowed] PSPDFSignatureAppearance signatureAppearance, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties, [NullAllowed] PSPDFSignerSignFormElementHandler completion);
+		[Export ("signData:privateKey:hashAlgorithm:")]
+		NSData SignData (NSData data, PSPDFPrivateKey privateKey, PSPDFSignatureHashAlgorithm hashAlgorithm);
 
 		[Async (ResultTypeName = "PSPDFSignerSignFormElementSinkResult")]
-		[Export ("signFormElement:withCertificate:writeToDataSink:appearance:biometricProperties:completionBlock:")]
+		[Export ("signFormElement:withCertificate:writeToDataSink:completionBlock:")]
 		[Advice ("Requires base call if override.")]
-		void SignFormElement (PSPDFSignatureFormElement element, PSPDFX509 certificate, IPSPDFDataSink dataSink, [NullAllowed] PSPDFSignatureAppearance signatureAppearance, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties, [NullAllowed] PSPDFSignerSignFormElementSinkHandler completion);
+		void SignFormElement (PSPDFSignatureFormElement element, PSPDFX509 certificate, IPSPDFDataSink dataSink, [NullAllowed] PSPDFSignerSignFormElementSinkHandler completion);
+
+		[Async (ResultTypeName = "PSPDFSignerSignFormElementResult")]
+		[Export ("signFormElement:withCertificate:writeTo:completionBlock:")]
+		[Advice ("Requires base call if override.")]
+		void SignFormElement (PSPDFSignatureFormElement element, PSPDFX509 certificate, string path, [NullAllowed] PSPDFSignerSignFormElementHandler completion);
 	}
 
 	[DisableDefaultCtor]
@@ -5966,13 +5967,13 @@ namespace PSPDFKit.Core {
 		UIBezierPath BezierPath { get; }
 	}
 
-	[BaseType (typeof (PSPDFMarkupAnnotation))]
+	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
 	interface PSPDFSquigglyAnnotation {
 
 		[Static]
-		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		[Export ("textOverlayAnnotationWithGlyphs:")]
 		[return: NullAllowed]
-		PSPDFSquigglyAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs, nint pageRotation);
+		PSPDFSquigglyAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph [] glyphs);
 
 		[Static]
 		[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]
@@ -6016,7 +6017,7 @@ namespace PSPDFKit.Core {
 		void SizeToFit ();
 	}
 
-	[BaseType (typeof (PSPDFMarkupAnnotation))]
+	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
 	interface PSPDFStrikeOutAnnotation {
 
 		[Static]
@@ -6227,7 +6228,7 @@ namespace PSPDFKit.Core {
 		NSOperationQueue SearchQueue { get; }
 	}
 
-	[BaseType (typeof (PSPDFMarkupAnnotation))]
+	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
 	interface PSPDFUnderlineAnnotation {
 
 		[Static]
@@ -6287,9 +6288,6 @@ namespace PSPDFKit.Core {
 
 		[Export ("unregisterObjectForUndo:")]
 		void UnregisterObjectForUndo (IPSPDFUndoSupport @object);
-
-		[Export ("isObjectRegisteredForUndo:")]
-		bool IsObjectRegisteredForUndo (IPSPDFUndoSupport @object);
 
 		[Export ("prepareWithInvocationTarget:block:")]
 		void Prepare (NSObject invocationTarget, Action<NSObject> handler);
@@ -6742,5 +6740,69 @@ namespace PSPDFKit.Core {
 		[Abstract]
 		[Export ("rotation")]
 		nuint Rotation { get; set; }
+	}
+
+	interface IPSPDFDocumentSignerDataSource { }
+
+	[Protocol, Model (AutoGeneratedName = true)]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFDocumentSignerDataSource {
+
+		[Export ("documentSigner:signatureAppearance:")]
+		PSPDFSignatureAppearance GetSignatureAppearance (PSPDFSigner signer, string formFieldFqn);
+
+		[Export ("documentSigner:signatureEstimatedSize:")]
+		int GetSignatureEstimatedSize (PSPDFSigner signer, string formFieldFqn);
+
+		[Export ("documentSigner:signatureBiometricProperties:")]
+		PSPDFSignatureBiometricProperties GetSignatureBiometricProperties (PSPDFSigner signer, string formFieldFqn);
+
+		[Export ("documentSigner:signatureHashAlgorithm:")]
+		PSPDFSignatureHashAlgorithm GetSignatureHashAlgorithm (PSPDFSigner signer, string formFieldFqn);
+
+		[Export ("documentSigner:signatureEncryptionAlgorithm:")]
+		PSPDFSignatureEncryptionAlgorithm GetSignatureEncryptionAlgorithm (PSPDFSigner signer, string formFieldFqn);
+	}
+
+	interface IPSPDFDocumentSignerDelegate { }
+	delegate void PSPDFDocumentSignDataCompletionHandler (bool status, [NullAllowed] NSData signedData);
+
+	[Protocol, Model (AutoGeneratedName = true)]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFDocumentSignerDelegate {
+
+		[Abstract]
+		[Export ("documentSigner:signData:hashAlgorithm:completion:")]
+		void SignData (PSPDFSigner signer, NSData data, PSPDFSignatureHashAlgorithm hashAlgorithm, PSPDFDocumentSignDataCompletionHandler completion);
+	}
+
+	[BaseType (typeof (PSPDFAnnotation))]
+	interface PSPDFTextMarkupAnnotation {
+
+		[Static]
+		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		[return: NullAllowed]
+		PSPDFTextMarkupAnnotation GetTextOverlayAnnotation ([NullAllowed] PSPDFGlyph[] glyphs, nint pageRotation);
+
+		[Static]
+		[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]
+		[return: NullAllowed]
+		PSPDFTextMarkupAnnotation GetTextOverlayAnnotation ([BindAs (typeof (CGRect []))] NSValue [] rects, CGRect boundingBox, nuint pageIndex);
+
+		[Export ("markedUpString")]
+		string MarkedUpString { get; }
+	}
+
+	[BaseType (typeof (PSPDFAnnotation))]
+	interface PSPDFRedactionAnnotation {
+
+		[NullAllowed, Export ("outlineColor", ArgumentSemantic.Assign)]
+		UIColor OutlineColor { get; set; }
+
+		[NullAllowed, Export ("overlayText")]
+		string OverlayText { get; set; }
+
+		[Export ("repeatOverlayText")]
+		bool RepeatOverlayText { get; set; }
 	}
 }
