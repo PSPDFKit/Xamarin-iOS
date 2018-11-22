@@ -96,7 +96,17 @@ namespace PSPDFCatalog {
 						pdfViewer.NavigationItem.SetRightBarButtonItems (new [] { pdfViewer.ThumbnailsButtonItem, pdfViewer.OutlineButtonItem, pdfViewer.SearchButtonItem, pdfViewer.BookmarkButtonItem }, PSPDFViewMode.Document, false);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
-					new StringElement ("Change link background color to red", () => {
+                    new StringElement ("Customize Bookmark UI", () => {
+                        // The document needs to be in a writable location
+                        var tmp = Path.GetTempPath ();
+                        var writablePdf = Path.Combine (tmp, "writable.pdf");
+                        File.Copy (HackerMonthlyFile, writablePdf, true);
+
+                        var document = new PSPDFDocument (NSUrl.FromFilename (writablePdf));
+                        var pdfViewer = new BookmarkViewController (document);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                    new StringElement ("Change link background color to red", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
 							builder.OverrideClass (typeof (PSPDFLinkAnnotationView), typeof (CustomLinkAnnotationView));
