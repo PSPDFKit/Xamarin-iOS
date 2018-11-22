@@ -97,7 +97,7 @@ namespace PSPDFCatalog {
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
                     new StringElement ("Customize Bookmark UI", () => {
-                        // The document needs to be in a writable location
+                        // The document needs to be in a writable location so we can properly add and remove bookmarks
                         var tmp = Path.GetTempPath ();
                         var writablePdf = Path.Combine (tmp, "writable.pdf");
                         File.Copy (HackerMonthlyFile, writablePdf, true);

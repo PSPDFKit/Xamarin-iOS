@@ -20,6 +20,7 @@ namespace PSPDFCatalog
         {
             base.CommonInit(document, configuration);
 
+            // Use our custom method when tapping the bookmark button
             this.BookmarkButtonItem.Clicked += (sender, args) => {
                 NameBookmark();
             };
@@ -29,11 +30,12 @@ namespace PSPDFCatalog
 
         public void NameBookmark () 
         {
+            // We need to properly handle adding and removing bookmarks
             if (this.Document.BookmarkManager.GetBookmarkForPage((uint)this.PageIndex) == null)
             {
                 var alert = UIAlertController.Create("", "Give Your Bookmark a Name!", UIAlertControllerStyle.Alert);
-                // We need a mutable copy since we can't edit the name of the bookmark otherwise
                 var action = new PSPDFGoToAction(this.PageIndex);
+                // We need a mutable copy since we can't edit the name of the bookmark otherwise
                 var mutableBookmark = new PSPDFMutableBookmark(action);
 
                 alert.AddTextField(textField =>
