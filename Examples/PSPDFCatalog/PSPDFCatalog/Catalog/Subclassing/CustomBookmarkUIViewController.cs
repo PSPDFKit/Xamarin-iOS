@@ -4,7 +4,6 @@ using PSPDFKit.Core;
 using PSPDFKit.UI;
 using UIKit;
 
-
 namespace PSPDFCatalog
 {
     public class BookmarkViewController : PSPDFViewController
@@ -30,7 +29,6 @@ namespace PSPDFCatalog
 
         public void NameBookmark () 
         {
-
             if (this.Document.BookmarkManager.GetBookmarkForPage((uint)this.PageIndex) == null)
             {
                 var alert = UIAlertController.Create("", "Give Your Bookmark a Name!", UIAlertControllerStyle.Alert);
@@ -45,8 +43,8 @@ namespace PSPDFCatalog
 
                 var okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, Handle =>
                 {
-                // We us the content of the textfield as the name of the bookmark
-                mutableBookmark.Name = alert.TextFields[0].Text;
+                    // We us the content of the textfield as the name of the bookmark
+                    mutableBookmark.Name = alert.TextFields[0].Text;
                     this.Document.BookmarkManager.AddBookmark(mutableBookmark);
                 });
 
