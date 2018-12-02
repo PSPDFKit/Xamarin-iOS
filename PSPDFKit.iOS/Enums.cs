@@ -315,7 +315,8 @@ namespace PSPDFKit.Core {
 	public enum PSPDFVerticalAlignment : ulong {
 		Top = 0,
 		Center = 1,
-		Bottom = 2
+		Bottom = 2,
+		None = 3,
 	}
 
 	[Native]

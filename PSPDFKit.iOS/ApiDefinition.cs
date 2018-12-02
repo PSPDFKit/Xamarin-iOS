@@ -4436,6 +4436,9 @@ namespace PSPDFKit.Core {
 		[Export ("initWithActionNamedString:")]
 		IntPtr Constructor ([NullAllowed] string actionNameString);
 
+		[Export ("initWithNamedActionType:")]
+		IntPtr Constructor (PSPDFNamedActionType namedActionType);
+
 		[Export ("namedActionType")]
 		PSPDFNamedActionType NamedActionType { get; }
 
