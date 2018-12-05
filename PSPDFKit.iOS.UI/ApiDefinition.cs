@@ -6371,7 +6371,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFStampViewController : PSPDFAnnotationGridViewControllerDataSource, PSPDFTextStampViewControllerDelegate {
 
 		[Static]
-		[Export ("defaultStampAnnotations")]
+		[NullAllowed, Export ("defaultStampAnnotations")]
 		PSPDFStampAnnotation [] DefaultStampAnnotations { get; set; }
 
 		[Export ("stamps", ArgumentSemantic.Copy)]
