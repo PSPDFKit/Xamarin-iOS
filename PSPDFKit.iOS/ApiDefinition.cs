@@ -254,7 +254,7 @@ namespace PSPDFKit.Core {
 		bool Deleted { [Bind ("isDeleted")] get; set; }
 
 		[Export ("typeString")]
-		string TypeString { get; set; }
+		string TypeString { get; }
 
 		[Export ("alpha")]
 		nfloat Alpha { get; set; }
@@ -929,6 +929,8 @@ namespace PSPDFKit.Core {
 		UIColor DrawingBlue { get; }
 	}
 
+	delegate void PSPDFAnnotationSummarizerProgressHandler (nuint currentIndex, nfloat percentage);
+
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
 	interface PSPDFAnnotationSummarizer {
@@ -940,12 +942,28 @@ namespace PSPDFKit.Core {
 		[Export ("document")]
 		PSPDFDocument Document { get; }
 
+		[return: NullAllowed]
 		[Export ("annotationSummaryForPages:")]
 		NSAttributedString GetAnnotationSummary (NSIndexSet pages);
+
+		[return: NullAllowed]
+		[Export ("annotationSummaryForPages:progress:")]
+		NSAttributedString GetAnnotationSummary (NSIndexSet pages, [NullAllowed] PSPDFAnnotationSummarizerProgressHandler progressHandler);
+
+		[Export ("cancelSummaryGeneration")]
+		void CancelSummaryGeneration ();
+
+#if __IOS__
+		// PSPDFAnnotationSummarizer (FileSupport) Category
 
 		[Async]
 		[Export ("temporaryPDFFileURLForPages:completionBlock:")]
 		void GenerateTemporaryPdfFileUrl (NSIndexSet pages, Action<NSUrl, NSError> completionHandler);
+
+		[Async]
+		[Export ("temporaryPDFFileURLForPages:progress:completionBlock:")]
+		void GenerateTemporaryPdfFileUrl (NSIndexSet pages, [NullAllowed] PSPDFAnnotationSummarizerProgressHandler progressHandler, Action<NSUrl, NSError> completionHandler);
+#endif
 	}
 
 	[BaseType (typeof (PSPDFModel))]
@@ -1617,11 +1635,17 @@ namespace PSPDFKit.Core {
 
 		[Abstract]
 		[Export ("filePresenter")]
-		NSFilePresenter FilePresenter { get; }
+		INSFilePresenter FilePresenter { get; }
 
 		[Abstract]
 		[NullAllowed, Export ("coordinationDelegate", ArgumentSemantic.Weak)]
 		IPSPDFFileCoordinationDelegate CoordinationDelegate { get; set; }
+
+		[Export ("isConflictResolutionAvailable")]
+		bool IsConflictResolutionAvailable ();
+
+		[Export ("resolveFileConflictWithResolution:error:")]
+		bool ResolveFileConflict (PSPDFFileConflictResolution resolution, out NSError error);
 	}
 
 	delegate nint PSPDFCryptoInputStreamDecryptionHandler (PSPDFCryptoInputStream superStream, IntPtr buffer, nint len);
@@ -1863,6 +1887,9 @@ namespace PSPDFKit.Core {
 		[Export ("PSPDFDocumentUnderlyingFileURLKey")]
 		NSUrl FileUrl { get; }
 
+		[Export ("PSPDFDocumentUnderlyingDataProvider")]
+		NSObject DataProvider { get; }
+
 		[Export ("PSPDFDocumentUnderlyingFileWillBeDeletedKey")]
 		bool FileWillBeDeleted { get; }
 	}
@@ -1912,7 +1939,7 @@ namespace PSPDFKit.Core {
 		NSUrl [] FileUrls { get; }
 
 		[Export ("filePresenters")]
-		NSFilePresenter [] FilePresenters { get; }
+		INSFilePresenter [] FilePresenters { get; }
 
 		[Export ("progress")]
 		NSProgress Progress { get; }
@@ -2262,6 +2289,11 @@ namespace PSPDFKit.Core {
 
 		[Export ("loadDocumentLevelJavaScriptActionsWithError:")]
 		bool LoadDocumentLevelJavaScriptActions ([NullAllowed] out NSError error);
+
+		// PSPDFDocument (ConflictResolution)
+
+		[Export ("resolveFileConflictForDataProvider:withResolution:error:")]
+		bool ResolveFileConflict (IPSPDFCoordinatedFileDataProviding dataProvider, PSPDFFileConflictResolution resolution, [NullAllowed] out NSError error);
 	}
 
 	[Static]
@@ -2644,14 +2676,14 @@ namespace PSPDFKit.Core {
 		PSPDFDocumentProvider DocumentProvider { get; }
 
 		[Export ("allInfoKeys")]
-		string [] AllInfoKeys { get; }
+		NSString [] AllInfoKeys { get; }
 
 		[Export ("objectForInfoDictionaryKey:")]
 		[return: NullAllowed]
-		NSObject GetObject (string key);
+		NSObject GetObject (NSString key);
 
 		[Export ("setObject:forInfoDictionaryKey:")]
-		void SetObject ([NullAllowed] NSObject @object, string key);
+		void SetObject ([NullAllowed] NSObject @object, NSString key);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -3449,16 +3481,19 @@ namespace PSPDFKit.Core {
 		PSPDFFilePresenterCoordinator SharedCoordinator { get; }
 
 		[Export ("observeFilePresenter:")]
-		void ObserveFilePresenter (NSFilePresenter filePresenter);
+		void ObserveFilePresenter (INSFilePresenter filePresenter);
 
 		[Export ("unobserveFilePresenter:")]
-		void UnobserveFilePresenter (NSFilePresenter filePresenter);
+		void UnobserveFilePresenter (INSFilePresenter filePresenter);
+
+		[Export ("reloadFilePresenter:")]
+		void ReloadFilePresenter (INSFilePresenter filePresenter);
 
 		[Export ("observeFilePresenters:")]
-		void ObserveFilePresenters ([NullAllowed] NSFilePresenter [] filePresenters);
+		void ObserveFilePresenters ([NullAllowed] INSFilePresenter [] filePresenters);
 
 		[Export ("unobserveFilePresenters:")]
-		void UnobserveFilePresenters ([NullAllowed] NSFilePresenter [] filePresenters);
+		void UnobserveFilePresenters ([NullAllowed] INSFilePresenter [] filePresenters);
 	}
 
 	[BaseType (typeof (PSPDFWidgetAnnotation))]
@@ -4813,11 +4848,16 @@ namespace PSPDFKit.Core {
 		[Export ("processor:didFinishWithError:")]
 		void DidFinishWithError (PSPDFProcessor processor, [NullAllowed] NSError error);
 
+		[Export ("processorCancelled:")]
+		void ProcessorCancelled (PSPDFProcessor processor);
+
+#if __IOS__
 		[Export ("processor:didFinishWithData:error:")]
 		void DidFinishWithData (PSPDFProcessor processor, [NullAllowed] NSData data, [NullAllowed] NSError error);
 
 		[Export ("processor:didFinishWithFileURL:error:")]
-		void DidFinishWithFileURL (PSPDFProcessor processor, [NullAllowed] NSUrl fileURL, [NullAllowed] NSError error);
+		void DidFinishWithFileUrl (PSPDFProcessor processor, [NullAllowed] NSUrl fileUrl, [NullAllowed] NSError error);
+#endif
 	}
 
 #if __IOS__
@@ -5988,20 +6028,27 @@ namespace PSPDFKit.Core {
 	interface PSPDFStampAnnotation : PSPDFRotatable {
 
 		[Static]
-		[Export ("stampColorForSubject:")]
-		UIColor GetStampColor ([NullAllowed] string subject);
+		[Export ("colorForStampType:")]
+		UIColor GetStampColor ([NullAllowed] [BindAs (typeof (PSPDFStampType?))] NSString stampType);
 
-		[Export ("initWithSubject:")]
-		IntPtr Constructor ([NullAllowed] string subject);
+		[Export ("initWithStampType:")]
+		IntPtr Constructor ([NullAllowed] [BindAs (typeof (PSPDFStampType?))] NSString stampType);
+
+		[Export ("initWithTitle:")]
+		IntPtr Constructor ([NullAllowed] string title);
 
 		[Export ("initWithImage:")]
 		IntPtr Constructor ([NullAllowed] UIImage image);
 
-		[NullAllowed, Export ("subtext")]
-		string Subtext { get; set; }
+		[BindAs (typeof (PSPDFStampType?))]
+		[NullAllowed, Export ("stampType")]
+		NSString StampType { get; set; }
 
-		[NullAllowed, Export ("localizedSubject")]
-		string LocalizedSubject { get; set; }
+		[NullAllowed, Export ("title")]
+		string Title { get; set; }
+
+		[NullAllowed, Export ("subtitle")]
+		string Subtitle { get; set; }
 
 		[NullAllowed, Export ("image", ArgumentSemantic.Strong)]
 		UIImage Image { get; set; }

@@ -413,11 +413,14 @@ namespace PSPDFKit.UI {
 
 		[Export ("annotationStateManager:didChangeUndoState:redoState:")]
 		void DidChangeUndoState (PSPDFAnnotationStateManager manager, bool undoEnabled, bool redoEnabled);
+
+		[Export ("annotationStateManagerDidRequestShowingColorPalette:")]
+		void DidRequestShowingColorPalette (PSPDFAnnotationStateManager manager);
 	}
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFAnnotationStateManager : IPSPDFOverridable {
+	interface PSPDFAnnotationStateManager : IPSPDFOverridable, IUIPencilInteractionDelegate {
 
 		[NullAllowed, Export ("pdfController", ArgumentSemantic.Weak)]
 		PSPDFViewController PdfController { get; }
@@ -451,9 +454,6 @@ namespace PSPDFKit.UI {
 
 		[Wrap ("PSPDFKit.Core.PSPDFAnnotationStateVariantIdExtensions.GetValue (StateVariantId)")]
 		PSPDFAnnotationStateVariantId GetStateVariantId ();
-
-		[Export ("drawingInputMode", ArgumentSemantic.Assign)]
-		PSPDFDrawViewInputMode DrawingInputMode { get; set; }
 
 		[Export ("stylusMode", ArgumentSemantic.Assign)]
 		PSPDFAnnotationStateManagerStylusMode StylusMode { get; set; }
@@ -496,6 +496,9 @@ namespace PSPDFKit.UI {
 
 		[NullAllowed, Export ("outlineColor", ArgumentSemantic.Assign)]
 		UIColor OutlineColor { get; set; }
+
+		[NullAllowed, Export ("pencilInteraction")]
+		UIPencilInteraction PencilInteraction { get; }
 
 		[Export ("toggleStylePicker:presentationOptions:")]
 		[return: NullAllowed]
@@ -1493,6 +1496,9 @@ namespace PSPDFKit.UI {
 		[Export ("shouldShowUserInterfaceOnViewWillAppear")]
 		bool ShouldShowUserInterfaceOnViewWillAppear { get; set; }
 
+		[Export ("shouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets")]
+		bool ShouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets { get; set; }
+
 		[Export ("pageGrabberEnabled")]
 		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; set; }
 
@@ -1838,6 +1844,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("shouldShowUserInterfaceOnViewWillAppear")]
 		bool ShouldShowUserInterfaceOnViewWillAppear { get; }
+
+		[Export ("shouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets")]
+		bool ShouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets { get; }
 
 		[Export ("pageGrabberEnabled")]
 		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; }
@@ -2324,6 +2333,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("setContainer:")]
 		void SetContainer ([NullAllowed] PSPDFContainerViewController container);
+
+		[Export ("allowDismissingPopover")]
+		bool AllowDismissingPopover ();
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -2530,6 +2542,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("documentSharingViewController:shouldProcessForSharingWithState:")]
 		bool ShouldProcessForSharingWithState (PSPDFDocumentSharingViewController shareController, PSPDFDocumentSharingConfiguration sharingConfiguration);
+
+		[Export ("documentSharingViewController:shouldSaveDocument:withOptions:")]
+		bool ShouldSaveDocument (PSPDFDocumentSharingViewController shareController, PSPDFDocument document,  NSDictionary options);
 	}
 
 	[BaseType (typeof (PSPDFStaticTableViewController))]
@@ -4565,7 +4580,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (PSPDFBaseViewController))]
-	interface PSPDFMultiDocumentViewController {
+	interface PSPDFMultiDocumentViewController : PSPDFConflictResolutionManagerDelegate {
 
 		[Export ("initWithPDFViewController:")]
 		[DesignatedInitializer]
@@ -5175,17 +5190,8 @@ namespace PSPDFKit.UI {
 		[Export ("highlightColor", ArgumentSemantic.Strong)]
 		UIColor HighlightColor { get; set; }
 
-		[Export ("convertViewPointToPDFPoint:")]
-		CGPoint ConvertViewPointToPdfPoint (CGPoint viewPoint);
-
-		[Export ("convertPDFPointToViewPoint:")]
-		CGPoint ConvertPdfPointToViewPoint (CGPoint pdfPoint);
-
-		[Export ("convertViewRectToPDFRect:")]
-		CGRect ConvertViewRectToPdfRect (CGRect viewRect);
-
-		[Export ("convertPDFRectToViewRect:")]
-		CGRect ConvertPdfRectToViewRect (CGRect pdfRect);
+		[Export ("pdfCoordinateSpace")]
+		IUICoordinateSpace PdfCoordinateSpace { get; }
 
 		[Export ("objectsAtPoint:options:")]
 		NSDictionary GetObjects (CGPoint viewPoint, [NullAllowed] NSDictionary<NSString, NSNumber> options);
@@ -5698,6 +5704,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("createPDFViewControllerForMirroring:")]
 		PSPDFViewController CreatePdfViewControllerForMirroring (PSPDFScreenController screenController);
+
+		[Export ("screenController:shouldSyncConfigurationTo:")]
+		bool ShouldSyncConfiguration (PSPDFScreenController screenController, PSPDFViewController mirroredPdfController);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -7215,9 +7224,6 @@ namespace PSPDFKit.UI {
 		[return: NullAllowed]
 		UICollectionViewCell GetCellForPage (nuint pageIndex, [NullAllowed] PSPDFDocument document);
 
-		[Export ("scrollToPageAtIndex:document:animated:")]
-		void ScrollToPage (nuint pageIndex, [NullAllowed] PSPDFDocument document, bool animated);
-
 		[Export ("stopScrolling")]
 		void StopScrolling ();
 
@@ -7247,6 +7253,10 @@ namespace PSPDFKit.UI {
 
 		[Export ("pageForIndexPath:")]
 		nuint GetPageForIndexPath (NSIndexPath indexPath);
+
+		[return: NullAllowed]
+		[Export ("indexPathForPageAtIndex:")]
+		NSIndexPath GetindexPathForPage (nuint pageIndex);
 
 		[NullAllowed, Export ("filterSegment")]
 		PSPDFThumbnailFilterSegmentedControl FilterSegment { get; }
@@ -7524,7 +7534,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (PSPDFBaseViewController))]
-	interface PSPDFViewController : PSPDFPresentationContext, PSPDFControlDelegate, IPSPDFOverridable, IPSPDFTextSearchDelegate, PSPDFInlineSearchManagerDelegate, PSPDFErrorHandler, PSPDFExternalURLHandler, PSPDFOutlineViewControllerDelegate, PSPDFBookmarkViewControllerDelegate, PSPDFWebViewControllerDelegate, PSPDFSearchViewControllerDelegate, PSPDFAnnotationTableViewControllerDelegate, IPSPDFBackForwardActionListDelegate, PSPDFFlexibleToolbarContainerDelegate, IMFMailComposeViewControllerDelegate, IMFMessageComposeViewControllerDelegate, PSPDFEmbeddedFilesViewControllerDelegate {
+	interface PSPDFViewController : PSPDFPresentationContext, PSPDFControlDelegate, IPSPDFOverridable, IPSPDFTextSearchDelegate, PSPDFInlineSearchManagerDelegate, PSPDFErrorHandler, PSPDFExternalURLHandler, PSPDFOutlineViewControllerDelegate, PSPDFBookmarkViewControllerDelegate, PSPDFWebViewControllerDelegate, PSPDFSearchViewControllerDelegate, PSPDFAnnotationTableViewControllerDelegate, IPSPDFBackForwardActionListDelegate, PSPDFFlexibleToolbarContainerDelegate, IMFMailComposeViewControllerDelegate, IMFMessageComposeViewControllerDelegate, PSPDFEmbeddedFilesViewControllerDelegate, PSPDFConflictResolutionManagerDelegate {
 
 		[Export ("initWithDocument:configuration:")]
 		[DesignatedInitializer]
@@ -7916,8 +7926,16 @@ namespace PSPDFKit.UI {
 		bool FixedItemSizeEnabled { get; set; }
 
 		[Abstract]
+		[Export ("visiblePageIndexes")]
+		NSIndexSet VisiblePageIndexes { get; }
+
+		[Abstract]
 		[Export ("updateInsetsForTopOverlapHeight:")]
 		void UpdateInsetsForTopOverlapHeight (nfloat overlapHeight);
+
+		[Abstract]
+		[Export ("scrollToPageAtIndex:document:animated:")]
+		void ScrollToPage (nuint pageIndex, [NullAllowed] PSPDFDocument document, bool animated);
 	}
 
 	[BaseType (typeof (PSPDFModel))]
@@ -8099,6 +8117,15 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("overrideDelegate", ArgumentSemantic.Weak)]
 		IPSPDFOverridable OverrideDelegate { get; set; }
 
+		[NullAllowed, Export ("allowEditing")]
+		bool AllowEditing { get; set; }
+
+		[NullAllowed, Export ("rightActionButtonItems")]
+		UIBarButtonItem [] RightActionButtonItems { get; set; }
+
+		[NullAllowed, Export ("leftActionButtonItems")]
+		UIBarButtonItem [] LeftActionButtonItems { get; set; }
+
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
 		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
@@ -8110,6 +8137,15 @@ namespace PSPDFKit.UI {
 
 		[NullAllowed, Export ("overrideDelegate", ArgumentSemantic.Weak)]
 		IPSPDFOverridable OverrideDelegate { get; set; }
+
+		[NullAllowed, Export ("allowEditing")]
+		bool AllowEditing { get; set; }
+
+		[NullAllowed, Export ("rightActionButtonItems")]
+		UIBarButtonItem [] RightActionButtonItems { get; set; }
+
+		[NullAllowed, Export ("leftActionButtonItems")]
+		UIBarButtonItem [] LeftActionButtonItems { get; set; }
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
@@ -8281,5 +8317,39 @@ namespace PSPDFKit.UI {
 		[Advice ("You can use 'ExcludedActivityTypes' for a strongly typed access")]
 		[Export ("excludedActivityTypes", ArgumentSemantic.Copy)]
 		NSString [] WeakExcludedActivityTypes { get; set; }
+	}
+
+	interface IPSPDFConflictResolutionManagerDelegate { }
+
+	[Protocol, Model (AutoGeneratedName = true)]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFConflictResolutionManagerDelegate {
+
+		[Abstract]
+		[Export ("resolutionManager:requestingFileConflictResolutionForDocument:dataProvider:withResolution:error:")]
+		bool RequestingFileConflictResolution (PSPDFConflictResolutionManager manager, PSPDFDocument document, IPSPDFCoordinatedFileDataProviding dataProvider, PSPDFFileConflictResolution resolution, out NSError error);
+
+		[Export ("viewControllerForPresentationForResolutionManager:")]
+		UIViewController GetViewControllerForPresentation (PSPDFConflictResolutionManager manager);
+	}
+
+	[BaseType (typeof (NSObject))]
+	interface PSPDFConflictResolutionManager {
+
+		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
+		IPSPDFConflictResolutionManagerDelegate Delegate { get; set; }
+
+		[Export ("handleUnderlyingFileChangedNotification:")]
+		void HandleUnderlyingFileChangedNotification (NSNotification notification);
+
+		// PSPDFConflictResolutionManager (SubclassingHooks) Category
+
+		[return: NullAllowed]
+		[Export ("controllerForFileDeletionResolutionOnDocument:dataProvider:")]
+		UIViewController GetControllerForFileDeletionResolutionOnDocument (PSPDFDocument document, IPSPDFCoordinatedFileDataProviding dataProvider);
+
+		[return: NullAllowed]
+		[Export ("controllerForExternalFileChangeResolutionOnDocument:dataProvider:")]
+		UIViewController GetControllerForExternalFileChangeResolutionOnDocument (PSPDFDocument document, IPSPDFCoordinatedFileDataProviding dataProvider);
 	}
 }

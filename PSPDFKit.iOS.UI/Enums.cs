@@ -894,6 +894,7 @@ namespace PSPDFKit.UI {
 	public enum PSPDFDocumentSharingStep : ulong {
 		Configuration,
 		Destination,
+		FileGeneration,
 	}
 
 	[Flags]

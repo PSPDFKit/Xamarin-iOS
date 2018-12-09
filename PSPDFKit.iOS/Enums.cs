@@ -8,11 +8,13 @@ namespace PSPDFKit.Core {
 	//[ErrorDomain ("PSPDFErrorDomain")] TODO: enable once generator bug is fixed
 	public enum PSPDFErrorCode : long {
 		OutOfMemory = 10,
+		FileNotFound = 11,
 		PageInvalid = 100,
 		DocumentContainsNoPages = 101,
 		DocumentNotValid = 102,
 		DocumentLocked = 103,
 		DocumentInvalidFormat = 104,
+		PageIndexOutOfBounds = 105,
 		UnableToOpenPDF = 200,
 		UnableToGetPageReference = 210,
 		UnableToGetStream = 211,
@@ -62,6 +64,8 @@ namespace PSPDFKit.Core {
 		InvalidRemoteContent = 1500,
 		FailedToSendStatistics = 1600,
 		LibraryFailedToInitialize = 1700,
+		CantCreateCustomAPStream = 1800,
+		CantApplyCustomAPStream = 1810,
 		FormValidationError = 5000,
 		FormRemovalError = 5500,
 		FormInsertionError = 5501,
@@ -968,5 +972,66 @@ namespace PSPDFKit.Core {
 		None = 0,
 		User,
 		Owner,
+	}
+
+	[Native]
+	public enum PSPDFFileConflictResolution : ulong {
+		Close = 0,
+		Save,
+		Reload,
+	}
+
+	public enum PSPDFStampType {
+		[DefaultEnumValue]
+		[Field (null)]
+		Null,
+		[Field ("PSPDFStampTypeAccepted", PSPDFKitLibraryPath.LibraryPath)]
+		Accepted,
+		[Field ("PSPDFStampTypeApproved", PSPDFKitLibraryPath.LibraryPath)]
+		Approved,
+		[Field ("PSPDFStampTypeAsIs", PSPDFKitLibraryPath.LibraryPath)]
+		AsIs,
+		[Field ("PSPDFStampTypeCompleted", PSPDFKitLibraryPath.LibraryPath)]
+		Completed,
+		[Field ("PSPDFStampTypeConfidential", PSPDFKitLibraryPath.LibraryPath)]
+		Confidential,
+		[Field ("PSPDFStampTypeDepartmental", PSPDFKitLibraryPath.LibraryPath)]
+		Departmental,
+		[Field ("PSPDFStampTypeDraft", PSPDFKitLibraryPath.LibraryPath)]
+		Draft,
+		[Field ("PSPDFStampTypeExperimental", PSPDFKitLibraryPath.LibraryPath)]
+		Experimental,
+		[Field ("PSPDFStampTypeExpired", PSPDFKitLibraryPath.LibraryPath)]
+		Expired,
+		[Field ("PSPDFStampTypeFinal", PSPDFKitLibraryPath.LibraryPath)]
+		Final,
+		[Field ("PSPDFStampTypeForComment", PSPDFKitLibraryPath.LibraryPath)]
+		ForComment,
+		[Field ("PSPDFStampTypeForPublicRelease", PSPDFKitLibraryPath.LibraryPath)]
+		ForPublicRelease,
+		[Field ("PSPDFStampTypeInformationOnly", PSPDFKitLibraryPath.LibraryPath)]
+		InformationOnly,
+		[Field ("PSPDFStampTypeInitialHere", PSPDFKitLibraryPath.LibraryPath)]
+		InitialHere,
+		[Field ("PSPDFStampTypeNotApproved", PSPDFKitLibraryPath.LibraryPath)]
+		NotApproved,
+		[Field ("PSPDFStampTypeNotForPublicRelease", PSPDFKitLibraryPath.LibraryPath)]
+		NotForPublicRelease,
+		[Field ("PSPDFStampTypePreliminaryResults", PSPDFKitLibraryPath.LibraryPath)]
+		PreliminaryResults,
+		[Field ("PSPDFStampTypeRejected", PSPDFKitLibraryPath.LibraryPath)]
+		Rejected,
+		[Field ("PSPDFStampTypeRevised", PSPDFKitLibraryPath.LibraryPath)]
+		Revised,
+		[Field ("PSPDFStampTypeSignHere", PSPDFKitLibraryPath.LibraryPath)]
+		SignHere,
+		[Field ("PSPDFStampTypeSold", PSPDFKitLibraryPath.LibraryPath)]
+		Sold,
+		[Field ("PSPDFStampTypeTopSecret", PSPDFKitLibraryPath.LibraryPath)]
+		TopSecret,
+		[Field ("PSPDFStampTypeVoid", PSPDFKitLibraryPath.LibraryPath)]
+		Void,
+		[Field ("PSPDFStampTypeWitness", PSPDFKitLibraryPath.LibraryPath)]
+		Witness,
 	}
 }
