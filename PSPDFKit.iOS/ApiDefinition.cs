@@ -295,6 +295,9 @@ namespace PSPDFKit.Core {
 		[NullAllowed, Export ("group")]
 		string Group { get; set; }
 
+		[Export ("uuid")]
+		string Uuid { get; }
+
 		[NullAllowed, Export ("creationDate", ArgumentSemantic.Strong)]
 		NSDate CreationDate { get; set; }
 

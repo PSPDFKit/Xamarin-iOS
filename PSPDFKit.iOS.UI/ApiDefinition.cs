@@ -497,6 +497,12 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("outlineColor", ArgumentSemantic.Assign)]
 		UIColor OutlineColor { get; set; }
 
+		[NullAllowed, Export ("overlayText")]
+		string OverlayText { get; set; }
+
+		[Export ("repeatOverlayText")]
+		bool RepeatOverlayText { get; set; }
+
 		[NullAllowed, Export ("pencilInteraction")]
 		UIPencilInteraction PencilInteraction { get; }
 
@@ -1060,6 +1066,25 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (UITableViewController))]
 	interface PSPDFBaseTableViewController {
 
+		[Export ("viewWillAppear:"), New]
+		[Advice ("Requires base call if override.")]
+		void ViewWillAppear (bool animated);
+
+		[Export ("viewDidAppear:"), New]
+		[Advice ("Requires base call if override.")]
+		void ViewDidAppear (bool animated);
+
+		[Export ("viewWillDisappear:"), New]
+		[Advice ("Requires base call if override.")]
+		void ViewWillDisappear (bool animated);
+
+		[Export ("viewDidDisappear:"), New]
+		[Advice ("Requires base call if override.")]
+		void ViewDidDisappear (bool animated);
+
+		[Export ("viewWillLayoutSubviews"), New]
+		[Advice ("Requires base call if override.")]
+		void ViewWillLayoutSubviews ();
 	}
 
 	[BaseType (typeof (UIViewController))]
@@ -2297,7 +2322,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (UICollectionViewController))]
-	interface PSPDFDocumentEditorViewController : PSPDFViewModePresenter, IPSPDFDocumentEditorDelegate {
+	interface PSPDFDocumentEditorViewController : PSPDFViewModePresenter, IPSPDFDocumentEditorDelegate, PSPDFFlexibleToolbarContainerDelegate {
 
 		[Export ("cellClass", ArgumentSemantic.Strong)]
 		new Class CellClass { get; set; }
@@ -2521,7 +2546,6 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDocumentSharingViewControllerDelegate : IPSPDFOverridable {
 
-		[Abstract]
 		[Export ("documentSharingViewController:didFinishSharingWithConfiguration:userInfo:error:")]
 		void DidFinishSharing (PSPDFDocumentSharingViewController shareController, PSPDFDocumentSharingConfiguration configuration, NSDictionary userInfo, [NullAllowed] NSError error);
 
@@ -2542,6 +2566,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("documentSharingViewController:shouldProcessForSharingWithState:")]
 		bool ShouldProcessForSharingWithState (PSPDFDocumentSharingViewController shareController, PSPDFDocumentSharingConfiguration sharingConfiguration);
+
+		[Export ("documentSharingViewController:shouldShareFiles:toDestination:")]
+		bool ShouldProcessForSharingWithState (PSPDFDocumentSharingViewController shareController, PSPDFFile [] files, PSPDFDocumentSharingDestination destination);
 
 		[Export ("documentSharingViewController:shouldSaveDocument:withOptions:")]
 		bool ShouldSaveDocument (PSPDFDocumentSharingViewController shareController, PSPDFDocument document,  NSDictionary options);
@@ -2611,6 +2638,9 @@ namespace PSPDFKit.UI {
 		[Export ("activityViewControllerForSharingItems:sender:")]
 		[return: NullAllowed]
 		UIActivityViewController ActivityViewControllerForSharingItems (NSObject [] activityItems, NSObject sender);
+
+		[Export ("configureMailComposeViewController:")]
+		void ConfigureMailComposeViewController (MFMailComposeViewController mailComposeViewController);
 
 		[Export ("configureProcessorConfigurationOptions:")]
 		void ConfigureProcessorConfigurationOptions (PSPDFProcessorConfiguration processorConfiguration);

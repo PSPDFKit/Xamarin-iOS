@@ -15,6 +15,7 @@ namespace PSPDFKit.Core {
 		DocumentLocked = 103,
 		DocumentInvalidFormat = 104,
 		PageIndexOutOfBounds = 105,
+		DocumentNotLoaded = 106,
 		UnableToOpenPDF = 200,
 		UnableToGetPageReference = 210,
 		UnableToGetStream = 211,
