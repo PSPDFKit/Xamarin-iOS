@@ -6,8 +6,8 @@
     <ProjectGuid>{247559E5-C890-4F1F-A964-3B300A6272E9}</ProjectGuid>
     <ProjectTypeGuids>{810C163F-4746-4721-8B8E-88A3673A62EA};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>PSPDFKit.Core</RootNamespace>
-    <AssemblyName>PSPDFKit.Mac</AssemblyName>
+    <RootNamespace>PSPDFKit.Model</RootNamespace>
+    <AssemblyName>PSPDFKit.Mac.Model</AssemblyName>
     <MacResourcePrefix>Resources</MacResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,23 +37,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\PSPDFKit.iOS\ApiEnhancements.cs">
+    <Compile Include="..\PSPDFKit.iOS.Model\ApiEnhancements.cs">
       <Link>ApiEnhancements.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingApiDefinition Include="..\PSPDFKit.iOS\ApiDefinition.cs">
+    <ObjcBindingApiDefinition Include="..\PSPDFKit.iOS.Model\ApiDefinition.cs">
       <Link>ApiDefinition.cs</Link>
     </ObjcBindingApiDefinition>
-    <ObjcBindingApiDefinition Include="..\PSPDFKit.iOS\Enums.cs">
+    <ObjcBindingApiDefinition Include="..\PSPDFKit.iOS.Model\Enums.cs">
       <Link>Enums.cs</Link>
     </ObjcBindingApiDefinition>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="..\PSPDFKit.iOS\LibraryConstant.cs">
+    <ObjcBindingCoreSource Include="..\PSPDFKit.iOS.Model\LibraryConstant.cs">
       <Link>LibraryConstant.cs</Link>
     </ObjcBindingCoreSource>
-    <ObjcBindingCoreSource Include="..\PSPDFKit.iOS\Structs.cs">
+    <ObjcBindingCoreSource Include="..\PSPDFKit.iOS.Model\Structs.cs">
       <Link>Structs.cs</Link>
     </ObjcBindingCoreSource>
   </ItemGroup>

@@ -4,7 +4,7 @@ using UIKit;
 using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 
 namespace PSPDFKit.Instant {

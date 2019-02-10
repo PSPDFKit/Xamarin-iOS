@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Foundation;
 using CoreGraphics;
 
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 using UIKit;
 

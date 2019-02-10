@@ -4,7 +4,7 @@ using UIKit;
 using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using AVFoundation;
 using CoreAnimation;
 using CoreMedia;
@@ -458,7 +458,7 @@ namespace PSPDFKit.UI {
 		[Export ("stateVariantID")]
 		NSString StateVariantId { get; }
 
-		[Wrap ("PSPDFKit.Core.PSPDFAnnotationStateVariantIdExtensions.GetValue (StateVariantId)")]
+		[Wrap ("PSPDFKit.Model.PSPDFAnnotationStateVariantIdExtensions.GetValue (StateVariantId)")]
 		PSPDFAnnotationStateVariantId GetStateVariantId ();
 
 		[Export ("stylusMode", ArgumentSemantic.Assign)]

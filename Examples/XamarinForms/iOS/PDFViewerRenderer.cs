@@ -3,7 +3,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 
 using XFSample;

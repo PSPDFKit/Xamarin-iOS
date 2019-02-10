@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Foundation;
 
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 
 namespace PSPDFCatalog {

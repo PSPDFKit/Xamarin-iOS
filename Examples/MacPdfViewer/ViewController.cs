@@ -6,7 +6,7 @@ using AppKit;
 using CoreGraphics;
 using Foundation;
 
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 
 namespace MacPdfViewer {
 	public partial class ViewController : NSViewController, IPSPDFRenderTaskDelegate {

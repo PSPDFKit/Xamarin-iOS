@@ -11,7 +11,7 @@ using UIKit;
 using AppKit;
 #endif
 
-namespace PSPDFKit.Core {
+namespace PSPDFKit.Model {
 
 	public partial class PSPDFKitGlobal {
 #if __IOS__

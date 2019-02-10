@@ -1,7 +1,7 @@
 Xamarin - Stylus Support
 ========================
 
-After successfully building [PSPDFKit.iOS.dll and PSPDFKit.iOS.UI.dll](https://github.com/PSPDFKit/Xamarin-iOS/blob/master/README.md) you can add stylus support to the framework by following these steps:
+After successfully building [PSPDFKit.iOS.Model.dll and PSPDFKit.iOS.UI.dll](https://github.com/PSPDFKit/Xamarin-iOS/blob/master/README.md) you can add stylus support to the framework by following these steps:
 
 ## Step 1 - Copy required files
 

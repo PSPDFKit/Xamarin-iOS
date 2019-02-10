@@ -3,7 +3,7 @@ using Foundation;
 using UIKit;
 using CoreGraphics;
 
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 
 namespace PSPDFCatalog {

@@ -184,9 +184,9 @@
     <BundleResource Include="Resources\Pdf\hackermonthly-issue.pdf" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PSPDFKit.iOS\PSPDFKit.iOS.csproj">
+    <ProjectReference Include="..\..\..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">
       <Project>{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}</Project>
-      <Name>PSPDFKit.iOS</Name>
+      <Name>PSPDFKit.iOS.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PSPDFKit.iOS.UI\PSPDFKit.iOS.UI.csproj">
       <Project>{A48DA6FC-C52F-44B3-9F9D-DD6D964C1254}</Project>

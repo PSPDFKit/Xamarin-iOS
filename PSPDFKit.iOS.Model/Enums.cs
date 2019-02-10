@@ -2,7 +2,7 @@
 using Foundation;
 using ObjCRuntime;
 
-namespace PSPDFKit.Core {
+namespace PSPDFKit.Model {
 
 	[Native]
 	//[ErrorDomain ("PSPDFErrorDomain")] TODO: enable once generator bug is fixed

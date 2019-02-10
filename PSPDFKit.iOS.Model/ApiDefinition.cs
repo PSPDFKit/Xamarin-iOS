@@ -24,7 +24,7 @@ using UIFontDescriptorSymbolicTraits = AppKit.NSFontSymbolicTraits;
 using AVFoundation;
 #endif
 
-namespace PSPDFKit.Core {
+namespace PSPDFKit.Model {
 
 	[Abstract]
 	[BaseType (typeof (PSPDFAction))]

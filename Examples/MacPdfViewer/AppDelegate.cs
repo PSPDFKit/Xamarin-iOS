@@ -1,6 +1,6 @@
 ﻿using AppKit;
 using Foundation;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 
 namespace MacPdfViewer {
 	[Register ("AppDelegate")]

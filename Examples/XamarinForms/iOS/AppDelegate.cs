@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using UIKit;
 
 namespace XFSample.iOS {

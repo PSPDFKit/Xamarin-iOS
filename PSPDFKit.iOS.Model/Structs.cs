@@ -4,7 +4,7 @@ using CoreGraphics;
 using Foundation;
 using ObjCRuntime;
 
-namespace PSPDFKit.Core {
+namespace PSPDFKit.Model {
 	[StructLayout (LayoutKind.Sequential)]
 	public struct PSPDFDrawingPoint {
 

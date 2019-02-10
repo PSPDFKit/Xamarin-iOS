@@ -15,6 +15,7 @@ StylusDrivers/externals/
 tools/
 packages/
 .vs/
+nuget/pkgs/
 
 # Xcode
 #

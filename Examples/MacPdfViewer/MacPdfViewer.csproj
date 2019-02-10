@@ -88,9 +88,9 @@
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PSPDFKit.Mac\PSPDFKit.Mac.csproj">
+    <ProjectReference Include="..\..\PSPDFKit.Mac.Model\PSPDFKit.Mac.Model.csproj">
       <Project>{247559E5-C890-4F1F-A964-3B300A6272E9}</Project>
-      <Name>PSPDFKit.Mac</Name>
+      <Name>PSPDFKit.Mac.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

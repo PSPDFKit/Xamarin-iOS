@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPDFAdonitStylusDriver", "PSPDFAdonitStylusDriver.csproj", "{BCC4D1DC-3B7C-45D8-AF56-016E10EE5FF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPDFKit.iOS", "..\..\..\PSPDFKit.iOS\PSPDFKit.iOS.csproj", "{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPDFKit.iOS.Model", "..\..\..\PSPDFKit.iOS\PSPDFKit.iOS.Model.csproj", "{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSPDFKit.iOS.UI", "..\..\..\PSPDFKit.iOS.UI\PSPDFKit.iOS.UI.csproj", "{A48DA6FC-C52F-44B3-9F9D-DD6D964C1254}"
 EndProject

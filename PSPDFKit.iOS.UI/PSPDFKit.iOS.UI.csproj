@@ -45,9 +45,9 @@
     <ObjcBindingApiDefinition Include="Enums.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PSPDFKit.iOS\PSPDFKit.iOS.csproj">
+    <ProjectReference Include="..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">
       <Project>{EAD841EF-ADCC-4DE1-890C-0C58C4F73C3A}</Project>
-      <Name>PSPDFKit.iOS</Name>
+      <Name>PSPDFKit.iOS.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

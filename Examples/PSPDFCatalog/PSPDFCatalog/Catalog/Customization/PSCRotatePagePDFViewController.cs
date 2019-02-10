@@ -1,6 +1,6 @@
 ﻿using System;
 using UIKit;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 using Foundation;
 

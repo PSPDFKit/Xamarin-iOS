@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Foundation;
 using ObjCRuntime;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using UIKit;
 
 namespace PSPDFKit.UI {

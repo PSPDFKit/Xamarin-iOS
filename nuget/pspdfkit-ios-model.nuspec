@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <metadata>
-        <id>PSPDFKit.iOS.Core</id>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+        <id>PSPDFKit.iOS.Model</id>
         <version>$version$</version>
-        <title>PSPDFKit for Xamarin.iOS - Core</title>
+        <title>PSPDFKit for Xamarin.iOS - Model</title>
         <authors>PSPDFKit GmbH</authors>
         <owners>PSPDFKit GmbH</owners>
         <copyright>Copyright 2010-2019</copyright>
         <licenseUrl>https://github.com/PSPDFKit/Xamarin-iOS/blob/master/LICENSE.md</licenseUrl>
-        <projectUrl>https://github.com/PSPDFKit/Xamarin-iOS</projectUrl>
+        <projectUrl>https://pspdfkit.com/</projectUrl>
+        <repository type="git" url="https://github.com/PSPDFKit/Xamarin-iOS"/>
         <iconUrl>https://pspdfkit.com/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
@@ -23,6 +24,6 @@
     <files>
         <file src="nuget\readme.txt" target="readme.txt" /> 
         <!--Xamarin.iOS-->
-        <file src="PSPDFKit.iOS\bin\Release\PSPDFKit.iOS.dll" target="lib\Xamarin.iOS10" />
+        <file src="PSPDFKit.iOS.Model\bin\Release\PSPDFKit.iOS.Model.dll" target="lib\Xamarin.iOS10" />
     </files>
 </package>

@@ -36,13 +36,13 @@ Build Instructions
 
 iOS: From **PSPDFKit-for-iOS** dmg.
 
-- Copy `PSPDFKit.framework` into [PSPDFKit.iOS](PSPDFKit.iOS/) folder.
+- Copy `PSPDFKit.framework` into [PSPDFKit.iOS.Model](PSPDFKit.iOS.Model/) folder.
 - Copy `PSPDFKitUI.framework` into [PSPDFKit.iOS.UI](PSPDFKit.iOS.UI/) folder. *
 - Copy `Instant.framework` into [PSPDFKit.iOS.Instant](PSPDFKit.iOS.Instant/) folder. *
 
 Mac: From **PSPDFKit-for-macOS** dmg.
 
-- Copy `PSPDFKit.framework` into [PSPDFKit.Mac](PSPDFKit.Mac/) folder. *
+- Copy `PSPDFKit.framework` into [PSPDFKit.Mac.Model](PSPDFKit.Mac.Model/) folder. *
 
 `*` Items with an asterisk are *optional*, if you do not provide a framework, by default we won't generate its bindings, but most of the time you will want to provide `PSPDFKit.framework` and `PSPDFKitUI.framework` at minimum.
 
@@ -84,7 +84,7 @@ To list all available tasks you can do `./build.sh --showdescription`.
 Add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponding using statements depending on the dlls referenced into your project.
 
 ```csharp
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 using PSPDFKit.Instant;
 ```
@@ -114,7 +114,7 @@ You can find several sample projects in the `Examples` folder, including a catal
 ## How to Run the Example Projects
 
 1. Complete **Step 2**.
-2. Open the `PSPDFKit.iOS.sln` solution in Visual Studio.
+2. Open the `PSPDFKit.sln` solution in Visual Studio.
 3. Select the example project and device you want to run it on (alternatively you can also right-click on the project and select "Build `Project Name`").
 <img width="60%" src="Images/Project-setup.png"/>
 4. Tap on the triangle on the left to run the project.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <metadata>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
         <id>PSPDFKit.iOS.Instant</id>
         <version>$version$</version>
         <title>PSPDFKit for Xamarin.iOS - Instant</title>
@@ -8,7 +8,8 @@
         <owners>PSPDFKit GmbH</owners>
         <copyright>PSPDFKit GmbH. Copyright 2010-2019</copyright>
         <licenseUrl>https://github.com/PSPDFKit/Xamarin-iOS/blob/master/LICENSE.md</licenseUrl>
-        <projectUrl>https://github.com/PSPDFKit/Xamarin-iOS</projectUrl>
+        <projectUrl>https://pspdfkit.com/instant/</projectUrl>
+        <repository type="git" url="https://github.com/PSPDFKit/Xamarin-iOS"/>
         <iconUrl>https://pspdfkit.com/favicon.ico</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
@@ -17,11 +18,11 @@
         <releaseNotes>
             For changelog go to: https://pspdfkit.com/changelog/ios/
         </releaseNotes>
-        <summary>A high-performance viewer, extensive annotation and document editing tools, digital signatures, and more. All engineered for the best possible user and developer experience. PSPDFKit — the iOS PDF SDK made for you.</summary>
+        <summary>With PSPDFKit Instant, it’s easier than ever to add real-time collaboration, efficient synchronization, offline support, and data security to your apps. Instant is made especially for PSPDFKit, works extremely fast, and is available on all platforms.</summary>
         <tags>pdf, pdf document, pdf document view, pdf sdk, pdf annotation, edit pdf, display pdf, display pdf, xamarin, ios</tags>
         <dependencies>
             <group targetFramework="Xamarin.iOS10">
-                <dependency id="PSPDFKit.iOS.Core" version="[8.2.0]"/>
+                <dependency id="PSPDFKit.iOS.Model" version="[8.2.0]"/>
                 <dependency id="PSPDFKit.iOS.UI" version="[8.2.0]"/>
             </group>
        </dependencies>

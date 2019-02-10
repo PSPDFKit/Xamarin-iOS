@@ -2,35 +2,35 @@ var IOSVERSION = Argument("iosversion", "8.2.0");
 var MACVERSION = Argument("macversion", "3.2.0");
 var target = Argument ("target", "Default");
 
-Task ("MacCore")
-	.Description ("Builds 'PSPDFKit.Mac.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.Mac/' Directory\n")
+Task ("MacModel")
+	.Description ("Builds 'PSPDFKit.Mac.Model.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.Mac.Model/' Directory\n")
 	.Does (() => {
-		Information ("=== PSPDFKit.Mac.dll ===");
-		if (!DirectoryExists ("./PSPDFKit.Mac/PSPDFKit.framework/")) {
+		Information ("=== PSPDFKit.Mac.Model.dll ===");
+		if (!DirectoryExists ("./PSPDFKit.Mac.Model/PSPDFKit.framework/")) {
 			Warning ("Unable to locate 'PSPDFKit.framework' inside './PSPDFKit.Mac' Directory");
-			Warning ("Skipping PSPDFKit.Mac.dll");
+			Warning ("Skipping PSPDFKit.Mac.Model.dll");
 		} else {
-			MSBuild ("./PSPDFKit.Mac/PSPDFKit.Mac.csproj", new MSBuildSettings ()
+			MSBuild ("./PSPDFKit.Mac.Model/PSPDFKit.Mac.Model.csproj", new MSBuildSettings ()
 				.SetConfiguration ("Release")
 			);
-			if (FileExists ("./PSPDFKit.Mac/bin/Release/PSPDFKit.Mac.dll"))
-				CopyFile ("./PSPDFKit.Mac/bin/Release/PSPDFKit.Mac.dll", "./PSPDFKit.Mac.dll");
+			if (FileExists ("./PSPDFKit.Mac.Model/bin/Release/PSPDFKit.Mac.Model.dll"))
+				CopyFile ("./PSPDFKit.Mac.Model/bin/Release/PSPDFKit.Mac.Model.dll", "./PSPDFKit.Mac.Model.dll");
 		}
 	}
 );
 
-Task ("iOSCore")
-	.Description ("Builds 'PSPDFKit.iOS.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.iOS/' Directory\n")
+Task ("iOSModel")
+	.Description ("Builds 'PSPDFKit.iOS.Model.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.iOS.Model/' Directory\n")
 	.Does (() => {
-		Information ("=== PSPDFKit.iOS.dll ===");
-		if (!DirectoryExists ("./PSPDFKit.iOS/PSPDFKit.framework/"))
-			throw new Exception ("Unable to locate 'PSPDFKit.framework' inside './PSPDFKit.iOS' Directory");
+		Information ("=== PSPDFKit.iOS.Model.dll ===");
+		if (!DirectoryExists ("./PSPDFKit.iOS.Model/PSPDFKit.framework/"))
+			throw new Exception ("Unable to locate 'PSPDFKit.framework' inside './PSPDFKit.iOS.Model' Directory");
 		
-		MSBuild ("./PSPDFKit.iOS/PSPDFKit.iOS.csproj", new MSBuildSettings ()
+		MSBuild ("./PSPDFKit.iOS.Model/PSPDFKit.iOS.Model.csproj", new MSBuildSettings ()
 			.SetConfiguration ("Release")
 		);
-		if (FileExists ("./PSPDFKit.iOS/bin/Release/PSPDFKit.iOS.dll"))
-			CopyFile ("./PSPDFKit.iOS/bin/Release/PSPDFKit.iOS.dll", "./PSPDFKit.iOS.dll");
+		if (FileExists ("./PSPDFKit.iOS.Model/bin/Release/PSPDFKit.iOS.Model.dll"))
+			CopyFile ("./PSPDFKit.iOS.Model/bin/Release/PSPDFKit.iOS.Model.dll", "./PSPDFKit.iOS.Model.dll");
 	}
 );
 
@@ -78,7 +78,7 @@ Task ("ios")
 	.Description ("Builds iOS PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
 	.IsDependentOn ("RestoreNugets")
-	.IsDependentOn ("iOSCore")
+	.IsDependentOn ("iOSModel")
 	.IsDependentOn ("iOSUI")
 	.IsDependentOn ("iOSInstant")
 	.Does (() => {
@@ -89,7 +89,7 @@ Task ("ios")
 Task ("mac")
 	.Description ("Builds macOS PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
-	.IsDependentOn ("MacCore")
+	.IsDependentOn ("MacModel")
 	.Does (() => {
 		Information ("DONE! You will find the PSPDFKit.*.dll's in the root folder.");
 	}
@@ -99,10 +99,10 @@ Task ("Default")
 	.Description ("Builds all PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
 	.IsDependentOn ("RestoreNugets")
-	.IsDependentOn ("iOSCore")
+	.IsDependentOn ("iOSModel")
 	.IsDependentOn ("iOSUI")
 	.IsDependentOn ("iOSInstant")
-	.IsDependentOn ("MacCore")
+	.IsDependentOn ("MacModel")
 	.Does (() => {
 		Information ("DONE! You will find the PSPDFKit.*.dll's in the root folder.");
 	}
@@ -115,7 +115,7 @@ Task ("NuGet")
 	if(!DirectoryExists("./nuget/pkgs/"))
 		CreateDirectory("./nuget/pkgs");
 
-	NuGetPack ("./nuget/pspdfkit-ios-core.nuspec", new NuGetPackSettings {
+	NuGetPack ("./nuget/pspdfkit-ios-model.nuspec", new NuGetPackSettings {
 		Version = IOSVERSION,
 		OutputDirectory = "./nuget/pkgs/",
 		BasePath = "./"
@@ -143,8 +143,8 @@ Task ("NuGet")
 Task ("Clean")
 	.Description ("Cleans the build.\n")
 	.Does (() => {
-		if (FileExists ("./PSPDFKit.iOS.dll"))
-			DeleteFile ("./PSPDFKit.iOS.dll");
+		if (FileExists ("./PSPDFKit.iOS.Model.dll"))
+			DeleteFile ("./PSPDFKit.iOS.Model.dll");
 
 		if (FileExists ("./PSPDFKit.iOS.UI.dll"))
 			DeleteFile ("./PSPDFKit.iOS.UI.dll");
@@ -152,16 +152,16 @@ Task ("Clean")
 		if (FileExists ("./PSPDFKit.iOS.Instant.dll"))
 			DeleteFile ("./PSPDFKit.iOS.Instant.dll");
 
-		if (FileExists ("./PSPDFKit.Mac.dll"))
-			DeleteFile ("./PSPDFKit.Mac.dll");
+		if (FileExists ("./PSPDFKit.Mac.Model.dll"))
+			DeleteFile ("./PSPDFKit.Mac.Model.dll");
 
 		var delDirSettings = new DeleteDirectorySettings { Recursive = true, Force = true };
 
-		if (DirectoryExists ("./PSPDFKit.iOS/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS/bin", delDirSettings);
+		if (DirectoryExists ("./PSPDFKit.iOS.Model/bin/"))
+			DeleteDirectory ("./PSPDFKit.iOS.Model/bin", delDirSettings);
 
-		if (DirectoryExists ("./PSPDFKit.iOS/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS/obj", delDirSettings);
+		if (DirectoryExists ("./PSPDFKit.iOS.Model/obj/"))
+			DeleteDirectory ("./PSPDFKit.iOS.Model/obj", delDirSettings);
 
 		if (DirectoryExists ("./PSPDFKit.iOS.UI/bin/"))
 			DeleteDirectory ("./PSPDFKit.iOS.UI/bin", delDirSettings);
@@ -175,11 +175,11 @@ Task ("Clean")
 		if (DirectoryExists ("./PSPDFKit.iOS.Instant/obj/"))
 			DeleteDirectory ("./PSPDFKit.iOS.Instant/obj", delDirSettings);
 
-		if (DirectoryExists ("./PSPDFKit.Mac/bin/"))
-			DeleteDirectory ("./PSPDFKit.Mac/bin", delDirSettings);
+		if (DirectoryExists ("./PSPDFKit.Mac.Model/bin/"))
+			DeleteDirectory ("./PSPDFKit.Mac.Model/bin", delDirSettings);
 
-		if (DirectoryExists ("./PSPDFKit.Mac/obj/"))
-			DeleteDirectory ("./PSPDFKit.Mac/obj", delDirSettings);
+		if (DirectoryExists ("./PSPDFKit.Mac.Model/obj/"))
+			DeleteDirectory ("./PSPDFKit.Mac.Model/obj", delDirSettings);
 
 		if (DirectoryExists ("./packages/"))
 			DeleteDirectory ("./packages", delDirSettings);

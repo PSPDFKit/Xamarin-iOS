@@ -1,7 +1,7 @@
 ﻿using System;
 using Foundation;
 using ObjCRuntime;
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 
 namespace PSPDFKit.UI {
 	[Native]

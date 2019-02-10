@@ -8,7 +8,7 @@ using MonoTouch.Dialog;
 using Foundation;
 using UIKit;
 
-using PSPDFKit.Core;
+using PSPDFKit.Model;
 using PSPDFKit.UI;
 
 namespace PSPDFCatalog {

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using ObjCRuntime;
 
-namespace PSPDFKit.Core {
+namespace PSPDFKit.Model {
 	public partial class PSPDFKitLibraryPath {
 #if __IOS__
 		internal const string LibraryPath = "__Internal";
