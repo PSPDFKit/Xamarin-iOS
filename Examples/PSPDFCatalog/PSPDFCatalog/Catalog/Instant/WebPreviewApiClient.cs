@@ -57,6 +57,28 @@ namespace PSPDFCatalog {
 				return null;
 			}
 		}
+
+		public async Task<InstantDocumentInfo> ResolveDocument (Uri uri)
+		{
+			try {
+				var msg = new HttpRequestMessage ();
+				msg.Headers.Add ("Accept", "application/vnd.instant-example+json");
+				msg.RequestUri = uri;
+
+				var response = await httpClient.SendAsync (msg);
+				response.EnsureSuccessStatusCode ();
+
+				// Do not allocate a string for the json reponse, read directly from the stream
+				using (var stream = await response.Content.ReadAsStreamAsync ())
+				using (var reader = new StreamReader (stream))
+				using (var json = new JsonTextReader (reader)) {
+					return InstantDocumentInfo.FromJson (json);
+				}
+			} catch (HttpRequestException ex) {
+				Console.WriteLine (ex.Message);
+				return null;
+			}
+		}
 	}
 
 	// Generated with https://quicktype.io

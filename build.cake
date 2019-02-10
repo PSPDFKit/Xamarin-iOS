@@ -1,3 +1,5 @@
+var IOSVERSION = Argument("iosversion", "8.2.0");
+var MACVERSION = Argument("macversion", "3.2.0");
 var target = Argument ("target", "Default");
 
 Task ("MacCore")
@@ -106,6 +108,38 @@ Task ("Default")
 	}
 );
 
+Task ("NuGet")
+	.IsDependentOn("Default")
+	.Does (() =>
+{
+	if(!DirectoryExists("./nuget/pkgs/"))
+		CreateDirectory("./nuget/pkgs");
+
+	NuGetPack ("./nuget/pspdfkit-ios-core.nuspec", new NuGetPackSettings {
+		Version = IOSVERSION,
+		OutputDirectory = "./nuget/pkgs/",
+		BasePath = "./"
+	});
+
+	NuGetPack ("./nuget/pspdfkit-ios-ui.nuspec", new NuGetPackSettings {
+		Version = IOSVERSION,
+		OutputDirectory = "./nuget/pkgs/",
+		BasePath = "./"
+	});
+
+	NuGetPack ("./nuget/pspdfkit-ios-instant.nuspec", new NuGetPackSettings {
+		Version = IOSVERSION,
+		OutputDirectory = "./nuget/pkgs/",
+		BasePath = "./"
+	});
+
+	NuGetPack ("./nuget/pspdfkit-mac-core.nuspec", new NuGetPackSettings {
+		Version = MACVERSION,
+		OutputDirectory = "./nuget/pkgs/",
+		BasePath = "./"
+	});
+});
+
 Task ("Clean")
 	.Description ("Cleans the build.\n")
 	.Does (() => {
@@ -149,6 +183,9 @@ Task ("Clean")
 
 		if (DirectoryExists ("./packages/"))
 			DeleteDirectory ("./packages", delDirSettings);
+
+		if(DirectoryExists("./nuget/pkgs/"))
+			DeleteDirectory ("./nuget/pkgs", delDirSettings);
 	}
 );
 

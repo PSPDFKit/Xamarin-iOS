@@ -5,6 +5,7 @@ using Foundation;
 using UIKit;
 
 using PSPDFKit.UI;
+using ZXing.Mobile;
 
 namespace PSPDFCatalog {
 
@@ -13,6 +14,7 @@ namespace PSPDFCatalog {
 
 		const string newGroupCellIdentifier = "new group";
 		const string codeFieldCellIdentifier = "code field";
+		const string barcodeCellIdentifier = "barcode scanner";
 
 		// Interfaces with our web-preview server to create and access documents.
 		// In your own app you would connect to your own server backend to get Instant document identifiers and authentication tokens.
@@ -32,6 +34,7 @@ namespace PSPDFCatalog {
 			TableView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
 			TableView.RegisterClassForCellReuse (typeof (UITableViewCell), newGroupCellIdentifier);
 			TableView.RegisterClassForCellReuse (typeof (TextFieldCell), codeFieldCellIdentifier);
+			TableView.RegisterClassForCellReuse (typeof (UITableViewCell), barcodeCellIdentifier);
 		}
 
 		// Data to show in the table view.
@@ -60,7 +63,7 @@ namespace PSPDFCatalog {
 						AllowsHighlight = true
 					}
 				},
-				Footer = "Get a new document code, then collaborate by entering it in PSPDFKit Catalog on another device, or opening the document link in a web browser."
+				Footer = "Get a new document link, then collaborate by entering it in PSPDFKit Catalog on another device, or opening the document link in a web browser."
 			},
 			new Section {
 				Header = "Join a group",
@@ -68,9 +71,13 @@ namespace PSPDFCatalog {
 					new Row {
 						Identifier = codeFieldCellIdentifier,
 						AllowsHighlight = false
+					},
+					new Row {
+						Identifier = barcodeCellIdentifier,
+						AllowsHighlight = true
 					}
 				},
-				Footer = "Enter a code from PSPDFKit Catalog on another device, or from a web browser showing pspdfkit.com/instant/demo or web-preview.pspdfkit.com."
+				Footer = "Enter or Scan a document link from PSPDFKit Catalog on another device, or from a web browser showing pspdfkit.com/instant/demo or web-preview.pspdfkit.com."
 			}
 		};
 
@@ -79,7 +86,26 @@ namespace PSPDFCatalog {
 		public override string TitleForHeader (UITableView tableView, nint section) => Sections [section]?.Header;
 		public override string TitleForFooter (UITableView tableView, nint section) => Sections [section]?.Footer;
 		public override bool ShouldHighlightRow (UITableView tableView, NSIndexPath rowIndexPath) => Sections [rowIndexPath.Section].Rows [rowIndexPath.Row].AllowsHighlight;
-		public override void RowSelected (UITableView tableView, NSIndexPath indexPath) => LoadDocument ("Creating", async () => await apiClient.CreateNewDocument ());
+
+		public override async void RowSelected (UITableView tableView, NSIndexPath indexPath)
+		{
+			var rowId = Sections [indexPath.Section].Rows [indexPath.Row].Identifier;
+			switch (rowId) {
+			case newGroupCellIdentifier:
+				LoadDocument ("Creating", async () => await apiClient.CreateNewDocument ());
+				break;
+			case barcodeCellIdentifier:
+				var scanner = new MobileBarcodeScanner ();
+				var result = await scanner.Scan ();
+				if (result is null) return;
+				codeTextField.TryGetTarget (out var codefield);
+				if (Validate (result.Text))
+					LoadDocument ("Joining", async () => await apiClient.ResolveDocument (new Uri (result.Text)));
+				break;
+			default:
+				throw new Exception ($"Unsupported row identifier: {rowId}");
+			}
+		}
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
@@ -99,6 +125,11 @@ namespace PSPDFCatalog {
 
 				textField.Delegate = this;
 				textField.EditingChanged += TextChangedHandler;
+				return cell;
+			case barcodeCellIdentifier:
+				cell.TextLabel.Text = "Scan QR Code";
+				cell.TextLabel.TextColor = UIColor.Black;
+				cell.TextLabel.Font = UIFont.GetPreferredFontForTextStyle (UIFontTextStyle.Headline);
 				return cell;
 			default:
 				throw new Exception ($"Unsupported row identifier: {row.Identifier}");
@@ -166,14 +197,14 @@ namespace PSPDFCatalog {
 			});
 		}
 
-		bool Validate (string code, bool silent = false)
+		bool Validate (string url, bool silent = false)
 		{
-			var isLengthValid = code?.Length == WebPreviewApiClient.CodeLength;
+			var valid = Uri.TryCreate (url, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttps;
 
-			if (!isLengthValid && !silent)
+			if (!valid && !silent)
 				PSPDFStatusHUDItem.CreateError ("Invalid Document Code").PushAndPop (2, true, null);
 
-			return isLengthValid;
+			return valid;
 		}
 	}
 
@@ -185,8 +216,8 @@ namespace PSPDFCatalog {
 		public TextFieldCell (UITableViewCellStyle style, NSString reuseIdentifier) : base (style, reuseIdentifier)
 		{
 			TextField = new UITextField {
-				Placeholder = "Enter Document Code",
-				KeyboardType = UIKeyboardType.AsciiCapable,
+				Placeholder = "Enter Document Link",
+				KeyboardType = UIKeyboardType.ASCIICapable,
 				AutocorrectionType = UITextAutocorrectionType.No,
 				AutocapitalizationType = UITextAutocapitalizationType.None,
 				ReturnKeyType = UIReturnKeyType.Done,

@@ -46,7 +46,8 @@ namespace PSPDFCatalog {
 
 		void ShowCollaborationOptions (object sender, EventArgs e)
 		{
-			var alertController = UIAlertController.Create ($"Document Code: {documentCode}", null, UIAlertControllerStyle.ActionSheet);
+			var url = webUrl.AbsoluteString;
+			var alertController = UIAlertController.Create ($"Document URL\n: {url}", null, UIAlertControllerStyle.ActionSheet);
 			if (alertController.PopoverPresentationController != null)
 				alertController.PopoverPresentationController.BarButtonItem = sender as UIBarButtonItem;
 

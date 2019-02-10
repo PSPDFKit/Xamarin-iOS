@@ -129,6 +129,9 @@ namespace PSPDFKit.Core {
 
 		[Export ("localizedDescriptionWithDocumentProvider:")]
 		string GetLocalizedDescription ([NullAllowed] PSPDFDocumentProvider documentProvider);
+
+		[Export ("localizedActionType")]
+		string LocalizedActionType { get; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -236,7 +239,7 @@ namespace PSPDFKit.Core {
 		nuint AbsolutePageIndex { get; set; }
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
-		PSPDFDocumentProvider DocumentProvider { get; set; }
+		PSPDFDocumentProvider DocumentProvider { get; }
 
 		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
 		PSPDFDocument Document { get; }
@@ -267,6 +270,9 @@ namespace PSPDFKit.Core {
 
 		[NullAllowed, Export ("fillColor", ArgumentSemantic.Strong)]
 		UIColor FillColor { get; set; }
+
+		[Export ("blendMode")]
+		CGBlendMode BlendMode { get; set; }
 
 		[NullAllowed, Export ("contents")]
 		string Contents { get; set; }
@@ -405,6 +411,9 @@ namespace PSPDFKit.Core {
 
 		[Field ("PSPDFVerticalAlignmentName", PSPDFKitLibraryPath.LibraryPath)]
 		NSString VerticalAlignmentNameKey { get; }
+
+		[Field ("PSPDFOriginalFontNameAttributeName", PSPDFKitLibraryPath.LibraryPath)]
+		NSString OriginalFontNameAttributeNameKey { get; }
 
 		[NullAllowed, Export ("fontAttributes", ArgumentSemantic.Copy)]
 		NSDictionary FontAttributes { get; set; }
@@ -759,6 +768,24 @@ namespace PSPDFKit.Core {
 
 		[Export ("annotationProvider:failedToSaveAnnotations:error:")]
 		void FailedToSaveAnnotations (IPSPDFAnnotationProvider annotationProvider, PSPDFAnnotation [] annotations, NSError error);
+	}
+
+	interface IPSPDFAnnotationProviderRefreshing { }
+
+	[Protocol]
+	interface PSPDFAnnotationProviderRefreshing : PSPDFAnnotationProvider {
+
+		[Abstract]
+		[Export ("prepareForRefresh")]
+		void PrepareForRefresh ();
+
+		[Abstract]
+		[Export ("refreshAnnotationsForPagesAtIndexes:")]
+		void RefreshAnnotationsForPages (NSIndexSet pageIndexes);
+
+		[Abstract]
+		[Export ("performBlockForWritingAndWait:")]
+		void PerformHandlerForWritingAndWait (Action writeHandler);
 	}
 
 	interface IPSPDFAnnotationProviderChangeNotifier { }
@@ -1269,7 +1296,7 @@ namespace PSPDFKit.Core {
 		// PSPDFBookmarkManager (GoToAction) Category
 
 		[Export ("addBookmarkForPageAtIndex:")]
-		void AddBookmarkForPage (uint pageIndex);
+		PSPDFBookmark AddBookmarkForPage (uint pageIndex);
 
 		[Export ("removeBookmarkForPageAtIndex:")]
 		void RemoveBookmarkForPage (uint pageIndex);
@@ -1862,8 +1889,11 @@ namespace PSPDFKit.Core {
 	[Static]
 	interface PSPDFDocumentSaveOptionsKeys {
 
-		[Field ("PSPDFDocumentSaveOptionForceRewrite", PSPDFKitLibraryPath.LibraryPath)]
-		NSString ForceRewriteKey { get; }
+		[Field ("PSPDFDocumentSaveOptionForceSaving", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ForceSavingKey { get; }
+
+		[Field ("PSPDFDocumentSaveOptionStrategy", PSPDFKitLibraryPath.LibraryPath)]
+		NSString StrategyKey { get; }
 
 		[Field ("PSPDFDocumentSaveOptionSecurityOptions", PSPDFKitLibraryPath.LibraryPath)]
 		NSString SecurityOptionsKey { get; }
@@ -1875,7 +1905,8 @@ namespace PSPDFKit.Core {
 	[StrongDictionary ("PSPDFDocumentSaveOptionsKeys")]
 	interface PSPDFDocumentSaveOptions {
 
-		bool ForceRewrite { get; set; }
+		bool ForceSaving { get; set; }
+		PSPDFDocumentSaveStrategy Strategy { get; set; }
 		PSPDFDocumentSecurityOptions SecurityOptions { get; set; }
 		bool ApplyRedactions { get; set; }
 	}
@@ -2281,8 +2312,8 @@ namespace PSPDFKit.Core {
 
 		// PSPDFAnnotation (InstantJSON) Category
 
-		[Export ("applyInstantJSONFromDataProvider:toDocumentProvider:error:")]
-		bool ApplyInstantJson (IPSPDFDataProviding dataProvider, PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+		[Export ("applyInstantJSONFromDataProvider:toDocumentProvider:lenient:error:")]
+		bool ApplyInstantJson (IPSPDFDataProviding dataProvider, PSPDFDocumentProvider documentProvider, bool lenient, [NullAllowed] out NSError error);
 
 		[Export ("generateInstantJSONFromDocumentProvider:error:")]
 		[return: NullAllowed]
@@ -3105,7 +3136,7 @@ namespace PSPDFKit.Core {
 
 	[BaseType (typeof (PSPDFContainerAnnotationProvider))]
 	[DisableDefaultCtor]
-	interface PSPDFFileAnnotationProvider {
+	interface PSPDFFileAnnotationProvider : PSPDFAnnotationProviderRefreshing {
 
 		[Export ("initWithDocumentProvider:")]
 		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
@@ -3119,12 +3150,12 @@ namespace PSPDFKit.Core {
 
 		[Export ("annotationsForPageAtIndex:"), New]
 		[return: NullAllowed]
-		PSPDFAnnotation [] GetAnnotations (nuint pageIndex);
+		new PSPDFAnnotation [] GetAnnotations (nuint pageIndex);
 
 		[Export ("addAnnotations:options:")]
 		[Advice ("Requires base call if override.")]
 		[return: NullAllowed]
-		PSPDFAnnotation [] AddAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
+		new PSPDFAnnotation [] AddAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
 
 		[Wrap ("AddAnnotations (annotations, options: annotationOptions?.Dictionary)")]
 		PSPDFAnnotation [] AddAnnotations (PSPDFAnnotation [] annotations, PSPDFAnnotationOptions annotationOptions);
@@ -3132,7 +3163,7 @@ namespace PSPDFKit.Core {
 		[Export ("removeAnnotations:options:")]
 		[Advice ("Requires base call if override.")]
 		[return: NullAllowed]
-		PSPDFAnnotation [] RemoveAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
+		new PSPDFAnnotation [] RemoveAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
 
 		[Wrap ("RemoveAnnotations (annotations, options: annotationOptions?.Dictionary)")]
 		PSPDFAnnotation [] RemoveAnnotations (PSPDFAnnotation [] annotations, PSPDFAnnotationOptions annotationOptions);
@@ -3158,7 +3189,7 @@ namespace PSPDFKit.Core {
 		PSPDFAnnotation [] ParseAnnotations (nuint pageIndex);
 
 		[Export ("saveAnnotationsWithOptions:error:"), New]
-		bool SaveAnnotations ([NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
+		new bool SaveAnnotations ([NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
 
 		[Export ("loadAnnotationsWithError:")]
 		[return: NullAllowed]
@@ -3793,9 +3824,9 @@ namespace PSPDFKit.Core {
 	interface PSPDFHighlightAnnotation {
 
 		[Static]
-		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		[Export ("textOverlayAnnotationWithGlyphs:")]
 		[return: NullAllowed]
-		PSPDFHighlightAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs, nint pageRotation);
+		PSPDFHighlightAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs);
 
 		[Static]
 		[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]
@@ -6074,9 +6105,9 @@ namespace PSPDFKit.Core {
 	interface PSPDFStrikeOutAnnotation {
 
 		[Static]
-		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		[Export ("textOverlayAnnotationWithGlyphs:")]
 		[return: NullAllowed]
-		PSPDFStrikeOutAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs, nint pageRotation);
+		PSPDFStrikeOutAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs);
 
 		[Static]
 		[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]
@@ -6285,9 +6316,9 @@ namespace PSPDFKit.Core {
 	interface PSPDFUnderlineAnnotation {
 
 		[Static]
-		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		[Export ("textOverlayAnnotationWithGlyphs:")]
 		[return: NullAllowed]
-		PSPDFUnderlineAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs, nint pageRotation);
+		PSPDFUnderlineAnnotation FromGlyphs ([NullAllowed] PSPDFGlyph[] glyphs);
 
 		[Static]
 		[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]
@@ -6517,7 +6548,7 @@ namespace PSPDFKit.Core {
 	}
 
 	[BaseType (typeof (PSPDFContainerAnnotationProvider))]
-	interface PSPDFXFDFAnnotationProvider {
+	interface PSPDFXFDFAnnotationProvider : PSPDFAnnotationProviderRefreshing {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
@@ -6780,6 +6811,10 @@ namespace PSPDFKit.Core {
 		[Static]
 		[Export ("blankTemplate")]
 		PSPDFPageTemplate BlankTemplate { get; }
+
+		[Static]
+		[Export ("imagePickerTemplate")]
+		PSPDFPageTemplate ImagePickerTemplate { get; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -6833,9 +6868,9 @@ namespace PSPDFKit.Core {
 	interface PSPDFTextMarkupAnnotation {
 
 		[Static]
-		[Export ("textOverlayAnnotationWithGlyphs:pageRotation:")]
+		[Export ("textOverlayAnnotationWithGlyphs:")]
 		[return: NullAllowed]
-		PSPDFTextMarkupAnnotation GetTextOverlayAnnotation ([NullAllowed] PSPDFGlyph[] glyphs, nint pageRotation);
+		PSPDFTextMarkupAnnotation GetTextOverlayAnnotation ([NullAllowed] PSPDFGlyph[] glyphs);
 
 		[Static]
 		[Export ("textOverlayAnnotationWithRects:boundingBox:pageIndex:")]

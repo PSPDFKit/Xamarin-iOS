@@ -26,6 +26,7 @@ namespace PSPDFKit.Core {
 		CantCreateStreamFile = 216,
 		CantCreateStream = 217,
 		CoreAnnotationNotSet = 218,
+		CoreAnnotationAdditionFailed = 219,
 		PageRenderSizeIsEmpty = 220,
 		PageRenderClipRectTooLarge = 230,
 		PageRenderGraphicsContextNil = 240,
@@ -34,6 +35,7 @@ namespace PSPDFKit.Core {
 		ExternalAnnotationFileLoadingDisabled = 401,
 		ExternalAnnotationFileMissing = 402,
 		ExternalAnnotationFileEmpty = 403,
+		FailedToLoadAnnotationFont = 404,
 		FailedToWriteAnnotations = 410,
 		CannotEmbedAnnotations = 420,
 		FailedToSaveBookmarks = 460,
@@ -928,6 +930,8 @@ namespace PSPDFKit.Core {
 		Lines5mm,
 		[Field ("PSPDFTemplateIdentifierLines7mm", PSPDFKitLibraryPath.LibraryPath)]
 		Lines7mm,
+		[Field ("PSPDFTemplateIdentifierImage", PSPDFKitLibraryPath.LibraryPath)]
+		Image,
 	}
 
 	[Native]
@@ -1034,5 +1038,18 @@ namespace PSPDFKit.Core {
 		Void,
 		[Field ("PSPDFStampTypeWitness", PSPDFKitLibraryPath.LibraryPath)]
 		Witness,
+	}
+
+	[Native]
+	public enum PSPDFDocumentSaveStrategy : long {
+		Append,
+		Rewrite,
+	}
+
+	[Native]
+	public enum PSPDFDocumentJsonImportBehavior : long {
+		LogInvalidEntriesAndContinue,
+		FailOnFirstInvalidEntry,
+		GatherAllErrorsBeforeFailing,
 	}
 }

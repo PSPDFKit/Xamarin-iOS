@@ -370,6 +370,12 @@ namespace PSPDFKit.UI {
 
 		[Export ("setBorderColor:")]
 		void SetBorderColor ([NullAllowed] UIColor borderColor);
+
+		[Export ("annotationPlaceholder")]
+		PSPDFAnnotationPlaceholder GetAnnotationPlaceholder ();
+
+		[Export ("setAnnotationPlaceholder:")]
+		void SetAnnotationPlaceholder ([NullAllowed] PSPDFAnnotationPlaceholder annotationPlaceholder);
 	}
 
 	[BaseType (typeof (PSPDFSelectableCollectionViewCell))]
@@ -1154,19 +1160,14 @@ namespace PSPDFKit.UI {
 		void DidUpdateBookmarkString (PSPDFBookmarkCell cell, string bookmarkString);
 	}
 
-	[BaseType (typeof (PSPDFNonAnimatingTableViewCell))]
+	[BaseType (typeof (PSPDFThumbnailTextCell))]
 	interface PSPDFBookmarkCell : IUITextFieldDelegate {
-
-		[Export ("bookmarkString")]
-		string BookmarkString { get; set; }
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFBookmarkTableViewCellDelegate Delegate { get; set; }
 
-		// PSPDFBookmarkCell (SubclassingHooks)
-
-		[NullAllowed, Export ("textField")]
-		UITextField TextField { get; set; }
+		[Export ("isCurrentPage")]
+		bool IsCurrentPage { get; set; }
 	}
 
 	[BaseType (typeof (UIButton))]
@@ -1206,6 +1207,9 @@ namespace PSPDFKit.UI {
 		[Export ("allowEditing")]
 		bool AllowEditing { get; set; }
 
+		[Export ("shouldStartEditingBookmarkNameWhenAdding")]
+		bool ShouldStartEditingBookmarkNameWhenAdding { get; set; }
+
 		[Export ("sortOrder", ArgumentSemantic.Assign)]
 		PSPDFBookmarkManagerSortOrder SortOrder { get; set; }
 
@@ -1219,6 +1223,9 @@ namespace PSPDFKit.UI {
 		IPSPDFBookmarkViewControllerDelegate Delegate { get; set; }
 
 		// PSPDFBookmarkViewController (SubclassingHooks) Category
+
+		[Export ("configureCell:withBookmark:forRowAtIndexPath:inTableView:")]
+		UITableViewCell ConfigureCell (UITableViewCell tableViewCell, PSPDFBookmark bookmark, NSIndexPath indexPath, UITableView tableView);
 
 		[Export ("updateBookmarkViewAnimated:")]
 		void UpdateBookmarkView (bool animated);
@@ -1596,6 +1603,9 @@ namespace PSPDFKit.UI {
 		[Export ("shouldShowRedactionInfoButton")]
 		bool ShouldShowRedactionInfoButton { get; set; }
 
+		[Export ("redactionUsageHintEnabled")]
+		bool RedactionUsageHintEnabled { get; set; }
+
 		[Export ("backgroundColor")]
 		UIColor BackgroundColor { get; set; }
 
@@ -1890,6 +1900,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("shouldShowRedactionInfoButton")]
 		bool ShouldShowRedactionInfoButton { get; }
+
+		[Export ("redactionUsageHintEnabled")]
+		bool RedactionUsageHintEnabled { get; }
 
 		[Export ("showBackActionButton")]
 		bool ShowBackActionButton { get; }
@@ -2304,13 +2317,13 @@ namespace PSPDFKit.UI {
 		PSPDFNewPageViewController ToggleNewPageController (NSObject sender, PSPDFPresentationOptions presentationOptions);
 
 		[Async]
-		[Export ("toggleSaveActionSheet:presentationOptions:completionHandler:")]
+		[Export ("toggleSavingConfirmationViewController:presentationOptions:completionHandler:")]
 		[return: NullAllowed]
-		UIAlertController ToggleSaveActionSheet ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary options, [NullAllowed] PSPDFDocumentEditorToolbarControllerToggleSaveCompletionHandler completionHandler);
+		UIViewController ToggleSavingConfirmationViewController ([NullAllowed] NSObject sender, [NullAllowed] NSDictionary options, [NullAllowed] PSPDFDocumentEditorToolbarControllerToggleSaveCompletionHandler completionHandler);
 
 		[Async]
-		[Wrap ("ToggleSaveActionSheet (sender, presentationOptions?.Dictionary, completionHandler)")]
-		UIAlertController ToggleSaveActionSheet (NSObject sender, PSPDFPresentationOptions presentationOptions, PSPDFDocumentEditorToolbarControllerToggleSaveCompletionHandler completionHandler);
+		[Wrap ("ToggleSavingConfirmationViewController (sender, presentationOptions?.Dictionary, completionHandler)")]
+		UIViewController ToggleSavingConfirmationViewController (NSObject sender, PSPDFPresentationOptions presentationOptions, PSPDFDocumentEditorToolbarControllerToggleSaveCompletionHandler completionHandler);
 
 		[Export ("toggleSaveController:presentationOptions:completionHandler:")]
 		[return: NullAllowed]
@@ -2319,6 +2332,11 @@ namespace PSPDFKit.UI {
 		[Async]
 		[Wrap ("ToggleSaveController (sender, presentationOptions?.Dictionary, completionHandler)")]
 		PSPDFSaveViewController ToggleSaveController (NSObject sender, PSPDFPresentationOptions presentationOptions, PSPDFDocumentEditorToolbarControllerToggleSaveCompletionHandler completionHandler);
+
+		// PSPDFDocumentEditorToolbarController (SubclassingHooks) Category
+
+		[Export ("savingConfirmationControllerForSender:completionHandler:")]
+		UIViewController SavingConfirmationController (NSObject sender, PSPDFDocumentEditorToolbarControllerToggleSaveCompletionHandler completionHandler);
 	}
 
 	[BaseType (typeof (UICollectionViewController))]
@@ -2561,14 +2579,15 @@ namespace PSPDFKit.UI {
 		[Export ("documentSharingViewController:preparationProgress:")]
 		void PreparationProgress (PSPDFDocumentSharingViewController shareController, nfloat progress);
 
-		[Export ("documentSharingViewController:willShareFiles:")]
-		PSPDFFile [] WillShareFiles (PSPDFDocumentSharingViewController shareController, PSPDFFile [] files);
+		[Export ("documentSharingViewController:filenameForGeneratedFileForDocument:destination:")]
+		[return: NullAllowed]
+		string GetFileNameForGeneratedFile (PSPDFDocumentSharingViewController shareController, PSPDFDocument sharingDocument, NSString destination);
 
 		[Export ("documentSharingViewController:shouldProcessForSharingWithState:")]
 		bool ShouldProcessForSharingWithState (PSPDFDocumentSharingViewController shareController, PSPDFDocumentSharingConfiguration sharingConfiguration);
 
 		[Export ("documentSharingViewController:shouldShareFiles:toDestination:")]
-		bool ShouldProcessForSharingWithState (PSPDFDocumentSharingViewController shareController, PSPDFFile [] files, PSPDFDocumentSharingDestination destination);
+		bool ShouldShareFiles (PSPDFDocumentSharingViewController shareController, PSPDFFile [] files, NSString destination);
 
 		[Export ("documentSharingViewController:shouldSaveDocument:withOptions:")]
 		bool ShouldSaveDocument (PSPDFDocumentSharingViewController shareController, PSPDFDocument document,  NSDictionary options);
@@ -3224,9 +3243,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("dragging")]
 		bool Dragging { get; }
-
-		[Export ("flickToCloseEnabled")]
-		bool FlickToCloseEnabled { [Bind ("isFlickToCloseEnabled")] get; set; }
 
 		[NullAllowed, Export ("containerDelegate", ArgumentSemantic.Weak)]
 		IPSPDFFlexibleToolbarContainerDelegate ContainerDelegate { get; set; }
@@ -5346,6 +5362,10 @@ namespace PSPDFKit.UI {
 		[Export ("opacityMenuItemForAnnotation:withColor:")]
 		PSPDFMenuItem GetOpacityMenuItem (PSPDFAnnotation annotation, [NullAllowed] UIColor color);
 
+		[Export ("textSelectionMenuItemForCreatingAnnotationWithType:")]
+		[return: NullAllowed]
+		PSPDFMenuItem GetTextSelectionMenuItemForCreatingAnnotation ([BindAs (typeof (PSPDFAnnotationStringUI))] NSString annotationString);
+
 		[Export ("showInspectorForAnnotations:options:animated:")]
 		[return: NullAllowed]
 		PSPDFAnnotationStyleViewController ShowInspector (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options, bool animated);
@@ -6971,6 +6991,8 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (UITableViewCell))]
 	interface PSPDFTableViewCell {
 
+		[NullAllowed, Export ("context", ArgumentSemantic.Assign)]
+		NSObject Context { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFTableViewCell))]
@@ -8381,5 +8403,52 @@ namespace PSPDFKit.UI {
 		[return: NullAllowed]
 		[Export ("controllerForExternalFileChangeResolutionOnDocument:dataProvider:")]
 		UIViewController GetControllerForExternalFileChangeResolutionOnDocument (PSPDFDocument document, IPSPDFCoordinatedFileDataProviding dataProvider);
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFAnnotationPlaceholder {
+
+		[Export ("placeholderState")]
+		PSPDFAnnotationPlaceholderState PlaceholderState { get; }
+
+		[Export ("contentIcon")]
+		UIImage ContentIcon { get; }
+
+		[NullAllowed, Export ("progress")]
+		NSProgress Progress { get; }
+
+		[NullAllowed, Export ("error")]
+		NSError Error { get; }
+
+		[NullAllowed, Export ("localizedAction")]
+		string LocalizedAction { get; }
+
+		[Export ("resolveActualContent")]
+		void ResolveActualContent ();
+
+		[Export ("cancelResolution:")]
+		[return: NullAllowed]
+		PSPDFAnnotationPlaceholder CancelResolution ([NullAllowed] out NSError error);
+
+		[Export ("replacementForReattemptingResolution:")]
+		[return: NullAllowed]
+		PSPDFAnnotationPlaceholder GetReplacementForReattemptingResolution ([NullAllowed] out NSError error);
+	}
+
+	[BaseType (typeof (PSPDFNonAnimatingTableViewCell))]
+	interface PSPDFThumbnailTextCell {
+
+		[Export ("textField")]
+		UITextField TextField { get; }
+
+		[Export ("detailLabel")]
+		UILabel DetailLabel { get; }
+
+		[Export ("adornmentLabel")]
+		UILabel AdornmentLabel { get; }
+
+		[Export ("pageImageView")]
+		UIImageView PageImageView { get; }
 	}
 }

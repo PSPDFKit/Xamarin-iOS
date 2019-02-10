@@ -69,7 +69,6 @@ namespace PSPDFCatalog
 				var pageInfo = documentProvider.Document.GetPageInfo (pageIndex);
 				var noteAnnotation = new PSPDFNoteAnnotation {
 					PageIndex = pageIndex,
-					DocumentProvider = documentProvider,
 					Contents = string.Format ("Annotation from the custom annotationProvider for page {0}.", pageIndex + 1),
 					// place it top left (PDF coordinate space starts from bottom left)
 					BoundingBox = new CGRect (100, pageInfo.Size.Height - 100, 32, 32),

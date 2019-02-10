@@ -939,4 +939,13 @@ namespace PSPDFKit.UI {
 		[Field ("PSPDFDocumentSharingDestinationOtherApplication", PSPDFKitGlobal.LibraryPath)]
 		OtherApplication,
 	}
+
+	[Native]
+	public enum PSPDFAnnotationPlaceholderState : long {
+		Idle,
+		Progressing,
+		Failed,
+		Cancelled,
+		Completed,
+	}
 }

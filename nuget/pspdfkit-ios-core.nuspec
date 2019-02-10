@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>PSPDFKit.iOS.Core</id>
+        <version>$version$</version>
+        <title>PSPDFKit for Xamarin.iOS - Core</title>
+        <authors>PSPDFKit GmbH</authors>
+        <owners>PSPDFKit GmbH</owners>
+        <copyright>Copyright 2010-2019</copyright>
+        <licenseUrl>https://github.com/PSPDFKit/Xamarin-iOS/blob/master/LICENSE.md</licenseUrl>
+        <projectUrl>https://github.com/PSPDFKit/Xamarin-iOS</projectUrl>
+        <iconUrl>https://pspdfkit.com/favicon.ico</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>
+            The leading framework for displaying, annotating and editing PDFs on iOS, Android, Windows, Electron and the Web.
+        </description>
+        <releaseNotes>
+            For changelog go to: https://pspdfkit.com/changelog/ios/
+        </releaseNotes>
+        <summary>A high-performance viewer, extensive annotation and document editing tools, digital signatures, and more. All engineered for the best possible user and developer experience. PSPDFKit — the iOS PDF SDK made for you.</summary>
+        <tags>pdf, pdf document, pdf document view, pdf sdk, pdf annotation, edit pdf, display pdf, display pdf, xamarin, ios</tags>
+    </metadata>
+    <files>
+        <file src="nuget\readme.txt" target="readme.txt" /> 
+        <!--Xamarin.iOS-->
+        <file src="PSPDFKit.iOS\bin\Release\PSPDFKit.iOS.dll" target="lib\Xamarin.iOS10" />
+    </files>
+</package>
