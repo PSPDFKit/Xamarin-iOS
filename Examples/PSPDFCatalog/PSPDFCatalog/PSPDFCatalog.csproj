@@ -135,6 +135,7 @@
     <Compile Include="Catalog\Customization\PSCRotatePagePDFViewController.cs" />
     <Compile Include="Catalog\TabbedExampleViewController.cs" />
     <Compile Include="Catalog\Subclassing\CustomBookmarkUIViewController.cs" />
+    <Compile Include="Catalog\Customization\EmptyClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

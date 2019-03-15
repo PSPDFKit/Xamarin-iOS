@@ -24,7 +24,9 @@ namespace PSPDFCatalog {
 			Root = new RootElement (PSPDFKitGlobal.VersionString) {
 				new Section ("Start here") {
 					new StringElement ("PSPDFViewController Playground", () => {
-						var pdfViewer = new PlayGroundViewController (NSUrl.FromFilename (PSPDFKitFile));
+                        var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
+
+                        var pdfViewer = new PSCAnalyticsViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 					new StringElement ("PSPDFKit Instant", () => {
