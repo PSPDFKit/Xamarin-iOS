@@ -135,6 +135,7 @@
     <Compile Include="Catalog\Customization\PSCRotatePagePDFViewController.cs" />
     <Compile Include="Catalog\TabbedExampleViewController.cs" />
     <Compile Include="Catalog\Subclassing\CustomBookmarkUIViewController.cs" />
+    <Compile Include="Catalog\Analytics\AnalyticsClientExample.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -147,6 +148,7 @@
     <Folder Include="Catalog\Customization\" />
     <Folder Include="Catalog\Instant\" />
     <Folder Include="Resources\Images.xcassets\LaunchLogo.imageset\" />
+    <Folder Include="Catalog\Analytics\" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />

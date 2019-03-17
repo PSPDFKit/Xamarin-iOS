@@ -35,6 +35,10 @@ namespace PSPDFCatalog {
 						var tabbed = new TabbedExampleViewController ();
 						NavigationController.PushViewController (tabbed, true);
 					}),
+					new StringElement ("Analytics Client", () => {
+						var pdfViewer = new AnalyticsClientExample (NSUrl.FromFilename (PSPDFKitFile));
+						NavigationController.PushViewController (pdfViewer, true);
+					}),
 				},
 				new Section ("Annotations"){
 					new StringElement ("Annotations From Code", () => {

@@ -506,14 +506,6 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	[Flags]
-	public enum PSPDFFormElementFlag : ulong {
-		ReadOnly = 1 << (1 - 1),
-		Required = 1 << (2 - 1),
-		NoExport = 1 << (3 - 1)
-	}
-
-	[Native]
 	public enum PSPDFFormFieldType : ulong {
 		Unknown,
 		PushButton,
