@@ -349,6 +349,9 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("inReplyToAnnotation", ArgumentSemantic.Strong)]
 		PSPDFAnnotation InReplyToAnnotation { get; set; }
 
+		[NullAllowed, Export ("customData", ArgumentSemantic.Copy)]
+		NSDictionary<NSString, NSObject> CustomData { get; set; }
+
 		[Export ("isEqualToAnnotation:")]
 		bool IsEqualTo (PSPDFAnnotation otherAnnotation);
 
@@ -1298,8 +1301,8 @@ namespace PSPDFKit.Model {
 		[Export ("addBookmarkForPageAtIndex:")]
 		PSPDFBookmark AddBookmarkForPage (uint pageIndex);
 
-		[Export ("removeBookmarkForPageAtIndex:")]
-		void RemoveBookmarkForPage (uint pageIndex);
+		[Export ("removeBookmarksForPageAtIndex:")]
+		void RemoveBookmarksForPage (uint pageIndex);
 
 		[Export ("bookmarkForPageAtIndex:")]
 		[return: NullAllowed]
@@ -3206,6 +3209,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("fileURL")]
 		NSUrl FileUrl { get; }
+
+		[NullAllowed, Export ("drawingBlock", ArgumentSemantic.Copy)]
+		Action<CGContext> DrawingHandler { get; set; }
 	}
 
 	interface IPSPDFFileCoordinationDelegate { }
@@ -3324,12 +3330,16 @@ namespace PSPDFKit.Model {
 
 		[Export ("temporaryDirectoryWithUID:")]
 		[Abstract]
-		string TemporaryDirectory ([NullAllowed] string uid);
+		string GetTemporaryDirectory ([NullAllowed] string uid);
+
+		[Export ("cacheDirectoryWithPath:")]
+		[Abstract]
+		string GetCacheDirectory ([NullAllowed] string path);
 
 		[Export ("unencryptedTemporaryDirectoryWithUID:")]
 		[Abstract]
 		[return: NullAllowed]
-		string UnencryptedTemporaryDirectory (string uid);
+		string GetUnencryptedTemporaryDirectory (string uid);
 
 		[Export ("isNativePath:")]
 		[Abstract]
@@ -5618,6 +5628,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("reuseExistingAppearance")]
 		bool ReuseExistingAppearance { get; set; }
+
+		[Export ("showWatermark")]
+		bool ShowWatermark { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFBaseConfiguration))]
@@ -5658,6 +5671,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("reuseExistingAppearance")]
 		bool ReuseExistingAppearance { get; }
+
+		[Export ("showWatermark")]
+		bool ShowWatermark { get; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -6827,7 +6843,11 @@ namespace PSPDFKit.Model {
 
 		[Abstract]
 		[Export ("rotation")]
-		nuint Rotation { get; set; }
+		nuint Rotation { get; }
+
+		[Abstract]
+		[Export ("setRotation:updateBoundingBox:")]
+		void UpdateBoundingBox (nuint rotation, bool shouldUpdateBoundingBoxToMaintainContentSize);
 	}
 
 	interface IPSPDFDocumentSignerDataSource { }
@@ -6893,4 +6913,5 @@ namespace PSPDFKit.Model {
 		[Export ("repeatOverlayText")]
 		bool RepeatOverlayText { get; set; }
 	}
+
 }

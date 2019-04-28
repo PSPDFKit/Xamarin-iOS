@@ -89,6 +89,7 @@ namespace PSPDFKit.Model {
 		DocumentEditorUnableToWriteFile = 7400,
 		DocumentEditorInvalidDocument = 7401,
 		DocumentEditorInaccessibleDocument = 7402,
+		DocumentEditorOperationCancelled = 7403,
 		FailedToFetchResource = 8000,
 		FailedToSetResource = 8500,
 		JsonDeserializationError = 9500,

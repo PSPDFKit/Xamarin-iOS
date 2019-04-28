@@ -1,5 +1,5 @@
-var IOSVERSION = Argument("iosversion", "8.2.3");
-var MACVERSION = Argument("macversion", "3.2.0");
+var IOSVERSION = Argument("iosversion", "8.3.0");
+var MACVERSION = Argument("macversion", "3.3.0");
 var target = Argument ("target", "Default");
 
 Task ("MacModel")
@@ -133,7 +133,7 @@ Task ("NuGet")
 		BasePath = "./"
 	});
 
-	NuGetPack ("./nuget/pspdfkit-mac-core.nuspec", new NuGetPackSettings {
+	NuGetPack ("./nuget/pspdfkit-mac-model.nuspec", new NuGetPackSettings {
 		Version = MACVERSION,
 		OutputDirectory = "./nuget/pkgs/",
 		BasePath = "./"

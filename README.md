@@ -1,8 +1,8 @@
 Xamarin PSPDFKit for iOS and Mac Bindings
 =========================================
 
-- Xamarin.iOS Bindings for PSPDFKit 8.2.3 for iOS
-- Xamarin.Mac Bindings for PSPDFKit 3.2.0 for macOS
+- Xamarin.iOS Bindings for PSPDFKit 8.3.0 for iOS
+- Xamarin.Mac Bindings for PSPDFKit 3.3.0 for macOS
 
 Xamarin.Android Bindings for PSPDFKit for Android: [PSPDFKit/Xamarin-Android](https://github.com/PSPDFKit/Xamarin-Android)
 

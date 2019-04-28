@@ -86,13 +86,6 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
-	public enum PSPDFPersistentCloseButtonMode : ulong {
-		None,
-		Left,
-		Right
-	}
-
-	[Native]
 	[Flags]
 	public enum PSPDFAppearanceMode : ulong {
 		Default = 0,
@@ -677,7 +670,8 @@ namespace PSPDFKit.UI {
 	[Native]
 	public enum PSPDFKnobType : ulong {
 		Outer,
-		Inner
+		Inner,
+		Rotation,
 	}
 
 	[Native]
@@ -685,7 +679,8 @@ namespace PSPDFKit.UI {
 		Idle,
 		Move,
 		Resize,
-		Adjust
+		Adjust,
+		Rotate,
 	}
 
 	[Native]

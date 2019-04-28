@@ -36,6 +36,7 @@ namespace PSPDFKit.Instant {
 		AttachmentNotLoaded = 40,
 		NoSuchAttachment = 41,
 		CouldNotCreateAttachment = 42,
+		AlreadyAuthenticating = 66,
 	}
 
 	[Native]

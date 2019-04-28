@@ -16,11 +16,6 @@ namespace PSPDFKit.UI {
 			set => SetNumberValue (PSPDFPresentationKeys.StyleKey, (nuint) (ulong) value);
 		}
 
-		public PSPDFPersistentCloseButtonMode? PersistentCloseButton {
-			get => (PSPDFPersistentCloseButtonMode) (ulong) GetNUIntValue (PSPDFPresentationKeys.PersistentCloseButtonKey);
-			set => SetNumberValue (PSPDFPresentationKeys.PersistentCloseButtonKey, (nuint) (ulong) value);
-		}
-
 		public UIPopoverArrowDirection? PopoverArrowDirections {
 			get => (UIPopoverArrowDirection) (ulong) GetNUIntValue (PSPDFPresentationKeys.PopoverArrowDirectionsKey);
 			set => SetNumberValue (PSPDFPresentationKeys.PopoverArrowDirectionsKey, (nuint) (ulong) value);
