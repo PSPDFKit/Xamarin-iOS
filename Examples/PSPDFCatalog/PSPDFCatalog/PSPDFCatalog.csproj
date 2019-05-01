@@ -136,6 +136,8 @@
     <Compile Include="Catalog\TabbedExampleViewController.cs" />
     <Compile Include="Catalog\Subclassing\CustomBookmarkUIViewController.cs" />
     <Compile Include="Catalog\Analytics\AnalyticsClientExample.cs" />
+    <Compile Include="Catalog\Annotations\PSCXFDFAnnotationProviderExample.cs" />
+    <Compile Include="Catalog\Annotations\PSCEncryptedXFDFAnnotationProviderExample.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -184,6 +186,8 @@
     <BundleResource Include="Resources\Pdf\PSPDFKit QuickStart Guide.pdf" />
     <BundleResource Include="Resources\Pdf\protected.pdf" />
     <BundleResource Include="Resources\Pdf\hackermonthly-issue.pdf" />
+    <BundleResource Include="Resources\Pdf\JKHF-AnnualReport.pdf" />
+    <BundleResource Include="Resources\Pdf\XFDFTest.xfdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">

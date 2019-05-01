@@ -138,18 +138,18 @@ namespace PSPDFKit.Model {
 	interface PSPDFAESCryptoDataProvider : PSPDFFileDataProviding {
 
 		[Export ("initWithURL:passphraseProvider:salt:rounds:")]
-		IntPtr Constructor (NSUrl url, Func<NSString> passphraseProvider, string salt, nuint rounds);
+		IntPtr Constructor (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider, string salt, nuint rounds);
 
 		[Export ("initWithURL:passphraseDataProvider:salt:rounds:")]
 		IntPtr Constructor (NSUrl url, Func<NSData> passphraseDataProvider, NSData saltData, nuint rounds);
 
 		[Export ("initWithURL:passphraseProvider:")]
 		[Internal]
-		IntPtr InitWithURL (NSUrl url, Func<NSString> passphraseProvider);
+		IntPtr InitWithURL (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider);
 
 		[Export ("initWithLegacyFileFormatURL:passphraseProvider:")]
 		[Internal]
-		IntPtr InitWithLegacyFileFormatURL (NSUrl url, Func<NSString> passphraseProvider);
+		IntPtr InitWithLegacyFileFormatURL (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider);
 
 		[Export ("initWithURL:binaryKeyProvider:")]
 		IntPtr Constructor (NSUrl url, Func<NSData> binaryKeyProvider);
@@ -6711,7 +6711,7 @@ namespace PSPDFKit.Model {
 		PSPDFSignatureEncryptionAlgorithm EncryptionAlgorithm { get; }
 	}
 
-	delegate string PSPDFAESCryptoDataSinkPassphraseProvider ();
+	delegate string PSPDFAESCryptoPassphraseProvider ();
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
@@ -6719,11 +6719,11 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithUID:passphraseProvider:options:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string uid, PSPDFAESCryptoDataSinkPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
+		IntPtr Constructor (string uid, PSPDFAESCryptoPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
 
 		[Export ("initWithURL:passphraseProvider:options:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl fileUrl, PSPDFAESCryptoDataSinkPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
+		IntPtr Constructor (NSUrl fileUrl, PSPDFAESCryptoPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
 	}
 
 	[BaseType (typeof (PSPDFBaseConfigurationBuilder))]

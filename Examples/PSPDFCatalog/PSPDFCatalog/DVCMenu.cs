@@ -16,6 +16,9 @@ namespace PSPDFCatalog {
 		public static readonly string HackerMonthlyFile = "Pdf/hackermonthly-issue.pdf";
 		public static readonly string ProtectedFile = "Pdf/protected.pdf";
 		public static readonly string PSPDFKitFile = "Pdf/PSPDFKit QuickStart Guide.pdf";
+		public static readonly string AnnualReportFile = "Pdf/JKHF-AnnualReport.pdf";
+		public static readonly string AnnualReportXFDFFile = "Pdf/XFDFTest.xfdf";
+
 
 		UIColor barColor;
 
@@ -44,6 +47,14 @@ namespace PSPDFCatalog {
 					new StringElement ("Annotations From Code", () => {
 						var documenturl = NSUrl.FromFilename (HackerMonthlyFile);
 						var pdfViewer = new AnnotationsFromCodeViewController (documenturl);
+						NavigationController.PushViewController (pdfViewer, true);
+					}),
+					new StringElement ("XFDF Annotation Provider", () => {
+						var pdfViewer = new PSCXFDFAnnotationProviderExample ();
+						NavigationController.PushViewController (pdfViewer, true);
+					}),
+					new StringElement ("Encrypted XFDF Annotation Provider", () => {
+						var pdfViewer = new PSCEncryptedXFDFAnnotationProviderExample ();
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
 				},
@@ -148,7 +159,7 @@ namespace PSPDFCatalog {
 
 						var document = new PSPDFDocument (NSUrl.FromFilename (writablePdf));
 						var pdfViewer = new PSCRotatePagePDFViewController (document);
-						NavigationController.PushViewController (pdfViewer, true);
+						NavigationController.PresentViewController (pdfViewer, true, null);
 					}),
 				},
 				new Section ("PSPDFViewController Customization") {

@@ -25,7 +25,7 @@ namespace PSPDFKit.Model {
 
 	public partial class PSPDFAESCryptoDataProvider : NSObject {
 
-		public PSPDFAESCryptoDataProvider (NSUrl url, Func<NSString> passphraseProvider, bool useLegacyFileFormatUrl = false)
+		public PSPDFAESCryptoDataProvider (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider, bool useLegacyFileFormatUrl = false)
 		{
 			Handle = useLegacyFileFormatUrl ? 
 				InitWithLegacyFileFormatURL (url, passphraseProvider) :
