@@ -1752,9 +1752,8 @@ namespace PSPDFKit.UI {
 		[Export ("configurationWithBuilder:")]
 		PSPDFConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFConfigurationBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFConfiguration ConfigurationUpdated ([NullAllowed] Action<PSPDFConfigurationBuilder> builderHandler);
+		PSPDFConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFConfigurationBuilder> builderHandler);
 
 		[Export ("pageMode")]
 		PSPDFPageMode PageMode { get; }
@@ -2922,9 +2921,8 @@ namespace PSPDFKit.UI {
 		[Export ("configurationWithBuilder:")]
 		PSPDFDragAndDropConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFDragAndDropConfigurationBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFDragAndDropConfiguration ConfigurationUpdated ([NullAllowed] Action<PSPDFDragAndDropConfigurationBuilder> builderHandler);
+		PSPDFDragAndDropConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFDragAndDropConfigurationBuilder> builderHandler);
 
 		[Export ("allowedDragTypes")]
 		PSPDFDragType AllowedDragTypes { get; }
@@ -3621,9 +3619,8 @@ namespace PSPDFKit.UI {
 		[Export ("configurationWithBuilder:")]
 		PSPDFGalleryConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFGalleryConfigurationBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFGalleryConfiguration ConfigurationUpdated ([NullAllowed] Action<PSPDFGalleryConfigurationBuilder> builderHandler);
+		PSPDFGalleryConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFGalleryConfigurationBuilder> builderHandler);
 
 		[Export ("maximumConcurrentDownloads")]
 		nuint MaximumConcurrentDownloads { get; }
@@ -5536,9 +5533,8 @@ namespace PSPDFKit.UI {
 		[Export ("configurationWithBuilder:")]
 		PSPDFPrintConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFPrintConfigurationBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFPrintConfiguration ConfigurationUpdated ([NullAllowed] Action<PSPDFPrintConfigurationBuilder> builderHandler);
+		PSPDFPrintConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFPrintConfigurationBuilder> builderHandler);
 
 		[Export ("printMode")]
 		PSPDFPrintMode PrintMode { get; }
@@ -8332,9 +8328,8 @@ namespace PSPDFKit.UI {
 		[Export ("configurationWithBuilder:")]
 		PSPDFDocumentSharingConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFDocumentSharingConfigurationBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFDocumentSharingConfiguration ConfigurationUpdated ([NullAllowed] Action<PSPDFDocumentSharingConfigurationBuilder> builderHandler);
+		PSPDFDocumentSharingConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFDocumentSharingConfigurationBuilder> builderHandler);
 
 		[Static]
 		[Export ("defaultConfigurationForDestination:")]

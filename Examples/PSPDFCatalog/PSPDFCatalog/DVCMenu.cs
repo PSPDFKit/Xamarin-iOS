@@ -135,7 +135,21 @@ namespace PSPDFCatalog {
 						});
 						var pdfViewer = new PSPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
-					})
+					}),
+					new StringElement ("Customize the Sharing Experience", () => {
+						var document = new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
+						var sharingConfig = PSPDFDocumentSharingConfiguration.GetDefaultConfiguration (PSPDFDocumentSharingDestination.Activity).GetUpdatedConfiguration (b => {
+							b.AnnotationOptions = PSPDFDocumentSharingAnnotationOptions.Embed | PSPDFDocumentSharingAnnotationOptions.Flatten | PSPDFDocumentSharingAnnotationOptions.Remove;
+							b.PageSelectionOptions = PSPDFDocumentSharingPagesOptions.Current;
+							b.ExcludedActivityTypes = new PSPDFActivityType [] { PSPDFActivityType.AssignToContact, PSPDFActivityType.PostToWeibo, PSPDFActivityType.PostToFacebook, PSPDFActivityType.PostToTwitter };
+						});
+						var config =  PSPDFConfiguration.FromConfigurationBuilder (builder => {
+							builder.OverrideClass (typeof (PSPDFDocumentSharingViewController), typeof (MyCustomDocumentSharingViewController));
+							builder.SharingConfigurations = new [] { sharingConfig };
+						});
+						var pdfViewer = new CustomSharingFileNamesExampleViewController (document, config);
+						NavigationController.PushViewController (pdfViewer, true);
+					}),
 				},
 				new Section ("Toolbar Customizations"){
 					new StringElement ("Remove Ink from the annotation toolbar", () => {
@@ -159,7 +173,7 @@ namespace PSPDFCatalog {
 
 						var document = new PSPDFDocument (NSUrl.FromFilename (writablePdf));
 						var pdfViewer = new PSCRotatePagePDFViewController (document);
-						NavigationController.PresentViewController (pdfViewer, true, null);
+						NavigationController.PushViewController (pdfViewer, true);
 					}),
 				},
 				new Section ("PSPDFViewController Customization") {

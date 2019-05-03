@@ -1186,8 +1186,9 @@ namespace PSPDFKit.Model {
 		[Export ("configurationWithBuilder:")]
 		PSPDFBaseConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFBaseConfigurationBuilder> builderHandler);
 
-		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFBaseConfiguration GetUpdatedConfiguration (Action<PSPDFBaseConfigurationBuilder> builderHandler);
+		// Allow subclasses to expose the right one.
+		//[Export ("configurationUpdatedWithBuilder:")]
+		//PSPDFBaseConfiguration GetUpdatedConfiguration (Action<PSPDFBaseConfigurationBuilder> builderHandler);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -2550,10 +2551,8 @@ namespace PSPDFKit.Model {
 		[Export ("configurationWithBuilder:")]
 		PSPDFDocumentEditorConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFDocumentEditorConfigurationBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFDocumentEditorConfiguration ConfigurationUpdated ([NullAllowed] Action<PSPDFDocumentEditorConfigurationBuilder> builderHandler);
-
+		PSPDFDocumentEditorConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFDocumentEditorConfigurationBuilder> builderHandler);
 
 		[Export ("pageTemplates")]
 		PSPDFPageTemplate [] PageTemplates { get; }
@@ -5647,9 +5646,8 @@ namespace PSPDFKit.Model {
 		[Export ("configurationWithBuilder:")]
 		PSPDFSignatureAppearance FromConfigurationBuilder ([NullAllowed] Action<PSPDFSignatureAppearanceBuilder> builderHandler);
 
-		[Static]
 		[Export ("configurationUpdatedWithBuilder:")]
-		PSPDFSignatureAppearance ConfigurationUpdated ([NullAllowed] Action<PSPDFSignatureAppearanceBuilder> builderHandler);
+		PSPDFSignatureAppearance GetUpdatedConfiguration ([NullAllowed] Action<PSPDFSignatureAppearanceBuilder> builderHandler);
 
 		[Export ("appearanceMode")]
 		PSPDFSignatureAppearanceMode AppearanceMode { get; }
