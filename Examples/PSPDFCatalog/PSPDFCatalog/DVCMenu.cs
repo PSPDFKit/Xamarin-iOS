@@ -128,15 +128,15 @@ namespace PSPDFCatalog {
 						}));
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
-					new StringElement ("Custom AnnotationProvider", () => {
-						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						document.DidCreateDocumentProviderHandler = (documentProvider => {
-							documentProvider.AnnotationManager.AnnotationProviders = new IPSPDFAnnotationProvider[] { new CustomAnnotationProvider (document), documentProvider.AnnotationManager.FileAnnotationProvider };
-						});
-						var pdfViewer = new PSPDFViewController (document);
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
-					new StringElement ("Customize the Sharing Experience", () => {
+                    new StringElement ("Custom AnnotationProvider", () => {
+                        var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
+                        document.DidCreateDocumentProviderHandler = (documentProvider => {
+                            documentProvider.AnnotationManager.AnnotationProviders = new PSPDFContainerAnnotationProvider[] { new CustomAnnotationProvider (documentProvider), documentProvider.AnnotationManager.FileAnnotationProvider };
+                        });
+                        var pdfViewer = new PSPDFViewController (document);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                    new StringElement ("Customize the Sharing Experience", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
 						var sharingConfig = PSPDFDocumentSharingConfiguration.GetDefaultConfiguration (PSPDFDocumentSharingDestination.Activity).GetUpdatedConfiguration (b => {
 							b.AnnotationOptions = PSPDFDocumentSharingAnnotationOptions.Embed | PSPDFDocumentSharingAnnotationOptions.Flatten | PSPDFDocumentSharingAnnotationOptions.Remove;
