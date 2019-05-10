@@ -10,25 +10,21 @@ using PSPDFKit.UI;
 
 namespace PSPDFCatalog
 {
-	public class CustomAnnotationProvider : NSObject, IPSPDFAnnotationProvider
-	{
-		Timer timer;
-		Dictionary<nuint, PSPDFAnnotation []> annotations;
-		PSPDFDocument document;
-		static readonly Random rnd = new Random ();
+    public class CustomAnnotationProvider : PSPDFContainerAnnotationProvider
+    {
 
-		// MUST HAVE ctor when Subclassing!!! It will crash otherwise.
-		public CustomAnnotationProvider (IntPtr handle) : base (handle)
-		{
-		}
+        Dictionary<nuint, PSPDFAnnotation[]> annotations;
+        PSPDFDocument document;
+        Timer timer;
+        static readonly Random rnd = new Random();
 
-		public CustomAnnotationProvider (PSPDFDocument doc)
-		{
-			document = doc;
-			timer = new Timer (1000);
-			timer.Elapsed += PickColor;
-			timer.Start ();
-		}
+        public CustomAnnotationProvider(PSPDFDocumentProvider documentProvider) : base(documentProvider)
+        {
+            document = documentProvider.Document;
+            timer = new Timer(1000);
+            timer.Elapsed += PickColor;
+            timer.Start();
+        }
 
 		// You must mannually Export OPTIONAL Messages/Properties from the PSPDFAnnotationProvider Protocol (aka IPSPDFAnnotationProvider)
 		IPSPDFAnnotationProviderChangeNotifier providerDelegate;
