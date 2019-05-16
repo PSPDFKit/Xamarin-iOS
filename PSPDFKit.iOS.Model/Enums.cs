@@ -9,6 +9,7 @@ namespace PSPDFKit.Model {
 	public enum PSPDFErrorCode : long {
 		OutOfMemory = 10,
 		FileNotFound = 11,
+		NoModificationDateAvailable = 21,
 		PageInvalid = 100,
 		DocumentContainsNoPages = 101,
 		DocumentNotValid = 102,

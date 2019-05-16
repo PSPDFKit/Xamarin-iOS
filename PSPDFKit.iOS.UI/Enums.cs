@@ -223,6 +223,11 @@ namespace PSPDFKit.UI {
 		Wikipedia = 1 << 2,
 		Speak = 1 << 3,
 		Share = 1 << 4,
+		Copy = 1 << 5,
+		Markup = 1 << 6,
+		Redact = 1 << 7,
+		CreateLink = 1 << 8,
+		AnnotationCreation = Markup | Redact | CreateLink,
 		All = ulong.MaxValue
 	}
 
