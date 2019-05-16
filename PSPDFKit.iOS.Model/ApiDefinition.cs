@@ -259,6 +259,10 @@ namespace PSPDFKit.Model {
 		[Export ("typeString")]
 		string TypeString { get; }
 
+		[BindAs (typeof (PSPDFAnnotationVariantString))]
+		[NullAllowed, Export ("variant")]
+		NSString Variant { get; }
+
 		[Export ("alpha")]
 		nfloat Alpha { get; set; }
 
