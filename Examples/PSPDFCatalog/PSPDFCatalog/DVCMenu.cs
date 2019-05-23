@@ -131,7 +131,7 @@ namespace PSPDFCatalog {
                     new StringElement ("Custom AnnotationProvider", () => {
                         var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
                         document.DidCreateDocumentProviderHandler = (documentProvider => {
-                            documentProvider.AnnotationManager.AnnotationProviders = new PSPDFContainerAnnotationProvider[] { new CustomAnnotationProvider (documentProvider), documentProvider.AnnotationManager.FileAnnotationProvider };
+                            documentProvider.AnnotationManager.AnnotationProviders = new PSPDFContainerAnnotationProvider[] { new CustomAnnotationProvider (documentProvider)};
                         });
                         var pdfViewer = new PSPDFViewController (document);
                         NavigationController.PushViewController (pdfViewer, true);
