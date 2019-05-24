@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Foundation;
 using UIKit;
 using CoreGraphics;
+using System.Linq;
 
 using PSPDFKit.Model;
 using PSPDFKit.UI;
@@ -13,7 +14,7 @@ namespace PSPDFCatalog
     public class CustomAnnotationProvider : PSPDFContainerAnnotationProvider
     {
 
-        Dictionary<nuint, PSPDFAnnotation[]> annotations;
+        Dictionary<nuint, PSPDFAnnotation[]> annotationDict;
         PSPDFDocument document;
         Timer timer;
         static readonly Random rnd = new Random();
@@ -47,19 +48,20 @@ namespace PSPDFCatalog
 			}
 		}
 
-		public PSPDFAnnotation [] GetAnnotations (nuint pageIndex)
+		public override PSPDFAnnotation [] GetAnnotations (nuint pageIndex)
 		{
-			if (annotations == null)
-				annotations = new Dictionary<nuint, PSPDFAnnotation []> ((int)document.PageCount);
+			if (annotationDict == null)
+                annotationDict = new Dictionary<nuint, PSPDFAnnotation []> ((int)document.PageCount);
 
-			if (annotations.ContainsKey (pageIndex))
-				return annotations [pageIndex];
-
-			// it's important that this method is:
-			// - fast
-			// - thread safe
-			// - and caches annotations (don't always create new objects!)
-			lock (this) {
+            if (annotationDict.ContainsKey(pageIndex))
+            {
+                return annotationDict[pageIndex];
+            }
+            // it's important that this method is:
+            // - fast
+            // - thread safe
+            // - and caches annotations (don't always create new objects!)
+            lock (this) {
 				// create new note annotation and add it to the dict.
 				var documentProvider = ProviderDelegate.ParentDocumentProvider;
 				var pageInfo = documentProvider.Document.GetPageInfo (pageIndex);
@@ -70,23 +72,43 @@ namespace PSPDFCatalog
 					BoundingBox = new CGRect (100, pageInfo.Size.Height - 100, 32, 32),
 					Editable = false
 				};
-				if (!annotations.ContainsKey (pageIndex))
-					annotations.Add (pageIndex, new PSPDFAnnotation [] { noteAnnotation });
+				if (!annotationDict.ContainsKey (pageIndex))
+                    annotationDict.Add (pageIndex, new PSPDFAnnotation [] { noteAnnotation });
 			}
-			return annotations [pageIndex];
+			return annotationDict[pageIndex];
 		}
 
-		void PickColor (object o, EventArgs e)
+        public override PSPDFAnnotation[] AddAnnotations(PSPDFAnnotation[] annotations, NSDictionary<NSString, NSObject> options)
+        {
+            base.AddAnnotations(annotations, options);
+            // We want to apply this to all annotation that are added (this only matters when you add 2 or more annotations at the same time via copy/paste etc)
+            foreach (var annotation in annotations)
+            {
+                // Create an annotation list instead of an array because it's easier to work with and add all the existing annotations
+                List<PSPDFAnnotation> existingAnnotations = annotationDict[annotation.PageIndex].ToList();
+                // Add the new annotation
+                existingAnnotations.Add(annotation);
+                // Convert back to an array
+                annotationDict[annotation.PageIndex] = existingAnnotations.ToArray();
+            }
+            return annotations;
+        }
+
+        void PickColor (object o, EventArgs e)
 		{
 			// Random Color
 			UIColor color = UIColor.FromRGBA (rnd.Next (0, 255), rnd.Next (0, 255), rnd.Next (0, 255), 1);
 			lock (this) {
-				foreach (var annotation in annotations) {
-					if (annotation.Value != null) {
-						annotation.Value [0].Color = color;
-
-						ProviderDelegate.UpdateAnnotations (annotation.Value, true);
-					}
+				foreach (var annotations in annotationDict) {
+                    // We want every annotation to use the custom color
+                    foreach (var annotation in annotations.Value)
+                    {
+                        ProviderDelegate.UpdateAnnotations(annotations.Value, true);
+                        if (annotation != null)
+                        {
+                            annotation.Color = color;
+                        }
+                    }
 				}
 			}
 		}
