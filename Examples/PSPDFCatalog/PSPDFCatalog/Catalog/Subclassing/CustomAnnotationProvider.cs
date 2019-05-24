@@ -86,10 +86,10 @@ namespace PSPDFCatalog
             {
                 // Create an annotation list instead of an array because it's easier to work with and add all the existing annotations
                 List<PSPDFAnnotation> existingAnnotations = annotationDict[annotation.PageIndex].ToList();
-                // Add all the other annotations when they're drawn
+                // Add the new annotation
                 existingAnnotations.Add(annotation);
-                var annotationsAray = existingAnnotations.ToArray();
-                annotationDict[annotation.PageIndex] = annotationsAray;
+                // Convert back to an array
+                annotationDict[annotation.PageIndex] = existingAnnotations.ToArray();
             }
             return annotations;
         }
@@ -103,11 +103,10 @@ namespace PSPDFCatalog
                     // We want every annotation to use the custom color
                     foreach (var annotation in annotations.Value)
                     {
+                        ProviderDelegate.UpdateAnnotations(annotations.Value, true);
                         if (annotation != null)
                         {
                             annotation.Color = color;
-
-                            ProviderDelegate.UpdateAnnotations(annotations.Value, true);
                         }
                     }
 				}
