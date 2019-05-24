@@ -80,18 +80,18 @@ namespace PSPDFCatalog
 
         public override PSPDFAnnotation[] AddAnnotations(PSPDFAnnotation[] annotations, NSDictionary<NSString, NSObject> options)
         {
-            // Create an annotation list instead of an array because it's easier to work with
+            base.AddAnnotations(annotations, options);
             // We want to apply this to all annotation that are added (this only matters when you add 2 or more annotations at the same time via copy/paste etc)
             foreach (var annotation in annotations)
             {
-                // Need to add the already existing annotations
+                // Create an annotation list instead of an array because it's easier to work with and add all the existing annotations
                 List<PSPDFAnnotation> existingAnnotations = annotationDict[annotation.PageIndex].ToList();
-                // Add all the other annotations once they're drawn
+                // Add all the other annotations when they're drawn
                 existingAnnotations.Add(annotation);
                 var annotationsAray = existingAnnotations.ToArray();
                 annotationDict[annotation.PageIndex] = annotationsAray;
             }
-            return base.AddAnnotations(annotations, options);
+            return annotations;
         }
 
         void PickColor (object o, EventArgs e)
