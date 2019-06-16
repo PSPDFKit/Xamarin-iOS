@@ -218,15 +218,15 @@ namespace PSPDFKit.UI {
 	[Flags]
 	public enum PSPDFTextSelectionMenuAction : ulong {
 		None = 0,
-		Search = 1 << 0,
-		Define = 1 << 1,
-		Wikipedia = 1 << 2,
-		Speak = 1 << 3,
-		Share = 1 << 4,
-		Copy = 1 << 5,
-		Markup = 1 << 6,
-		Redact = 1 << 7,
-		CreateLink = 1 << 8,
+		Search = 1uL << 0,
+		Define = 1uL << 1,
+		Wikipedia = 1uL << 2,
+		Speak = 1uL << 3,
+		Share = 1uL << 4,
+		Copy = 1uL << 5,
+		Markup = 1uL << 6,
+		Redact = 1uL << 7,
+		CreateLink = 1uL << 8,
 		AnnotationCreation = Markup | Redact | CreateLink,
 		All = ulong.MaxValue
 	}
@@ -235,7 +235,8 @@ namespace PSPDFKit.UI {
 	public enum PSPDFThumbnailBarMode : ulong {
 		None,
 		ScrubberBar,
-		Scrollable
+		Scrollable,
+		FloatingScrubberBar,
 	}
 
 	[Native]
@@ -584,6 +585,8 @@ namespace PSPDFKit.UI {
 		FillColor,
 		[Field ("PSPDFAnnotationMenuOpacity", PSPDFKitGlobal.LibraryPath)]
 		Opacity,
+		[Field ("PSPDFAnnotationMenuBlendMode", PSPDFKitGlobal.LibraryPath)]
+		BlendMode,
 		[Field ("PSPDFAnnotationMenuCustomColor", PSPDFKitGlobal.LibraryPath)]
 		CustomColor,
 		[Field ("PSPDFAnnotationMenuHighlightType", PSPDFKitGlobal.LibraryPath)]
@@ -947,5 +950,12 @@ namespace PSPDFKit.UI {
 		Failed,
 		Cancelled,
 		Completed,
+	}
+
+	[Native]
+	public enum PSPDFPersistentCloseButtonMode : ulong {
+		None,
+		Left,
+		Right,
 	}
 }

@@ -168,7 +168,8 @@ namespace PSPDFKit.Model {
 		[Export ("read:maxLength:")]
 		nint _Read (IntPtr buffer, nuint len);
 
-		[NullAllowed, Export ("closeWithData"), New]
+		[return: NullAllowed]
+		[Export ("closeWithData"), New]
 		NSData Close ();
 	}
 
@@ -256,8 +257,9 @@ namespace PSPDFKit.Model {
 		[Export ("deleted")]
 		bool Deleted { [Bind ("isDeleted")] get; set; }
 
+		[BindAs (typeof (PSPDFAnnotationString))]
 		[Export ("typeString")]
-		string TypeString { get; }
+		NSString TypeString { get; }
 
 		[BindAs (typeof (PSPDFAnnotationVariantString))]
 		[NullAllowed, Export ("variant")]
@@ -745,7 +747,8 @@ namespace PSPDFKit.Model {
 		[Export ("shouldSaveAnnotations")]
 		bool ShouldSaveAnnotations ();
 
-		[NullAllowed, Export ("dirtyAnnotations")]
+		[return: NullAllowed]
+		[Export ("dirtyAnnotations")]
 		NSDictionary<NSNumber, NSArray<PSPDFAnnotation>> GetDirtyAnnotations ();
 
 		[Export ("didChangeAnnotation:keyPaths:options:")]
@@ -1800,7 +1803,8 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("signature", ArgumentSemantic.Strong)]
 		NSData Signature { get; set; }
 
-		[NullAllowed, Export ("progress")]
+		[return: NullAllowed]
+		[Export ("progress")]
 		NSProgress GetProgress ();
 
 		[Export ("createDataSinkWithOptions:error:")]
@@ -2503,10 +2507,12 @@ namespace PSPDFKit.Model {
 		[Export ("rotatePages:rotation:")]
 		PSPDFEditingChange [] RotatePages (NSIndexSet pageIndexes, nint rotation);
 
-		[NullAllowed, Export ("undo")]
+		[return: NullAllowed]
+		[Export ("undo")]
 		PSPDFEditingChange [] Undo ();
 
-		[NullAllowed, Export ("redo")]
+		[return: NullAllowed]
+		[Export ("redo")]
 		PSPDFEditingChange [] Redo ();
 
 		[Export ("canRedo")]
@@ -2824,6 +2830,10 @@ namespace PSPDFKit.Model {
 
 		[Export ("resolveNamedDestination:")]
 		nuint ResolveNamedDestination (string namedDestination);
+
+		[Export ("hashDocumentProviderRange:hashAlgorithm:error:")]
+		[return: NullAllowed]
+		NSData HashDocumentProviderRange (NSNumber [] range, PSPDFSignatureHashAlgorithm hashAlgorithm, [NullAllowed] out NSError error);
 
 		// PSPDFDocumentProvider (SubclassingHooks) Category
 
@@ -4808,6 +4818,11 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFPrivateKey {
 
+		[Static]
+		[Export ("createFromRawPrivateKey:encoding:")]
+		[return: NullAllowed]
+		PSPDFPrivateKey Create (NSData rawPrivateKey, PSPDFPrivateKeyEncoding encoding);
+
 		[Export ("signatureEncryptionAlgorithm")]
 		PSPDFSignatureEncryptionAlgorithm SignatureEncryptionAlgorithm { get; }
 	}
@@ -4827,7 +4842,8 @@ namespace PSPDFKit.Model {
 		[Export ("writeToFileURL:error:")]
 		bool WriteToFile (NSUrl fileURL, [NullAllowed] out NSError error);
 
-		[NullAllowed, Export ("data")]
+		[return: NullAllowed]
+		[Export ("data")]
 		NSData GetData ();
 
 		[Export ("dataWithError:")]
@@ -5629,6 +5645,9 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("signatureGraphic")]
 		PSPDFAnnotationAppearanceStream SignatureGraphic { get; set; }
 
+		[NullAllowed, Export ("signatureWatermark")]
+		PSPDFAnnotationAppearanceStream SignatureWatermark { get; set; }
+
 		[Export ("reuseExistingAppearance")]
 		bool ReuseExistingAppearance { get; set; }
 
@@ -5671,6 +5690,9 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("signatureGraphic")]
 		PSPDFAnnotationAppearanceStream SignatureGraphic { get; }
 
+		[NullAllowed, Export ("signatureWatermark")]
+		PSPDFAnnotationAppearanceStream SignatureWatermark { get; }
+
 		[Export ("reuseExistingAppearance")]
 		bool ReuseExistingAppearance { get; }
 
@@ -5683,7 +5705,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFSignatureBiometricProperties : INSSecureCoding {
 
 		[Export ("initWithPressureList:timePointsList:touchRadius:inputMethod:")]
-		IntPtr Constructor ([NullAllowed] NSNumber [] pressureList, [NullAllowed] NSNumber [] timePointsList, [NullAllowed] NSNumber touchRadius, PSPDFSignatureInputMethod inputMethod);
+		IntPtr Constructor ([NullAllowed] NSNumber [] pressureList, [NullAllowed] NSNumber [] timePointsList, [NullAllowed] NSNumber touchRadius, PSPDFDrawInputMethod inputMethod);
 
 		[NullAllowed, Export ("pressureList")]
 		NSNumber [] PressureList { get; }
@@ -5695,7 +5717,7 @@ namespace PSPDFKit.Model {
 		NSNumber TouchRadius { get; }
 
 		[Export ("inputMethod")]
-		PSPDFSignatureInputMethod InputMethod { get; }
+		PSPDFDrawInputMethod InputMethod { get; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -5899,6 +5921,7 @@ namespace PSPDFKit.Model {
 
 	delegate void PSPDFSignerSignFormElementHandler (bool success, PSPDFDocument document, NSError error);
 	delegate void PSPDFSignerSignFormElementSinkHandler (bool success, IPSPDFDataSink document, NSError error);
+	delegate void PSPDFSignatureCreationHandler (bool success, [NullAllowed] IPSPDFDataSink document, [NullAllowed] NSError error);
 
 	[BaseType (typeof (NSObject))]
 	interface PSPDFSigner : PSPDFDocumentSignerDelegate, PSPDFDocumentSignerDataSource, PSPDFExternalSignature, INSCoding {
@@ -5911,6 +5934,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("displayName")]
 		string DisplayName { get; }
+
+		[NullAllowed, Export ("signersName")]
+		string SignersName { get; set; }
 
 		[Export ("reason")]
 		string Reason { get; }
@@ -5930,9 +5956,17 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFDocumentSignerDelegate Delegate { get; set; }
 
+#if __IOS__
 		[Async]
 		[Export ("requestSigningCertificate:completionBlock:")]
 		void RequestSigningCertificate (NSObject sourceController, [NullAllowed] Action<PSPDFX509, NSError> completion);
+#endif
+
+		[Export ("prepareFormElement:toBeSignedWithAppearance:contents:writingToDataSink:completion:")]
+		void PrepareFormElement (PSPDFSignatureFormElement element, PSPDFSignatureAppearance signatureAppearance, IPSPDFSignatureContents contents, IPSPDFDataSink dataSink, PSPDFSignatureCreationHandler completionBlock);
+
+		[Export ("embedSignatureInFormElement:withContents:writingToDataSink:completion:")]
+		void EmbedSignature (PSPDFSignatureFormElement element, IPSPDFSignatureContents contents, IPSPDFDataSink dataSink, PSPDFSignatureCreationHandler completionBlock);
 
 		[Export ("signData:privateKey:hashAlgorithm:")]
 		NSData SignData (NSData data, PSPDFPrivateKey privateKey, PSPDFSignatureHashAlgorithm hashAlgorithm);
@@ -6916,4 +6950,30 @@ namespace PSPDFKit.Model {
 		bool RepeatOverlayText { get; set; }
 	}
 
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFPKCS7 {
+
+		[Static]
+		[Export ("create:privateKey:certificate:hashAlgorithm:encryptionAlgorithm:")]
+		PSPDFPKCS7 Create (NSData digest, PSPDFPrivateKey privateKey, PSPDFX509 certificate, PSPDFSignatureHashAlgorithm hashAlgorithm, PSPDFSignatureEncryptionAlgorithm encryptionAlgorithm);
+
+		[Export ("data")]
+		NSData Data { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	interface PSPDFBlankSignatureContents : PSPDFSignatureContents {
+
+	}
+
+	interface IPSPDFSignatureContents { }
+
+	[Protocol]
+	interface PSPDFSignatureContents {
+
+		[Abstract]
+		[Export ("signData:")]
+		NSData SignData (NSData dataToSign);
+	}
 }

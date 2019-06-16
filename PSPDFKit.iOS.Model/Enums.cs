@@ -743,7 +743,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	public enum PSPDFSignatureInputMethod : ulong {
+	public enum PSPDFDrawInputMethod : ulong {
 		None,
 		Finger,
 		ApplePencil,
@@ -772,7 +772,9 @@ namespace PSPDFKit.Model {
 		UnsupportedSubfilterType = 263,
 		CannotFindSignature = 264,
 		CannotSignAttributes = 265,
-		CannotSignFormElement = 272
+		CannotSignFormElement = 272,
+		CannotSignAlreadySigned = 273,
+		CouldNotHashDocument = 274,
 	}
 
 	public enum PSPDFSoundAnnotationEncoding {
@@ -1045,5 +1047,11 @@ namespace PSPDFKit.Model {
 		LogInvalidEntriesAndContinue,
 		FailOnFirstInvalidEntry,
 		GatherAllErrorsBeforeFailing,
+	}
+
+	[Native]
+	public enum PSPDFPrivateKeyEncoding : long {
+		Pkcs8,
+		Pkcs1,
 	}
 }

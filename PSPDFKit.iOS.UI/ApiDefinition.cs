@@ -569,12 +569,6 @@ namespace PSPDFKit.UI {
 
 		// PSPDFAnnotationStateManager (SubclassingHooks) category
 
-		[Export ("cancelDrawingAnimated:")]
-		void CancelDrawingAnimated (bool animated);
-
-		[Export ("doneDrawingAnimated:")]
-		void DoneDrawingAnimated (bool animated);
-
 		[Export ("setLastUsedColor:annotationString:")]
 		void SetLastUsedColor ([NullAllowed] UIColor lastUsedDrawColor, string annotationString);
 
@@ -1552,6 +1546,9 @@ namespace PSPDFKit.UI {
 		[Export ("scrubberBarType")]
 		PSPDFScrubberBarType ScrubberBarType { get; set; }
 
+		[Export ("hideThumbnailBarForSinglePageDocuments")]
+		bool HideThumbnailBarForSinglePageDocuments { get; set; }
+
 		[Export ("thumbnailGrouping")]
 		PSPDFThumbnailGrouping ThumbnailGrouping { get; set; }
 
@@ -1924,6 +1921,9 @@ namespace PSPDFKit.UI {
 		[Export ("scrubberBarType")]
 		PSPDFScrubberBarType ScrubberBarType { get; }
 
+		[Export ("hideThumbnailBarForSinglePageDocuments")]
+		bool HideThumbnailBarForSinglePageDocuments { get; }
+
 		[Export ("thumbnailGrouping")]
 		PSPDFThumbnailGrouping ThumbnailGrouping { get; }
 
@@ -2198,8 +2198,8 @@ namespace PSPDFKit.UI {
 		[Export ("pathForDigitallySignedDocumentFromOriginalDocument:suggestedFileName:")]
 		string GetPathForDigitallySignedDocument (PSPDFDocument originalDocument, string fileName);
 
-		[Export ("presentSignedDocument:showingPageIndex:")]
-		void PresentSignedDocument (PSPDFDocument signedDocument, nuint pageIndex);
+		[Export ("presentSignedDocument:showingPageIndex:withPresentationContext:")]
+		void PresentSignedDocument (PSPDFDocument signedDocument, nuint pageIndex, IPSPDFPresentationContext presentationContext);
 
 		[Export ("configureSignatureAppearanceWithBuilder:document:signature:")]
 		void ConfigureSignatureAppearance (PSPDFSignatureAppearanceBuilder builder, PSPDFDocument document, PSPDFSignatureContainer signature);
@@ -2845,12 +2845,6 @@ namespace PSPDFKit.UI {
 
 		// PSPDFDocumentViewLayout (Subclassing)
 
-		[Export ("configureScrollView:")]
-		void ConfigureScrollView (UIScrollView scrollView);
-
-		[Export ("configureZoomView:forSpreadIndex:")]
-		void ConfigureZoomView (UIScrollView zoomView, nint spreadIndex);
-
 		[Export ("viewport")]
 		CGRect Viewport { get; }
 
@@ -3003,6 +2997,21 @@ namespace PSPDFKit.UI {
 
 		[Export ("clear")]
 		void Clear ();
+
+		[Export ("pointSequences")]
+		NSArray<NSValue> [] PointSequences { get; }
+
+		[Export ("pressureList")]
+		NSNumber [] PressureList { get; }
+
+		[Export ("timePoints")]
+		NSNumber [] TimePoints { get; }
+
+		[Export ("touchRadii")]
+		NSNumber [] TouchRadii { get; }
+
+		[Export ("inputMethod")]
+		PSPDFDrawInputMethod InputMethod { get; }
 
 		[Export ("startDrawingAtPoint:")]
 		void StartDrawing (PSPDFDrawingPoint location);
@@ -4741,6 +4750,12 @@ namespace PSPDFKit.UI {
 
 		[Export ("rotationForwardingEnabled")]
 		bool RotationForwardingEnabled { [Bind ("isRotationForwardingEnabled")] get; set; }
+
+		[Export ("persistentCloseButtonMode", ArgumentSemantic.Assign)]
+		PSPDFPersistentCloseButtonMode PersistentCloseButtonMode { get; set; }
+
+		[NullAllowed, Export ("persistentCloseButton", ArgumentSemantic.Assign)]
+		UIBarButtonItem PersistentCloseButton { get; set; }
 	}
 
 	[BaseType (typeof (UINavigationItem))]
@@ -4916,9 +4931,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("backgroundView")]
 		UIView BackgroundView { get; }
-
-		[Export ("optionsView")]
-		UIView OptionsView { get; }
 
 		[Export ("setupToolbar")]
 		void SetupToolbar ();
@@ -5096,6 +5108,9 @@ namespace PSPDFKit.UI {
 
 		// PSPDFPageCell (SubclassingHooks) Category
 
+		[Export ("updatePageLabel")]
+		void UpdatePageLabel ();
+
 		[NullAllowed, Export ("image")]
 		UIImage Image { get; }
 
@@ -5165,11 +5180,6 @@ namespace PSPDFKit.UI {
 
 		[NullAllowed, Export ("labelFormatter", ArgumentSemantic.Copy)]
 		PSPDFPageLabelFormatter LabelFormatter { get; set; }
-
-		// PSPDFPageLabelView (SubclassingHooks) Category
-
-		[Export ("updateFrame")]
-		void UpdateFrame ();
 	}
 
 	[BaseType (typeof (PSPDFRelayTouchesView))]
@@ -5260,6 +5270,12 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("pageInfo")]
 		PSPDFPageInfo PageInfo { get; }
 
+		[Export ("selectedAnnotations", ArgumentSemantic.Copy)]
+		PSPDFAnnotation [] SelectedAnnotations { get; set; }
+
+		[NullAllowed, Export ("annotationSelectionView")]
+		PSPDFResizableView AnnotationSelectionView { get; }
+
 		// PSPDFPageView (AnnotationViews) Category
 
 		[Export ("setAnnotation:forAnnotationView:")]
@@ -5268,9 +5284,6 @@ namespace PSPDFKit.UI {
 		[Export ("annotationForAnnotationView:")]
 		[return: NullAllowed]
 		PSPDFAnnotation GetAnnotation (IPSPDFAnnotationPresenting annotationView);
-
-		[Export ("selectedAnnotations", ArgumentSemantic.Copy)]
-		PSPDFAnnotation [] SelectedAnnotations { get; set; }
 
 		[Export ("singleTapped:")]
 		bool SingleTapped (UITapGestureRecognizer recognizer);
@@ -5317,9 +5330,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("renderOptionsDictWithZoomScale:animated:")]
 		NSDictionary GetRenderOptionsDict (nfloat zoomScale, bool animated);
-
-		[Export ("annotationSelectionView")]
-		PSPDFResizableView AnnotationSelectionView { get; }
 
 		[Export ("centerAnnotation:aroundPDFPoint:")]
 		void CenterAnnotation (PSPDFAnnotation annotation, CGPoint pdfPoint);
@@ -5595,6 +5605,9 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("trackedViews", ArgumentSemantic.Copy)]
 		NSSet<UIView> TrackedViews { get; set; }
 
+		[Export ("trackedAnnotations")]
+		NSSet<PSPDFAnnotation> TrackedAnnotations { get; }
+
 		[Export ("zoomScale")]
 		nfloat ZoomScale { get; set; }
 
@@ -5640,6 +5653,9 @@ namespace PSPDFKit.UI {
 		[Export ("cornerRadius")]
 		nfloat CornerRadius { get; set; }
 
+		[Export ("rotationKnob")]
+		IPSPDFKnobView RotationKnob { get; }
+
 		// PSPDFResizableView (SubclassingHooks) Category
 
 		[Export ("longPress:")]
@@ -5648,9 +5664,6 @@ namespace PSPDFKit.UI {
 		[Export ("outerKnobOfType:")]
 		[return: NullAllowed]
 		IPSPDFKnobView GetOuterKnob (PSPDFResizableViewOuterKnob knobType);
-
-		[Export ("rotationKnob")]
-		IPSPDFKnobView RotationKnob { get; }
 
 		[Export ("centerPointForOuterKnob:inFrame:")]
 		CGPoint GetCenterPointForOuterKnob (PSPDFResizableViewOuterKnob knobType, CGRect frame);
@@ -5661,15 +5674,8 @@ namespace PSPDFKit.UI {
 		[Export ("newKnobViewForType:")]
 		IPSPDFKnobView GetNewKnobView (PSPDFKnobType type);
 
-		[Export ("trackedAnnotations")]
-		NSSet<PSPDFAnnotation> TrackedAnnotations { get; }
-
 		[Export ("updateKnobsAnimated:")]
 		void UpdateKnobs (bool animated);
-
-		[Export ("configureGuideLayer:withZoomScale:")]
-		[Advice ("Requires base call if override.")]
-		void ConfigureGuideLayer (CAShapeLayer layer, nfloat zoomScale);
 	}
 
 	[BaseType (typeof (UILabel))]
@@ -5706,11 +5712,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("annotationStore", ArgumentSemantic.Strong)]
 		IPSPDFAnnotationSetStore AnnotationStore { get; set; }
-
-		// PSPDFSavedAnnotationsViewController (SubclassingHooks) Category
-
-		[Export ("updateToolbarAnimated:")]
-		void UpdateToolbar (bool animated);
 	}
 
 	interface IPSPDFSaveViewControllerDelegate { }
@@ -5846,6 +5847,12 @@ namespace PSPDFKit.UI {
 		[Export ("rightBorderMargin")]
 		nfloat RightBorderMargin { get; set; }
 
+		[Export ("thumbnailMargin")]
+		nfloat ThumbnailMargin { get; set; }
+
+		[Export ("pageMarkerSizeMultiplier")]
+		nfloat PageMarkerSizeMultiplier { get; set; }
+
 		[NullAllowed, Export ("thumbnailBorderColor", ArgumentSemantic.Strong)]
 		UIColor ThumbnailBorderColor { get; set; }
 
@@ -5865,12 +5872,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("processTouch:")]
 		bool ProcessTouch (UITouch touch);
-
-		[Export ("thumbnailMargin")]
-		nfloat ThumbnailMargin { get; set; }
-
-		[Export ("pageMarkerSizeMultiplier")]
-		nfloat PageMarkerSizeMultiplier { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFStatefulTableViewController))]
@@ -6290,13 +6291,13 @@ namespace PSPDFKit.UI {
 		[Export ("certificateSelectionMode", ArgumentSemantic.Assign)]
 		PSPDFSignatureCertificateSelectionMode CertificateSelectionMode { get; set; }
 
-		// PSPDFSignatureViewController (SubclassingHooks) Category
-
 		[Export ("drawView")]
 		PSPDFDrawView DrawView { get; }
 
 		[NullAllowed, Export ("signer")]
 		PSPDFSigner Signer { get; }
+
+		// PSPDFSignatureViewController (SubclassingHooks) Category
 
 		[Export ("colorButtonForColor:")]
 		PSPDFColorButton ColorButtonForColor (UIColor color);
@@ -7259,9 +7260,6 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("bookmarkImageView")]
 		UIImageView BookmarkImageView { get; }
 
-		[Export ("updatePageLabel")]
-		void UpdatePageLabel ();
-
 		[Export ("updateBookmarkImage")]
 		void UpdateBookmarkImage ();
 	}
@@ -7535,9 +7533,6 @@ namespace PSPDFKit.UI {
 		[Export ("documentLabelInsets", ArgumentSemantic.Assign)]
 		UIEdgeInsets DocumentLabelInsets { get; set; }
 
-		[Export ("thumbnailBarInsets", ArgumentSemantic.Assign)]
-		UIEdgeInsets ThumbnailBarInsets { get; set; }
-
 		[Export ("scrubberBarInsets", ArgumentSemantic.Assign)]
 		UIEdgeInsets ScrubberBarInsets { get; set; }
 
@@ -7574,6 +7569,10 @@ namespace PSPDFKit.UI {
 
 		[Export ("updateScrubberBarFrameAnimated:")]
 		void UpdateScrubberBarFrame (bool animated);
+
+		[Export ("updatePageLabelFrameAnimated:")]
+		[Advice ("Requires base call.")]
+		void UpdatePageLabelFrame (bool animated);
 	}
 
 	delegate void PSPDFUsernameHelperCompletionHandler (string userName);
@@ -8110,7 +8109,7 @@ namespace PSPDFKit.UI {
 		// PSPDFWebViewController (SubclassingHooks) Category
 
 		[Export ("webView")]
-		UIView WebView { get; }
+		IPSPDFCommonWebView WebView { get; }
 
 		[Export ("showHTMLWithError:")]
 		void ShowHtml (NSError error);
@@ -8541,5 +8540,48 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (PSPDFLinkAnnotationEditingViewController))]
 	interface PSPDFWebsiteLinkAnnotationEditingViewController {
 
+	}
+
+	interface IPSPDFCommonWebView { }
+
+	[Protocol]
+	[BaseType (typeof (NSObject))]
+	interface PSPDFCommonWebView {
+
+		[Abstract]
+		[Export ("loading")]
+		bool Loading { [Bind ("isLoading")] get; }
+
+		[Abstract]
+		[NullAllowed, Export ("URL")]
+		NSUrl Url { get; }
+
+		[Abstract]
+		[Export ("canGoBack")]
+		bool CanGoBack { get; }
+
+		[Abstract]
+		[Export ("canGoForward")]
+		bool CanGoForward { get; }
+
+		[Abstract]
+		[Export ("loadRequest:")]
+		void LoadRequest (NSUrlRequest request);
+
+		[Abstract]
+		[Export ("stopLoading")]
+		void StopLoading ();
+
+		[Abstract]
+		[Export ("goBack")]
+		void GoBack ();
+
+		[Abstract]
+		[Export ("goForward")]
+		void GoForward ();
+
+		[Abstract]
+		[Export ("reload")]
+		void Reload ();
 	}
 }
