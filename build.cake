@@ -1,4 +1,4 @@
-var IOSVERSION = Argument("iosversion", "8.4.0");
+var IOSVERSION = Argument("iosversion", "8.4.1");
 var MACVERSION = Argument("macversion", "3.4.0");
 var target = Argument ("target", "Default");
 
