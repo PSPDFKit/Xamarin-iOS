@@ -2683,6 +2683,7 @@ namespace PSPDFKit.UI {
 		string GetTitleForAnnotationOptions (PSPDFDocumentSharingAnnotationOptions option);
 
 		[Export ("subtitleForAnnotationsOptions:sharingConfiguration:")]
+		[return: NullAllowed]
 		string GetSubtitleForAnnotationsOptions (PSPDFDocumentSharingAnnotationOptions option, PSPDFDocumentSharingConfiguration sharingConfiguration);
 	}
 

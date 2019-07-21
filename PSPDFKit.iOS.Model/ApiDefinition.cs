@@ -1280,6 +1280,9 @@ namespace PSPDFKit.Model {
 		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFDocument document);
 
+		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
+		PSPDFDocument Document { get; }
+
 		[Export ("bookmarks", ArgumentSemantic.Copy)]
 		PSPDFBookmark [] Bookmarks { get; }
 
@@ -2507,6 +2510,9 @@ namespace PSPDFKit.Model {
 		[Export ("rotatePages:rotation:")]
 		PSPDFEditingChange [] RotatePages (NSIndexSet pageIndexes, nint rotation);
 
+		[Export ("rotationForPageAtIndex:")]
+		nint GetRotationForPage (nuint pageIndex);
+
 		[return: NullAllowed]
 		[Export ("undo")]
 		PSPDFEditingChange [] Undo ();
@@ -3056,9 +3062,9 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFEditingChange {
 
-		[Export ("initWithOperation:affectedPageIndex:destinationPageIndex:")]
+		[Export ("initWithOperation:affectedPageIndex:destinationPageIndex:pageReferenceSourceIndex:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFEditingOperation operation, nuint affectedPageIndex, nuint destinationPageIndex);
+		IntPtr Constructor (PSPDFEditingOperation operation, nuint affectedPageIndex, nuint destinationPageIndex, nuint pageReferenceSourceIndex);
 
 		[Export ("operation")]
 		PSPDFEditingOperation Operation { get; }
@@ -3068,6 +3074,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("destinationPageIndex")]
 		nuint DestinationPageIndex { get; }
+
+		[Export ("pageReferenceSourceIndex")]
+		nuint PageReferenceSourceIndex { get; }
 	}
 
 	[BaseType (typeof (PSPDFModel))]
