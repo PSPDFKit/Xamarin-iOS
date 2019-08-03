@@ -958,4 +958,10 @@ namespace PSPDFKit.UI {
 		Left,
 		Right,
 	}
+
+	[Native]
+	public enum PSPDFPresentationHalfModalStyle : ulong {
+		Card,
+		System,
+	}
 }

@@ -666,6 +666,21 @@ namespace PSPDFKit.Model {
 		[Export ("addAnnotations:options:")]
 		bool AddAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
 
+		[Export ("insertAnnotation:atZIndex:options:error:")]
+		bool InsertAnnotation (PSPDFAnnotation annotation, nuint destinationIndex, [NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
+
+		[Wrap ("InsertAnnotation (annotation, destinationIndex, annotationOptions?.Dictionary, out error)")]
+		bool InsertAnnotation (PSPDFAnnotation annotation, nuint destinationIndex, [NullAllowed] PSPDFAnnotationOptions annotationOptions, [NullAllowed] out NSError error);
+
+		[Export ("updateAnnotationsOnPageAtIndex:error:withUpdateBlock:")]
+		bool UpdateAnnotations (nuint pageIndex, [NullAllowed] out NSError error, Action<IPSPDFAnnotationUpdate> updateHandler);
+
+		[Export ("canMoveAnnotation:error:")]
+		bool CanMoveAnnotation (PSPDFAnnotation annotation, [NullAllowed] out NSError error);
+
+		[Export ("canExecuteZIndexMove:forAnnotation:")]
+		bool CanExecuteZIndexMove (PSPDFAnnotationZIndexMove zIndexMove, PSPDFAnnotation annotation);
+
 		[Wrap ("AddAnnotations (annotations, options: annotationOptions?.Dictionary)")]
 		bool AddAnnotations (PSPDFAnnotation [] annotations, PSPDFAnnotationOptions annotationOptions);
 
@@ -737,6 +752,12 @@ namespace PSPDFKit.Model {
 		[return: NullAllowed]
 		PSPDFAnnotation [] AddAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
 
+		[Export ("insertAnnotation:atZIndex:options:error:")]
+		bool InsertAnnotation (PSPDFAnnotation annotation, nuint destinationIndex, [NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
+
+		[Export ("allowAnnotationZIndexMoves")]
+		bool AllowAnnotationZIndexMoves ();
+
 		[Export ("removeAnnotations:options:")]
 		[return: NullAllowed]
 		PSPDFAnnotation [] RemoveAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
@@ -765,6 +786,24 @@ namespace PSPDFKit.Model {
 
 		[Export ("setDelegate:")]
 		void SetDelegate ([NullAllowed] IPSPDFAnnotationProviderDelegate provider);
+	}
+
+	interface IPSPDFAnnotationUpdate { }
+
+	[Protocol]
+	interface PSPDFAnnotationUpdate {
+
+		[Abstract]
+		[Export ("annotations")]
+		PSPDFAnnotation [] Annotations { get; }
+
+		[Abstract]
+		[Export ("moveAnnotationAtZIndex:toZIndex:error:")]
+		bool MoveAnnotation (nuint sourceZIndex, nuint destinationZIndex, [NullAllowed] out NSError error);
+
+		[Abstract]
+		[Export ("executeZIndexMove:forAnnotationAtZIndex:error:")]
+		bool ExecuteZIndexMove (PSPDFAnnotationZIndexMove zIndexMove, nuint soureZIndex, [NullAllowed] out NSError error);
 	}
 
 	interface IPSPDFAnnotationProviderDelegate { }
@@ -2165,6 +2204,12 @@ namespace PSPDFKit.Model {
 		[Wrap ("AddAnnotations (annotations, options: annotationOptions?.Dictionary)")]
 		bool AddAnnotations (PSPDFAnnotation [] annotations, PSPDFAnnotationOptions annotationOptions);
 
+		[Export ("insertAnnotation:atZIndex:options:error:")]
+		bool InsertAnnotation (PSPDFAnnotation annotation, nuint destinationIndex, [NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
+
+		[Wrap ("InsertAnnotation (annotation, destinationIndex, annotationOptions?.Dictionary, out error)")]
+		bool InsertAnnotation (PSPDFAnnotation annotation, nuint destinationIndex, [NullAllowed] PSPDFAnnotationOptions annotationOptions, [NullAllowed] out NSError error);
+
 		[Export ("removeAnnotations:options:")]
 		bool RemoveAnnotations (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options);
 
@@ -2395,6 +2440,9 @@ namespace PSPDFKit.Model {
 
 		[Field ("PSPDFObjectsTestIntersectionKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString TestIntersectionKey { get; }
+
+		[Field ("PSPDFObjectsTestIntersectionFractionKey", PSPDFKitLibraryPath.LibraryPath)]
+		NSString TestIntersectionFractionKey { get; }
 	}
 
 	interface PSPDFDocumentCheckpointSavedNotificationEventArgs {

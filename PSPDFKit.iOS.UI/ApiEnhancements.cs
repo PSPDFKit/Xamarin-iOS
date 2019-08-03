@@ -16,6 +16,11 @@ namespace PSPDFKit.UI {
 			set => SetNumberValue (PSPDFPresentationKeys.StyleKey, (nuint) (ulong) value);
 		}
 
+		public PSPDFPresentationHalfModalStyle? HalfModalStyle {
+			get => (PSPDFPresentationHalfModalStyle) (ulong) GetNUIntValue (PSPDFPresentationKeys.HalfModalStyleKey);
+			set => SetNumberValue (PSPDFPresentationKeys.HalfModalStyleKey, (nuint) (ulong) value);
+		}
+
 		public UIPopoverArrowDirection? PopoverArrowDirections {
 			get => (UIPopoverArrowDirection) (ulong) GetNUIntValue (PSPDFPresentationKeys.PopoverArrowDirectionsKey);
 			set => SetNumberValue (PSPDFPresentationKeys.PopoverArrowDirectionsKey, (nuint) (ulong) value);

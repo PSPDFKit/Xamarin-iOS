@@ -7,7 +7,7 @@
         <authors>PSPDFKit GmbH</authors>
         <owners>PSPDFKit GmbH</owners>
         <copyright>Copyright 2010-2019</copyright>
-        <licenseUrl>https://github.com/PSPDFKit/Xamarin-iOS/blob/master/LICENSE.md</licenseUrl>
+        <license type="file">LICENSE.md</license>
         <projectUrl>https://pspdfkit.com/</projectUrl>
         <repository type="git" url="https://github.com/PSPDFKit/Xamarin-iOS"/>
         <iconUrl>https://pspdfkit.com/favicon.ico</iconUrl>
@@ -16,13 +16,14 @@
             The leading framework for displaying, annotating and editing PDFs on iOS, Android, Windows, Electron and the Web.
         </description>
         <releaseNotes>
-            For changelog go to: https://pspdfkit.com/changelog/ios/
+            For changelog go to: https://pspdfkit.com/changelog/macos/
         </releaseNotes>
         <summary>We’ve taken the core of our industry-leading iOS framework and brought it to macOS. PSPDFKit for macOS is what we call BYOV: bring your own views. It enables you to write your custom UI and PDF workflows on top of our advanced PDF-processing technology. The same level of performance, stability, and features you’ve come to expect on iOS — now for macOS.</summary>
         <tags>pdf, pdf document, pdf document view, pdf sdk, pdf annotation, edit pdf, display pdf, display pdf, xamarin, ios</tags>
     </metadata>
     <files>
-        <file src="nuget\readme.txt" target="readme.txt" /> 
+        <file src="nuget\readme.txt" target="readme.txt" />
+        <file src="LICENSE.md" target="" />
         <!--Xamarin.iOS-->
         <file src="PSPDFKit.Mac.Model\bin\Release\PSPDFKit.Mac.Model.dll" target="lib\Xamarin.Mac20" />
     </files>

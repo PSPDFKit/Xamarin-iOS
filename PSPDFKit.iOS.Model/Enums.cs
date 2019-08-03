@@ -39,6 +39,7 @@ namespace PSPDFKit.Model {
 		FailedToLoadAnnotationFont = 404,
 		FailedToWriteAnnotations = 410,
 		CannotEmbedAnnotations = 420,
+		CannotModifyAnnotationZIndices = 430,
 		FailedToSaveBookmarks = 460,
 		FailedToSaveDocument = 470,
 		FailedToSaveDocumentCheckpoint = 480,
@@ -1053,5 +1054,13 @@ namespace PSPDFKit.Model {
 	public enum PSPDFPrivateKeyEncoding : long {
 		Pkcs8,
 		Pkcs1,
+	}
+
+	[Native]
+	public enum PSPDFAnnotationZIndexMove : long {
+		ToFront,
+		Forward,
+		Backward,
+		ToBack,
 	}
 }
