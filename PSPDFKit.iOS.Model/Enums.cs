@@ -1041,6 +1041,7 @@ namespace PSPDFKit.Model {
 	public enum PSPDFDocumentSaveStrategy : long {
 		Append,
 		Rewrite,
+		RewriteAndOptimizeFileSize,
 	}
 
 	[Native]

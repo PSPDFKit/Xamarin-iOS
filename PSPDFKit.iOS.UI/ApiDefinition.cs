@@ -2644,6 +2644,9 @@ namespace PSPDFKit.UI {
 		[Export ("initWithDocuments:")]
 		IntPtr Constructor (PSPDFDocument [] documents);
 
+		[Export ("initWithDocuments:sharingConfigurations:")]
+		IntPtr Constructor (PSPDFDocument [] documents, [NullAllowed] PSPDFDocumentSharingConfiguration [] sharingConfigurations);
+
 		[Export ("documents")]
 		PSPDFDocument [] Documents { get; }
 
