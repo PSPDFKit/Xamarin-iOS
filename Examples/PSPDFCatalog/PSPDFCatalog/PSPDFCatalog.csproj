@@ -140,6 +140,7 @@
     <Compile Include="Catalog\Annotations\PSCXFDFAnnotationProviderExample.cs" />
     <Compile Include="Catalog\Annotations\PSCEncryptedXFDFAnnotationProviderExample.cs" />
     <Compile Include="Catalog\Customization\CustomSharingFileNamesExampleViewController.cs" />
+    <Compile Include="Catalog\Forms\ProgrammaticFormFilling.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -153,6 +154,7 @@
     <Folder Include="Catalog\Instant\" />
     <Folder Include="Resources\Images.xcassets\LaunchLogo.imageset\" />
     <Folder Include="Catalog\Analytics\" />
+    <Folder Include="Catalog\Forms\" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -190,6 +192,7 @@
     <BundleResource Include="Resources\Pdf\hackermonthly-issue.pdf" />
     <BundleResource Include="Resources\Pdf\JKHF-AnnualReport.pdf" />
     <BundleResource Include="Resources\Pdf\XFDFTest.xfdf" />
+    <BundleResource Include="Resources\Pdf\Form_example.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">

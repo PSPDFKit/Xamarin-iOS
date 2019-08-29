@@ -18,47 +18,54 @@ namespace PSPDFCatalog {
 		public static readonly string PSPDFKitFile = "Pdf/PSPDFKit QuickStart Guide.pdf";
 		public static readonly string AnnualReportFile = "Pdf/JKHF-AnnualReport.pdf";
 		public static readonly string AnnualReportXFDFFile = "Pdf/XFDFTest.xfdf";
+        public static readonly string FormFile = "Pdf/Form_example.pdf";
 
-
-		UIColor barColor;
+        UIColor barColor;
 
 		public DVCMenu () : base (UITableViewStyle.Grouped, null)
 		{
-			Root = new RootElement (PSPDFKitGlobal.VersionString) {
-				new Section ("Start here") {
-					new StringElement ("PSPDFViewController Playground", () => {
-						var pdfViewer = new PlayGroundViewController (NSUrl.FromFilename (PSPDFKitFile));
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
-					new StringElement ("PSPDFKit Instant", () => {
-						var instantExample = new InstantExampleViewController ();
-						NavigationController.PushViewController (instantExample, true);
-					}),
-					new StringElement ("Tabbed Bar", () => {
-						var tabbed = new TabbedExampleViewController ();
-						NavigationController.PushViewController (tabbed, true);
-					}),
-					new StringElement ("Analytics Client", () => {
-						var pdfViewer = new AnalyticsClientExample (NSUrl.FromFilename (PSPDFKitFile));
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
-				},
-				new Section ("Annotations"){
-					new StringElement ("Annotations From Code", () => {
-						var documenturl = NSUrl.FromFilename (HackerMonthlyFile);
-						var pdfViewer = new AnnotationsFromCodeViewController (documenturl);
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
-					new StringElement ("XFDF Annotation Provider", () => {
-						var pdfViewer = new PSCXFDFAnnotationProviderExample ();
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
-					new StringElement ("Encrypted XFDF Annotation Provider", () => {
-						var pdfViewer = new PSCEncryptedXFDFAnnotationProviderExample ();
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
-				},
-				new Section ("Password / Security", "Password is: test123") {
+            Root = new RootElement(PSPDFKitGlobal.VersionString) {
+                new Section ("Start here") {
+                    new StringElement ("PSPDFViewController Playground", () => {
+                        var pdfViewer = new PlayGroundViewController (NSUrl.FromFilename (PSPDFKitFile));
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                    new StringElement ("PSPDFKit Instant", () => {
+                        var instantExample = new InstantExampleViewController ();
+                        NavigationController.PushViewController (instantExample, true);
+                    }),
+                    new StringElement ("Tabbed Bar", () => {
+                        var tabbed = new TabbedExampleViewController ();
+                        NavigationController.PushViewController (tabbed, true);
+                    }),
+                    new StringElement ("Analytics Client", () => {
+                        var pdfViewer = new AnalyticsClientExample (NSUrl.FromFilename (PSPDFKitFile));
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                },
+                new Section ("Annotations"){
+                    new StringElement ("Annotations From Code", () => {
+                        var documenturl = NSUrl.FromFilename (HackerMonthlyFile);
+                        var pdfViewer = new AnnotationsFromCodeViewController (documenturl);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                    new StringElement ("XFDF Annotation Provider", () => {
+                        var pdfViewer = new PSCXFDFAnnotationProviderExample ();
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                    new StringElement ("Encrypted XFDF Annotation Provider", () => {
+                        var pdfViewer = new PSCEncryptedXFDFAnnotationProviderExample ();
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                },
+                new Section ("Forms"){
+                    new StringElement ("Programamtically Fill Form Fields", () => {
+                        var documenturl = NSUrl.FromFilename (FormFile);
+                        var pdfViewer = new ProgrammaticFormFillingController (documenturl);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                },
+                new Section ("Password / Security", "Password is: test123") {
 					new StringElement ("Password Preset", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (ProtectedFile));
 						document.Unlock ("test123");
