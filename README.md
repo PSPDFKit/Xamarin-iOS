@@ -4,10 +4,6 @@ Xamarin PSPDFKit for iOS and Mac Bindings
 - Xamarin.iOS Bindings for PSPDFKit 8.5.1 for iOS
 - Xamarin.Mac Bindings for PSPDFKit 3.5.0 for macOS
 
-Xamarin.Android Bindings for PSPDFKit for Android: [PSPDFKit/Xamarin-Android](https://github.com/PSPDFKit/Xamarin-Android)
-
-Xamarin Bindings for PSPDFKit for Windows UWP: [PSPDFKit/Xamarin-UWP](https://github.com/PSPDFKit/Xamarin-UWP)
-
 #### PSPDFKit
 
 The [PSPDFKit SDK](https://pspdfkit.com/) is a framework that allows you to view, annotate, sign, and fill PDF forms on iOS, Android, Windows, macOS, and Web.
