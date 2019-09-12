@@ -14,6 +14,11 @@ The [PSPDFKit SDK](https://pspdfkit.com/) is a framework that allows you to view
 
 [PSPDFKit Instant](https://pspdfkit.com/instant) adds real-time collaboration features to seamlessly share, edit, and annotate PDF documents.
 
+#### Related
+
+- Xamarin.Android Bindings for PSPDFKit for Android: [PSPDFKit/Xamarin-Android](https://github.com/PSPDFKit/Xamarin-Android)
+- Xamarin Bindings for PSPDFKit for Windows UWP: [PSPDFKit/Xamarin-UWP](https://github.com/PSPDFKit/Xamarin-UWP)
+
 Minimum Requirements
 ====================
 
