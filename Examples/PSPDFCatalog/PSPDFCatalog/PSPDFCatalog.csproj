@@ -141,6 +141,7 @@
     <Compile Include="Catalog\Annotations\PSCEncryptedXFDFAnnotationProviderExample.cs" />
     <Compile Include="Catalog\Customization\CustomSharingFileNamesExampleViewController.cs" />
     <Compile Include="Catalog\Forms\ProgrammaticFormFilling.cs" />
+    <Compile Include="Catalog\Customization\CustomizedAnnotationToolbar.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
