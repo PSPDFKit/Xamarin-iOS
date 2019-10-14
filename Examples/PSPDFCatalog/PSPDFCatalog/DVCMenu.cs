@@ -19,7 +19,6 @@ namespace PSPDFCatalog {
 		public static readonly string AnnualReportFile = "Pdf/JKHF-AnnualReport.pdf";
 		public static readonly string AnnualReportXFDFFile = "Pdf/XFDFTest.xfdf";
         public static readonly string FormFile = "Pdf/Form_example.pdf";
-        public static readonly string CopyFile = "Pdf/Copy.pdf";
 
         UIColor barColor;
 
@@ -58,9 +57,8 @@ namespace PSPDFCatalog {
                         var pdfViewer = new PSCEncryptedXFDFAnnotationProviderExample ();
                         NavigationController.PushViewController (pdfViewer, true);
                     }),
-                    new StringElement ("Copy the annotations from one document to another", () => {
-                        var document = new PSPDFDocument (NSUrl.FromFilename (CopyFile));
-                        var pdfViewer = new CopyAnnotationsViewController (document);
+                    new StringElement ("Copy annotations from one file to another", () => {
+                        var pdfViewer = new CopyAnnotationsViewController ();
                         NavigationController.PushViewController (pdfViewer, true);
                     }),
                 },

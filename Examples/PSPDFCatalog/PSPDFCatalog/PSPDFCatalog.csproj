@@ -204,8 +204,8 @@
     <BundleResource Include="Resources\Pdf\JKHF-AnnualReport.pdf" />
     <BundleResource Include="Resources\Pdf\XFDFTest.xfdf" />
     <BundleResource Include="Resources\Pdf\Form_example.pdf" />
-    <BundleResource Include="Resources\Pdf\Copy.pdf" />
-    <BundleResource Include="Resources\Pdf\Copy2.pdf" />
+    <BundleResource Include="Resources\Pdf\original.pdf" />
+    <BundleResource Include="Resources\Pdf\copy.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">
