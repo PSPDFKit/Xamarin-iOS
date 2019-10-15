@@ -62,6 +62,14 @@ namespace PSPDFCatalog {
 			var sheetController = UIAlertController.Create (null, null, UIAlertControllerStyle.ActionSheet);
 			sheetController.AddAction (UIAlertAction.Create ("Cancel", UIAlertActionStyle.Cancel, null));
 			sheetController.AddAction (UIAlertAction.Create ("Close all tabs", UIAlertActionStyle.Destructive, (obj) => Documents = Array.Empty<PSPDFDocument> ()));
+
+            // Needed for iPad as you need to specify for which button the popover is displayed
+            var presentationPopover = sheetController.PopoverPresentationController;
+            if (presentationPopover != null)
+            {
+                presentationPopover.BarButtonItem = ClearTabsButtonItem;
+            }
+
 			PresentViewController (sheetController, true, null);
 		}
 
