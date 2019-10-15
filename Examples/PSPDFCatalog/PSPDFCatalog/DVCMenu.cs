@@ -57,6 +57,10 @@ namespace PSPDFCatalog {
                         var pdfViewer = new PSCEncryptedXFDFAnnotationProviderExample ();
                         NavigationController.PushViewController (pdfViewer, true);
                     }),
+                    new StringElement ("Copy annotations from one file to another", () => {
+                        var pdfViewer = new CopyAnnotationsViewController ();
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
                 },
                 new Section ("Forms"){
                     new StringElement ("Programamtically Fill Form Fields", () => {
