@@ -1507,7 +1507,7 @@ namespace PSPDFKit.UI {
 		PSPDFAnnotationType TypesShowingColorPresets { get; set; }
 
 		[Export ("propertiesForAnnotations")]
-		NSDictionary<NSString, NSObject> PropertiesForAnnotations { get; set; }
+		NSDictionary PropertiesForAnnotations { get; set; }
 
 		[Export ("freeTextAccessoryViewEnabled")]
 		bool FreeTextAccessoryViewEnabled { [Bind ("isFreeTextAccessoryViewEnabled")] get; set; }
@@ -1870,7 +1870,7 @@ namespace PSPDFKit.UI {
 		PSPDFAnnotationType TypesShowingColorPresets { get; }
 
 		[Export ("propertiesForAnnotations")]
-		NSDictionary<NSString, NSObject> PropertiesForAnnotations { get; }
+		NSDictionary PropertiesForAnnotations { get; }
 
 		[Export ("freeTextAccessoryViewEnabled")]
 		bool FreeTextAccessoryViewEnabled { [Bind ("isFreeTextAccessoryViewEnabled")] get; }
@@ -7008,7 +7008,11 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (PSPDFMultiDocumentViewController))]
 	interface PSPDFTabbedViewController {
 
-		[Export ("addDocument:makeVisible:animated:")]
+        [Export("initWithPDFViewController:")]
+        [DesignatedInitializer]
+        IntPtr Constructor([NullAllowed] PSPDFViewController pdfController);
+
+        [Export ("addDocument:makeVisible:animated:")]
 		void AddDocument (PSPDFDocument document, bool shouldMakeDocumentVisible, bool animated);
 
 		[Export ("insertDocumentAfterVisibleDocument:makeVisible:animated:")]

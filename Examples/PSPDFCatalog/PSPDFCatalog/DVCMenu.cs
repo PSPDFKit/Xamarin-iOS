@@ -170,7 +170,14 @@ namespace PSPDFCatalog {
 
 						NavigationController.PushViewController (pdfController, true);
 					}),
-				},
+                    new StringElement ("Customize the annotation toolbar", () => {
+                        var document = new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
+                        var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
+                            builder.OverrideClass (typeof (PSPDFAnnotationToolbar), typeof (Catalog.Customization.CustomizedAnnotationToolbar));
+                        }));
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                },
 				new Section ("View Customizations") {
 					new StringElement ("Rotate pages", () => {
 						// The document needs to be in a writable location
