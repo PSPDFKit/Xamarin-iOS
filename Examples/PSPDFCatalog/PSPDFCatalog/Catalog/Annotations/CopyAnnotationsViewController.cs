@@ -11,6 +11,7 @@ namespace PSPDFCatalog
     {
         public static readonly string PdfFilePath = "Pdf/original.pdf";
         public static readonly string PdfFilePath2 = "Pdf/copy.pdf";
+        // We need a dictionary for the annotation options in the add/remove annotation methods, so we just create an empty one to not add any additional options
         NSDictionary dic = null;
 
         public override void CommonInit(PSPDFViewController pdfController)
@@ -20,6 +21,7 @@ namespace PSPDFCatalog
 
             var saveButton = new UIBarButtonItem("Copy", UIBarButtonItemStyle.Plain, CopyButtonPressed);
 
+            // Needed so we still have our back button
             NavigationItem.LeftItemsSupplementBackButton = true;
 
             pdfController.BarButtonItemsAlwaysEnabled = new[] { saveButton };
@@ -32,6 +34,7 @@ namespace PSPDFCatalog
                 var copy = new PSPDFDocument(NSUrl.FromFilename(PdfFilePath2));
                 Documents = new[] { original, copy };
             }
+            // Remove all existing annotations on start because we want to work with a clean state
             Documents[0].RemoveAnnotations(Documents[0].GetAnnotations(0, PSPDFAnnotationType.All), dic);
             Documents[1].RemoveAnnotations(Documents[1].GetAnnotations(0, PSPDFAnnotationType.All), dic);
 
