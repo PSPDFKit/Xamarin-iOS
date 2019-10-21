@@ -689,14 +689,6 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	[Flags]
-	public enum PSPDFRenderFilter : ulong {
-		Grayscale = 1 << 0,
-		ColorCorrectInverted = 1 << 1,
-		Sepia = 1 << 2
-	}
-
-	[Native]
 	public enum PSPDFRenderQueuePriority : ulong {
 		Unspecified = 0,
 		Background = 100,
@@ -1063,5 +1055,13 @@ namespace PSPDFKit.Model {
 		Forward,
 		Backward,
 		ToBack,
+	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFRenderFilter : ulong {
+		Grayscale = 1uL << 0,
+		ColorCorrectInverted = 1uL << 1,
+		Sepia = 1uL << 2
 	}
 }

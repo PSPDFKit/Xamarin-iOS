@@ -178,14 +178,14 @@ namespace PSPDFCatalog {
 				var progressHudItem = PSPDFStatusHUDItem.CreateIndeterminateProgress (loadingMessage);
 				progressHudItem.SetHudStyle (PSPDFStatusHUDStyle.Black);
 
-				await progressHudItem.PushAsync (true);
+				await progressHudItem.PushAsync (true, UIApplication.SharedApplication.Delegate.GetWindow ());
 				var documentInfo = await apiCall ();
 
 				if (documentInfo == null) {
 					Console.WriteLine ("Could not set up Instant");
 					var errorHudItem = PSPDFStatusHUDItem.CreateError ("Could not set up Instant");
 					await progressHudItem.PopAsync (true);
-					await errorHudItem.PushAndPopAsync (2, true);
+					await errorHudItem.PushAndPopAsync (2, true, UIApplication.SharedApplication.Delegate.GetWindow ());
 				} else {
 					var instantViewController = new InstantDocumentViewController (documentInfo);
 					NavigationController.PushViewController (instantViewController, true);
@@ -202,7 +202,7 @@ namespace PSPDFCatalog {
 			var valid = Uri.TryCreate (url, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttps;
 
 			if (!valid && !silent)
-				PSPDFStatusHUDItem.CreateError ("Invalid Document Code").PushAndPop (2, true, null);
+				PSPDFStatusHUDItem.CreateError ("Invalid Document Code").PushAndPop (2, true, UIApplication.SharedApplication.Delegate.GetWindow (), null);
 
 			return valid;
 		}

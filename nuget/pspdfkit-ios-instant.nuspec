@@ -22,8 +22,8 @@
         <tags>pdf, pdf document, pdf document view, pdf sdk, pdf annotation, edit pdf, display pdf, display pdf, xamarin, ios</tags>
         <dependencies>
             <group targetFramework="Xamarin.iOS10">
-                <dependency id="PSPDFKit.iOS.Model" version="[8.5.1]"/>
-                <dependency id="PSPDFKit.iOS.UI" version="[8.5.1]"/>
+                <dependency id="PSPDFKit.iOS.Model" version="[9.0.1]"/>
+                <dependency id="PSPDFKit.iOS.UI" version="[9.0.1]"/>
             </group>
        </dependencies>
     </metadata>

@@ -4,6 +4,7 @@ using Foundation;
 using ObjCRuntime;
 using CoreGraphics;
 using CoreFoundation;
+using CoreImage;
 
 #if __IOS__
 using UIKit;
@@ -184,13 +185,8 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAnnotation : PSPDFUndoSupport, INativeObject {
+	interface PSPDFAnnotation : PSPDFUndoSupport, INSSecureCoding, INativeObject {
 
-		[Static]
-		[Export ("isWriteable")]
-		bool IsWriteable { get; }
-
-		[Static]
 		[Export ("isDeletable")]
 		bool IsDeletable { get; }
 
@@ -369,20 +365,17 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("appearanceStreamGenerator", ArgumentSemantic.Strong)]
 		IPSPDFAppearanceStreamGenerating AppearanceStreamGenerator { get; set; }
 
-		[Export ("maybeRenderCustomAppearanceStreamWithContext:withOptions:")]
-		bool MaybeRenderCustomAppearanceStream (CGContext context, [NullAllowed] NSDictionary<NSString, NSObject> options);
+		[Export ("maybeRenderCustomAppearanceStreamWithContext:options:")]
+		bool MaybeRenderCustomAppearanceStream (CGContext context, PSPDFRenderOptions renderOptions);
 
 		// PSPDFAnnotation (Drawing) Category
 
-		[Export ("drawInContext:withOptions:")]
-		void DrawInContext (CGContext context, [NullAllowed] NSDictionary options);
+		[Export ("drawInContext:options:")]
+		void DrawInContext (CGContext context, [NullAllowed] PSPDFRenderOptions renderOptions);
 
-		[Wrap ("DrawInContext (context, drawOptions?.Dictionary)")]
-		void DrawInContext (CGContext context, PSPDFAnnotationDrawOptions drawOptions);
-
-		[Export ("imageWithSize:withOptions:")]
+		[Export ("imageWithSize:options:")]
 		[return: NullAllowed]
-		UIImage GetImage (CGSize size, [NullAllowed] NSDictionary options);
+		UIImage GetImage (CGSize size, [NullAllowed] PSPDFRenderOptions renderOptions);
 
 		[Export ("noteIconPoint")]
 		CGPoint NoteIconPoint { get; }
@@ -409,9 +402,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("copyToClipboard")]
 		void CopyToClipboard ();
-
-		[Export ("shouldDeleteAnnotation")]
-		bool ShouldDeleteAnnotation { get; }
 
 		// PSPDFAnnotation (Fonts) Category
 
@@ -490,28 +480,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("attachBinaryInstantJSONAttachmentFromDataProvider:mimeType:error:")]
 		bool AttachBinaryInstantJsonAttachment (IPSPDFDataProviding dataProvider, [NullAllowed] string mimeType, [NullAllowed] out NSError error);
-	}
-
-	[Static]
-	interface PSPDFAnnotationDrawOptionsKeys {
-
-		[Field ("PSPDFAnnotationDrawFlattenedKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString DrawFlattenedKey { get; }
-
-		[Field ("PSPDFAnnotationDrawForPrintingKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString DrawForPrintingKey { get; }
-
-		[Field ("PSPDFAnnotationDrawCenteredKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString DrawCenteredKey { get; }
-
-		[Field ("PSPDFAnnotationMarginKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString MarginKey { get; }
-	}
-
-	[StrongDictionary ("PSPDFAnnotationDrawOptionsKeys")]
-	interface PSPDFAnnotationDrawOptions {
-		bool DrawFlattened { get; set; }
-		bool DrawForPrinting { get; set; }
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -853,7 +821,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFAnnotationSet {
+	interface PSPDFAnnotationSet : INSSecureCoding {
 
 		[Export ("initWithAnnotations:")]
 		[DesignatedInitializer]
@@ -862,11 +830,8 @@ namespace PSPDFKit.Model {
 		[Export ("annotations", ArgumentSemantic.Copy)]
 		PSPDFAnnotation [] Annotations { get; }
 
-		[Export ("drawInContext:withOptions:")]
-		void DrawInContext (CGContext context, [NullAllowed] NSDictionary options);
-
-		[Wrap ("DrawInContext (context, drawOptions?.Dictionary)")]
-		void DrawInContext (CGContext context, PSPDFAnnotationDrawOptions drawOptions);
+		[Export ("drawInContext:options:")]
+		void DrawInContext (CGContext context, [NullAllowed] PSPDFRenderOptions contextOptions);
 
 		[Export ("boundingBox", ArgumentSemantic.Assign)]
 		CGRect BoundingBox { get; set; }
@@ -882,7 +847,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFAnnotationStyle {
+	interface PSPDFAnnotationStyle : INSSecureCoding {
 
 		[Export ("initWithName:")]
 		[DesignatedInitializer]
@@ -948,20 +913,20 @@ namespace PSPDFKit.Model {
 		[Abstract]
 		[Export ("defaultPresetsForKey:type:")]
 		[return: NullAllowed]
-		PSPDFModel [] GetDefaultPresets (NSString key, NSString type);
+		IPSPDFStylePreset [] GetDefaultPresets (NSString key, NSString type);
 
 		[Abstract]
 		[Export ("setDefaultPresets:forKey:type:")]
-		void SetDefaultPresets ([NullAllowed] PSPDFModel [] presets, NSString key, NSString type);
+		void SetDefaultPresets ([NullAllowed] IPSPDFStylePreset [] presets, NSString key, NSString type);
 
 		[Abstract]
 		[Export ("presetsForKey:type:")]
 		[return: NullAllowed]
-		PSPDFModel [] GetPresets (NSString key, NSString type);
+		IPSPDFStylePreset [] GetPresets (NSString key, NSString type);
 
 		[Abstract]
 		[Export ("setPresets:forKey:type:")]
-		void SetPresets ([NullAllowed] PSPDFModel [] presets, NSString key, NSString type);
+		void SetPresets ([NullAllowed] IPSPDFStylePreset [] presets, NSString key, NSString type);
 
 		[Abstract]
 		[Export ("isPresetModifiedAtIndex:forKey:type:")]
@@ -1057,7 +1022,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAppearanceCharacteristics {
+	interface PSPDFAppearanceCharacteristics : INSSecureCoding {
 
 		[NullAllowed, Export ("normalIcon", ArgumentSemantic.Strong)]
 		UIImage NormalIcon { get; set; }
@@ -1382,7 +1347,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFFormElement))]
-	interface PSPDFButtonFormElement {
+	interface PSPDFButtonFormElement : INSSecureCoding {
 
 		[Export ("selected")]
 		bool Selected { [Bind ("isSelected")] get; }
@@ -1576,7 +1541,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFColorPreset {
+	interface PSPDFColorPreset : PSPDFStylePreset {
 
 		[Static]
 		[Export ("presetWithColor:")]
@@ -1853,8 +1818,8 @@ namespace PSPDFKit.Model {
 		[return: NullAllowed]
 		IPSPDFDataSink CreateDataSink (PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
 
-		[Export ("replaceWithDataSink:")]
-		bool Replace (IPSPDFDataSink replacementDataSink);
+		[Export ("replaceWithDataSink:error:")]
+		bool Replace (IPSPDFDataSink replacementDataSink, out NSError error);
 
 		[Export ("canWrite")]
 		bool GetCanWrite ();
@@ -2113,6 +2078,9 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("outline")]
 		PSPDFOutlineElement Outline { get; }
 
+		[NullAllowed, Export ("userActivity", ArgumentSemantic.Strong)]
+		NSUserActivity UserActivity { get; set; }
+
 		// PSPDFDocument (Caching) Category
 
 		[Export ("clearCache")]
@@ -2262,34 +2230,19 @@ namespace PSPDFKit.Model {
 
 		[Export ("imageForPageAtIndex:size:clippedToRect:annotations:options:error:")]
 		[return: NullAllowed]
-		UIImage GetImage (nuint pageIndex, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary dictOptions, [NullAllowed] out NSError error);
-
-		[Wrap ("GetImage (pageIndex, size, clipRect, annotations, options?.Dictionary, out error)")]
 		UIImage GetImage (nuint pageIndex, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] PSPDFRenderOptions options, [NullAllowed] out NSError error);
 
 		[Export ("renderPageAtIndex:context:size:clippedToRect:annotations:options:error:")]
-		bool RenderPage (nuint pageIndex, CGContext context, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary dictOptions, [NullAllowed] out NSError error);
-
-		[Wrap ("RenderPage (pageIndex, context, size, clipRect, annotations, options?.Dictionary, out error)")]
 		bool RenderPage (nuint pageIndex, CGContext context, CGSize size, CGRect clipRect, [NullAllowed] PSPDFAnnotation [] annotations, [NullAllowed] PSPDFRenderOptions options, [NullAllowed] out NSError error);
 
 		[Export ("setRenderOptions:type:")]
-		void SetRenderOptions ([NullAllowed] NSDictionary dictOptions, PSPDFRenderType type);
-
-		[Wrap ("SetRenderOptions (options?.Dictionary, type)")]
 		void SetRenderOptions ([NullAllowed] PSPDFRenderOptions options, PSPDFRenderType type);
 
-		[Export ("updateRenderOptions:type:")]
-		void UpdateRenderOptions (NSDictionary dictOptions, PSPDFRenderType type);
+		[Export ("updateRenderOptionsForType:withBlock:")]
+		void UpdateRenderOptions (PSPDFRenderType type, Action<PSPDFRenderOptions> handler);
 
-		[Wrap ("UpdateRenderOptions (options?.Dictionary, type)")]
-		void UpdateRenderOptions (PSPDFRenderOptions options, PSPDFRenderType type);
-
-		[Export ("renderOptionsForType:context:")]
-		NSDictionary GetRenderOptionsDict (PSPDFRenderType type, [NullAllowed] NSObject context);
-
-		[Wrap ("new PSPDFRenderOptions (GetRenderOptionsDict (type, context))")]
-		PSPDFRenderOptions GetRenderOptions (PSPDFRenderType type, [NullAllowed] NSObject context);
+		 [Export ("renderOptionsForType:")]
+		PSPDFRenderOptions GetRenderOptions (PSPDFRenderType type);
 
 		[Export ("renderAnnotationTypes", ArgumentSemantic.Assign)]
 		PSPDFAnnotationType RenderAnnotationTypes { get; set; }
@@ -3338,7 +3291,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFFileIndexItemDescriptor {
+	interface PSPDFFileIndexItemDescriptor : INSSecureCoding {
 
 		[Export ("documentPath")]
 		string DocumentPath { get; }
@@ -3611,7 +3564,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFWidgetAnnotation))]
-	interface PSPDFFormElement {
+	interface PSPDFFormElement : INSSecureCoding {
 
 		[NullAllowed, Export ("formField", ArgumentSemantic.Weak)]
 		PSPDFFormField FormField { get; }
@@ -3669,12 +3622,12 @@ namespace PSPDFKit.Model {
 		// PSPDFFormElement (Drawing) Category
 
 		[Export ("drawHighlightInContext:options:multiply:")]
-		void DrawHighlight (CGContext context, [NullAllowed] NSDictionary renderOptions, bool shouldMultiply);
+		void DrawHighlight (CGContext context, [NullAllowed] PSPDFRenderOptions renderOptions, bool shouldMultiply);
 	}
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFFormField : PSPDFUndoSupport {
+	interface PSPDFFormField : PSPDFUndoSupport, INSSecureCoding {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -3750,7 +3703,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFFormOption {
+	interface PSPDFFormOption : INSSecureCoding {
 
 		[Export ("initWithLabel:value:")]
 		[DesignatedInitializer]
@@ -4041,7 +3994,7 @@ namespace PSPDFKit.Model {
 	delegate void PSPDFKitLogHandler (PSPDFLogLevelMask type, IntPtr strTag, [BlockCallback] PSPDFKitLogMessageHandler message, IntPtr strFile, IntPtr strFunction, nuint line);
 	delegate UIImage PSPDFKitImageLoadingHandler (string imageName);
 
-	[BaseType (typeof (NSObject), Name = "PSPDFKit")]
+	[BaseType (typeof (NSObject))]
 	interface PSPDFKitGlobal : PSPDFSettings {
 
 		[Field ("PSPDFXCallbackURLStringKey", PSPDFKitLibraryPath.LibraryPath)]
@@ -4061,9 +4014,6 @@ namespace PSPDFKit.Model {
 
 		[Field ("PSPDFLibraryIndexingPriorityKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString LibraryIndexingPriorityKey { get; }
-
-		[Field ("PSPDFWebKitLegacyModeKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString WebKitLegacyModeKey { get; }
 
 		[Field ("PSPDFKitDebugModeKey", PSPDFKitLibraryPath.LibraryPath)]
 		NSString DebugModeKey { get; }
@@ -4665,7 +4615,7 @@ namespace PSPDFKit.Model {
 		UIImage RenderAnnotationIcon { get; }
 
 		[Export ("drawImageInContext:boundingBox:options:")]
-		void DrawImage (CGContext context, CGRect boundingBox, [NullAllowed] NSDictionary options);
+		void DrawImage (CGContext context, CGRect boundingBox, [NullAllowed] PSPDFRenderOptions options);
 
 		[Export ("boundingBoxIfRenderedAsText")]
 		CGRect BoundingBoxIfRenderedAsText { get; }
@@ -4893,22 +4843,12 @@ namespace PSPDFKit.Model {
 		[Export ("initWithConfiguration:securityOptions:")]
 		IntPtr Constructor (PSPDFProcessorConfiguration configuration, [NullAllowed] PSPDFDocumentSecurityOptions securityOptions);
 
-		[Export ("writeToFileURL:")]
-		bool WriteToFile (NSUrl fileUrl);
-
 		[Export ("writeToFileURL:error:")]
-		bool WriteToFile (NSUrl fileURL, [NullAllowed] out NSError error);
-
-		[return: NullAllowed]
-		[Export ("data")]
-		NSData GetData ();
+		bool WriteToFile (NSUrl fileUrl, [NullAllowed] out NSError error);
 
 		[Export ("dataWithError:")]
 		[return: NullAllowed]
 		NSData GetData ([NullAllowed] out NSError error);
-
-		[Export ("outputToDataSink:")]
-		bool OutputToDataSink (IPSPDFDataSink outputDataSink);
 
 		[Export ("outputToDataSink:error:")]
 		bool OutputToDataSink (IPSPDFDataSink outputDataSink, [NullAllowed] out NSError error);
@@ -4918,41 +4858,39 @@ namespace PSPDFKit.Model {
 
 #if __IOS__
 
-		[Export ("initWithOptions:")]
-		IntPtr Constructor ([NullAllowed] NSDictionary optionsDictionary);
-
-		[Wrap ("this (options?.Dictionary)")]
-		IntPtr Constructor (PSPDFProcessorGenerationOptions options);
-
-		[Export ("convertHTMLString:outputFileURL:")]
-		void ConvertHtml (string html, NSUrl fileUrl);
-
-		[Async]
-		[Export ("convertHTMLString:outputFileURL:completionBlock:")]
-		void ConvertHtml (string html, NSUrl fileUrl, [NullAllowed] Action<NSError> completion);
-
-		[Export ("convertHTMLString:")]
-		void ConvertHtml (string html);
-
-		[Async]
-		[Export ("convertHTMLString:completionBlock:")]
-		void ConvertHtml (string html, [NullAllowed] Action<NSData, NSError> completion);
-
-		[Export ("generatePDFFromURL:outputFileURL:")]
+		[Static]
+		[Export ("generatePDFFromURL:options:completionBlock:")]
 		[return: NullAllowed]
-		PSPDFConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl outputUrl);
+		PSPDFUrlConversionOperation GeneratePdf (NSUrl inputUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSData, NSError> completion); // TODO: PSPDFProcessorGenerationOptions ?
 
-		[Async]
-		[Export ("generatePDFFromURL:outputFileURL:completionBlock:")]
+		[Static]
+		[Export ("generatePDFFromURL:outputFileURL:options:completionBlock:")]
 		[return: NullAllowed]
-		PSPDFConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl outputUrl, [NullAllowed] Action<NSUrl, NSError> completion);
+		PSPDFUrlConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl outputFileUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSUrl, NSError> completion);
 
-		[Export ("generatePDFFromURL:")]
-		PSPDFConversionOperation GeneratePdf (NSUrl inputUrl);
+		[Static]
+		[Export ("generatePDFFromHTMLString:options:completionBlock:")]
+		[return: NullAllowed]
+		PSPDFHtmlConversionOperation GeneratePdf (string htmlString, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSData, NSError> completion);
 
-		[Async]
-		[Export ("generatePDFFromURL:completionBlock:")]
-		PSPDFConversionOperation GeneratePdf (NSUrl inputUrl, [NullAllowed] Action<NSData, NSError> completion);
+		[Static]
+		[Export ("generatePDFFromHTMLString:outputFileURL:options:completionBlock:")]
+		[return: NullAllowed]
+		PSPDFHtmlConversionOperation GeneratePdf (string htmlString, NSUrl outputFileUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSUrl, NSError> completion);
+
+		[Static]
+		[Export ("generatePDFFromAttributedString:options:completionBlock:")]
+		[return: NullAllowed]
+		PSPDFAttributedStringConversionOperation GeneratePdf (NSAttributedString attributedString, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSData, NSError> completion);
+
+		[Static]
+		[Export ("generatePDFFromAttributedString:outputFileURL:options:completionBlock:")]
+		[return: NullAllowed]
+		PSPDFAttributedStringConversionOperation GeneratePdf (NSAttributedString attributedString, NSUrl outputFileUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSUrl, NSError> completion);
+
+		[Static]
+		[Export ("cancellAllConversionOperations")]
+		void CancellAllConversionOperations ();
 #endif
 	}
 
@@ -4965,19 +4903,8 @@ namespace PSPDFKit.Model {
 		[Export ("processor:didProcessPage:totalPages:")]
 		void DidProcessPage (PSPDFProcessor processor, nuint currentPage, nuint totalPages);
 
-		[Export ("processor:didFinishWithError:")]
-		void DidFinishWithError (PSPDFProcessor processor, [NullAllowed] NSError error);
-
 		[Export ("processorCancelled:")]
 		void ProcessorCancelled (PSPDFProcessor processor);
-
-#if __IOS__
-		[Export ("processor:didFinishWithData:error:")]
-		void DidFinishWithData (PSPDFProcessor processor, [NullAllowed] NSData data, [NullAllowed] NSError error);
-
-		[Export ("processor:didFinishWithFileURL:error:")]
-		void DidFinishWithFileUrl (PSPDFProcessor processor, [NullAllowed] NSUrl fileUrl, [NullAllowed] NSError error);
-#endif
 	}
 
 #if __IOS__
@@ -5053,32 +4980,6 @@ namespace PSPDFKit.Model {
 		string [] Keywords { get; set; }
 		string Author { get; set; }
 		string Subject { get; set; }
-	}
-
-	[BaseType (typeof (NSOperation))]
-	[DisableDefaultCtor]
-	interface PSPDFConversionOperation {
-
-		[Export ("HTMLString")]
-		string Html { get; }
-
-		[Export ("inputURL", ArgumentSemantic.Copy)]
-		NSUrl InputUrl { get; }
-
-		[NullAllowed, Export ("outputURL", ArgumentSemantic.Copy)]
-		NSUrl OutputUrl { get; }
-
-		[NullAllowed, Export ("outputData")]
-		NSData OutputData { get; }
-
-		[NullAllowed, Export ("options", ArgumentSemantic.Copy)]
-		NSDictionary WeakOptions { get; }
-
-		[Wrap ("WeakOptions")]
-		PSPDFProcessorGenerationOptions Options { get; }
-
-		[NullAllowed, Export ("error")]
-		NSError Error { get; }
 	}
 #endif
 
@@ -5366,8 +5267,6 @@ namespace PSPDFKit.Model {
 		void CancelAllTasks ();
 	}
 
-	delegate void PSPDFRenderDrawHandler (CGContext context, nuint page, CGRect cropBox, nuint rotation, [NullAllowed] NSDictionary options);
-
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
 	interface PSPDFRenderRequest : INSCopying, INSMutableCopying {
@@ -5395,7 +5294,7 @@ namespace PSPDFKit.Model {
 		PSPDFAnnotation [] Annotations { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
 
 		[Export ("options", ArgumentSemantic.Copy)]
-		NSDictionary WeakOptions { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
+		PSPDFRenderOptions Options { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
 
 		[Export ("userInfo", ArgumentSemantic.Copy)]
 		NSDictionary UserInfo { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
@@ -5433,101 +5332,13 @@ namespace PSPDFKit.Model {
 		PSPDFAnnotation [] Annotations { get; set; }
 
 		[Export ("options", ArgumentSemantic.Copy), Override]
-		NSDictionary WeakOptions { get; set; }
+		PSPDFRenderOptions Options { get; set; }
 
 		[Export ("cachePolicy", ArgumentSemantic.Assign), Override]
 		PSPDFRenderRequestCachePolicy CachePolicy { get; set; }
 
 		[Export ("userInfo", ArgumentSemantic.Copy), Override]
 		NSDictionary UserInfo { get; set; }
-	}
-
-	[Static]
-	interface PSPDFRenderOptionsKeys {
-
-		[Field ("PSPDFRenderOptionPreserveAspectRatioKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString PreserveAspectRatioKey { get; }
-
-		[Field ("PSPDFRenderOptionIgnoreDisplaySettingsKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString IgnoreDisplaySettingsKey { get; }
-
-		[Field ("PSPDFRenderOptionPageColorKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString PageColorKey { get; }
-
-		[Field ("PSPDFRenderOptionInvertedKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString InvertedKey { get; }
-
-		[Field ("PSPDFRenderOptionFiltersKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString FiltersKey { get; }
-
-		[Field ("PSPDFRenderOptionInterpolationQualityKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString InterpolationQualityKey { get; }
-
-		[Field ("PSPDFRenderOptionSkipPageContentKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString SkipPageContentKey { get; }
-
-		[Field ("PSPDFRenderOptionOverlayAnnotationsKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString OverlayAnnotationsKey { get; }
-
-		[Field ("PSPDFRenderOptionSkipAnnotationArrayKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString SkipAnnotationsKey { get; }
-
-		[Field ("PSPDFRenderOptionIgnorePageClipKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString IgnorePageClipKey { get; }
-
-		[Field ("PSPDFRenderOptionAllowAntiAliasingKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString AllowAntiAliasingKey { get; }
-
-		[Field ("PSPDFRenderOptionBackgroundFillColorKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString BackgroundFillColorKey { get; }
-
-		[Field ("PSPDFRenderOptionTextRenderingUseCoreGraphicsKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString TextRenderingUseCoreGraphicsKey { get; }
-
-		[Field ("PSPDFRenderOptionTextRenderingClearTypeEnabledKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString TextRenderingClearTypeEnabledKey { get; }
-
-		[Field ("PSPDFRenderOptionInteractiveFormFillColorKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString InteractiveFormFillColorKey { get; }
-
-		[Field ("PSPDFRenderOptionDrawBlockKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString DrawHandlerKey { get; }
-
-		[Field ("PSPDFRenderOptionDrawSignHereOverlay", PSPDFKitLibraryPath.LibraryPath)]
-		NSString DrawSignHereOverlayKey { get; }
-
-		[Field ("PSPDFRenderOptionDrawRedactionsAsRedacted", PSPDFKitLibraryPath.LibraryPath)]
-		NSString DrawRedactionsAsRedactedKey { get; }
-
-#if __IOS__
-		[Field ("PSPDFRenderOptionCIFilterKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString CIFiltersKey { get; }
-#endif
-	}
-
-	[StrongDictionary ("PSPDFRenderOptionsKeys")]
-	interface PSPDFRenderOptions {
-		bool PreserveAspectRatio { get; set; }
-		bool IgnoreDisplaySettings { get; set; }
-		UIColor PageColor { get; set; }
-		bool Inverted { get; set; }
-		uint Filters { get; set; }
-		NSNumber InterpolationQuality { get; set; }
-		bool SkipPageContent { get; set; }
-		bool OverlayAnnotations { get; set; }
-		PSPDFAnnotation [] SkipAnnotations { get; set; }
-		bool IgnorePageClip { get; set; }
-		bool AllowAntiAliasing { get; set; }
-		UIColor BackgroundFillColor { get; set; }
-		bool TextRenderingUseCoreGraphics { get; set; }
-		bool TextRenderingClearTypeEnabled { get; set; }
-		UIColor InteractiveFormFillColor { get; set; }
-		bool DrawSignHereOverlay { get; set; }
-		bool DrawRedactionsAsRedacted { get; set; }
-#if __IOS__
-		[Advice ("This can be a 'CIFilter' or an 'NSArray<CIFilter>'.")]
-		NSObject CIFilters { get; set; }
-#endif
 	}
 
 	interface IPSPDFRenderTaskDelegate { }
@@ -5779,7 +5590,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFSignatureContainer : INSCoding {
+	interface PSPDFSignatureContainer : INSSecureCoding {
 
 		[Export ("initWithAnnotation:signer:biometricProperties:")]
 		[DesignatedInitializer]
@@ -6003,9 +5814,6 @@ namespace PSPDFKit.Model {
 
 		[NullAllowed, Export ("privateKey", ArgumentSemantic.Assign)]
 		PSPDFPrivateKey PrivateKey { get; set; }
-
-		[NullAllowed, Export ("externalSignatureDelegate", ArgumentSemantic.Weak)]
-		IPSPDFExternalSignature ExternalSignatureDelegate { get; set; }
 
 		[NullAllowed, Export ("dataSource", ArgumentSemantic.Weak)]
 		IPSPDFDocumentSignerDataSource DataSource { get; set; }
@@ -7032,5 +6840,125 @@ namespace PSPDFKit.Model {
 		[Abstract]
 		[Export ("signData:")]
 		NSData SignData (NSData dataToSign);
+	}
+
+	interface IPSPDFStylePreset { }
+
+	[Protocol]
+	interface PSPDFStylePreset : INSSecureCoding {
+
+	}
+
+	[BaseType (typeof (NSOperation))]
+	[DisableDefaultCtor]
+	interface PSPDFConversionOperation {
+
+		[NullAllowed, Export ("outputURL", ArgumentSemantic.Copy)]
+		NSUrl OutputUrl { get; }
+
+		[NullAllowed, Export ("outputData")]
+		NSData OutputData { get; }
+
+		[NullAllowed, Export ("error")]
+		NSError Error { get; }
+	}
+
+	[BaseType (typeof (PSPDFConversionOperation), Name = "PSPDFURLConversionOperation")]
+	[DisableDefaultCtor]
+	interface PSPDFUrlConversionOperation {
+
+		[Export ("inputURL", ArgumentSemantic.Copy)]
+		NSUrl InputUrl { get; }
+	}
+
+	[BaseType (typeof (PSPDFConversionOperation), Name = "PSPDFHTMLConversionOperation")]
+	[DisableDefaultCtor]
+	interface PSPDFHtmlConversionOperation {
+
+		[Export ("HTMLString")]
+		string HtmlString { get; }
+	}
+
+	[BaseType (typeof(PSPDFConversionOperation))]
+	[DisableDefaultCtor]
+	interface PSPDFAttributedStringConversionOperation {
+
+		[Export ("attributedString", ArgumentSemantic.Copy)]
+		NSAttributedString AttributedString { get; }
+	}
+
+	delegate void PSPDFRenderDrawHandler (CGContext context, nuint page, CGRect cropBox, PSPDFRenderOptions options);
+
+	[BaseType (typeof (PSPDFModel))]
+	interface PSPDFRenderOptions : INSSecureCoding {
+
+		[Export ("preserveAspectRatio")]
+		bool PreserveAspectRatio { get; set; }
+
+		[Export ("ignoreDisplaySettings")]
+		bool IgnoreDisplaySettings { get; set; }
+
+		[Export ("pageColor", ArgumentSemantic.Strong)]
+		UIColor PageColor { get; set; }
+
+		[Export ("invertRenderColor")]
+		bool InvertRenderColor { get; set; }
+
+		[Export ("filters", ArgumentSemantic.Assign)]
+		PSPDFRenderFilter Filters { get; set; }
+
+		[Export ("interpolationQuality", ArgumentSemantic.Assign)]
+		CGInterpolationQuality InterpolationQuality { get; set; }
+
+		[Export ("skipPageContent")]
+		bool SkipPageContent { get; set; }
+
+		[Export ("overlayAnnotations")]
+		bool OverlayAnnotations { get; set; }
+
+		[NullAllowed, Export ("skipAnnotationArray", ArgumentSemantic.Strong)]
+		PSPDFAnnotation [] SkipAnnotationArray { get; set; }
+
+		[Export ("ignorePageClip")]
+		bool IgnorePageClip { get; set; }
+
+		[Export ("allowAntialiasing")]
+		bool AllowAntialiasing { get; set; }
+
+		[Export ("backgroundFill", ArgumentSemantic.Strong)]
+		UIColor BackgroundFill { get; set; }
+
+		[Export ("renderTextUsingCoreGraphics")]
+		bool RenderTextUsingCoreGraphics { get; set; }
+
+		[NullAllowed, Export ("interactiveFormFillColor", ArgumentSemantic.Strong)]
+		UIColor InteractiveFormFillColor { get; set; }
+
+		[NullAllowed, Export ("drawBlock", ArgumentSemantic.Strong)]
+		PSPDFRenderDrawHandler DrawHandler { get; set; }
+
+		[Export ("drawSignHereOverlay")]
+		bool DrawSignHereOverlay { get; set; }
+
+		[Export ("drawRedactionsAsRedacted")]
+		bool DrawRedactionsAsRedacted { get; set; }
+
+		[NullAllowed, Export ("additionalCIFilters", ArgumentSemantic.Strong)]
+		CIFilter [] AdditionalCIFilters { get; set; }
+
+		[Export ("drawFlattened")]
+		bool DrawFlattened { get; set; }
+
+		[Export ("drawForPrinting")]
+		bool DrawForPrinting { get; set; }
+
+		[Export ("centered")]
+		bool Centered { get; set; }
+
+		[Export ("margin", ArgumentSemantic.Assign)]
+		UIEdgeInsets Margin { get; set; }
+
+		[Export ("drawAppearanceStream")]
+		bool DrawAppearanceStream { get; set; }
 	}
 }

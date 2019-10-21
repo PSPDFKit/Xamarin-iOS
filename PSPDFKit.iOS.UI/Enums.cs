@@ -2,6 +2,7 @@
 using Foundation;
 using ObjCRuntime;
 using PSPDFKit.Model;
+using UIKit;
 
 namespace PSPDFKit.UI {
 	[Native]
@@ -711,7 +712,8 @@ namespace PSPDFKit.UI {
 	public enum PSPDFSearchBarPinning : ulong {
 		Auto,
 		Top,
-		None
+		None,
+		Hidden
 	}
 
 	[Native]
@@ -953,15 +955,20 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
-	public enum PSPDFPersistentCloseButtonMode : ulong {
-		None,
-		Left,
-		Right,
-	}
-
-	[Native]
 	public enum PSPDFPresentationHalfModalStyle : ulong {
 		Card,
 		System,
+	}
+
+	[Flags, NoTV]
+	[Native]
+	public enum UIInterfaceOrientationMask : ulong {
+		Portrait = 1 << 1,
+		LandscapeLeft = 1 << 4,
+		LandscapeRight = 1 << 3,
+		PortraitUpsideDown = 1 << 2,
+		Landscape = LandscapeLeft | LandscapeRight,
+		All = Portrait | LandscapeLeft | LandscapeRight | PortraitUpsideDown,
+		AllButUpsideDown = Portrait | LandscapeLeft | LandscapeRight
 	}
 }

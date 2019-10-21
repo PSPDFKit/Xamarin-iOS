@@ -84,7 +84,7 @@ namespace PSPDFCatalog {
 					new StringElement ("Create Password Protected PDF", async () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
 						var status = PSPDFStatusHUDItem.CreateIndeterminateProgress ("Preparing");
-						await status.PushAsync (true);
+						await status.PushAsync (true, UIApplication.SharedApplication.Delegate.GetWindow ());
 						// Create temp file and password
 						var tempPdf = NSUrl.FromFilename (Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString () + ".pdf"));
 						var password = "test123";
@@ -95,7 +95,7 @@ namespace PSPDFCatalog {
 						// We start a new task so this executes on a separated thread since it is a hevy task and we don't want to block the UI
 						await Task.Factory.StartNew (()=> {
 							var processor = new PSPDFProcessor (configuration, secOptions);
-							processor.WriteToFile (tempPdf);
+							processor.WriteToFile (tempPdf, out var error);
 						});
 						InvokeOnMainThread (()=> {
 							status.Pop (true, null);
@@ -242,7 +242,7 @@ namespace PSPDFCatalog {
 			barColor = UIColor.FromRGBA (0.110f, 0.529f, 0.757f, 1f);
 			NavigationController.NavigationBar.BarTintColor = barColor;
 			NavigationController.Toolbar.TintColor = barColor;
-			NavigationController.View.TintColor = UIColor.White;
+			NavigationController.View.TintColor = UIColor.SystemTealColor;
 			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
 			NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;
 			NavigationController.SetToolbarHidden (true, animated);

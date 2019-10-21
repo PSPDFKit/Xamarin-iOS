@@ -37,11 +37,15 @@ namespace PSPDFKit.Instant {
 		NoSuchAttachment = 41,
 		CouldNotCreateAttachment = 42,
 		AlreadyAuthenticating = 66,
+		ContentMigrationNeeded = 96,
+		PerformingContentMigration = 97,
 	}
 
 	[Native]
 	public enum PSPDFInstantDocumentState : long {
 		Unknown,
+		NeedsContentMigration,
+		MigratingContent,
 		Clean,
 		Dirty,
 		SendingChanges,
@@ -237,6 +241,15 @@ namespace PSPDFKit.Instant {
 		[Abstract]
 		[NullAllowed, Export ("downloadProgress")]
 		NSProgress DownloadProgress { get; }
+
+		[Abstract]
+		[Export ("attemptContentMigration:")]
+		[return: NullAllowed]
+		NSProgress AttemptContentMigration ([NullAllowed] out NSError error);
+
+		[Abstract]
+		[NullAllowed, Export ("migrationProgress")]
+		NSProgress MigrationProgress { get; }
 
 		[Abstract]
 		[Export ("editableDocument")]

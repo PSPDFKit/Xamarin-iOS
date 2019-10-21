@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundation;
+using UIKit;
 
 using PSPDFKit.Model;
 using PSPDFKit.UI;
@@ -32,7 +33,7 @@ namespace PSPDFCatalog {
 		public bool AddBookmark (PSPDFBookmark bookmark)
 		{
 			bookmarks.Add (bookmark);
-			InvokeOnMainThread (() => PSPDFStatusHUDItem.CreateSuccess ($"You added page {bookmark.PageIndex + 1} from bookmarks").PushAndPop (1, true, null));
+			InvokeOnMainThread (() => PSPDFStatusHUDItem.CreateSuccess ($"You added page {bookmark.PageIndex + 1} from bookmarks").PushAndPop (1, true, UIApplication.SharedApplication.Delegate.GetWindow (), null));
 			return true;
 		}
 

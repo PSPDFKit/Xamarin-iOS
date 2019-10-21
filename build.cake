@@ -1,5 +1,5 @@
-var IOSVERSION = Argument("iosversion", "8.5.1");
-var MACVERSION = Argument("macversion", "3.5.0");
+var IOSVERSION = Argument("iosversion", "9.0.1");
+var MACVERSION = Argument("macversion", "4.0.0");
 var target = Argument ("target", "Default");
 
 Task ("MacModel")
