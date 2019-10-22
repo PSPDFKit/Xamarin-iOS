@@ -242,7 +242,7 @@ namespace PSPDFCatalog {
 			barColor = UIColor.FromRGBA (0.110f, 0.529f, 0.757f, 1f);
 			NavigationController.NavigationBar.BarTintColor = barColor;
 			NavigationController.Toolbar.TintColor = barColor;
-			NavigationController.View.TintColor = UIColor.White;
+			NavigationController.View.TintColor = UIColor.SystemTealColor;
 			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
 			NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;
 			NavigationController.SetToolbarHidden (true, animated);
