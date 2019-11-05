@@ -161,7 +161,12 @@ namespace PSPDFCatalog {
 						var pdfViewer = new CustomSharingFileNamesExampleViewController (document, config);
 						NavigationController.PushViewController (pdfViewer, true);
 					}),
-				},
+                    new StringElement ("Add notifications for annotation changes", () => {
+                        var document = new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
+                        var pdfViewer = new NotificationViewController (document);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                },
 				new Section ("Toolbar Customizations"){
 					new StringElement ("Remove Ink from the annotation toolbar", () => {
 						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
@@ -229,8 +234,8 @@ namespace PSPDFCatalog {
 						pdfViewer.AnnotationToolbarController.AnnotationToolbar.ShowingStylusButton = true;
 
 						NavigationController.PushViewController (pdfViewer, true);
-					})
-				},
+					}),
+                },
 			};
 		}
 

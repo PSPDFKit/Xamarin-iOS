@@ -143,6 +143,7 @@
     <Compile Include="Catalog\Forms\ProgrammaticFormFilling.cs" />
     <Compile Include="Catalog\Customization\CustomizedAnnotationToolbar.cs" />
     <Compile Include="Catalog\Annotations\CopyAnnotationsViewController.cs" />
+    <Compile Include="Catalog\Customization\NotificationViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

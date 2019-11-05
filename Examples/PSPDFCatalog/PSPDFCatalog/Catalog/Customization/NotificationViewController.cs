@@ -1,18 +1,13 @@
-﻿using System;
-using Foundation;
+﻿using Foundation;
 using PSPDFKit.Model;
 using PSPDFKit.UI;
 using UIKit;
 
-namespace PSPDFCatalog.Catalog.Customization
+namespace PSPDFCatalog
 {
     public class NotificationViewController: PSPDFViewController
     {
         UIAlertController alert = new UIAlertController();
-        
-        public NotificationViewController()
-        {
-        }
 
         public NotificationViewController(PSPDFDocument document) : base(document)
         {
@@ -29,21 +24,21 @@ namespace PSPDFCatalog.Catalog.Customization
 
         private void annotationAddedNotification()
         {
-            alert = UIAlertController.Create("", "An Annotation has been created!", UIAlertControllerStyle.Alert);
+            alert = UIAlertController.Create("", "An annotation has been created!", UIAlertControllerStyle.Alert);
             alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
             PresentViewController(alert, false, null);
         }
 
         private void annotationChangedNotification()
         {
-            alert = UIAlertController.Create("", "An Annotation has been changed!", UIAlertControllerStyle.Alert);
+            alert = UIAlertController.Create("", "An annotation has been changed!", UIAlertControllerStyle.Alert);
             alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
             PresentViewController(alert, false, null);
         }
 
         private void annotationRemovedNotification()
         {
-            alert = UIAlertController.Create("", "An Annotation has been deleted!", UIAlertControllerStyle.Alert);
+            alert = UIAlertController.Create("", "An annotation has been deleted!", UIAlertControllerStyle.Alert);
             alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, null));
             PresentViewController(alert, false, null);
         }
