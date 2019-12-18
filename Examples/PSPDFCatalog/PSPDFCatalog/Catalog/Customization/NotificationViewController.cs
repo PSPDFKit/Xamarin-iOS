@@ -13,9 +13,9 @@ namespace PSPDFCatalog
         {
         }
 
-        public override void CommonInit(PSPDFDocument document, PSPDFConfiguration configuration)
+        public override void ViewDidAppear(bool animated)
         {
-            base.CommonInit(document, configuration);
+            base.ViewDidAppear(animated);
 
             NSNotificationCenter.DefaultCenter.AddObserver(PSPDFAnnotationManager.AnnotationsAddedNotification, null, NSOperationQueue.MainQueue, notification => annotationAddedNotification());
             NSNotificationCenter.DefaultCenter.AddObserver(PSPDFAnnotationManager.AnnotationChangedNotification, null, NSOperationQueue.MainQueue, notification => annotationChangedNotification());
