@@ -78,9 +78,9 @@ namespace MacPdfViewer {
 			// Think of the rendering request being a configuration object for the
 			// render task (once the render task is created, the render request is
 			// no longer needed).
-			var renderTask = new PSPDFRenderTask (renderRequest);
+			var renderTask = new PSPDFRenderTask (renderRequest, out var err);
 
-			if (renderTask == null) {
+			if (renderTask == null || err != null) {
 				Console.WriteLine ($"[EXAMPLE] Couldn't create a render task from render request: {renderRequest}.");
 				PdfImageView.Image = null;
 				return;

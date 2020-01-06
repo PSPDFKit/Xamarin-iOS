@@ -1062,6 +1062,12 @@ namespace PSPDFKit.Model {
 	public enum PSPDFRenderFilter : ulong {
 		Grayscale = 1uL << 0,
 		ColorCorrectInverted = 1uL << 1,
-		Sepia = 1uL << 2
+		Sepia = 1uL << 2,
+	}
+
+	[Native]
+	public enum PSPDFFileConflictType : ulong {
+		Deletion = 0,
+		Modification,
 	}
 }

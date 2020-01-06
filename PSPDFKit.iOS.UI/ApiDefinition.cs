@@ -1523,6 +1523,9 @@ namespace PSPDFKit.UI {
 		[Export ("allowToolbarTitleChange")]
 		bool AllowToolbarTitleChange { get; set; }
 
+		[Export ("allowWindowTitleChange")]
+		bool AllowWindowTitleChange { get; set; }
+
 		[Export ("renderAnimationEnabled")]
 		bool RenderAnimationEnabled { [Bind ("isRenderAnimationEnabled")] get; set; }
 
@@ -1889,6 +1892,9 @@ namespace PSPDFKit.UI {
 		[Export ("allowToolbarTitleChange")]
 		bool AllowToolbarTitleChange { get; }
 
+		[Export ("allowWindowTitleChange")]
+		bool AllowWindowTitleChange { get; }
+
 		[Export ("shouldHideNavigationBarWithUserInterface")]
 		bool ShouldHideNavigationBarWithUserInterface { get; }
 
@@ -2180,8 +2186,8 @@ namespace PSPDFKit.UI {
 		bool ShowControls (bool animated);
 
 		[Abstract]
-		[Export ("showMenuIfSelectedAnimated:allowPopovers:")]
-		void ShowMenuIfSelected (bool animated, bool allowPopovers);
+		[Export ("showMenuIfSelectedWithOption:animated:")]
+		void ShowMenuIfSelected (PSPDFContextMenuOption contextMenuOption, bool animated);
 	}
 
 	interface IPSPDFControlDelegate { }
@@ -5401,8 +5407,8 @@ namespace PSPDFKit.UI {
 		[return: NullAllowed]
 		PSPDFAnnotationStyleViewController ShowInspector (PSPDFAnnotation [] annotations, [NullAllowed] NSDictionary options, bool animated);
 
-		[Export ("showMenuForAnnotations:targetRect:allowPopovers:animated:")]
-		void ShowMenu (PSPDFAnnotation [] annotations, CGRect targetRect, bool allowPopovers, bool animated);
+		[Export ("showMenuForAnnotations:targetRect:option:animated:")]
+		void ShowMenu (PSPDFAnnotation [] annotations, CGRect targetRect, PSPDFContextMenuOption contextMenuOption, bool animated);
 
 		[Export ("showNoteControllerForAnnotation:animated:")]
 		void ShowNoteController (PSPDFAnnotation annotation, bool animated);
@@ -5451,8 +5457,8 @@ namespace PSPDFKit.UI {
 		[Export ("showMenuIfSelectedAnimated:")]
 		void ShowMenuIfSelected (bool animated);
 
-		[Export ("showMenuIfSelectedAnimated:allowPopovers:")]
-		void ShowMenuIfSelected (bool animated, bool allowPopovers);
+		[Export ("showMenuIfSelectedWithOption:animated:")]
+		void ShowMenuIfSelected (PSPDFContextMenuOption contextMenuOption, bool animated);
 
 		[Export ("showMenuForPoint:animated:")]
 		void ShowMenuForPoint (CGPoint location, bool animated);
@@ -5866,10 +5872,10 @@ namespace PSPDFKit.UI {
 		bool Translucent { [Bind ("isTranslucent")] get; set; }
 
 		[NullAllowed, Export ("standardAppearance", ArgumentSemantic.Strong)]
-		UIBarAppearance StandardAppearance { get; set; }
+		UIToolbarAppearance StandardAppearance { get; set; }
 
 		[NullAllowed, Export ("compactAppearance", ArgumentSemantic.Strong)]
-		UIBarAppearance CompactAppearance { get; set; }
+		UIToolbarAppearance CompactAppearance { get; set; }
 
 		[Export ("leftBorderMargin")]
 		nfloat LeftBorderMargin { get; set; }
@@ -5899,9 +5905,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("emptyThumbnailImageView")]
 		UIImageView EmptyThumbnailImageView { get; }
-
-		[Export ("processTouch:")]
-		bool ProcessTouch (UITouch touch);
 	}
 
 	[BaseType (typeof (PSPDFStatefulTableViewController))]
@@ -7887,6 +7890,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("annotationButtonPressed:")]
 		void AnnotationButtonPressed ([NullAllowed] NSObject sender);
+
+		[Export ("handleAutosaveRequestForDocument:reason:")]
+		void HandleAutosaveRequest (PSPDFDocument document, PSPDFAutosaveReason reason);
 	}
 
 	interface IPSPDFViewControllerDelegate { }
@@ -8340,6 +8346,12 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithFrame:")]
 		IntPtr Constructor (CGRect frame);
+
+		[Export ("titleColor", ArgumentSemantic.Strong)]
+		UIColor TitleColor { get; set; }
+
+		[Export ("progressIndicatorColor", ArgumentSemantic.Strong)]
+		UIColor ProgressIndicatorColor { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFButton))]
@@ -8459,6 +8471,9 @@ namespace PSPDFKit.UI {
 		[Abstract]
 		[Export ("resolutionManager:requestingFileConflictResolutionForDocument:dataProvider:withResolution:error:")]
 		bool RequestingFileConflictResolution (PSPDFConflictResolutionManager manager, PSPDFDocument document, IPSPDFCoordinatedFileDataProviding dataProvider, PSPDFFileConflictResolution resolution, out NSError error);
+
+		[Export ("resolutionManager:shouldPerformAutomaticResolutionForForDocument:dataProvider:conflictType:resolution:")]
+		bool ShouldPerformAutomaticResolution (PSPDFConflictResolutionManager manager, PSPDFDocument document, IPSPDFCoordinatedFileDataProviding dataProvider, PSPDFFileConflictType type, ref PSPDFFileConflictResolution resolution);
 
 		[Export ("viewControllerForPresentationForResolutionManager:")]
 		UIViewController GetViewControllerForPresentation (PSPDFConflictResolutionManager manager);

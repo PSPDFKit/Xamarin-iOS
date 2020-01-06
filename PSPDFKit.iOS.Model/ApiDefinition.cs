@@ -478,8 +478,8 @@ namespace PSPDFKit.Model {
 		[return: NullAllowed]
 		string WriteBinaryInstantJsonAttachment (IPSPDFDataSink dataSink, [NullAllowed] out NSError error);
 
-		[Export ("attachBinaryInstantJSONAttachmentFromDataProvider:mimeType:error:")]
-		bool AttachBinaryInstantJsonAttachment (IPSPDFDataProviding dataProvider, [NullAllowed] string mimeType, [NullAllowed] out NSError error);
+		[Export ("attachBinaryInstantJSONAttachmentFromDataProvider:error:")]
+		bool AttachBinaryInstantJsonAttachment (IPSPDFDataProviding dataProvider, [NullAllowed] out NSError error);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -785,24 +785,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("annotationProvider:failedToSaveAnnotations:error:")]
 		void FailedToSaveAnnotations (IPSPDFAnnotationProvider annotationProvider, PSPDFAnnotation [] annotations, NSError error);
-	}
-
-	interface IPSPDFAnnotationProviderRefreshing { }
-
-	[Protocol]
-	interface PSPDFAnnotationProviderRefreshing : PSPDFAnnotationProvider {
-
-		[Abstract]
-		[Export ("prepareForRefresh")]
-		void PrepareForRefresh ();
-
-		[Abstract]
-		[Export ("refreshAnnotationsForPagesAtIndexes:")]
-		void RefreshAnnotationsForPages (NSIndexSet pageIndexes);
-
-		[Abstract]
-		[Export ("performBlockForWritingAndWait:")]
-		void PerformHandlerForWritingAndWait (Action writeHandler);
 	}
 
 	interface IPSPDFAnnotationProviderChangeNotifier { }
@@ -1223,7 +1205,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFBookmark : INSCopying, INSMutableCopying {
+	interface PSPDFBookmark : INSCopying, INSMutableCopying, INSSecureCoding {
 
 		[Export ("initWithAction:")]
 		[DesignatedInitializer]
@@ -1436,9 +1418,9 @@ namespace PSPDFKit.Model {
 		[Export ("cacheStatusForRequest:imageSizeMatching:")]
 		PSPDFCacheStatus GetCacheStatus (PSPDFRenderRequest request, PSPDFCacheImageSizeMatching imageSizeMatching);
 
-		[Export ("imageForRequest:imageSizeMatching:")]
+		[Export ("imageForRequest:imageSizeMatching:error:")]
 		[return: NullAllowed]
-		UIImage GetImage (PSPDFRenderRequest request, PSPDFCacheImageSizeMatching imageSizeMatching);
+		UIImage GetImage (PSPDFRenderRequest request, PSPDFCacheImageSizeMatching imageSizeMatching, out NSError error);
 
 		[Export ("saveImage:forRequest:")]
 		void SaveImage (UIImage image, PSPDFRenderRequest request);
@@ -1567,9 +1549,23 @@ namespace PSPDFKit.Model {
 		nfloat Alpha { get; }
 	}
 
+	interface IPSPDFAnnotationProviderRefreshing { }
+
+	[Protocol]
+	interface PSPDFAnnotationProviderRefreshing : PSPDFAnnotationProvider {
+
+		[Abstract]
+		[Export ("prepareForRefresh")]
+		void PrepareForRefresh ();
+
+		[Abstract]
+		[Export ("refreshAnnotationsForPagesAtIndexes:")]
+		void RefreshAnnotationsForPages (NSIndexSet pageIndexes);
+	}
+
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFContainerAnnotationProvider : PSPDFAnnotationProvider, PSPDFUndoSupport {
+	interface PSPDFContainerAnnotationProvider : PSPDFAnnotationProviderRefreshing, PSPDFUndoSupport {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
@@ -2622,7 +2618,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFPageSize {
+	interface PSPDFPageSize : INSSecureCoding {
 
 		[Static]
 		[Export ("size:name:")]
@@ -2650,7 +2646,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFDirectory {
+	interface PSPDFDirectory : INSSecureCoding {
 
 		[Static]
 		[Export ("directoryWithPath:")]
@@ -2676,7 +2672,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFCompression {
+	interface PSPDFCompression : INSSecureCoding {
 
 		[Static]
 		[Export ("compression:name:")]
@@ -3162,7 +3158,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFContainerAnnotationProvider))]
 	[DisableDefaultCtor]
-	interface PSPDFFileAnnotationProvider : PSPDFAnnotationProviderRefreshing {
+	interface PSPDFFileAnnotationProvider {
 
 		[Export ("initWithDocumentProvider:")]
 		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
@@ -3870,24 +3866,30 @@ namespace PSPDFKit.Model {
 	[BaseType (typeof (PSPDFDocument))]
 	interface PSPDFImageDocument {
 
+		[Export ("initWithImageDataProvider:")]
+		IntPtr Constructor (IPSPDFDataProviding imageDataProvider);
+
 		[Export ("initWithImageURL:")]
-		IntPtr Constructor (NSUrl imageURL);
+		IntPtr Constructor (NSUrl imageUrl);
+
+		[NullAllowed, Export ("imageDataProvider")]
+		IPSPDFDataProviding ImageDataProvider { get; }
 
 		[NullAllowed, Export ("imageURL")]
 		NSUrl ImageUrl { get; }
 
+		[Export ("waitUntilLoaded")]
+		void WaitUntilLoaded ();
+
+		[Export ("imageSaveMode", ArgumentSemantic.Assign)]
+		PSPDFImageSaveMode ImageSaveMode { get; set; }
+
 		[Export ("compressionQuality")]
 		nfloat CompressionQuality { get; set; }
-
-		[Export ("imageSaveMode")]
-		PSPDFImageSaveMode ImageSaveMode { get; set; }
 
 		[Static]
 		[Export ("supportedContentTypes")]
 		NSSet<NSString> SupportedContentTypes { get; }
-
-		[Export ("waitUntilLoaded")]
-		void WaitUntilLoaded ();
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -5358,9 +5360,9 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFRenderTask {
 
-		[Export ("initWithRequest:")]
+		[Export ("initWithRequest:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFRenderRequest request);
+		IntPtr Constructor (PSPDFRenderRequest request, [NullAllowed] out NSError error);
 
 		[Export ("request")]
 		PSPDFRenderRequest Request { get; }
@@ -6465,7 +6467,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFContainerAnnotationProvider))]
-	interface PSPDFXFDFAnnotationProvider : PSPDFAnnotationProviderRefreshing {
+	interface PSPDFXFDFAnnotationProvider {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
@@ -6680,7 +6682,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFPageTemplate {
+	interface PSPDFPageTemplate : INSSecureCoding {
 		
 		[Internal]
 		[Export ("initWithDocument:sourcePageIndex:")]
@@ -6863,6 +6865,7 @@ namespace PSPDFKit.Model {
 		NSError Error { get; }
 	}
 
+#if __IOS__
 	[BaseType (typeof (PSPDFConversionOperation), Name = "PSPDFURLConversionOperation")]
 	[DisableDefaultCtor]
 	interface PSPDFUrlConversionOperation {
@@ -6886,6 +6889,7 @@ namespace PSPDFKit.Model {
 		[Export ("attributedString", ArgumentSemantic.Copy)]
 		NSAttributedString AttributedString { get; }
 	}
+#endif
 
 	delegate void PSPDFRenderDrawHandler (CGContext context, nuint page, CGRect cropBox, PSPDFRenderOptions options);
 

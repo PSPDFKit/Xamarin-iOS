@@ -370,6 +370,8 @@ namespace PSPDFKit.UI {
 		EmbeddedFiles,
 		[Field ("PSPDFDocumentInfoOptionDocumentInfo", PSPDFKitGlobal.LibraryPath)]
 		DocumentInfo,
+		[Field ("PSPDFDocumentInfoOptionSecurity", PSPDFKitGlobal.LibraryPath)]
+		Security,
 	}
 
 	[Native]
@@ -550,6 +552,8 @@ namespace PSPDFKit.UI {
 		Pause,
 		[Field ("PSPDFTextMenuShare", PSPDFKitGlobal.LibraryPath)]
 		Share,
+		[Field ("PSPDFTextMenuSaveAs", PSPDFKitGlobal.LibraryPath)]
+		SaveAs,
 	}
 
 	public enum PSPDFAnnotationMenu {
@@ -969,6 +973,21 @@ namespace PSPDFKit.UI {
 		PortraitUpsideDown = 1 << 2,
 		Landscape = LandscapeLeft | LandscapeRight,
 		All = Portrait | LandscapeLeft | LandscapeRight | PortraitUpsideDown,
-		AllButUpsideDown = Portrait | LandscapeLeft | LandscapeRight
+		AllButUpsideDown = Portrait | LandscapeLeft | LandscapeRight,
+	}
+
+	[Native]
+	public enum PSPDFContextMenuOption : long {
+		MenuOnly,
+		AllowPopovers,
+		PopoversOnly,
+	}
+
+	[Native]
+	public enum PSPDFAutosaveReason : long {
+		Disappearing,
+		MovingToBackground,
+		Terminating,
+		ResolvingFileConflict,
 	}
 }
