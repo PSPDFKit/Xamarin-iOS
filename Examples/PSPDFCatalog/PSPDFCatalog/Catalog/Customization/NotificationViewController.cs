@@ -17,6 +17,7 @@ namespace PSPDFCatalog
         {
             base.ViewDidAppear(animated);
 
+            // Need to add those observers in the `ViewDidAppear` method since we need a fully working view hierarchy to present the alerts
             NSNotificationCenter.DefaultCenter.AddObserver(PSPDFAnnotationManager.AnnotationsAddedNotification, null, NSOperationQueue.MainQueue, notification => annotationAddedNotification());
             NSNotificationCenter.DefaultCenter.AddObserver(PSPDFAnnotationManager.AnnotationChangedNotification, null, NSOperationQueue.MainQueue, notification => annotationChangedNotification());
             NSNotificationCenter.DefaultCenter.AddObserver(PSPDFAnnotationManager.AnnotationsRemovedNotification, null, NSOperationQueue.MainQueue, notification => annotationRemovedNotification());
