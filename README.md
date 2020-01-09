@@ -21,8 +21,8 @@ Minimum Requirements
 In order to build this binding project you need:
 
 - **Visual Studio for Mac or Windows**
-- **Xamarin.iOS 11.12 (d15-7) +**
-- **Xamarin.Mac 4.4 (d15-7) +**
+- **Xamarin.iOS 13.6 +**
+- **Xamarin.Mac 6.6 +**
 
 Build Instructions
 ==================
@@ -35,9 +35,9 @@ Build Instructions
 ## Step 2 - Copy required files
 
 1. In order to use this C# binding because Xamarin does not support `xcframework` yet, you will need to obtain the full PSPDFKit framework files using the `COCOAPODS_KEY` from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow).
-2. Replacig `COCOAPODS_KEY` with your key go and download the following two zip files.
-	- https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/pspdfkit/9.1.1.zip
-	- https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/instant/9.1.1.zip
+2. Replace `COCOAPODS_KEY` with your key and download the following two zip files.
+    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/pspdfkit/9.1.1.zip
+    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/instant/9.1.1.zip
 3. Extract the zip files you downloaded in step 2 and copy the following files into the specified directories:
 
 iOS: From **PSPDFKit-for-iOS** zip.
