@@ -1,9 +1,0 @@
-<WorkspaceItem ctype="Workspace">
-  <Items>
-    <Item>PSPDFAdonitStylusDriver/PSPDFAdonitStylusDriver.sln</Item>
-    <Item>PSPDFFiftyThreeStylusDriver/PSPDFFiftyThreeStylusDriver.sln</Item>
-    <Item>PSPDFPogoStylusDriver/PSPDFPogoStylusDriver.sln</Item>
-    <Item>PSPDFWacomStylusDriver/PSPDFWacomStylusDriver.sln</Item>
-    <Item>../../PSPDFKit.sln</Item>
-  </Items>
-</WorkspaceItem>

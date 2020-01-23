@@ -227,29 +227,7 @@ namespace PSPDFCatalog {
 						};
 						var pdfViewer = new PSCSimpleDrawingPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
-					}),
-					new StringElement ("Stylus Support", () => {
-
-						// TODO: Stylus Support
-						// Uncomment all the needed driver lines once you added the corresponding Dll's.
-						//
-						// Please visit PSPDFKit support page for more information
-						// https://pspdfkit.com/guides/ios/current/other-languages/xamarin-stylus-support/
-						//
-						PSPDFKitGlobal.SharedInstance.GetStylusManager ().AvailableDriverClasses = new NSOrderedSet (
-							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFAdonitStylusDriver)),
-							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFFiftyThreeStylusDriver)),
-							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFWacomStylusDriver)),
-							//(INativeObject) new Class (typeof (PSPDFKit.UI.StylusSupport.PSPDFPogoStylusDriver))
-						);
-
-						var document = new PSPDFDocument (NSUrl.FromFilename (HackerMonthlyFile));
-						var pdfViewer = new PSPDFViewController (document);
-
-						pdfViewer.AnnotationToolbarController.AnnotationToolbar.ShowingStylusButton = true;
-
-						NavigationController.PushViewController (pdfViewer, true);
-					}),
+					})
                 },
 			};
 		}

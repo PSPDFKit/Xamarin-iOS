@@ -1,3 +1,0 @@
-#import <PSPDFKit/PSPDFKit.h>
-#import <PSPDFKitUI/PSPDFKitUI.h>
-@protocol PSPDFPluginRegistry;
