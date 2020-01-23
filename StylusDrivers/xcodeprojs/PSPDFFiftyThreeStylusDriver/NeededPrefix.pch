@@ -1,6 +1,0 @@
-#import <Foundation/Foundation.h>
-#import <PSPDFKit/PSPDFKit.h>
-#import <PSPDFKitUI/PSPDFKitUI.h>
-#import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
-@protocol PSPDFPluginRegistry;
