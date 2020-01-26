@@ -805,9 +805,9 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFAnnotationSet : INSSecureCoding {
 
-		[Export ("initWithAnnotations:")]
+		[Export ("initWithAnnotations:copyAnnotations:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAnnotation [] annotations);
+		IntPtr Constructor (PSPDFAnnotation [] annotations, bool shouldCopyAnnotations);
 
 		[Export ("annotations", ArgumentSemantic.Copy)]
 		PSPDFAnnotation [] Annotations { get; }

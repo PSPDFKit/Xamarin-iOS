@@ -231,30 +231,5 @@ namespace PSPDFCatalog {
                 },
 			};
 		}
-
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-
-			barColor = GetUIColor (UIColor.White, UIColor.FromWhiteAlpha (0.2f, 1.0f));
-			NavigationController.NavigationBar.BarTintColor = barColor;
-			NavigationController.Toolbar.TintColor = barColor;
-			NavigationController.View.TintColor = GetUIColor (UIColor.FromRGBA (0.25f, 0.25f, 0.92f, 1f), UIColor.FromRGBA (1.0f, 0.00f, 0.50f, 1.0f));
-			NavigationController.NavigationBar.TitleTextAttributes = new UIStringAttributes { ForegroundColor = GetUIColor (UIColor.Black, UIColor.White) };
-			NavigationController.NavigationBar.BarStyle = UIBarStyle.Black;
-			NavigationController.SetToolbarHidden (true, animated);
-		}
-
-		UIColor GetUIColor (UIColor lightMode, UIColor darkMode)
-		{
-			if (UIDevice.CurrentDevice.CheckSystemVersion (13, 0))
-				return UIColor.FromDynamicProvider ((t) => t.UserInterfaceStyle == UIUserInterfaceStyle.Dark ? darkMode : lightMode);
-			return lightMode;
-		}
-
-		public override UIStatusBarStyle PreferredStatusBarStyle ()
-		{
-			return UIStatusBarStyle.LightContent;
-		}
 	}
 }

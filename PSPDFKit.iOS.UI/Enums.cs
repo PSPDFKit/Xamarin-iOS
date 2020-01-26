@@ -106,7 +106,8 @@ namespace PSPDFKit.UI {
 	public enum PSPDFIdleTimerManagement : ulong {
 		Manual,
 		ExtendedTime,
-		ExtendedTimeExternalScreenDisablesTimer
+		ExtendedTimeExternalScreenDisablesTimer,
+		DisablesTimer,
 	}
 
 	[Native]
@@ -496,12 +497,14 @@ namespace PSPDFKit.UI {
 		Error
 	}
 
+		[Flags]
 	[Native]
 	public enum PSPDFImageQuality : ulong {
-		Low = 1 << 0,
-		Medium = 1 << 1,
-		High = 1 << 2,
-		All = ulong.MaxValue
+		Low = 1uL << 0,
+		Medium = 1uL << 1,
+		Higher = 1uL << 3,
+		Best = 1uL << 2,
+		All = ulong.MaxValue,
 	}
 
 	[Native]
@@ -765,39 +768,6 @@ namespace PSPDFKit.UI {
 		None = 0,
 		Clear,
 		Black
-	}
-
-	[Native]
-	public enum PSPDFStylusConnectionStatus : ulong {
-		Off,
-		Scanning,
-		Pairing,
-		Connected,
-		Disconnected
-	}
-
-	public enum PSPDFStylusButtonAction {
-		[DefaultEnumValue]
-		[Field (null)]
-		Null,
-		[Field ("PSPDFStylusButtonActionUndo", PSPDFKitGlobal.LibraryPath)]
-		Undo,
-		[Field ("PSPDFStylusButtonActionRedo", PSPDFKitGlobal.LibraryPath)]
-		Redo,
-		[Field ("PSPDFStylusButtonActionInk", PSPDFKitGlobal.LibraryPath)]
-		Ink,
-		[Field ("PSPDFStylusButtonActionEraser", PSPDFKitGlobal.LibraryPath)]
-		Eraser,
-	}
-
-	[Native]
-	public enum PSPDFStylusTouchClassification : long {
-		UnknownDisconnected,
-		Unknown,
-		Finger,
-		Palm,
-		Pen,
-		Eraser
 	}
 
 	[Native]

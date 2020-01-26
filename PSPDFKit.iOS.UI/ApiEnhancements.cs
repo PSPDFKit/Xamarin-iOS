@@ -144,14 +144,6 @@ namespace PSPDFKit.UI {
 		}
 	}
 
-	public partial class PSPDFStylusViewController {
-
-		public Type SelectedDriverType {
-			get => SelectedDriverClass == null ? null : Class.Lookup (SelectedDriverClass);
-			set => SelectedDriverClass = value == null ? throw new ArgumentNullException (nameof (value)) : new Class (value);
-		}
-	}
-
 	public partial class PSPDFThumbnailViewController {
 
 		public PSPDFThumbnailViewFilter [] FilterOptions {

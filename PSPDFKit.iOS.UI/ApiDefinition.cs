@@ -810,14 +810,14 @@ namespace PSPDFKit.UI {
 		[Export ("collapseUndoButtonsForCompactSizes")]
 		bool CollapseUndoButtonsForCompactSizes { get; set; }
 
-		[Export ("showsStylusButtonAutomatically")]
-		bool ShowsStylusButtonAutomatically { get; set; }
+		[Export ("showsApplePencilButtonAutomatically")]
+		bool ShowsApplePencilButtonAutomatically { get; set; }
 
-		[Export ("showingStylusButton")]
-		bool ShowingStylusButton { [Bind ("isShowingStylusButton")] get; set; }
+		[Export ("showingApplePencilButton")]
+		bool ShowingApplePencilButton { [Bind ("isShowingApplePencilButton")] get; set; }
 
-		[Export ("setShowingStylusButton:animated:")]
-		void SetShowingStylusButton (bool showingStylusButton, bool animated);
+		[Export ("setShowingApplePencilButton:animated:")]
+		void SetShowingApplePencilButton (bool showingApplePencilButton, bool animated);
 
 		[Export ("saveAfterToolbarHiding")]
 		bool SaveAfterToolbarHiding { get; set; }
@@ -827,8 +827,8 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("doneButton")]
 		UIButton DoneButton { get; }
 
-		[NullAllowed, Export ("stylusButton")]
-		PSPDFToolbarButton StylusButton { get; }
+		[NullAllowed, Export ("applePencilButton")]
+		PSPDFToolbarButton ApplePencilButton { get; }
 
 		[NullAllowed, Export ("undoButton")]
 		UIButton UndoButton { get; }
@@ -972,31 +972,6 @@ namespace PSPDFKit.UI {
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFAppearanceModeManagerDelegate Delegate { get; set; }
-	}
-
-	[BaseType (typeof (NSObject))]
-	[DisableDefaultCtor]
-	interface PSPDFApplePencilDriver : PSPDFStylusDriver {
-
-		[Field ("PSPDFApplePencilDetectedNotification", PSPDFKitGlobal.LibraryPath)]
-		[Notification]
-		NSString PencilDetectedNotification { get; }
-
-		[Field ("PSPDFApplePencilDetectedChangedNotification", PSPDFKitGlobal.LibraryPath)]
-		[Notification]
-		NSString PencilDetectedChangedNotification { get; }
-
-		[Static]
-		[Export ("detected")]
-		bool Detected { [Bind ("wasDetected")] get; set; }
-
-		[Export ("initWithDelegate:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (IPSPDFStylusDriverDelegate @delegate);
-
-		// Inlined from the PSPDFStylusDriver protocol
-		//[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-		//IPSPDFStylusDriverDelegate Delegate { get; set; }
 	}
 
 	interface IPSPDFApplication { }
@@ -1332,6 +1307,8 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (PSPDFButton))]
 	interface PSPDFColorButton {
 
+
+		[NullAllowed]
 		[Export ("color", ArgumentSemantic.Strong)]
 		UIColor Color { get; set; }
 
@@ -4375,8 +4352,8 @@ namespace PSPDFKit.UI {
 		PSPDFSpeechController GetSpeechController ();
 
 		[return: NullAllowed]
-		[Export ("stylusManager")]
-		PSPDFStylusManager GetStylusManager ();
+		[Export ("applePencilManager")]
+		PSPDFApplePencilManager GetApplePencilManager ();
 
 		[Export ("screenController")]
 		PSPDFScreenController GetScreenController ();
@@ -6661,281 +6638,6 @@ namespace PSPDFKit.UI {
 		void SetForcesStatusBarHidden (bool val);
 	}
 
-	interface IPSPDFStylusDriver { }
-
-	[Protocol]
-	interface PSPDFStylusDriver {
-
-		[Static, Abstract]
-		[Export ("driverInfo")]
-		NSDictionary DriverInfo { get; }
-
-		// Hack: must be manually inlined on any class implementing this protocol
-		//[Abstract]
-		//[Export ("initWithDelegate:")]
-		//IntPtr Constructor (IPSPDFStylusDriverDelegate @delegate);
-
-		[Abstract]
-		[Export ("enableDriverWithOptions:error:")]
-		bool EnableDriver ([NullAllowed] NSDictionary options, [NullAllowed] out NSError error);
-
-		[Abstract]
-		[Export ("disableDriver")]
-		void DisableDriver ();
-
-		[Abstract]
-		[Export ("connectedStylusInfo")]
-		NSDictionary ConnectedStylusInfo { get; }
-
-		[Abstract]
-		[Export ("connectionStatus")]
-		PSPDFStylusConnectionStatus ConnectionStatus { get; }
-
-		[Abstract]
-		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-		IPSPDFStylusDriverDelegate Delegate { get; }
-
-		[Export ("touchInfoForTouch:")]
-		[return: NullAllowed]
-		IPSPDFStylusTouch GetTouchInfo (UITouch touch);
-
-		[return: NullAllowed]
-		[Export ("settingsController")]
-		UIViewController GetSettingsController ();
-
-		[return: NullAllowed]
-		[Export ("settingsControllerInfo")]
-		NSDictionary GetSettingsControllerInfo ();
-
-		[Export ("registerView:")]
-		void RegisterView (UIView view);
-
-		[Export ("unregisterView:")]
-		void UnregisterView (UIView view);
-	}
-
-	[Static]
-	interface PSPDFStylusDriverInfoKeys {
-
-		[Field ("PSPDFStylusDriverIdentifierKey", PSPDFKitGlobal.LibraryPath)]
-		NSString IdentifierKey { get; }
-
-		[Field ("PSPDFStylusDriverNameKey", PSPDFKitGlobal.LibraryPath)]
-		NSString NameKey { get; }
-
-		[Field ("PSPDFStylusDriverSDKNameKey", PSPDFKitGlobal.LibraryPath)]
-		NSString SDKNameKey { get; }
-
-		[Field ("PSPDFStylusDriverSDKVersionKey", PSPDFKitGlobal.LibraryPath)]
-		NSString SDKVersionKey { get; }
-
-		[Field ("PSPDFStylusDriverProtocolVersionKey", PSPDFKitGlobal.LibraryPath)]
-		NSString ProtocolVersionKey { get; }
-
-		[Field ("PSPDFStylusDriverPriorityKey", PSPDFKitGlobal.LibraryPath)]
-		NSString PriorityKey { get; }
-	}
-
-	[Static]
-	interface PSPDFConnectedStylusInfoKeys {
-
-		[Field ("PSPDFStylusNameKey", PSPDFKitGlobal.LibraryPath)]
-		NSString StylusNameKey { get; }
-	}
-
-	[Static]
-	interface PSPDFStylusSettingsControllerInfoKeys {
-
-		[Field ("PSPDFStylusSettingsEmbeddedSizeKey", PSPDFKitGlobal.LibraryPath)]
-		NSString EmbeddedSizeKey { get; }
-	}
-
-	interface IPSPDFStylusDriverDelegate { }
-
-	[Protocol, Model (AutoGeneratedName = true)]
-	[BaseType (typeof (NSObject))]
-	interface PSPDFStylusDriverDelegate {
-
-		[Abstract]
-		[Export ("connectionStatusChanged")]
-		void ConnectionStatusChanged ();
-
-		[Export ("buttonFired:")]
-		bool ButtonFired (nuint buttonNumber);
-
-		[Export ("classificationsDidChangeForTouches:")]
-		void ClassificationsDidChangeForTouches (NSSet touches);
-
-		[Export ("stylusTouchBegan:")]
-		void StylusTouchBegan (NSSet touches);
-
-		[Export ("stylusTouchMoved:")]
-		void StylusTouchMoved (NSSet touches);
-
-		[Export ("stylusTouchEnded:")]
-		void StylusTouchEnded (NSSet touches);
-
-		[Export ("stylusTouchCancelled:")]
-		void StylusTouchCancelled (NSSet touches);
-
-		[Export ("stylusSuggestsToDisableGestures")]
-		void StylusSuggestsToDisableGestures ();
-
-		[Export ("stylusSuggestsToEnableGestures")]
-		void StylusSuggestsToEnableGestures ();
-	}
-
-	[BaseType (typeof (NSObject))]
-	interface PSPDFStylusManager {
-
-		[Field ("PSPDFStylusManagerConnectionStatusChangedNotification", PSPDFKitGlobal.LibraryPath)]
-		[Notification]
-		NSString ConnectionStatusChangedNotification { get; }
-
-		[Export ("automaticallyEnablesApplePencil")]
-		bool AutomaticallyEnablesApplePencil { get; set; }
-
-		[Export ("applePencilEnabled")]
-		bool ApplePencilEnabled { [Bind ("isApplePencilEnabled")] get; set; }
-
-		[NullAllowed, Export ("currentDriverClass", ArgumentSemantic.Strong)]
-		Class CurrentDriverClass { get; set; }
-
-		[Export ("connectionStatus")]
-		PSPDFStylusConnectionStatus ConnectionStatus { get; }
-
-		[NullAllowed, Export ("stylusName")]
-		string StylusName { get; }
-
-		[Export ("availableDriverClasses", ArgumentSemantic.Copy)]
-		NSOrderedSet AvailableDriverClasses { get; set; }
-
-		[Export ("enableLastDriver")]
-		bool EnableLastDriver ();
-
-		[Export ("stylusController")]
-		PSPDFStylusViewController StylusController { get; }
-
-		[NullAllowed, Export ("settingsControllerForCurrentDriver")]
-		UIViewController SettingsControllerForCurrentDriver { get; }
-
-		[Export ("embeddedSizeForSettingsController")]
-		CGSize EmbeddedSizeForSettingsController { get; }
-
-		[Export ("buttonActionMapping", ArgumentSemantic.Strong)]
-		NSDictionary<NSNumber, NSString> ButtonActionMapping { get; set; }
-
-		[Export ("hasSettingsControllerForDriverClass:")]
-		bool HasSettingsController ([NullAllowed] Class driver);
-
-		[Export ("registerView:")]
-		void RegisterView (UIView view);
-
-		[Export ("unregisterView:")]
-		void UnregisterView (UIView view);
-
-		[Export ("driverAllowsClassification")]
-		bool DriverAllowsClassification { get; }
-
-		[Export ("touchInfoForTouch:")]
-		[return: NullAllowed]
-		IPSPDFStylusTouch GetTouchInfo (UITouch touch);
-
-		[Export ("showsStatusHUDForConnectionStatusChanges")]
-		bool ShowsStatusHusForConnectionStatusChanges { get; set; }
-
-		[Export ("addDelegate:")]
-		void AddDelegate (IPSPDFStylusDriverDelegate @delegate);
-
-		[Export ("removeDelegate:")]
-		bool RemoveDelegate (IPSPDFStylusDriverDelegate @delegate);
-	}
-
-	interface IPSPDFStylusTouch { }
-
-	[Protocol]
-	interface PSPDFStylusTouch {
-
-		[Export ("locationInView:")]
-		CGPoint GetLocationInView (UIView view);
-
-		[Export ("classification")]
-		PSPDFStylusTouchClassification GetClassification ();
-
-		[Export ("pressure")]
-		nfloat GetPressure ();
-	}
-
-	[BaseType (typeof (NSObject))]
-	[DisableDefaultCtor]
-	interface PSPDFDefaultStylusTouch : PSPDFStylusTouch {
-
-		[Export ("initWithClassification:pressure:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFStylusTouchClassification classification, nfloat pressure);
-
-		// They come from PSPDFStylusTouch protocol
-		//[Export ("classification")]
-		//PSPDFStylusTouchClassification Classification { get; }
-
-		//[Export ("pressure")]
-		//nfloat Pressure { get; }
-	}
-
-	[BaseType (typeof (NSObject))]
-	[DisableDefaultCtor]
-	interface PSPDFStylusTouchClassificationInfo {
-
-		[Export ("initWithTouch:touchID:oldValue:newValue:")]
-		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] UITouch touch, nint touchId, PSPDFStylusTouchClassification oldValue, PSPDFStylusTouchClassification newValue);
-
-		[NullAllowed, Export ("touch", ArgumentSemantic.Weak)]
-		UITouch Touch { get; }
-
-		[Export ("touchID")]
-		nint TouchId { get; }
-
-		[Export ("oldValue")]
-		PSPDFStylusTouchClassification OldValue { get; }
-
-		[Export ("newValue")]
-		PSPDFStylusTouchClassification NewValue { get; }
-	}
-
-	interface IPSPDFStylusViewControllerDelegate { }
-
-	[Protocol, Model (AutoGeneratedName = true)]
-	[BaseType (typeof (NSObject))]
-	interface PSPDFStylusViewControllerDelegate {
-
-		[Abstract]
-		[Export ("stylusViewControllerDidUpdateSelectedType:")]
-		void DidUpdateSelectedType (PSPDFStylusViewController stylusViewController);
-
-		[Abstract]
-		[Export ("stylusViewControllerDidTapSettingsButton:")]
-		void DidTapSettingsButton (PSPDFStylusViewController stylusViewController);
-	}
-
-	[BaseType (typeof (PSPDFStaticTableViewController))]
-	[DisableDefaultCtor]
-	interface PSPDFStylusViewController {
-
-		[Export ("initWithStylusManager:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFStylusManager stylusManager);
-
-		[NullAllowed, Export ("selectedDriverClass", ArgumentSemantic.Strong)]
-		Class SelectedDriverClass { get; set; }
-
-		[Export ("stylusManager")]
-		PSPDFStylusManager StylusManager { get; }
-
-		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-		IPSPDFStylusViewControllerDelegate Delegate { get; set; }
-	}
-
 	[BaseType (typeof (UIView))]
 	interface PSPDFTabbedBar {
 
@@ -8623,5 +8325,36 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (PSPDFToolbarButton))]
 	interface PSPDFToolbarBorderButton {
 
+	}
+
+	[BaseType (typeof (PSPDFStaticTableViewController))]
+	[DisableDefaultCtor]
+	interface PSPDFApplePencilController {
+
+		[Export ("initWithApplePencilManager:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFApplePencilManager applePencilManager);
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFApplePencilManager {
+
+		[Field ("PSPDFApplePencilDetectedNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString PencilDetectedNotification { get; }
+
+		[Field ("PSPDFApplePencilEnabledChangedNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString PencilEnabledChangedNotification { get; }
+
+		[Export ("detected")]
+		bool Detected { get; set; }
+
+		[Export ("enableOnDetection")]
+		bool EnableOnDetection { get; set; }
+
+		[Export ("enabled")]
+		bool Enabled { get; set; }
 	}
 }
