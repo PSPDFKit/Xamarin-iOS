@@ -161,12 +161,6 @@ The `XFSample.iOS` project is an example showcasing how to build an app with PSP
 
 <img width="80%" src="Images/macOS.png"/>
 
-
-# Stylus Support
-
-You can find instructions on how to add stylus support [here](StylusDrivers/).
-
-
 # Contributing
 
 Please ensure [you signed our CLA](https://pspdfkit.com/guides/web/current/miscellaneous/contributing/) so we can accept your contributions.
