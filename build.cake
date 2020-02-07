@@ -1,6 +1,7 @@
 var IOSVERSION = Argument("iosversion", "9.2.0");
 var MACVERSION = Argument("macversion", "4.2.0");
 var target = Argument ("target", "Default");
+var NUGET_API_KEY = EnvironmentVariable("NUGET_API_KEY");
 
 Task ("MacModel")
 	.Description ("Builds 'PSPDFKit.Mac.Model.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.Mac.Model/' Directory\n")
@@ -25,7 +26,7 @@ Task ("iOSModel")
 		Information ("=== PSPDFKit.iOS.Model.dll ===");
 		if (!DirectoryExists ("./PSPDFKit.iOS.Model/PSPDFKit.framework/"))
 			throw new Exception ("Unable to locate 'PSPDFKit.framework' inside './PSPDFKit.iOS.Model' Directory");
-		
+
 		MSBuild ("./PSPDFKit.iOS.Model/PSPDFKit.iOS.Model.csproj", new MSBuildSettings ()
 			.SetConfiguration ("Release")
 		);
@@ -137,6 +138,38 @@ Task ("NuGet")
 		Version = MACVERSION,
 		OutputDirectory = "./nuget/pkgs/",
 		BasePath = "./"
+	});
+});
+
+Task ("NuGet-Push")
+	.IsDependentOn("Nuget")
+	.Does (() =>
+{
+	// Get the path to the packages
+	var modelPackage = "./nuget/pkgs/PSPDFKit.iOS.Model." + IOSVERSION +".nupkg";
+	var uiPackage = "./nuget/pkgs/PSPDFKit.iOS.UI." + IOSVERSION +".nupkg";
+	var instantPackage = "./nuget/pkgs/PSPDFKit.iOS.Instant." + IOSVERSION +".nupkg";
+	var macModelPackage = "./nuget/pkgs/PSPDFKit.Mac.Model." + MACVERSION +".nupkg";
+
+	// Push the packages
+	NuGetPush(modelPackage, new NuGetPushSettings {
+			Source = "https://api.nuget.org/v3/index.json",
+			ApiKey = NUGET_API_KEY
+	});
+
+	NuGetPush(uiPackage, new NuGetPushSettings {
+			Source = "https://api.nuget.org/v3/index.json",
+			ApiKey = NUGET_API_KEY
+	});
+
+	NuGetPush(instantPackage, new NuGetPushSettings {
+			Source = "https://api.nuget.org/v3/index.json",
+			ApiKey = NUGET_API_KEY
+	});
+
+	NuGetPush(macModelPackage, new NuGetPushSettings {
+			Source = "https://api.nuget.org/v3/index.json",
+			ApiKey = NUGET_API_KEY
 	});
 });
 
