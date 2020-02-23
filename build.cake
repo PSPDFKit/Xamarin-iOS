@@ -1,4 +1,4 @@
-var IOSVERSION = Argument("iosversion", "9.2.0");
+var IOSVERSION = Argument("iosversion", "9.2.2");
 var MACVERSION = Argument("macversion", "4.2.0");
 var target = Argument ("target", "Default");
 var NUGET_API_KEY = EnvironmentVariable("NUGET_API_KEY");

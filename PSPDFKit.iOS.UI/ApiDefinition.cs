@@ -5000,8 +5000,8 @@ namespace PSPDFKit.UI {
 		[Export ("maximumNumberOfLines")]
 		nuint MaximumNumberOfLines { get; set; }
 
-		[Export ("outlineIntentLeftOffset")]
-		nfloat OutlineIntentLeftOffset { get; set; }
+		[Export ("outlineIndentLeftOffset")]
+		nfloat OutlineIndentLeftOffset { get; set; }
 
 		[Export ("outlineIndentMultiplier")]
 		nfloat OutlineIndentMultiplier { get; set; }
@@ -5033,8 +5033,8 @@ namespace PSPDFKit.UI {
 		[Export ("maximumNumberOfLines")]
 		nuint MaximumNumberOfLines { get; set; }
 
-		[Export ("outlineIntentLeftOffset")]
-		nfloat OutlineIntentLeftOffset { get; set; }
+		[Export ("outlineIndentLeftOffset")]
+		nfloat OutlineIndentLeftOffset { get; set; }
 
 		[Export ("outlineIndentMultiplier")]
 		nfloat OutlineIndentMultiplier { get; set; }
