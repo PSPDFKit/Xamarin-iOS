@@ -41,6 +41,7 @@ There's 2 ways for integrating PSPDFKit into your project. We highly recommend u
 1. Right-Click on your project in Visual Studio and select "Manage Nuget Packages…"
 2. In the `Browse` section for "nuget.org" search for "PSPDFKit"
 <img width="500" src="https://user-images.githubusercontent.com/21023299/75026406-38564d00-549d-11ea-8229-34f91362f3d7.png">
+
 3. Select the 3 iOS packages, `PSPDFKit.iOS.Model`, `PSPDFKit.iOS.UI`*, and `PSPDFKit.iOS.Instant`*
 4.  Tap on "Add Packages" to add the nuget packages to your project.
 
