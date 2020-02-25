@@ -34,7 +34,7 @@ Build Instructions
 
 ## Step 2 - Integrating PSPDFKit
 
-There's 2 ways for integrating PSPDFKit into your project. We highly recommend using our nuget packages from nuget.org in Visual Studio as it requires less work for the customer and also eliminates the possility of build errors, which can happen from time to time.
+There's 2 ways for integrating PSPDFKit into your project. We highly recommend using our nuget packages from nuget.org in Visual Studio as it requires less work for the customer and also eliminates the possibility of build errors, which can happen from time to time.
 
 ### Integrating PSPDFKit via Nuget (Recommended)
 
