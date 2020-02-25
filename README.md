@@ -104,7 +104,7 @@ To list all available tasks you can do `./build.sh --showdescription`.
 
 ## Step 3 - Using PSPDFKit in your project
 
-Add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponding using statements depending on the dlls referenced into your project.
+If you don't use nuget, add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponding using statements depending on the dlls referenced into your project.
 
 ```csharp
 using PSPDFKit.Model;
