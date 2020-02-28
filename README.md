@@ -32,13 +32,31 @@ Build Instructions
 1. Clone this repository to your computer.
 2. Open the `Xamarin-iOS` directory.
 
-## Step 2 - Copy required files
+## Step 2 - Integrating PSPDFKit
+
+There's 2 ways for integrating PSPDFKit into your project. We highly recommend using our nuget packages from nuget.org in Visual Studio as it requires less work for the customer and also eliminates the possibility of build errors, which can happen from time to time.
+
+### Integrating PSPDFKit via Nuget (Recommended)
+
+1. Right-Click on your project in Visual Studio and select "Manage Nuget Packages…"
+2. In the `Browse` section for "nuget.org" search for "PSPDFKit"
+<img width="500" src="https://user-images.githubusercontent.com/21023299/75026406-38564d00-549d-11ea-8229-34f91362f3d7.png">
+
+3. Select the 3 iOS packages, `PSPDFKit.iOS.Model`, `PSPDFKit.iOS.UI`*, and `PSPDFKit.iOS.Instant`*
+4.  Tap on "Add Packages" to add the nuget packages to your project.
+
+`*` Items with an asterisk are *optional*, you only need to add those if you also want to use the components.
+
+Now you are done and can skip to [step 3](https://github.com/PSPDFKit/Xamarin-iOS#step-3---using-pspdfkit-in-your-project)!
+
+### Integrating PSPDFKit by adding the DLLs (Advanced) 
+#### Copy required files
 
 1. In order to use this C# binding because Xamarin does not support `xcframework` yet, you will need to obtain the full PSPDFKit framework files using the `COCOAPODS_KEY` from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow).
 2. Replace `COCOAPODS_KEY` with your key and download the following two zip files.
     - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/pspdfkit/9.2.2.zip
     - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/instant/9.2.2.zip
-3. Extract the zip files you downloaded in step 2 and copy the following files into the specified directories:
+3. Extract the zip files you downloaded above and copy the following files into the specified directories:
 
 iOS: From **PSPDFKit-for-iOS** zip.
 
@@ -52,14 +70,14 @@ Mac: From **PSPDFKit-for-macOS** dmg.
 
 `*` Items with an asterisk are *optional*, if you do not provide a framework, by default we won't generate its bindings, but most of the time you will want to provide `PSPDFKit.framework` and `PSPDFKitUI.framework` at minimum.
 
-## Step 3 - Get your dlls
+### Get your dlls
 
 ### Using Visual Studio for Mac or Windows
 
 1. Open `PSPDFKit.sln` located in the root folder.
 2. Build the binding projects inside the `iOS` or `Mac` solution folders.
 3. Get the dlls from the `bin` folder of each project.
-4. Go to **Step 4 - Integrating into your ptoject**.
+4. Go to **Step 3 - Using PSPDFKit in your project**.
 
 ### Using command line / terminal
 
@@ -67,11 +85,11 @@ We are using [Cake](https://cakebuild.net) as our build system, this allows us t
 
 1. Run `./build.sh` (Mac) / `.\build.ps1` (Windows) command from the root directory.
 2. All the resulting dlls will be inside the root folder.
-3. Go to **Step 4 - Integrating into your ptoject**.
+3. Go to **Step 3 - Using PSPDFKit in your project**.
 
 #### Advanced build
 
-We use the `Default` build task which builds all binding projects as long as the frameworks are present inside each directory (see **Step 2 - Copy required files**), if an optional framework is not present this Task will just skip.
+We use the `Default` build task which builds all binding projects as long as the frameworks are present inside each directory (see **Copy required files**), if an optional framework is not present this Task will just skip.
 
 In the case you just want the Mac bits to be built you can do `./build.sh --target mac`. Here are the most common tasks available in the build script, they are particularly useful when you are integrating this into a CI Server.
 
@@ -85,9 +103,9 @@ In the case you just want the Mac bits to be built you can do `./build.sh --targ
 
 To list all available tasks you can do `./build.sh --showdescription`.
 
-## Step 4 - Integrating into your project
+## Step 3 - Using PSPDFKit in your project
 
-Add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponding using statements depending on the dlls referenced into your project.
+If you don't use nuget, add the generated PSPDFKit dlls as a reference to into your own Xamarin project and add the corresponding using statements depending on the dlls referenced into your project.
 
 ```csharp
 using PSPDFKit.Model;
@@ -95,7 +113,7 @@ using PSPDFKit.UI;
 using PSPDFKit.Instant;
 ```
 
-Also you do need to set your **license key** early on in your `AppDelegate`, before accessing any other PSPDFKit classes.
+Also you do need to set your **license key** early on in your `AppDelegate`, before accessing any other PSPDFKit classes. You can get your license key from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow)
 
 ```csharp
 public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
