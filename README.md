@@ -137,7 +137,7 @@ You can find several sample projects in the `Examples` folder, including a catal
 
 ## How to Run the Example Projects
 
-1. Complete **Step 2**.
+1. Complete **[Step 2 (Advaned)](https://github.com/PSPDFKit/Xamarin-iOS#integrating-pspdfkit-by-adding-the-dlls-advanced)**.
 2. Open the `PSPDFKit.sln` solution in Visual Studio.
 3. Select the example project and device you want to run it on (alternatively you can also right-click on the project and select "Build `Project Name`").
 <img width="60%" src="Images/Project-setup.png"/>
