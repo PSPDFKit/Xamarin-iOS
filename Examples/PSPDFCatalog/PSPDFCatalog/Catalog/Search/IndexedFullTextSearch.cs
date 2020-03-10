@@ -53,7 +53,10 @@ namespace PSPDFCatalog
         public void libraryDidFinishIndexing()
         {
             var searchstring = "";
-            NSDictionary dic = null;
+
+            // You can set some options for the search
+            var options = new NSMutableDictionary<NSObject, NSString>();
+            options[PSPDFLibrarySearchResultsOptionsKeys.MatchExactPhrasesOnlyKey] = new NSString("YES");
 
             var alert = UIAlertController.Create("", "Start Full-Text Search with String:", UIAlertControllerStyle.Alert);
 
@@ -68,24 +71,35 @@ namespace PSPDFCatalog
                 // Create a new alert controller for our results (cheap way to display them on the view)
                 var resultsAlert = UIAlertController.Create("", "", UIAlertControllerStyle.Alert);
 
-                library.FindDocumentUids(searchstring, dic, (string searchString, NSDictionary<NSString, NSIndexSet> resultSet) =>
+                library.FindDocumentUids(searchstring, options, (string searchString, NSDictionary<NSString, NSIndexSet> resultSet) =>
                 {
-                    string results = "";
                     foreach ((var UID, var indexSet) in resultSet)
                     {
-                        // Get all the results into a single string so we can display them all at once
-                        results += string.Format("Found the following matches for \"{0}\" in document {1}: {2}\n\n", searchstring, UID, indexSet);
+                        Console.WriteLine("Found the following matches for \"{0}\" in document {1}: {2}\n\n", searchstring, UID, indexSet);
                     }
-                    // Need to present the alert controller on the UI thread otherwise it crashes
+                }, (string searchString, NSDictionary < NSString, NSSet < PSPDFLibraryPreviewResult >> resultSet) =>
+                {
+                    // Use the `previewTextHandler` for presenting preview text of the search results
                     DispatchQueue.MainQueue.DispatchAsync(() =>
                     {
-                        resultsAlert.Message = results;
+                        var previewTexts = "";
+                        foreach (var UID in resultSet.Keys)
+                        {
+                            // Get the results for each document
+                            var results = resultSet[UID];
+
+                            foreach (PSPDFLibraryPreviewResult result in results)
+                            {
+                                // Get all the important information from each result
+                                previewTexts += string.Format("Document: \"{0}\"\nPage: {1}\nPreview Text: \"{2}\" \n\n",result.DocumentUid, (result.PageIndex + 1), result.PreviewText);
+                            }
+                        }
+
+                        resultsAlert.Message = previewTexts;
                         resultsAlert.AddAction(cancelAction);
                         PresentViewController(resultsAlert, false, null);
                     });
-
                 });
-
             });
 
             alert.AddAction(cancelAction);
