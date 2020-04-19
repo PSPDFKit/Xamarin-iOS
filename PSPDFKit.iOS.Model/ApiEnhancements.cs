@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -21,6 +21,11 @@ namespace PSPDFKit.Model {
 		public const string LibraryPath = "__Internal";
 		public const string DlPath = null;
 #endif
+
+		public NSObject this [NSString settingKey] {
+			get => GetObject (settingKey);
+			set => SetObject (value, settingKey);
+		}
 	}
 
 	public partial class PSPDFAESCryptoDataProvider : NSObject {
@@ -71,10 +76,8 @@ namespace PSPDFKit.Model {
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFAnnotationRegisterOverrideClasses")]
 		private static extern void _RegisterOverrideClasses (IntPtr annotationType, IntPtr document);
 
-		public static void RegisterOverrideClasses (NSKeyedUnarchiver unarchiver, PSPDFDocument document)
-		{
-			_RegisterOverrideClasses (unarchiver.Handle, document.Handle);
-		}
+		[Obsolete ("This functionality should not be needed and will be removed in a future update. 'PSPDFFileAnnotationProvider' already takes care of registering the appropriate overrides when reading an external annotation file.")]
+		public static void RegisterOverrideClasses (NSKeyedUnarchiver unarchiver, PSPDFDocument document) => _RegisterOverrideClasses (unarchiver.Handle, document.Handle);
 	}
 
 	public partial class PSPDFAnnotationGroupItem {

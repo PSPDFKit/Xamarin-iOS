@@ -6,11 +6,11 @@
         <title>PSPDFKit for Xamarin.iOS - Instant</title>
         <authors>PSPDFKit GmbH</authors>
         <owners>PSPDFKit GmbH</owners>
-        <copyright>PSPDFKit GmbH. Copyright 2010-2019</copyright>
+        <copyright>PSPDFKit GmbH. Copyright 2010-2020</copyright>
         <license type="file">LICENSE.md</license>
         <projectUrl>https://pspdfkit.com/instant/</projectUrl>
         <repository type="git" url="https://github.com/PSPDFKit/Xamarin-iOS"/>
-        <iconUrl>https://pspdfkit.com/favicon.ico</iconUrl>
+        <icon>images\icon.png</icon>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>
             The leading framework for displaying, annotating and editing PDFs on iOS, Android, Windows, Electron and the Web.
@@ -22,14 +22,16 @@
         <tags>pdf, pdf document, pdf document view, pdf sdk, pdf annotation, edit pdf, display pdf, display pdf, xamarin, ios</tags>
         <dependencies>
             <group targetFramework="Xamarin.iOS10">
-                <dependency id="PSPDFKit.iOS.Model" version="[9.2.2]"/>
-                <dependency id="PSPDFKit.iOS.UI" version="[9.2.2]"/>
+                <dependency id="PSPDFKit.iOS.Model" version="[$version$]"/>
+                <dependency id="PSPDFKit.iOS.UI" version="[$version$]"/>
             </group>
        </dependencies>
     </metadata>
     <files>
+        <file src="nuget\icon.png" target="images\icon.png" />
         <file src="nuget\readme.txt" target="readme.txt" />
         <file src="LICENSE.md" target="" />
+
         <!--Xamarin.iOS-->
         <file src="PSPDFKit.iOS.Instant\bin\Release\PSPDFKit.iOS.Instant.dll" target="lib\Xamarin.iOS10" />
     </files>

@@ -1,5 +1,11 @@
-var IOSVERSION = Argument("iosversion", "9.2.2");
-var MACVERSION = Argument("macversion", "4.2.0");
+#addin nuget:?package=Cake.Git&version=0.21.0
+
+var IOSVERSION = Argument("iosversion", "9.3.0");
+var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
+
+var MACVERSION = Argument("macversion", "4.3.0");
+var MACOS_SERVICERELEASE_VERSION = "0"; // This is combined with the MACVERSION variable for the NuGet Package version
+
 var target = Argument ("target", "Default");
 var NUGET_API_KEY = EnvironmentVariable("NUGET_API_KEY");
 
@@ -116,28 +122,43 @@ Task ("NuGet")
 	if(!DirectoryExists("./nuget/pkgs/"))
 		CreateDirectory("./nuget/pkgs");
 
+	var head = GitLogTip("./");
+	var commit = head.Sha.Substring (0,7);
+
 	NuGetPack ("./nuget/pspdfkit-ios-model.nuspec", new NuGetPackSettings {
-		Version = IOSVERSION,
+		Version = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}+sha.{commit}",
 		OutputDirectory = "./nuget/pkgs/",
-		BasePath = "./"
+		BasePath = "./",
+		Properties = new Dictionary<string, string> {
+			{"NoWarn", "NU5105"},
+		}
 	});
 
 	NuGetPack ("./nuget/pspdfkit-ios-ui.nuspec", new NuGetPackSettings {
-		Version = IOSVERSION,
+		Version = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}+sha.{commit}",
 		OutputDirectory = "./nuget/pkgs/",
-		BasePath = "./"
+		BasePath = "./",
+		Properties = new Dictionary<string, string> {
+			{"NoWarn", "NU5105"},
+		}
 	});
 
 	NuGetPack ("./nuget/pspdfkit-ios-instant.nuspec", new NuGetPackSettings {
-		Version = IOSVERSION,
+		Version = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}+sha.{commit}",
 		OutputDirectory = "./nuget/pkgs/",
-		BasePath = "./"
+		BasePath = "./",
+		Properties = new Dictionary<string, string> {
+			{"NoWarn", "NU5105"},
+		}
 	});
 
 	NuGetPack ("./nuget/pspdfkit-mac-model.nuspec", new NuGetPackSettings {
-		Version = MACVERSION,
+		Version = $"{MACVERSION}.{MACOS_SERVICERELEASE_VERSION}+sha.{commit}",
 		OutputDirectory = "./nuget/pkgs/",
-		BasePath = "./"
+		BasePath = "./",
+		Properties = new Dictionary<string, string> {
+			{"NoWarn", "NU5105"},
+		}
 	});
 });
 

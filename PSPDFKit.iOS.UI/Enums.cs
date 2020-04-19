@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Foundation;
 using ObjCRuntime;
 using PSPDFKit.Model;
@@ -206,7 +206,8 @@ namespace PSPDFKit.UI {
 	[Native]
 	public enum PSPDFTextSelectionMode : ulong {
 		Regular,
-		Simple
+		Simple,
+		Automatic,
 	}
 
 	[Native]
@@ -338,17 +339,6 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
-	[Flags]
-	public enum PSPDFSignatureBiometricPropertiesOption : ulong {
-		None = 0,
-		Pressure = 1 << 0,
-		TimePoints = 1 << 1,
-		TouchRadius = 1 << 2,
-		InputMethod = 1 << 3,
-		All = ulong.MaxValue
-	}
-
-	[Native]
 	public enum PSPDFControllerState : ulong {
 		Empty,
 		Loading,
@@ -425,15 +415,18 @@ namespace PSPDFKit.UI {
 		Erase
 	}
 
-	[Native]
 	[Flags]
+	[Native]
 	public enum PSPDFFlexibleToolbarPosition : ulong {
 		None = 0,
-		InTopBar = 1 << 0,
-		Left = 1 << 1,
-		Right = 1 << 2,
-		sVertical = Left | Right,
-		sAll = InTopBar | sVertical
+		InTopBar = 1uL << 0,
+		Left = 1uL << 1,
+		Right = 1uL << 2,
+		Top = 1uL << 3,
+		Horizontal = InTopBar | Top,
+		Vertical = Left | Right,
+		Default = InTopBar | Vertical,
+		All = Horizontal | Vertical,
 	}
 
 	[Native]
@@ -959,5 +952,11 @@ namespace PSPDFKit.UI {
 		MovingToBackground,
 		Terminating,
 		ResolvingFileConflict,
+	}
+
+	[Native]
+	public enum PSPDFColorButtonShape : long {
+		RoundedRect = 0,
+		Ellipse,
 	}
 }

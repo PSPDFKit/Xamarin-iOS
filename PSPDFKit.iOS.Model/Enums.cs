@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Foundation;
 using ObjCRuntime;
 
@@ -97,6 +97,7 @@ namespace PSPDFKit.Model {
 		DocumentEditorOperationCancelled = 7403,
 		FailedToFetchResource = 8000,
 		FailedToSetResource = 8500,
+		DataProviderIsInFlight = 8600,
 		JsonDeserializationError = 9500,
 		JsonSerializationError = 9501,
 		JsonSerializationUnsupportedAnnotationTypeError = 9502,
@@ -243,36 +244,36 @@ namespace PSPDFKit.Model {
 		_3D,
 	}
 
-	[Native]
 	[Flags]
+	[Native]
 	public enum PSPDFAnnotationType : ulong {
 		None = 0,
-		Undefined = 1 << 0,
-		Link = 1 << 1,
-		Highlight = 1 << 2,
-		FreeText = 1 << 3,
-		Ink = 1 << 4,
-		Square = 1 << 5,
-		Line = 1 << 6,
-		Note = 1 << 7,
-		Stamp = 1 << 8,
-		Caret = 1 << 9,
-		RichMedia = 1 << 10,
-		Screen = 1 << 11,
-		Widget = 1 << 12,
-		File = 1 << 13,
-		Sound = 1 << 14,
-		Polygon = 1 << 15,
-		PolyLine = 1 << 16,
-		StrikeOut = 1 << 17,
-		Underline = 1 << 18,
-		Squiggly = 1 << 19,
-		Circle = 1 << 20,
-		Popup = 1 << 21,
-		Watermark = 1 << 22,
-		TrapNet = 1 << 23,
-		ThreeDimensional = 1 << 24,
-		Redaction = 1 << 25,
+		Undefined = 1uL << 0,
+		Link = 1uL << 1,
+		Highlight = 1uL << 2,
+		StrikeOut = 1uL << 17,
+		Underline = 1uL << 18,
+		Squiggly = 1uL << 19,
+		FreeText = 1uL << 3,
+		Ink = 1uL << 4,
+		Square = 1uL << 5,
+		Circle = 1uL << 20,
+		Line = 1uL << 6,
+		Note = 1uL << 7,
+		Stamp = 1uL << 8,
+		Caret = 1uL << 9,
+		RichMedia = 1uL << 10,
+		Screen = 1uL << 11,
+		Widget = 1uL << 12,
+		File = 1uL << 13,
+		Sound = 1uL << 14,
+		Polygon = 1uL << 15,
+		PolyLine = 1uL << 16,
+		Redaction = 1uL << 25,
+		Popup = 1uL << 21,
+		Watermark = 1uL << 22,
+		TrapNet = 1uL << 23,
+		ThreeDimensional = 1uL << 24,
 		All = ulong.MaxValue
 	}
 
@@ -549,6 +550,7 @@ namespace PSPDFKit.Model {
 		ImageDocument = 1 << 12,
 		Redaction = 1 << 13,
 		Comparison = 1 << 14,
+		WebKitHtmlConversion = 1 << 16,
 
 		All = ulong.MaxValue
 	}
@@ -1072,5 +1074,16 @@ namespace PSPDFKit.Model {
 	public enum PSPDFFileConflictType : ulong {
 		Deletion = 0,
 		Modification,
+	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFSignatureBiometricPropertiesOption : ulong {
+		None = 0,
+		Pressure = 1uL << 0,
+		TimePoints = 1uL << 1,
+		TouchRadius = 1uL << 2,
+		InputMethod = 1uL << 3,
+		All = ulong.MaxValue,
 	}
 }

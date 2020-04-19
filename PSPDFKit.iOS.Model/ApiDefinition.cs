@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Foundation;
 using ObjCRuntime;
@@ -157,6 +157,18 @@ namespace PSPDFKit.Model {
 
 		[Export ("fileURL")]
 		new NSUrl FileUrl { get; }
+
+		[Export ("createDataSinkWithOptions:error:")]
+		new IPSPDFDataSink CreateDataSink (PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
+
+		[Export ("replaceContentsWithDataSink:error:")]
+		new bool ReplaceContents (IPSPDFDataSink replacementDataSink, [NullAllowed] out NSError error);
+
+		[Export ("deleteDataWithError:")]
+		new bool DeleteData ([NullAllowed] out NSError error);
+
+		[Sealed, Export ("useDiskCache")]
+		bool UseDiskCache { get; }
 	}
 
 	[BaseType (typeof (PSPDFCryptoInputStream))]
@@ -571,10 +583,10 @@ namespace PSPDFKit.Model {
 	[Static]
 	interface PSPDFAnnotationOptionsKeys {
 
-		[Field ("PSPDFAnnotationOptionSuppressNotificationsKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFAnnotationOptionSuppressNotifications", PSPDFKitLibraryPath.LibraryPath)]
 		NSString SuppressNotificationsKey { get; }
 
-		[Field ("PSPDFAnnotationOptionAnimateViewKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFAnnotationOptionAnimateView", PSPDFKitLibraryPath.LibraryPath)]
 		NSString AnimateViewKey { get; }
 	}
 
@@ -584,9 +596,11 @@ namespace PSPDFKit.Model {
 		bool AnimateView { get; set; }
 	}
 
+	delegate bool PSPDFAnnotationManagerUpdateAnnotationsHandler (IPSPDFAnnotationUpdate annotationUpdate, ref NSError updateError);
+
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFAnnotationManager : PSPDFAnnotationProviderChangeNotifier {
+	interface PSPDFAnnotationManager : PSPDFAnnotationProviderChangeNotifier, PSPDFOverridable {
 
 		[Field ("PSPDFAnnotationsAddedNotification", PSPDFKitLibraryPath.LibraryPath)]
 		[Notification]
@@ -641,7 +655,7 @@ namespace PSPDFKit.Model {
 		bool InsertAnnotation (PSPDFAnnotation annotation, nuint destinationIndex, [NullAllowed] PSPDFAnnotationOptions annotationOptions, [NullAllowed] out NSError error);
 
 		[Export ("updateAnnotationsOnPageAtIndex:error:withUpdateBlock:")]
-		bool UpdateAnnotations (nuint pageIndex, [NullAllowed] out NSError error, Action<IPSPDFAnnotationUpdate> updateHandler);
+		bool UpdateAnnotations (nuint pageIndex, [NullAllowed] out NSError error, PSPDFAnnotationManagerUpdateAnnotationsHandler updateHandler);
 
 		[Export ("canMoveAnnotation:error:")]
 		bool CanMoveAnnotation (PSPDFAnnotation annotation, [NullAllowed] out NSError error);
@@ -1114,7 +1128,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFBackForwardActionList {
+	interface PSPDFBackForwardActionList : PSPDFOverridable {
 
 		[Export ("initWithDelegate:")]
 		[DesignatedInitializer]
@@ -1205,7 +1219,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFBookmark : INSCopying, INSMutableCopying, INSSecureCoding {
+	interface PSPDFBookmark : INSCopying, INSMutableCopying, INSSecureCoding, PSPDFOverridable {
 
 		[Export ("initWithAction:")]
 		[DesignatedInitializer]
@@ -1445,7 +1459,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFCaretAnnotation {
+	interface PSPDFCaretAnnotation : PSPDFOverridable {
 
 	}
 
@@ -1515,7 +1529,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAbstractShapeAnnotation))]
-	interface PSPDFCircleAnnotation {
+	interface PSPDFCircleAnnotation : PSPDFOverridable {
 
 		[Export ("bezierPath")]
 		UIBezierPath BezierPath { get; }
@@ -1762,6 +1776,19 @@ namespace PSPDFKit.Model {
 		[Export ("initWithData:")]
 		[DesignatedInitializer]
 		IntPtr Constructor (NSData data);
+
+		[Sealed, NullAllowed, Export ("progress")]
+		NSProgress Progress { get; }
+
+		[Export ("createDataSinkWithOptions:error:")]
+		[return: NullAllowed]
+		new IPSPDFDataSink CreateDataSink (PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
+
+		[Export ("replaceContentsWithDataSink:error:")]
+		new bool ReplaceContents (IPSPDFDataSink replacementDataSink, out NSError error);
+
+		[Export ("deleteDataWithError:")]
+		new bool DeleteData ([NullAllowed] out NSError error);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -1814,8 +1841,8 @@ namespace PSPDFKit.Model {
 		[return: NullAllowed]
 		IPSPDFDataSink CreateDataSink (PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
 
-		[Export ("replaceWithDataSink:error:")]
-		bool Replace (IPSPDFDataSink replacementDataSink, out NSError error);
+		[Export ("replaceContentsWithDataSink:error:")]
+		bool ReplaceContents (IPSPDFDataSink replacementDataSink, out NSError error);
 
 		[Export ("canWrite")]
 		bool GetCanWrite ();
@@ -1827,7 +1854,7 @@ namespace PSPDFKit.Model {
 		void ClearCache ();
 
 		[Export ("useDiskCache")]
-		bool UseDiskCache ();
+		bool GetUseDiskCache ();
 	}
 
 	interface IPSPDFDataSink { }
@@ -1838,6 +1865,10 @@ namespace PSPDFKit.Model {
 		[Abstract]
 		[Export ("isFinished")]
 		bool IsFinished { get; }
+
+		[Abstract]
+		[Export ("options")]
+		PSPDFDataSinkOptions Options { get; }
 
 		[Abstract]
 		[Export ("writeData:")]
@@ -2210,7 +2241,7 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("defaultAnnotationUsername")]
 		string DefaultAnnotationUsername { get; set; }
 
-		[Field ("PSPDFAnnotationWriteOptionsGenerateAppearanceStreamForTypeKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFAnnotationWriteOptionGenerateAppearanceStreamForType", PSPDFKitLibraryPath.LibraryPath)]
 		NSString WriteOptionsGenerateAppearanceStreamForTypeKey { get; }
 
 		[NullAllowed, Export ("annotationWritingOptions", ArgumentSemantic.Copy)]
@@ -2462,7 +2493,7 @@ namespace PSPDFKit.Model {
 	delegate void PSPDFDocumentEditorGroupDatesHandlerCompletion (bool completed);
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFDocumentEditor {
+	interface PSPDFDocumentEditor : PSPDFOverridable {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
@@ -2736,7 +2767,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFDocumentProvider {
+	interface PSPDFDocumentProvider : PSPDFOverridable {
 
 		[NullAllowed, Export ("dataProvider")]
 		IPSPDFDataProviding DataProvider { get; }
@@ -3146,7 +3177,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFFileAnnotation {
+	interface PSPDFFileAnnotation : PSPDFOverridable {
 
 		[BindAs (typeof (PSPDFFileIconName))]
 		[Export ("iconName")]
@@ -3158,7 +3189,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFContainerAnnotationProvider))]
 	[DisableDefaultCtor]
-	interface PSPDFFileAnnotationProvider {
+	interface PSPDFFileAnnotationProvider : PSPDFOverridable {
 
 		[Export ("initWithDocumentProvider:")]
 		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
@@ -3258,6 +3289,25 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithFileURL:")]
 		IntPtr Constructor (NSUrl fileUrl);
+
+		[Sealed, NullAllowed, Export ("progress")]
+		NSProgress Progress { get; }
+
+		[Export ("createDataSinkWithOptions:error:")]
+		[return: NullAllowed]
+		new IPSPDFDataSink CreateDataSink (PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
+
+		[Export ("replaceContentsWithDataSink:error:")]
+		new bool ReplaceContents (IPSPDFDataSink replacementDataSink, [NullAllowed] out NSError error);
+
+		[Sealed, Export ("canWrite")]
+		bool CanWrite { get; }
+
+		[Export ("deleteDataWithError:")]
+		new bool DeleteData ([NullAllowed] out NSError error);
+
+		[Export ("clearCache")]
+		new void ClearCache ();
 	}
 
 	interface IPSPDFFileDataProviding { }
@@ -3714,7 +3764,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFFormParser {
+	interface PSPDFFormParser : PSPDFOverridable {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -3745,7 +3795,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFFreeTextAnnotation : PSPDFRotatable {
+	interface PSPDFFreeTextAnnotation : PSPDFRotatable, PSPDFOverridable {
 
 		[Field ("PSPDFFreeTextAnnotationIntentTransformerName", PSPDFKitLibraryPath.LibraryPath)]
 		NSString IntentTransformerName { get; }
@@ -3795,9 +3845,9 @@ namespace PSPDFKit.Model {
 		[Export ("setTextBoundingBoxSize:")]
 		void SetTextBoundingBoxSize (CGSize size);
 
-		[Export ("convertToIntentType:")]
+		[Export ("convertIntentTypeTo:")]
 		[return: NullAllowed]
-		string [] ConvertTo (PSPDFFreeTextAnnotationIntent intentType);
+		NSString [] ConvertIntentType (PSPDFFreeTextAnnotationIntent newIntent);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -3850,7 +3900,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
-	interface PSPDFHighlightAnnotation {
+	interface PSPDFHighlightAnnotation : PSPDFOverridable {
 
 		[Static]
 		[Export ("textOverlayAnnotationWithGlyphs:")]
@@ -3939,7 +3989,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAbstractShapeAnnotation))]
-	interface PSPDFInkAnnotation {
+	interface PSPDFInkAnnotation : PSPDFOverridable {
 
 		[Export ("initWithLines:"), Internal]
 		IntPtr InitWithLines (IntPtr lines);
@@ -3977,51 +4027,39 @@ namespace PSPDFKit.Model {
 		string Script { get; }
 	}
 
-	interface IPSPDFSettings { }
-
-	[Protocol]
-	interface PSPDFSettings {
-
-		[Abstract]
-		[Export ("objectForKeyedSubscript:")]
-		[return: NullAllowed]
-		NSObject GetObject (NSObject key);
-
-		[Abstract]
-		[Export ("boolForKey:")]
-		bool GetBool (string key);
-	}
-
 	delegate string PSPDFKitLogMessageHandler ();
 	delegate void PSPDFKitLogHandler (PSPDFLogLevelMask type, IntPtr strTag, [BlockCallback] PSPDFKitLogMessageHandler message, IntPtr strFile, IntPtr strFunction, nuint line);
 	delegate UIImage PSPDFKitImageLoadingHandler (string imageName);
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFKitGlobal : PSPDFSettings {
+	interface PSPDFKitGlobal {
 
-		[Field ("PSPDFXCallbackURLStringKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyXCallbackURLString", PSPDFKitLibraryPath.LibraryPath)]
 		NSString XCallbackUrlStringKey { get; }
 
-		[Field ("PSPDFApplicationPolicyKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyApplicationPolicy", PSPDFKitLibraryPath.LibraryPath)]
 		NSString ApplicationPolicyKey { get; }
 
-		[Field ("PSPDFFileManagerKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyFileManager", PSPDFKitLibraryPath.LibraryPath)]
 		NSString FileManagerKey { get; }
 
-		[Field ("PSPDFCoordinatedFileManagerKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyCoordinatedFileManager", PSPDFKitLibraryPath.LibraryPath)]
 		NSString CoordinatedFileManagerKey { get; }
 
-		[Field ("PSPDFFileCoordinationEnabledKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyFileCoordinationEnabled", PSPDFKitLibraryPath.LibraryPath)]
 		NSString FileCoordinationEnabledKey { get; }
 
-		[Field ("PSPDFLibraryIndexingPriorityKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyLibraryIndexingPriority", PSPDFKitLibraryPath.LibraryPath)]
 		NSString LibraryIndexingPriorityKey { get; }
 
-		[Field ("PSPDFKitDebugModeKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyDebugMode", PSPDFKitLibraryPath.LibraryPath)]
 		NSString DebugModeKey { get; }
 
-		[Field ("PSPDFAdditionalFontDirectories", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFSettingKeyAdditionalFontDirectories", PSPDFKitLibraryPath.LibraryPath)]
 		NSString AdditionalFontDirectoriesKey { get; }
+
+		[Field ("PSPDFSettingKeyHonorDocumentPermissions", PSPDFKitLibraryPath.LibraryPath)]
+		NSString HonorDocumentPermissionsKey { get; }
 
 		[Static]
 		[Export ("sharedInstance")]
@@ -4054,6 +4092,13 @@ namespace PSPDFKit.Model {
 		[Static]
 		[Export ("isFeatureEnabled:")]
 		bool IsFeatureEnabled (PSPDFFeatureMask feature);
+
+		[Export ("objectForKeyedSubscript:")]
+		[return: NullAllowed]
+		NSObject GetObject (NSString key);
+
+		[Export ("boolForKey:")]
+		bool GetBool (NSString key);
 
 		[Export ("setObject:forKeyedSubscript:")]
 		void SetObject (NSObject @object, NSString key);
@@ -4103,7 +4148,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFLabelParser {
+	interface PSPDFLabelParser : PSPDFOverridable {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -4418,7 +4463,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAbstractLineAnnotation))]
-	interface PSPDFLineAnnotation {
+	interface PSPDFLineAnnotation : PSPDFOverridable {
 
 		[Export ("initWithPoint1:point2:")]
 		IntPtr Constructor (CGPoint point1, CGPoint point2);
@@ -4431,7 +4476,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFLinkAnnotation {
+	interface PSPDFLinkAnnotation : PSPDFOverridable {
 
 		[Export ("initWithLinkAnnotationType:")]
 		IntPtr Constructor (PSPDFLinkAnnotationType linkAnnotationType);
@@ -4597,7 +4642,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFNoteAnnotation {
+	interface PSPDFNoteAnnotation : PSPDFOverridable {
 
 		[Export ("initWithContents:")]
 		IntPtr Constructor (string contents);
@@ -4666,7 +4711,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFOutlineParser {
+	interface PSPDFOutlineParser : PSPDFOverridable {
 
 		[Export ("outlineElementForPageAtIndex:exactPageOnly:")]
 		[return: NullAllowed]
@@ -4690,8 +4735,6 @@ namespace PSPDFKit.Model {
 	[Protocol]
 	interface PSPDFOverridable {
 
-		[Export ("classForClass:")]
-		Class GetClassForClass (Class originalClass);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -4800,7 +4843,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAbstractLineAnnotation))]
-	interface PSPDFPolygonAnnotation {
+	interface PSPDFPolygonAnnotation : PSPDFOverridable {
 
 		[Export ("initWithPoints:intentType:")]
 		IntPtr Constructor (NSValue [] points, PSPDFPolygonAnnotationIntent intentType);
@@ -4810,14 +4853,14 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAbstractLineAnnotation))]
-	interface PSPDFPolyLineAnnotation {
+	interface PSPDFPolyLineAnnotation : PSPDFOverridable {
 
 		[Export ("initWithPoints:")]
 		IntPtr Constructor (NSValue [] points);
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFPopupAnnotation {
+	interface PSPDFPopupAnnotation : PSPDFOverridable {
 
 		[Export ("open")]
 		bool Open { [Bind ("isOpen")] get; set; }
@@ -5421,7 +5464,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAssetAnnotation))]
-	interface PSPDFRichMediaAnnotation {
+	interface PSPDFRichMediaAnnotation : PSPDFOverridable {
 
 	}
 
@@ -5453,7 +5496,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAssetAnnotation))]
-	interface PSPDFScreenAnnotation {
+	interface PSPDFScreenAnnotation : PSPDFOverridable {
 
 		[Export ("mediaScreenWindowType")]
 		PSPDFMediaScreenWindowType MediaScreenWindowType { get; }
@@ -5592,7 +5635,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFSignatureContainer : INSSecureCoding {
+	interface PSPDFSignatureContainer : INSSecureCoding, PSPDFOverridable {
 
 		[Export ("initWithAnnotation:signer:biometricProperties:")]
 		[DesignatedInitializer]
@@ -5851,20 +5894,7 @@ namespace PSPDFKit.Model {
 
 	[DisableDefaultCtor]
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFSoundAnnotation {
-
-		[Static]
-		[Export ("recordingAnnotationAvailable")]
-		bool RecordingAnnotationAvailable { get; }
-
-		[Export ("initWithRecorder")]
-		IntPtr Constructor ();
-
-		[Export ("initWithRecorderOptions:")]
-		IntPtr Constructor ([NullAllowed] NSDictionary options);
-
-		[Export ("initWithURL:error:")]
-		IntPtr Constructor (NSUrl soundUrl, [NullAllowed] out NSError error);
+	interface PSPDFSoundAnnotation : PSPDFOverridable {
 
 		[Export ("controller")]
 		PSPDFSoundAnnotationController Controller { get; }
@@ -5872,11 +5902,12 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("iconName")]
 		string IconName { get; set; }
 
+		[Static]
+		[Export ("recordingAnnotationAvailable")]
+		bool RecordingAnnotationAvailable { get; }
+
 		[Export ("canRecord")]
 		bool CanRecord { get; }
-
-		[NullAllowed, Export ("soundURL", ArgumentSemantic.Copy)]
-		NSUrl SoundUrl { get; }
 
 		[Export ("bits")]
 		nuint Bits { get; }
@@ -5888,16 +5919,26 @@ namespace PSPDFKit.Model {
 		nuint Channels { get; }
 
 		[NullAllowed, Export ("encoding")]
-		NSString WeakEncoding { get; }
+		string Encoding { get; }
 
-		[Wrap ("PSPDFSoundAnnotationEncodingExtensions.GetValue (WeakEncoding)")]
-		PSPDFSoundAnnotationEncoding Encoding { get; }
+		[NullAllowed, Export ("soundURL", ArgumentSemantic.Copy)]
+		NSUrl SoundUrl { get; }
 
 		[Export ("loadAttributesFromAudioFile:")]
 		bool LoadAttributesFromAudioFile ([NullAllowed] out NSError error);
 
 		[NullAllowed, Export ("soundData")]
 		NSData SoundData { get; }
+
+		[Export ("initWithURL:error:")]
+		IntPtr Constructor (NSUrl soundUrl, [NullAllowed] out NSError error);
+
+		[Export ("initWithRecorderOptions:")]
+		IntPtr Constructor ([NullAllowed] NSDictionary recorderOptions);
+
+		[Static]
+		[Export ("audioFormatIDFromEncoding:")]
+		uint GetAudioFormatId ([NullAllowed] string fromEncoding);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -5957,14 +5998,14 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAbstractShapeAnnotation))]
-	interface PSPDFSquareAnnotation {
+	interface PSPDFSquareAnnotation : PSPDFOverridable {
 
 		[Export ("bezierPath")]
 		UIBezierPath BezierPath { get; }
 	}
 
 	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
-	interface PSPDFSquigglyAnnotation {
+	interface PSPDFSquigglyAnnotation : PSPDFOverridable {
 
 		[Static]
 		[Export ("textOverlayAnnotationWithGlyphs:")]
@@ -5978,7 +6019,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFStampAnnotation : PSPDFRotatable {
+	interface PSPDFStampAnnotation : PSPDFRotatable, PSPDFOverridable {
 
 		[Static]
 		[Export ("colorForStampType:")]
@@ -6021,7 +6062,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
-	interface PSPDFStrikeOutAnnotation {
+	interface PSPDFStrikeOutAnnotation : PSPDFOverridable {
 
 		[Static]
 		[Export ("textOverlayAnnotationWithGlyphs:")]
@@ -6135,7 +6176,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFTextParser {
+	interface PSPDFTextParser : PSPDFOverridable {
 
 		[Export ("text")]
 		string Text { get; }
@@ -6189,7 +6230,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFTextSearch : INSCopying {
+	interface PSPDFTextSearch : INSCopying, PSPDFOverridable {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
@@ -6232,7 +6273,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFTextMarkupAnnotation))]
-	interface PSPDFUnderlineAnnotation {
+	interface PSPDFUnderlineAnnotation : PSPDFOverridable {
 
 		[Static]
 		[Export ("textOverlayAnnotationWithGlyphs:")]
@@ -6407,7 +6448,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFWidgetAnnotation {
+	interface PSPDFWidgetAnnotation : PSPDFOverridable {
 
 		[NullAllowed, Export ("action", ArgumentSemantic.Strong)]
 		PSPDFAction Action { get; set; }
@@ -6558,6 +6599,18 @@ namespace PSPDFKit.Model {
 
 		[Export ("canShowAnnotationReplies")]
 		bool GetCanShowAnnotationReplies ();
+
+		[Export ("canUseDocumentEditor")]
+		bool GetCanUseDocumentEditor ();
+
+		[Export ("canFillForms")]
+		bool GetCanFillForms ();
+
+		[Export ("canEditAnnotations")]
+		bool GetCanEditAnnotations ();
+
+		[Export ("canExtractTextAndImages")]
+		bool GetCanExtractTextAndImages ();
 	}
 
 	interface IPSPDFDocumentFeaturesObserver { }
@@ -6805,7 +6858,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFRedactionAnnotation {
+	interface PSPDFRedactionAnnotation : PSPDFOverridable {
 
 		[NullAllowed, Export ("outlineColor", ArgumentSemantic.Assign)]
 		UIColor OutlineColor { get; set; }
@@ -6964,5 +7017,57 @@ namespace PSPDFKit.Model {
 
 		[Export ("drawAppearanceStream")]
 		bool DrawAppearanceStream { get; set; }
+	}
+
+	[Static]
+	interface PSPDFAnnotationStyleKey {
+
+		[Field ("PSPDFAnnotationStyleKeyColor", PSPDFKitLibraryPath.LibraryPath)]
+		NSString Color { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyFillColor", PSPDFKitLibraryPath.LibraryPath)]
+		NSString FillColor { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyAlpha", PSPDFKitLibraryPath.LibraryPath)]
+		NSString Alpha { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyLineWidth", PSPDFKitLibraryPath.LibraryPath)]
+		NSString LineWidth { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyDashArray", PSPDFKitLibraryPath.LibraryPath)]
+		NSString DashArray { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyLineEnd", PSPDFKitLibraryPath.LibraryPath)]
+		NSString LineEnd { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyLineEnd1", PSPDFKitLibraryPath.LibraryPath)]
+		NSString LineEnd1 { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyLineEnd2", PSPDFKitLibraryPath.LibraryPath)]
+		NSString LineEnd2 { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyFontName", PSPDFKitLibraryPath.LibraryPath)]
+		NSString FontName { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyFontSize", PSPDFKitLibraryPath.LibraryPath)]
+		NSString FontSize { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyTextAlignment", PSPDFKitLibraryPath.LibraryPath)]
+		NSString TextAlignment { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyBlendMode", PSPDFKitLibraryPath.LibraryPath)]
+		NSString BlendMode { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyCalloutAction", PSPDFKitLibraryPath.LibraryPath)]
+		NSString CalloutAction { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyOutlineColor", PSPDFKitLibraryPath.LibraryPath)]
+		NSString OutlineColor { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyOverlayText", PSPDFKitLibraryPath.LibraryPath)]
+		NSString OverlayText { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyRepeatOverlayText", PSPDFKitLibraryPath.LibraryPath)]
+		NSString RepeatOverlayText { get; }
 	}
 }
