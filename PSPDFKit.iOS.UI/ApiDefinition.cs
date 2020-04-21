@@ -6784,6 +6784,9 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (PSPDFFormElementView))]
 	interface PSPDFTextFieldFormElementView : IUITextViewDelegate, IUITextFieldDelegate, IPSPDFOverridable {
 
+		[Export("initWithFrame:")]
+		IntPtr Constructor(CGRect frame);
+
 		[Export ("beginEditing")]
 		void BeginEditing ();
 
