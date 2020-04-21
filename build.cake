@@ -1,7 +1,7 @@
 #addin nuget:?package=Cake.Git&version=0.21.0
 
 var IOSVERSION = Argument("iosversion", "9.3.0");
-var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
+var IOS_SERVICERELEASE_VERSION = "1"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
 var MACVERSION = Argument("macversion", "4.3.0");
 var MACOS_SERVICERELEASE_VERSION = "0"; // This is combined with the MACVERSION variable for the NuGet Package version
@@ -165,12 +165,15 @@ Task ("NuGet")
 Task ("NuGet-Push")
 	.IsDependentOn("Nuget")
 	.Does (() =>
+
+	var head = GitLogTip("./");
+	var commit = head.Sha.Substring (0,7);
 {
 	// Get the path to the packages
-	var modelPackage = "./nuget/pkgs/PSPDFKit.iOS.Model." + IOSVERSION +".nupkg";
-	var uiPackage = "./nuget/pkgs/PSPDFKit.iOS.UI." + IOSVERSION +".nupkg";
-	var instantPackage = "./nuget/pkgs/PSPDFKit.iOS.Instant." + IOSVERSION +".nupkg";
-	var macModelPackage = "./nuget/pkgs/PSPDFKit.Mac.Model." + MACVERSION +".nupkg";
+	var modelPackage = "./nuget/pkgs/PSPDFKit.iOS.Model." + IOSVERSION + $".{IOS_SERVICERELEASE_VERSION}+sha.{commit}.nupkg";
+	var uiPackage = "./nuget/pkgs/PSPDFKit.iOS.UI." + IOSVERSION + $".{IOS_SERVICERELEASE_VERSION}+sha.{commit}.nupkg";
+	var instantPackage = "./nuget/pkgs/PSPDFKit.iOS.Instant." + IOSVERSION + $".{IOS_SERVICERELEASE_VERSION}+sha.{commit}.nupkg";
+	var macModelPackage = "./nuget/pkgs/PSPDFKit.Mac.Model." + MACVERSION + $"{MACOS_SERVICERELEASE_VERSION}+sha.{commit}.nupkg";
 
 	// Push the packages
 	NuGetPush(modelPackage, new NuGetPushSettings {
