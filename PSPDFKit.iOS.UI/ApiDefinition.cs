@@ -3372,6 +3372,9 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (UIView))]
 	interface PSPDFFormInputAccessoryView : IPSPDFOverridable {
 
+		[Export ("initWithFrame:")]
+		IntPtr Constructor (CGRect frame);
+
 		[Export ("displayDoneButton")]
 		bool DisplayDoneButton { get; set; }
 
