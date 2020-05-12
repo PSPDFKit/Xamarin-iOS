@@ -8368,4 +8368,44 @@ namespace PSPDFKit.UI {
 		[Export ("enabled")]
 		bool Enabled { get; set; }
 	}
+
+	delegate bool PSPDFSubmissionControllerShouldContinueHandler (PSPDFFormRequest formRequest);
+	delegate void PSPDFSubmissionControllerBeforeSubmissionHandler (PSPDFFormRequest formRequest);
+	delegate void PSPDFSubmissionControllerCompletionHandler (NSData data, NSUrlResponse arresponseg1);
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFFormSubmissionController {
+
+		[Field ("PSPDFFormSubmissionControllerDidStartLoadingNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString DidStartLoadingNotification { get; }
+
+		[Field ("PSPDFFormSubmissionControllerDidFinishLoadingNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString DidFinishLoadingNotification { get; }
+
+		[Field ("PSPDFFormSubmissionControllerDidFailToLoadNotification", PSPDFKitGlobal.LibraryPath)]
+		[Notification]
+		NSString DidFailToLoadNotification { get; }
+
+		[Export ("initWithDocumentProvider:action:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFDocumentProvider documentProvider, PSPDFSubmitFormAction action);
+
+		[Export ("documentProvider")]
+		PSPDFDocumentProvider DocumentProvider { get; }
+
+		[Export ("action")]
+		PSPDFSubmitFormAction Action { get; }
+
+		[Export ("formRequest", ArgumentSemantic.Strong)]
+		PSPDFFormRequest FormRequest { get; set; }
+
+		[Export ("submissionPathExtension")]
+		string SubmissionPathExtension { get; }
+
+		[Export ("submitContinueWhen:beforeSubmission:onCompletion:onError:")]
+		void SubmitContinue (PSPDFSubmissionControllerShouldContinueHandler continueHandler, PSPDFSubmissionControllerBeforeSubmissionHandler beforeSubmissionHandler, PSPDFSubmissionControllerCompletionHandler completionHandler, Action<NSError> errorHandler);
+	}
 }

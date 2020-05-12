@@ -5095,8 +5095,12 @@ namespace PSPDFKit.Model {
 		[Export ("changeStrokeColorOnPageAtIndex:toColor:")]
 		void ChangeStrokeColorOnPage (nuint pageIndex, UIColor color);
 
+		[Obsolete ("Use 'MergeAutoRotatedPage' instead.")]
 		[Export ("mergePageFromDocument:password:sourcePageIndex:destinationPageIndex:transform:blendMode:")]
 		void MergePage (PSPDFDocument sourceDocument, [NullAllowed] string password, nuint sourcePageIndex, nuint destinationPageIndex, CGAffineTransform transform, CGBlendMode blendMode);
+
+		[Export ("mergeAutoRotatedPageFromDocument:password:sourcePageIndex:destinationPageIndex:transform:blendMode:")]
+		void MergeAutoRotatedPage (PSPDFDocument sourceDocument, [NullAllowed] string password, nuint sourcePageIndex, nuint destinationPageIndex, CGAffineTransform transform, CGBlendMode blendMode);
 
 		[Export ("applyRedactions")]
 		void ApplyRedactions ();
