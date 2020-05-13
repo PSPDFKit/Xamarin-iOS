@@ -152,31 +152,39 @@ Task ("NuGet")
 		}
 	});
 
-	NuGetPack ("./nuget/pspdfkit-mac-model.nuspec", new NuGetPackSettings {
-		Version = $"{MACVERSION}.{MACOS_SERVICERELEASE_VERSION}+sha.{commit}",
-		OutputDirectory = "./nuget/pkgs/",
-		BasePath = "./",
-		Properties = new Dictionary<string, string> {
-			{"NoWarn", "NU5105"},
-		}
-	});
+	// Only build if framework is present
+	if (DirectoryExists ("./PSPDFKit.Mac.Model/PSPDFKit.framework/")) {
+		NuGetPack ("./nuget/pspdfkit-mac-model.nuspec", new NuGetPackSettings {
+			Version = $"{MACVERSION}.{MACOS_SERVICERELEASE_VERSION}+sha.{commit}",
+			OutputDirectory = "./nuget/pkgs/",
+			BasePath = "./",
+			Properties = new Dictionary<string, string> {
+				{"NoWarn", "NU5105"},
+			}
+		});
+	}
 });
 
 Task ("NuGet-Push")
 	.IsDependentOn("Nuget")
 	.Does (() =>
-{
+{	
 	var iOSFullVersion = IOSVERSION;
-	
-	if (IOS_SERVICERELEASE_VERSION != "0") {
-		iOSFullVersion = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}";
-	}
+	var macOSFullVersion = IOSVERSION;
 
+ 	if (IOS_SERVICERELEASE_VERSION != "0") {
+ 		iOSFullVersion = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}";
+ 	}
+
+	if (MACOS_SERVICERELEASE_VERSION != "0") {
+ 		macOSFullVersion = $"{MACVERSION}.{MACOS_SERVICERELEASE_VERSION}";
+ 	}
+	
 	// Get the path to the packages
 	var modelPackage = $"./nuget/pkgs/PSPDFKit.iOS.Model.{iOSFullVersion}.nupkg";
-	var uiPackage = $"./nuget/pkgs/PSPDFKit.iOS.UI.{iOSFullVersion}.nupkg";
-	var instantPackage = $"./nuget/pkgs/PSPDFKit.iOS.Instant.{iOSFullVersion}.nupkg";
-	var macModelPackage = $"./nuget/pkgs/PSPDFKit.Mac.Model.{MACVERSION}.nupkg";
+ 	var uiPackage = $"./nuget/pkgs/PSPDFKit.iOS.UI.{iOSFullVersion}.nupkg";
+ 	var instantPackage = $"./nuget/pkgs/PSPDFKit.iOS.Instant.{iOSFullVersion}.nupkg";
+ 	var macModelPackage = $"./nuget/pkgs/PSPDFKit.Mac.Model.{macOSFullVersion}.nupkg";
 
 	// Push the packages
 	NuGetPush(modelPackage, new NuGetPushSettings {
@@ -194,10 +202,13 @@ Task ("NuGet-Push")
 			ApiKey = NUGET_API_KEY
 	});
 
-	NuGetPush(macModelPackage, new NuGetPushSettings {
-			Source = "https://api.nuget.org/v3/index.json",
-			ApiKey = NUGET_API_KEY
-	});
+	// Only push if framework is present
+	if (DirectoryExists ("./PSPDFKit.Mac.Model/PSPDFKit.framework/")) {
+		NuGetPush(macModelPackage, new NuGetPushSettings {
+				Source = "https://api.nuget.org/v3/index.json",
+				ApiKey = NUGET_API_KEY
+		});
+	}
 });
 
 Task ("Clean")

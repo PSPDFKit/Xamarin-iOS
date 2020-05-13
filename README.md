@@ -1,7 +1,7 @@
 Xamarin PSPDFKit for iOS and Mac Bindings
 =========================================
 
-- Xamarin.iOS Bindings for PSPDFKit 9.3.0 for iOS
+- Xamarin.iOS Bindings for PSPDFKit 9.3.2 for iOS
 - Xamarin.Mac Bindings for PSPDFKit 4.3.0 for macOS
 
 #### PSPDFKit
@@ -54,8 +54,8 @@ Now you are done and can skip to [step 3](https://github.com/PSPDFKit/Xamarin-iO
 
 1. In order to use this C# binding because Xamarin does not support `xcframework` yet, you will need to obtain the full PSPDFKit framework files using the `COCOAPODS_KEY` from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow).
 2. Replace `COCOAPODS_KEY` with your key and download the following two zip files.
-    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/pspdfkit/9.3.0.zip
-    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/instant/9.3.0.zip
+    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/pspdfkit/9.3.2.zip
+    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/instant/9.3.2.zip
 3. Extract the zip files you downloaded above and copy the following files into the specified directories:
 
 iOS: From **PSPDFKit-for-iOS** zip.
