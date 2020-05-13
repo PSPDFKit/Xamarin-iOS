@@ -1,7 +1,7 @@
 #addin nuget:?package=Cake.Git&version=0.21.0
 
 var IOSVERSION = Argument("iosversion", "9.3.2");
-var IOS_SERVICERELEASE_VERSION = "1"; // This is combined with the IOSVERSION variable for the NuGet Package version
+var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
 var MACVERSION = Argument("macversion", "4.3.0");
 var MACOS_SERVICERELEASE_VERSION = "0"; // This is combined with the MACVERSION variable for the NuGet Package version
@@ -168,8 +168,7 @@ Task ("NuGet")
 Task ("NuGet-Push")
 	.IsDependentOn("Nuget")
 	.Does (() =>
-{
-	
+{	
 	var iOSFullVersion = IOSVERSION;
 	var macOSFullVersion = IOSVERSION;
 
