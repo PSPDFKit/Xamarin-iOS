@@ -55,8 +55,7 @@ namespace PSPDFCatalog
             var searchstring = "";
 
             // You can set some options for the search
-            var options = new NSMutableDictionary<NSObject, NSString>();
-            options[PSPDFLibrarySearchResultsOptionsKeys.MatchExactPhrasesOnlyKey] = new NSString("YES");
+            var options = new PSPDFLibraryOptions { MatchExactPhrasesOnly = true };
 
             var alert = UIAlertController.Create("", "Start Full-Text Search with String:", UIAlertControllerStyle.Alert);
 

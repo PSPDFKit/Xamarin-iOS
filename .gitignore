@@ -5,7 +5,7 @@
 [Bb]in
 [Dd]ebug*/
 obj/
-tmp/
+cache/
 StylusDrivers/externals/
 *.g.cs
 *.pidb

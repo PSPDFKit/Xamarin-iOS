@@ -11,7 +11,7 @@ namespace PSPDFKit.Instant {
 
 	[Native]
 	//[ErrorDomain ("PSPDFInstantErrorDomain")]
-	public enum PSPDFInstantError : long {
+	public enum PSPDFInstantErrorCode : long {
 		Unknown = 1,
 		FeatureUnsupported = 2,
 		InvalidDocument = 3,
@@ -29,6 +29,7 @@ namespace PSPDFKit.Instant {
 		RequestFailed = 16,
 		InvalidServerData = 17,
 		InvalidRequest = 18,
+		PayloadLimitExceeded = 19,
 		OldClient = 21,
 		OldServer = 22,
 		InvalidJwt = 32,

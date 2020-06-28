@@ -292,7 +292,7 @@ namespace PSPDFKit.Model {
 		}
 	}
 
-	public partial class PSPDFLibrarySearchResultsOptions : DictionaryContainer {
+	public partial class PSPDFLibraryOptions : DictionaryContainer {
 
 		public NSRange PreviewRange {
 			get => WeakPreviewRange.RangeValue;

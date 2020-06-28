@@ -1,13 +1,60 @@
 #addin nuget:?package=Cake.Git&version=0.21.0
+#addin nuget:?package=Newtonsoft.Json&version=12.0.3
 
-var IOSVERSION = Argument("iosversion", "9.3.2");
+using System.Net.Http;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+
+var IOSVERSION = Argument("iosversion", "9.4.0");
 var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
-var MACVERSION = Argument("macversion", "4.3.0");
+var MACVERSION = Argument("macversion", "4.4.0");
 var MACOS_SERVICERELEASE_VERSION = "0"; // This is combined with the MACVERSION variable for the NuGet Package version
 
 var target = Argument ("target", "Default");
 var NUGET_API_KEY = EnvironmentVariable("NUGET_API_KEY");
+
+Task ("DownloadDeps")
+	.Description ("Downloads frameworks")
+	.Does (async () => {
+		Information ("Downloading all the dependencies please wait...");
+
+		if (!IsRunningOnUnix ()) {
+			Error ("*** This can only be run in macOS. ***");
+			return;
+		}
+
+		var iosUrl = $"https://customers.pspdfkit.com/pspdfkit-ios/{IOSVERSION}.podspec.json";
+		var instantUrl = $"https://customers.pspdfkit.com/instant/{IOSVERSION}.podspec.json";
+		var macosUrl = $"https://customers.pspdfkit.com/pspdfkit-macos/{MACVERSION}.podspec.json";
+
+		var iosDlUrl = await ResolveDownloadUrl (iosUrl);
+		var instantDlUrl = await ResolveDownloadUrl (instantUrl);
+		var macosDlUrl = await ResolveDownloadUrl (macosUrl);
+
+		CreateDirectory("./cache");
+		DownloadFile (iosDlUrl, $"./cache/ios.zip");
+		DownloadFile (instantDlUrl, $"./cache/instant.zip");
+		DownloadFile (macosDlUrl, $"./cache/mac.zip");
+
+		UnzipFile ($"./cache/ios.zip", $"./cache");
+		UnzipFile ($"./cache/instant.zip", $"./cache");
+		UnzipFile ($"./cache/mac.zip", $"./cache");
+
+		CopyDir ("./cache/PSPDFKit.framework", "./PSPDFKit.Mac.Model/PSPDFKit.framework");
+		CopyDir ("./cache/PSPDFKit.xcframework/ios-arm64/PSPDFKit.framework", "./PSPDFKit.iOS.Model/PSPDFKit.framework");
+		CopyDir ("./cache/PSPDFKitUI.xcframework/ios-arm64/PSPDFKitUI.framework", "./PSPDFKit.iOS.UI/PSPDFKitUI.framework");
+		CopyDir ("./cache/Instant.xcframework/ios-arm64/Instant.framework", "./PSPDFKit.iOS.Instant/Instant.framework");
+
+		DeleteFile ("./PSPDFKit.iOS.Instant/Instant.framework/Instant");
+		DeleteFile ("./PSPDFKit.iOS.UI/PSPDFKitUI.framework/PSPDFKitUI");
+		DeleteFile ("./PSPDFKit.iOS.Model/PSPDFKit.framework/PSPDFKit");
+
+		LipoCreate ("./PSPDFKit.iOS.Model/PSPDFKit.framework/PSPDFKit", "./cache/PSPDFKit.xcframework/ios-arm64/PSPDFKit.framework/PSPDFKit", "./cache/PSPDFKit.xcframework/ios-x86_64-simulator/PSPDFKit.framework/PSPDFKit");
+		LipoCreate ("./PSPDFKit.iOS.UI/PSPDFKitUI.framework/PSPDFKitUI", "./cache/PSPDFKitUI.xcframework/ios-arm64/PSPDFKitUI.framework/PSPDFKitUI", "./cache/PSPDFKitUI.xcframework/ios-x86_64-simulator/PSPDFKitUI.framework/PSPDFKitUI");
+		LipoCreate ("./PSPDFKit.iOS.Instant/Instant.framework/Instant", "./cache/Instant.xcframework/ios-arm64/Instant.framework/Instant", "./cache/Instant.xcframework/ios-x86_64-simulator/Instant.framework/Instant");
+	}
+);
 
 Task ("MacModel")
 	.Description ("Builds 'PSPDFKit.Mac.Model.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.Mac.Model/' Directory\n")
@@ -84,6 +131,7 @@ Task ("RestoreNugets")
 Task ("ios")
 	.Description ("Builds iOS PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
+	.IsDependentOn ("DownloadDeps")
 	.IsDependentOn ("RestoreNugets")
 	.IsDependentOn ("iOSModel")
 	.IsDependentOn ("iOSUI")
@@ -105,6 +153,7 @@ Task ("mac")
 Task ("Default")
 	.Description ("Builds all PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
+	.IsDependentOn ("DownloadDeps")
 	.IsDependentOn ("RestoreNugets")
 	.IsDependentOn ("iOSModel")
 	.IsDependentOn ("iOSUI")
@@ -116,13 +165,13 @@ Task ("Default")
 );
 
 Task ("NuGet")
-	.IsDependentOn("Default")
+	.IsDependentOn ("Default")
 	.Does (() =>
 {
-	if(!DirectoryExists("./nuget/pkgs/"))
-		CreateDirectory("./nuget/pkgs");
+	if(!DirectoryExists ("./nuget/pkgs/"))
+		CreateDirectory ("./nuget/pkgs");
 
-	var head = GitLogTip("./");
+	var head = GitLogTip ("./");
 	var commit = head.Sha.Substring (0,7);
 
 	NuGetPack ("./nuget/pspdfkit-ios-model.nuspec", new NuGetPackSettings {
@@ -214,50 +263,92 @@ Task ("NuGet-Push")
 Task ("Clean")
 	.Description ("Cleans the build.\n")
 	.Does (() => {
-		if (FileExists ("./PSPDFKit.iOS.Model.dll"))
-			DeleteFile ("./PSPDFKit.iOS.Model.dll");
+		var nukeFiles = new [] {
+			"./PSPDFKit.iOS.Model.dll",
+			"./PSPDFKit.iOS.UI.dll",
+			"./PSPDFKit.iOS.Instant.dll",
+			"./PSPDFKit.Mac.Model.dll",
+		};
 
-		if (FileExists ("./PSPDFKit.iOS.UI.dll"))
-			DeleteFile ("./PSPDFKit.iOS.UI.dll");
+		foreach (var file in nukeFiles) {
+			Console.WriteLine (file);
+			if (FileExists ($"{file}"))
+				Nuke ($"{file}");
+		}
 
-		if (FileExists ("./PSPDFKit.iOS.Instant.dll"))
-			DeleteFile ("./PSPDFKit.iOS.Instant.dll");
+		var projdirs = new [] {
+			"./PSPDFKit.iOS.Model",
+			"./PSPDFKit.iOS.UI",
+			"./PSPDFKit.iOS.Instant",
+			"./PSPDFKit.Mac.Model",
+			"./MacPdfViewer",
+			"./PSPDFCatalog/PSPDFCatalog",
+			"./XamarinForms/iOS",
+			"./XamarinForms/XFSample",
+		};
 
-		if (FileExists ("./PSPDFKit.Mac.Model.dll"))
-			DeleteFile ("./PSPDFKit.Mac.Model.dll");
+		foreach (var proj in projdirs) {
+			Console.WriteLine (proj);
+			if (DirectoryExists ($"{proj}/bin/"))
+				Nuke ($"{proj}/bin");
 
-		var delDirSettings = new DeleteDirectorySettings { Recursive = true, Force = true };
+			if (DirectoryExists ($"{proj}/obj/"))
+				Nuke ($"{proj}/obj");
+		}
 
-		if (DirectoryExists ("./PSPDFKit.iOS.Model/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS.Model/bin", delDirSettings);
+		var nukedirs = new [] {
+			"./packages",
+			"./nuget/pkgs",
+			"./cache",
+			"./PSPDFKit.iOS.Model/PSPDFKit.framework",
+			"./PSPDFKit.Mac.Model/PSPDFKit.framework",
+			"./PSPDFKit.iOS.UI/PSPDFKitUI.framework",
+			"./PSPDFKit.iOS.Instant/Instant.framework",
+		};
 
-		if (DirectoryExists ("./PSPDFKit.iOS.Model/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS.Model/obj", delDirSettings);
-
-		if (DirectoryExists ("./PSPDFKit.iOS.UI/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS.UI/bin", delDirSettings);
-
-		if (DirectoryExists ("./PSPDFKit.iOS.UI/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS.UI/obj", delDirSettings);
-
-		if (DirectoryExists ("./PSPDFKit.iOS.Instant/bin/"))
-			DeleteDirectory ("./PSPDFKit.iOS.Instant/bin", delDirSettings);
-
-		if (DirectoryExists ("./PSPDFKit.iOS.Instant/obj/"))
-			DeleteDirectory ("./PSPDFKit.iOS.Instant/obj", delDirSettings);
-
-		if (DirectoryExists ("./PSPDFKit.Mac.Model/bin/"))
-			DeleteDirectory ("./PSPDFKit.Mac.Model/bin", delDirSettings);
-
-		if (DirectoryExists ("./PSPDFKit.Mac.Model/obj/"))
-			DeleteDirectory ("./PSPDFKit.Mac.Model/obj", delDirSettings);
-
-		if (DirectoryExists ("./packages/"))
-			DeleteDirectory ("./packages", delDirSettings);
-
-		if(DirectoryExists("./nuget/pkgs/"))
-			DeleteDirectory ("./nuget/pkgs", delDirSettings);
+		foreach (var dir in nukedirs) {
+			Console.WriteLine (dir);
+			if (DirectoryExists ($"{dir}/"))
+				Nuke ($"{dir}");
+		}
 	}
 );
+
+static HttpClient client = new HttpClient ();
+static async Task<string> ResolveDownloadUrl (string url)
+{
+	var json = await client.GetStringAsync (url);
+	var jobj = JObject.Parse (json);
+	return (string) jobj["source"]["http"];
+}
+
+void LipoCreate (FilePath binaryPath, params FilePath [] thinBinaries)
+{
+	var args = string.Join (" ", thinBinaries.Select (i => $"\"{i}\""));
+	StartProcess ("lipo", new ProcessSettings {
+		Arguments = $"-create -output \"{binaryPath}\" {args}"
+	});
+}
+
+void CopyDir (FilePath origin, FilePath destination)
+{
+	StartProcess ("cp", new ProcessSettings {
+		Arguments = $"-RP \"{origin}\" \"{destination}\""
+	});
+}
+
+void UnzipFile (FilePath zipFile, DirectoryPath destination)
+{
+	StartProcess ("unzip", new ProcessSettings {
+		Arguments = $"\"{zipFile}\" -d \"{destination}\""
+	});
+}
+
+void Nuke (string path)
+{
+	StartProcess ("rm", new ProcessSettings {
+		Arguments = $"-rf \"{path}\""
+	});
+}
 
 RunTarget (target);

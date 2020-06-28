@@ -1,8 +1,8 @@
 Xamarin PSPDFKit for iOS and Mac Bindings
 =========================================
 
-- Xamarin.iOS Bindings for PSPDFKit 9.3.2 for iOS
-- Xamarin.Mac Bindings for PSPDFKit 4.3.0 for macOS
+- Xamarin.iOS Bindings for PSPDFKit 9.4.0 for iOS
+- Xamarin.Mac Bindings for PSPDFKit 4.4.0 for macOS
 
 #### PSPDFKit
 
@@ -27,7 +27,7 @@ Minimum Requirements
 
 In order to build this binding project you need:
 
-- **Visual Studio for Mac or Windows**
+- **Visual Studio for Mac**
 - **Xamarin.iOS 13.6 +**
 - **Xamarin.Mac 6.6 +**
 
@@ -50,49 +50,34 @@ There's 2 ways for integrating PSPDFKit into your project. We highly recommend u
 <img width="500" src="https://user-images.githubusercontent.com/21023299/75026406-38564d00-549d-11ea-8229-34f91362f3d7.png">
 
 3. Select the 3 iOS packages, `PSPDFKit.iOS.Model`, `PSPDFKit.iOS.UI`*, and `PSPDFKit.iOS.Instant`*
-4.  Tap on "Add Packages" to add the nuget packages to your project.
+4. Tap on "Add Packages" to add the nuget packages to your project.
 
 `*` Items with an asterisk are *optional*, you only need to add those if you also want to use the components.
 
 Now you are done and can skip to [step 3](https://github.com/PSPDFKit/Xamarin-iOS#step-3---using-pspdfkit-in-your-project)!
 
 ### Integrating PSPDFKit by adding the DLLs (Advanced) 
-#### Copy required files
+#### Downloading required files
 
-1. In order to use this C# binding because Xamarin does not support `xcframework` yet, you will need to obtain the full PSPDFKit framework files using the `COCOAPODS_KEY` from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow).
-2. Replace `COCOAPODS_KEY` with your key and download the following two zip files.
-    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/pspdfkit/9.3.2.zip
-    - https://customers.pspdfkit.com/cocoapods/COCOAPODS_KEY/instant/9.3.2.zip
-3. Extract the zip files you downloaded above and copy the following files into the specified directories:
-
-iOS: From **PSPDFKit-for-iOS** zip.
-
-- Copy `PSPDFKit.framework` into [PSPDFKit.iOS.Model](PSPDFKit.iOS.Model/) folder.
-- Copy `PSPDFKitUI.framework` into [PSPDFKit.iOS.UI](PSPDFKit.iOS.UI/) folder. *
-- Copy `Instant.framework` into [PSPDFKit.iOS.Instant](PSPDFKit.iOS.Instant/) folder. *
-
-Mac: From **PSPDFKit-for-macOS** dmg.
-
-- Copy `PSPDFKit.framework` into [PSPDFKit.Mac.Model](PSPDFKit.Mac.Model/) folder. *
-
-`*` Items with an asterisk are *optional*, if you do not provide a framework, by default we won't generate its bindings, but most of the time you will want to provide `PSPDFKit.framework` and `PSPDFKitUI.framework` at minimum.
+In order to use this C# binding because Xamarin does not support `xcframework` yet, you can only build the binding project on macOS, you will need to obtain the full PSPDFKit framework files by doing either `./build.sh` and let the build script download the frameworks and build the bindings or by `./build.sh --target DownloadDeps` which will only download the required frameworks.
 
 ### Get your dlls
 
-### Using Visual Studio for Mac or Windows
+### Using command line / terminal
 
-1. Open `PSPDFKit.sln` located in the root folder.
+We are using [Cake](https://cakebuild.net) as our build system, this allows us to build on both Windows and macOS from a single script.
+
+1. Run `./build.sh` (macOS) command from the root directory in terminal.
+2. All the resulting dlls will be inside the root folder.
+3. Go to **Step 3 - Using PSPDFKit in your project**.
+
+### Using Visual Studio for Mac 
+
+1. Run `./build.sh --target DownloadDeps` (macOS) command from the root directory in terminal.
+2. Open `PSPDFKit.sln` located in the root folder.
 2. Build the binding projects inside the `iOS` or `Mac` solution folders.
 3. Get the dlls from the `bin` folder of each project.
 4. Go to **Step 3 - Using PSPDFKit in your project**.
-
-### Using command line / terminal
-
-We are using [Cake](https://cakebuild.net) as our build system, this allows us to build on both Windows and Mac from a single script.
-
-1. Run `./build.sh` (Mac) / `.\build.ps1` (Windows) command from the root directory.
-2. All the resulting dlls will be inside the root folder.
-3. Go to **Step 3 - Using PSPDFKit in your project**.
 
 #### Advanced build
 
@@ -100,13 +85,14 @@ We use the `Default` build task which builds all binding projects as long as the
 
 In the case you just want the Mac bits to be built you can do `./build.sh --target mac`. Here are the most common tasks available in the build script, they are particularly useful when you are integrating this into a CI Server.
 
-|            | General Tasks               |
-|:----------:|-----------------------------|
-|   **Task** | **Description**             |
-|    Default | Builds all PSPDFKit dlls.   |
-|        ios | Builds iOS PSPDFKit dlls.   |
-|        mac | Builds macOS PSPDFKit dlls. |
-|      Clean | Cleans the build.           |
+|              | General Tasks                 |
+|:------------:|-------------------------------|
+|     **Task** | **Description**               |
+|      Default | Builds all PSPDFKit dlls.     |
+|          ios | Builds iOS PSPDFKit dlls.     |
+|          mac | Builds macOS PSPDFKit dlls.   |
+|        Clean | Cleans the build.             |
+| DownloadDeps | Downloads build dependencies. |
 
 To list all available tasks you can do `./build.sh --showdescription`.
 

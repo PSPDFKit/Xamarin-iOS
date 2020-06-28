@@ -133,6 +133,9 @@ namespace PSPDFKit.UI {
 
 		[Field ("PSPDFAnalyticsEventNameToolbarMove", PSPDFKitGlobal.LibraryPath)]
 		NSString ToolbarMoveKey { get; }
+
+		[Field ("PSPDFAnalyticsEventNameReaderViewOpen", PSPDFKitGlobal.LibraryPath)]
+		NSString ReaderViewOpenKey { get; }
 	}
 
 	[Static]
@@ -1045,9 +1048,6 @@ namespace PSPDFKit.UI {
 		[Static]
 		[Export ("forwardButton")]
 		PSPDFBackForwardButton ForwardButton { get; }
-
-		[Export ("longPressRecognizer")]
-		UILongPressGestureRecognizer LongPressRecognizer { get; }
 	}
 
 	[BaseType (typeof (UITableViewController))]
@@ -2126,6 +2126,14 @@ namespace PSPDFKit.UI {
 		[Abstract]
 		[Export ("executePDFAction:targetRect:pageIndex:animated:actionContainer:")]
 		bool ExecutePdfAction ([NullAllowed] PSPDFAction action, CGRect targetRect, nuint pageIndex, bool animated, [NullAllowed] NSObject actionContainer);
+
+		[Abstract]
+		[Export ("navigateForwardAnimated:")]
+		void NavigateForward (bool animated);
+
+		[Abstract]
+		[Export ("navigateBackAnimated:")]
+		void NavigateBack (bool animated);
 
 		[Abstract]
 		[Export ("searchForString:options:sender:animated:")]
@@ -5267,11 +5275,19 @@ namespace PSPDFKit.UI {
 		[Export ("pdfCoordinateSpace")]
 		IUICoordinateSpace PdfCoordinateSpace { get; }
 
+		[Advice ("'dictOptions' parameter comes from 'PSPDFObjectFinderOptions', use overload for a strongly typed dictionary.")]
 		[Export ("objectsAtPoint:options:")]
-		NSDictionary GetObjects (CGPoint viewPoint, [NullAllowed] NSDictionary<NSString, NSNumber> options);
+		NSDictionary GetObjects (CGPoint viewPoint, [NullAllowed] NSDictionary dictOptions);
 
+		[Wrap ("new global::PSPDFKit.Model.PSPDFObjectFinderType (GetObjects (viewPoint, options?.Dictionary))")]
+		global::PSPDFKit.Model.PSPDFObjectFinderType GetObjects (CGPoint viewPoint, [NullAllowed] PSPDFObjectFinderOptions options);
+
+		[Advice ("'dictOptions' parameter comes from 'PSPDFObjectFinderOptions', use overload for a strongly typed dictionary.")]
 		[Export ("objectsAtRect:options:")]
-		NSDictionary GetObjects (CGRect viewRect, [NullAllowed] NSDictionary<NSString, NSNumber> options);
+		NSDictionary GetObjects (CGRect viewRect, [NullAllowed] NSDictionary dictOptions);
+
+		[Wrap ("new global::PSPDFKit.Model.PSPDFObjectFinderType (GetObjects (viewRect, options?.Dictionary))")]
+		global::PSPDFKit.Model.PSPDFObjectFinderType GetObjects (CGRect viewRect, [NullAllowed] PSPDFObjectFinderOptions options);
 
 		[NullAllowed, Export ("zoomView")]
 		UIScrollView ZoomView { get; }
@@ -5649,6 +5665,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("allowRotating")]
 		bool AllowRotating { get; set; }
+
+		[Export ("contentRotation")]
+		nuint ContentRotation { get; }
 
 		[Export ("enableResizingGuides")]
 		bool EnableResizingGuides { get; set; }
@@ -6375,7 +6394,7 @@ namespace PSPDFKit.UI {
 		void SpeakText (string speechString, [NullAllowed] NSDictionary options, [NullAllowed] IAVSpeechSynthesizerDelegate @delegate);
 
 		[Wrap ("SpeakText (speechString, speechOptions?.Dictionary, @delegate)")]
-		void SpeakText (string speechString, PSPDFSpeechSynthesizerOptions speechOptions, IAVSpeechSynthesizerDelegate @delegate);
+		void SpeakText (string speechString, PSPDFSpeechControllerOptions speechOptions, IAVSpeechSynthesizerDelegate @delegate);
 
 		[Export ("stopSpeakingForDelegate:")]
 		bool StopSpeaking ([NullAllowed] IAVSpeechSynthesizerDelegate @delegate);
@@ -6397,23 +6416,23 @@ namespace PSPDFKit.UI {
 	}
 
 	[Static]
-	interface PSPDFSpeechSynthesizerOptionKeys {
+	interface PSPDFSpeechControllerOptionKeys {
 
-		[Field ("PSPDFSpeechSynthesizerAutoDetectLanguage", PSPDFKitGlobal.LibraryPath)]
+		[Field ("PSPDFSpeechControllerOptionAutoDetectLanguage", PSPDFKitGlobal.LibraryPath)]
 		NSString AutoDetectLanguageKey { get; }
 
-		[Field ("PSPDFSpeechSynthesizerLanguageKey", PSPDFKitGlobal.LibraryPath)]
+		[Field ("PSPDFSpeechControllerOptionLanguage", PSPDFKitGlobal.LibraryPath)]
 		NSString LanguageKey { get; }
 
-		[Field ("PSPDFSpeechSynthesizerLanguageHintKey", PSPDFKitGlobal.LibraryPath)]
+		[Field ("PSPDFSpeechControllerOptionLanguageHint", PSPDFKitGlobal.LibraryPath)]
 		NSString LanguageHintKey { get; }
 	}
 
-	[StrongDictionary ("PSPDFSpeechSynthesizerOptionKeys")]
-	interface PSPDFSpeechSynthesizerOptions {
-		bool AutoDetectLanguage { get; }
-		string Language { get; }
-		string LanguageHint { get; }
+	[StrongDictionary ("PSPDFSpeechControllerOptionKeys")]
+	interface PSPDFSpeechControllerOptions {
+		bool AutoDetectLanguage { get; set; }
+		string Language { get; set; }
+		string LanguageHint { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFTableViewCell))]
@@ -7550,6 +7569,9 @@ namespace PSPDFKit.UI {
 		[Export ("searchButtonItem")]
 		UIBarButtonItem SearchButtonItem { get; }
 
+		[Export ("readerViewButtonItem")]
+		UIBarButtonItem ReaderViewButtonItem { get; }
+
 		[Export ("thumbnailsButtonItem")]
 		UIBarButtonItem ThumbnailsButtonItem { get; }
 
@@ -8276,9 +8298,9 @@ namespace PSPDFKit.UI {
 	[DisableDefaultCtor]
 	interface PSPDFLinkAnnotationEditingContainerViewController {
 
-		[Export ("initWithPage:selectedRects:")]
+		[Export ("initWithDocument:pageIndex:selectedRects:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFPage page, NSValue [] selectedRects);
+		IntPtr Constructor (PSPDFDocument document, nuint pageIndex, [BindAs (typeof (CGRect []))] NSValue [] selectedRects);
 
 		[Export ("initWithExistingLinkAnnotation:")]
 		[DesignatedInitializer]
@@ -8407,5 +8429,27 @@ namespace PSPDFKit.UI {
 
 		[Export ("submitContinueWhen:beforeSubmission:onCompletion:onError:")]
 		void SubmitContinue (PSPDFSubmissionControllerShouldContinueHandler continueHandler, PSPDFSubmissionControllerBeforeSubmissionHandler beforeSubmissionHandler, PSPDFSubmissionControllerCompletionHandler completionHandler, Action<NSError> errorHandler);
+	}
+
+	interface IPSPDFInitialStartingPointGesture { }
+
+	[Protocol]
+	interface PSPDFInitialStartingPointGesture {
+
+		[Abstract]
+		[Export ("initialOrCurrentLocationInView:")]
+		CGPoint GetInitialOrCurrentLocationInView (UIView view);
+	}
+
+	[BaseType (typeof (PSPDFBaseViewController))]
+	[DisableDefaultCtor]
+	interface PSPDFReaderViewController {
+
+		[Export ("initWithDocument:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFDocument document);
+
+		[Export ("document")]
+		PSPDFDocument Document { get; }
 	}
 }

@@ -91,6 +91,9 @@ namespace PSPDFKit.Model {
 		ProcessorUnableToWriteFile = 7307,
 		ProcessorMiscError = 7308,
 		ProcessorCancelled = 7309,
+		ProcessorFileExists = 7310,
+		ProcessorUnableToReadFile = 7311,
+		ProcessorServerError = 7312,
 		DocumentEditorUnableToWriteFile = 7400,
 		DocumentEditorInvalidDocument = 7401,
 		DocumentEditorInaccessibleDocument = 7402,
@@ -165,11 +168,11 @@ namespace PSPDFKit.Model {
 		CryptorCreationFailed = 130,
 		CryptorResetToIVFailed = 140,
 		CloseExpectedInsteadOfRead = 150,
-		ErrorDecryptingBlock = 160,
+		DecryptingBlockFailed = 160,
 		CryptorFinalFailed = 170,
 		HMACCheckFailed = 180,
 		IncorrectHMACInFile = 190,
-		FailedToAllocateMemory = 200,
+		MemoryAllocationFailed = 200,
 		Unknown = long.MaxValue
 	}
 
@@ -178,7 +181,7 @@ namespace PSPDFKit.Model {
 		EncryptionFailed = 100,
 		CryptorFinalFailed = 170,
 		WritingToParentStreamFailed = 120,
-		FailedToAllocateMemory = 200,
+		MemoryAllocationFailed = 200,
 		Unknown = long.MaxValue
 	}
 
@@ -551,6 +554,7 @@ namespace PSPDFKit.Model {
 		Redaction = 1 << 13,
 		Comparison = 1 << 14,
 		WebKitHtmlConversion = 1 << 16,
+		ReaderView = 1 << 17,
 
 		All = ulong.MaxValue
 	}
@@ -757,7 +761,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	public enum PSPDFSignerError : ulong {
+	public enum PSPDFSignerErrorCode : ulong {
 		None = 0,
 		NoFormElementSet = 1,
 		CannotNotCreatePKCS7 = 256,

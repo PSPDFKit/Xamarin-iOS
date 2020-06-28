@@ -342,9 +342,11 @@ namespace PSPDFKit.Model {
 		[Export ("boundingBox", ArgumentSemantic.Assign)]
 		CGRect BoundingBox { get; set; }
 
+		[BindAs (typeof (CGRect []))]
 		[NullAllowed, Export ("rects", ArgumentSemantic.Copy)]
 		NSValue [] Rects { get; set; }
 
+		[BindAs (typeof (CGPoint []))]
 		[NullAllowed, Export ("points", ArgumentSemantic.Copy)]
 		NSValue [] Points { get; set; }
 
@@ -373,6 +375,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("hasAppearanceStream")]
 		bool HasAppearanceStream { get; }
+
+		[Export ("clearAppearanceStream")]
+		void ClearAppearanceStream ();
 
 		[NullAllowed, Export ("appearanceStreamGenerator", ArgumentSemantic.Strong)]
 		IPSPDFAppearanceStreamGenerating AppearanceStreamGenerator { get; set; }
@@ -1115,13 +1120,11 @@ namespace PSPDFKit.Model {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFBackForwardActionListDelegate {
 
-		[Abstract]
-		[Export ("backForwardList:requestedBackActionExecution:")]
-		void RequestedBackActionExecution (PSPDFBackForwardActionList list, PSPDFAction [] actions);
+		[Export ("backForwardList:requestedBackActionExecution:animated:")]
+		void RequestedBackActionExecution (PSPDFBackForwardActionList list, PSPDFAction [] actions, bool animated);
 
-		[Abstract]
-		[Export ("backForwardList:requestedForwardActionExecution:")]
-		void RequestedForwardActionExecution (PSPDFBackForwardActionList list, PSPDFAction [] actions);
+		[Export ("backForwardList:requestedForwardActionExecution:animated:")]
+		void RequestedForwardActionExecution (PSPDFBackForwardActionList list, PSPDFAction [] actions, bool animated);
 
 		[Export ("backForwardListDidUpdate:")]
 		void BackForwardListDidUpdate (PSPDFBackForwardActionList list);
@@ -1140,17 +1143,17 @@ namespace PSPDFKit.Model {
 		[Export ("registerAction:")]
 		void RegisterAction (PSPDFAction action);
 
-		[Export ("requestBack")]
-		void RequestBack ();
+		[Export ("requestBackAnimated:")]
+		void RequestBack (bool animated);
 
-		[Export ("requestBackToAction:")]
-		void RequestBack (PSPDFAction action);
+		[Export ("requestBackToAction:animated:")]
+		void RequestBack (PSPDFAction action, bool animated);
 
-		[Export ("requestForward")]
-		void RequestForward ();
+		[Export ("requestForwardAnimated:")]
+		void RequestForward (bool animated);
 
-		[Export ("requestForwardToAction:")]
-		void RequestForward (PSPDFAction action);
+		[Export ("requestForwardToAction:animated:")]
+		void RequestForward (PSPDFAction action, bool animated);
 
 		[Export ("resetBackList")]
 		void ResetBackList ();
@@ -2342,13 +2345,19 @@ namespace PSPDFKit.Model {
 
 		// PSPDFDocument (ObjectFinder) Category
 
-		[Advice ("Options parameter comes from 'PSPDFObjectsKeys'.")]
+		[Advice ("'dictOptions' parameter comes from 'PSPDFObjectFinderOptions', use overload for a strongly typed dictionary.")]
 		[Export ("objectsAtPDFPoint:pageIndex:options:")]
-		NSDictionary<NSString, NSObject> GetObjectsAtPdfPoint (CGPoint pdfPoint, nuint pageIndex, [NullAllowed] NSDictionary<NSString, NSNumber> options);
+		NSDictionary GetObjectsAtPdfPoint (CGPoint pdfPoint, nuint pageIndex, [NullAllowed] NSDictionary dictOptions);
 
-		[Advice ("Options parameter comes from 'PSPDFObjectsKeys'.")]
+		[Wrap ("new PSPDFObjectFinderType (GetObjectsAtPdfPoint (pdfPoint, pageIndex, options?.Dictionary))")]
+		PSPDFObjectFinderType GetObjectsAtPdfPoint (CGPoint pdfPoint, nuint pageIndex, [NullAllowed] PSPDFObjectFinderOptions options);
+
+		[Advice ("'dictOptions' parameter comes from 'PSPDFObjectFinderOptions', use overload for a strongly typed dictionary.")]
 		[Export ("objectsAtPDFRect:pageIndex:options:")]
-		NSDictionary<NSString, NSObject> GetObjectsAtPdfRect (CGRect pdfRect, nuint pageIndex, [NullAllowed] NSDictionary<NSString, NSNumber> options);
+		NSDictionary GetObjectsAtPdfRect (CGRect pdfRect, nuint pageIndex, [NullAllowed] NSDictionary dictOptions);
+
+		[Wrap ("new PSPDFObjectFinderType (GetObjectsAtPdfRect (pdfRect, pageIndex, options?.Dictionary))")]
+		PSPDFObjectFinderType GetObjectsAtPdfRect (CGRect pdfRect, nuint pageIndex, [NullAllowed] PSPDFObjectFinderOptions options);
 
 		// PSPDFAnnotation (InstantJSON) Category
 
@@ -2371,58 +2380,113 @@ namespace PSPDFKit.Model {
 	}
 
 	[Static]
-	interface PSPDFObjectsKeys {
+	interface PSPDFObjectFinderOptionKeys {
 
-		[Field ("PSPDFObjectsGlyphsKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString GlyphsKey { get; }
+		[Field ("PSPDFObjectFinderOptionExtractGlyphs", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ExtractGlyphsKey { get; }
 
-		[Field ("PSPDFObjectsWordsKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString WordsKey { get; }
+		[Field ("PSPDFObjectFinderOptionExtractWords", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ExtractWordsKey { get; }
 
-		[Field ("PSPDFObjectsTextKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString TextKey { get; }
+		[Field ("PSPDFObjectFinderOptionExtractText", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ExtractTextKey { get; }
 
-		[Field ("PSPDFObjectsTextBlocksKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString TextBlocksKey { get; }
+		[Field ("PSPDFObjectFinderOptionExtractTextBlocks", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ExtractTextBlocksKey { get; }
 
-		[Field ("PSPDFObjectsImagesKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString ImagesKey { get; }
+		[Field ("PSPDFObjectFinderOptionExtractImages", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ExtractImagesKey { get; }
 
-		[Field ("PSPDFObjectsAnnotationsKey", PSPDFKitLibraryPath.LibraryPath)]
-		NSString AnnotationsKey { get; }
+		[Field ("PSPDFObjectFinderOptionExtractAnnotations", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ExtractAnnotationsKey { get; }
 
-		[Field ("PSPDFObjectsIgnoreLargeTextBlocksKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionIgnoreLargeTextBlocks", PSPDFKitLibraryPath.LibraryPath)]
 		NSString IgnoreLargeTextBlocksKey { get; }
 
-		[Field ("PSPDFObjectsAnnotationTypesKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionAnnotationTypes", PSPDFKitLibraryPath.LibraryPath)]
 		NSString AnnotationTypesKey { get; }
 
-		[Field ("PSPDFObjectsAnnotationPageBoundsKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionAnnotationPageBounds", PSPDFKitLibraryPath.LibraryPath)]
 		NSString AnnotationPageBoundsKey { get; }
 
-		[Field ("PSPDFObjectsPageZoomLevelKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionPageZoomLevel", PSPDFKitLibraryPath.LibraryPath)]
 		NSString PageZoomLevelKey { get; }
 
-		[Field ("PSPDFObjectsAnnotationIncludedGroupedKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionAnnotationIncludedGrouped", PSPDFKitLibraryPath.LibraryPath)]
 		NSString AnnotationIncludedGroupedKey { get; }
 
-		[Field ("PSPDFObjectsSmartSortKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionSmartSort", PSPDFKitLibraryPath.LibraryPath)]
 		NSString SmartSortKey { get; }
 
-		[Field ("PSPDFObjectMinDiameterKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionMinDiameter", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MinDiameterKey { get; }
 
-		[Field ("PSPDFObjectsTextFlowKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionTextFlow", PSPDFKitLibraryPath.LibraryPath)]
 		NSString TextFlowKey { get; }
 
-		[Field ("PSPDFObjectsFindFirstOnlyKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionFindFirstOnly", PSPDFKitLibraryPath.LibraryPath)]
 		NSString FindFirstOnlyKey { get; }
 
-		[Field ("PSPDFObjectsTestIntersectionKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionTestIntersection", PSPDFKitLibraryPath.LibraryPath)]
 		NSString TestIntersectionKey { get; }
 
-		[Field ("PSPDFObjectsTestIntersectionFractionKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFObjectFinderOptionTestIntersectionFraction", PSPDFKitLibraryPath.LibraryPath)]
 		NSString TestIntersectionFractionKey { get; }
+	}
+
+	[StrongDictionary ("PSPDFObjectFinderOptionKeys")]
+	interface PSPDFObjectFinderOptions {
+
+		bool ExtractGlyphs { get; set; }
+		bool ExtractWords { get; set; }
+		bool ExtractText { get; set; }
+		bool ExtractTextBlocks { get; set; }
+		bool ExtractImages { get; set; }
+		bool ExtractAnnotations { get; set; }
+		bool IgnoreLargeTextBlocks { get; set; }
+		PSPDFAnnotationType AnnotationTypes { get; set; }
+		CGRect AnnotationPageBounds { get; set; }
+		float PageZoomLevel { get; set; }
+		bool AnnotationIncludedGrouped { get; set; }
+		bool SmartSort { get; set; }
+		float MinDiameter { get; set; }
+		bool TextFlow { get; set; }
+		bool FindFirstOnly { get; set; }
+		bool TestIntersection { get; set; }
+		double TestIntersectionFraction { get; set; }
+	}
+
+	[Static]
+	interface PSPDFObjectFinderTypeKeys {
+
+		[Field ("PSPDFObjectFinderTypeGlyphs", PSPDFKitLibraryPath.LibraryPath)]
+		NSString GlyphsKey { get; }
+
+		[Field ("PSPDFObjectFinderTypeWords", PSPDFKitLibraryPath.LibraryPath)]
+		NSString WordsKey { get; }
+
+		[Field ("PSPDFObjectFinderTypeText", PSPDFKitLibraryPath.LibraryPath)]
+		NSString TextKey { get; }
+
+		[Field ("PSPDFObjectFinderTypeTextBlocks", PSPDFKitLibraryPath.LibraryPath)]
+		NSString TextBlocksKey { get; }
+
+		[Field ("PSPDFObjectFinderTypeImages", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ImagesKey { get; }
+
+		[Field ("PSPDFObjectFinderTypeAnnotations", PSPDFKitLibraryPath.LibraryPath)]
+		NSString AnnotationsKey { get; }
+	}
+
+	[StrongDictionary ("PSPDFObjectFinderTypeKeys")]
+	interface PSPDFObjectFinderType {
+
+		PSPDFGlyph [] Glyphs { get; set; }
+		PSPDFWord [] Words { get; set; }
+		string Text { get; set; }
+		PSPDFTextBlock [] TextBlocks { get; set; }
+		PSPDFImageInfo [] Images { get; set; }
+		PSPDFAnnotation [] Annotations { get; set; }
 	}
 
 	interface PSPDFDocumentCheckpointSavedNotificationEventArgs {
@@ -2487,6 +2551,7 @@ namespace PSPDFKit.Model {
 		void DidPerformChanges (PSPDFDocumentEditor editor, PSPDFEditingChange [] changes);
 	}
 
+	delegate void PSPDFDocumentEditorSuccessHandler (bool success, [NullAllowed] NSError error);
 	delegate void PSPDFDocumentEditorSaveHandler ([NullAllowed] PSPDFDocument document, [NullAllowed] NSError error);
 	delegate void PSPDFDocumentEditorImportHandler ([NullAllowed] PSPDFEditingChange [] changes, [NullAllowed] NSError error);
 	delegate void PSPDFDocumentEditorGroupDatesHandler ([BlockCallback] PSPDFDocumentEditorGroupDatesHandlerCompletion response);
@@ -2570,8 +2635,16 @@ namespace PSPDFKit.Model {
 		void Save (string path, [NullAllowed] PSPDFDocumentEditorSaveHandler handler);
 
 		[Async]
+		[Export ("saveToDataSink:withCompletionBlock:")]
+		void Save (IPSPDFDataSink dataSink, [NullAllowed] PSPDFDocumentEditorSuccessHandler handler);
+
+		[Async]
 		[Export ("exportPages:toPath:withCompletionBlock:")]
 		void ExportPages (NSIndexSet pageIndexes, string path, [NullAllowed] PSPDFDocumentEditorSaveHandler handler);
+
+		[Async]
+		[Export ("exportPages:toDataSink:withCompletionBlock:")]
+		void ExportPages (NSIndexSet pageIndexes, IPSPDFDataSink dataSink, [NullAllowed] PSPDFDocumentEditorSuccessHandler handler);
 
 		[Export ("importPagesTo:fromDocument:withCompletionBlock:queue:")]
 		NSProgress ImportPages (nuint index, PSPDFDocument sourceDocument, [NullAllowed] PSPDFDocumentEditorImportHandler handler, [NullAllowed] DispatchQueue queue);
@@ -4165,38 +4238,38 @@ namespace PSPDFKit.Model {
 	}
 
 	[Static]
-	interface PSPDFLibrarySearchResultsOptionsKeys {
+	interface PSPDFLibraryOptionsKeys {
 
-		[Field ("PSPDFLibraryMaximumSearchResultsTotalKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionMaximumSearchResultsTotal", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MaximumSearchResultsTotalKey { get; }
 
-		[Field ("PSPDFLibraryMaximumSearchResultsPerDocumentKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionMaximumSearchResultsPerDocument", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MaximumSearchResultsPerDocumentKey { get; }
 
-		[Field ("PSPDFLibraryMaximumPreviewResultsTotalKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionMaximumPreviewResultsTotal", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MaximumPreviewResultsTotalKey { get; }
 
-		[Field ("PSPDFLibraryMaximumPreviewResultsPerDocumentKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionMaximumPreviewResultsPerDocument", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MaximumPreviewResultsPerDocumentKey { get; }
 
-		[Field ("PSPDFLibraryMatchExactWordsOnlyKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionMatchExactWordsOnly", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MatchExactWordsOnlyKey { get; }
 
-		[Field ("PSPDFLibraryMatchExactPhrasesOnlyKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionMatchExactPhrasesOnly", PSPDFKitLibraryPath.LibraryPath)]
 		NSString MatchExactPhrasesOnlyKey { get; }
 
-		[Field ("PSPDFLibraryExcludeAnnotationsKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionExcludeAnnotations", PSPDFKitLibraryPath.LibraryPath)]
 		NSString ExcludeAnnotationsKey { get; }
 
-		[Field ("PSPDFLibraryExcludeDocumentTextKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionExcludeDocumentText", PSPDFKitLibraryPath.LibraryPath)]
 		NSString ExcludeDocumentTextKey { get; }
 
-		[Field ("PSPDFLibraryPreviewRangeKey", PSPDFKitLibraryPath.LibraryPath)]
+		[Field ("PSPDFLibraryOptionPreviewRange", PSPDFKitLibraryPath.LibraryPath)]
 		NSString PreviewRangeKey { get; }
 	}
 
-	[StrongDictionary ("PSPDFLibrarySearchResultsOptionsKeys")]
-	interface PSPDFLibrarySearchResultsOptions {
+	[StrongDictionary ("PSPDFLibraryOptionsKeys")]
+	interface PSPDFLibraryOptions {
 		nuint MaximumSearchResultsTotal { get; set; }
 		nuint MaximumSearchResultsPerDocument { get; set; }
 		nuint MaximumPreviewResultsTotal { get; set; }
@@ -4300,13 +4373,13 @@ namespace PSPDFKit.Model {
 
 		[Async (ResultTypeName = "PSPDFLibraryFindDocumentUidsResults")]
 		[Wrap ("FindDocumentUids (searchString, searhcOptions?.Dictionary, completionHandler)")]
-		void FindDocumentUids (string searchString, PSPDFLibrarySearchResultsOptions searhcOptions, PSPDFLibraryFindDocumentUidsCompletionHandler completionHandler);
+		void FindDocumentUids (string searchString, PSPDFLibraryOptions searhcOptions, PSPDFLibraryFindDocumentUidsCompletionHandler completionHandler);
 
 		[Export ("documentUIDsMatchingString:options:completionHandler:previewTextHandler:")]
 		void FindDocumentUids (string searchString, [NullAllowed] NSDictionary options, [NullAllowed] PSPDFLibraryFindDocumentUidsCompletionHandler completionHandler, [NullAllowed] PSPDFLibraryFindDocumentUidsPreviewTextHandler previewTextHandler);
 
 		[Wrap ("FindDocumentUids (searchString, searhcOptions?.Dictionary, completionHandler, previewTextHandler)")]
-		void FindDocumentUids (string searchString, PSPDFLibrarySearchResultsOptions searhcOptions, [NullAllowed] PSPDFLibraryFindDocumentUidsCompletionHandler completionHandler, [NullAllowed] PSPDFLibraryFindDocumentUidsPreviewTextHandler previewTextHandler);
+		void FindDocumentUids (string searchString, PSPDFLibraryOptions searhcOptions, [NullAllowed] PSPDFLibraryFindDocumentUidsCompletionHandler completionHandler, [NullAllowed] PSPDFLibraryFindDocumentUidsPreviewTextHandler previewTextHandler);
 
 		[Export ("indexStatusForUID:withProgress:")]
 		PSPDFLibraryIndexStatus GetIndexStatus (string uid, out nfloat outProgress);
@@ -4738,30 +4811,6 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFPage {
-
-		[Export ("document")]
-		PSPDFDocument Document { get; }
-
-		[Export ("documentProvider")]
-		PSPDFDocumentProvider DocumentProvider { get; }
-
-		[Export ("pageInfo")]
-		PSPDFPageInfo PageInfo { get; }
-
-		[Export ("pageIndex")]
-		nuint PageIndex { get; }
-
-		// PSPDFPage (AnnotationFactory) Category
-
-		[Export ("createStampAnnotationWithImage:")]
-		PSPDFStampAnnotation CreateStampAnnotation (UIImage image);
-
-		[Export ("createFreeTextAnnotationWithContents:")]
-		PSPDFFreeTextAnnotation CreateFreeTextAnnotation (string contents);
-	}
-
-	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
 	interface PSPDFPageInfo : INSCopying, INSSecureCoding {
 
@@ -4905,33 +4954,37 @@ namespace PSPDFKit.Model {
 
 		[Static]
 		[Export ("generatePDFFromURL:options:completionBlock:")]
-		[return: NullAllowed]
 		PSPDFUrlConversionOperation GeneratePdf (NSUrl inputUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSData, NSError> completion); // TODO: PSPDFProcessorGenerationOptions ?
 
 		[Static]
 		[Export ("generatePDFFromURL:outputFileURL:options:completionBlock:")]
-		[return: NullAllowed]
 		PSPDFUrlConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl outputFileUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSUrl, NSError> completion);
 
 		[Static]
 		[Export ("generatePDFFromHTMLString:options:completionBlock:")]
-		[return: NullAllowed]
 		PSPDFHtmlConversionOperation GeneratePdf (string htmlString, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSData, NSError> completion);
 
 		[Static]
 		[Export ("generatePDFFromHTMLString:outputFileURL:options:completionBlock:")]
-		[return: NullAllowed]
 		PSPDFHtmlConversionOperation GeneratePdf (string htmlString, NSUrl outputFileUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSUrl, NSError> completion);
 
 		[Static]
 		[Export ("generatePDFFromAttributedString:options:completionBlock:")]
-		[return: NullAllowed]
 		PSPDFAttributedStringConversionOperation GeneratePdf (NSAttributedString attributedString, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSData, NSError> completion);
 
 		[Static]
 		[Export ("generatePDFFromAttributedString:outputFileURL:options:completionBlock:")]
-		[return: NullAllowed]
 		PSPDFAttributedStringConversionOperation GeneratePdf (NSAttributedString attributedString, NSUrl outputFileUrl, [NullAllowed] NSDictionary dicOptions, [NullAllowed] Action<NSUrl, NSError> completion);
+
+		[Static]
+		[Export ("generatePDFFromURL:serverURL:JWT:completionBlock:")]
+		[return: NullAllowed]
+		PSPDFOfficeConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl serverUrl, string jwt, [NullAllowed] Action<NSData, NSError> completion);
+
+		[Static]
+		[Export ("generatePDFFromURL:serverURL:JWT:outputFileURL:completionBlock:")]
+		[return: NullAllowed]
+		PSPDFOfficeConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl serverUrl, string jwt, NSUrl outputFileUrl, [NullAllowed] Action<NSUrl, NSError> completion);
 
 		[Static]
 		[Export ("cancellAllConversionOperations")]
@@ -5670,6 +5723,9 @@ namespace PSPDFKit.Model {
 		[Export ("signatureBiometricProperties:")]
 		[return: NullAllowed]
 		PSPDFSignatureBiometricProperties GetSignatureBiometricProperties (PSPDFPrivateKey privateKey);
+
+		[Export ("removeSignatureWithError:")]
+		bool RemoveSignature (out NSError error);
 	}
 
 	[BaseType (typeof (PSPDFFormField))]
@@ -5683,6 +5739,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
 	interface PSPDFSignatureInfo {
 
 		[Export ("placeholderBytes")]
@@ -5692,7 +5749,7 @@ namespace PSPDFKit.Model {
 		NSData Contents { get; }
 
 		[NullAllowed, Export ("byteRange", ArgumentSemantic.Copy)]
-		NSObject [] ByteRange { get; }
+		NSNumber [] ByteRange { get; }
 
 		[NullAllowed, Export ("filter")]
 		string Filter { get; }
@@ -7073,5 +7130,22 @@ namespace PSPDFKit.Model {
 
 		[Field ("PSPDFAnnotationStyleKeyRepeatOverlayText", PSPDFKitLibraryPath.LibraryPath)]
 		NSString RepeatOverlayText { get; }
+	}
+
+	[BaseType (typeof (PSPDFConversionOperation))]
+	[DisableDefaultCtor]
+	interface PSPDFOfficeConversionOperation : INSProgressReporting {
+
+		[Export ("inputURL")]
+		NSUrl InputUrl { get; }
+
+		[Export ("serverURL")]
+		NSUrl ServerUrl { get; }
+
+		[Export ("JWT")]
+		string Jwt { get; }
+
+		[Export ("progress")]
+		NSProgress Progress { get; }
 	}
 }
