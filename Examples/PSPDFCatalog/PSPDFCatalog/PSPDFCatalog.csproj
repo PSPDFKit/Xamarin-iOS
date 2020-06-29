@@ -146,6 +146,7 @@
     <Compile Include="Catalog\Customization\NotificationViewController.cs" />
     <Compile Include="Catalog\Search\IndexedFullTextSearch.cs" />
     <Compile Include="Catalog\Search\FTSDocumentPickerController.cs" />
+    <Compile Include="Catalog\Customization\ReaderViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -201,6 +202,7 @@
     <BundleResource Include="Resources\Pdf\Form_example.pdf" />
     <BundleResource Include="Resources\Pdf\original.pdf" />
     <BundleResource Include="Resources\Pdf\copy.pdf" />
+    <BundleResource Include="Resources\Pdf\The-Cosmic-Context-for-Life.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">
