@@ -19,8 +19,7 @@ namespace PSPDFCatalog {
 		public static readonly string AnnualReportFile = "Pdf/JKHF-AnnualReport.pdf";
 		public static readonly string AnnualReportXFDFFile = "Pdf/XFDFTest.xfdf";
         public static readonly string FormFile = "Pdf/Form_example.pdf";
-
-        UIColor barColor;
+        public static readonly string ReaderViewFile = "Pdf/The-Cosmic-Context-for-Life.pdf";
 
 		public DVCMenu () : base (UITableViewStyle.Grouped, null)
 		{
@@ -37,6 +36,10 @@ namespace PSPDFCatalog {
                     new StringElement ("Tabbed Bar", () => {
                         var tabbed = new TabbedExampleViewController ();
                         NavigationController.PushViewController (tabbed, true);
+                    }),
+                    new StringElement ("Reader View", () => {
+                        var readerViewController = new ReaderViewController (NSUrl.FromFilename (ReaderViewFile));
+                        NavigationController.PushViewController (readerViewController, true);
                     }),
                     new StringElement ("Analytics Client", () => {
                         var pdfViewer = new AnalyticsClientExample (NSUrl.FromFilename (PSPDFKitFile));
