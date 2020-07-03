@@ -147,6 +147,7 @@
     <Compile Include="Catalog\Search\IndexedFullTextSearch.cs" />
     <Compile Include="Catalog\Search\FTSDocumentPickerController.cs" />
     <Compile Include="Catalog\Customization\ReaderViewController.cs" />
+    <Compile Include="Catalog\Forms\CreateFormFieldFromCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

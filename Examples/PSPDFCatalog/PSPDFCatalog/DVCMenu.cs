@@ -71,6 +71,11 @@ namespace PSPDFCatalog {
                         var pdfViewer = new ProgrammaticFormFillingController (documenturl);
                         NavigationController.PushViewController (pdfViewer, true);
                     }),
+                    new StringElement ("Programamtically Create Form Fields", () => {
+                        var document = new PSPDFDocument(NSUrl.FromFilename (FormFile));
+                        var pdfViewer = new CreateFormFieldFromCodeViewController (document);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
                 },
                 new Section ("Password / Security", "Password is: test123") {
                     new StringElement ("Password Preset", () => {
