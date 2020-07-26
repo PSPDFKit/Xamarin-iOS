@@ -959,4 +959,18 @@ namespace PSPDFKit.UI {
 		RoundedRect = 0,
 		Ellipse,
 	}
+
+	[Native]
+	public enum PSPDFAnnotationTransformationMode : long {
+		Move,
+		Rotate,
+		Resize,
+		Adjust,
+	}
+
+	[Native]
+	public enum PSPDFFastScrollDirection : long {
+		Backward = -1,
+		Forward = 1,
+	}
 }

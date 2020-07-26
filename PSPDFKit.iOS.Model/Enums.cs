@@ -555,6 +555,7 @@ namespace PSPDFKit.Model {
 		Comparison = 1 << 14,
 		WebKitHtmlConversion = 1 << 16,
 		ReaderView = 1 << 17,
+		Ocr = 1 << 18,
 
 		All = ulong.MaxValue
 	}

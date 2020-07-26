@@ -5,10 +5,10 @@ using System.Net.Http;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-var IOSVERSION = Argument("iosversion", "9.4.0");
+var IOSVERSION = Argument("iosversion", "9.5.0");
 var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
-var MACVERSION = Argument("macversion", "4.4.0");
+var MACVERSION = Argument("macversion", "4.5.0");
 var MACOS_SERVICERELEASE_VERSION = "0"; // This is combined with the MACVERSION variable for the NuGet Package version
 
 var target = Argument ("target", "Default");
@@ -24,8 +24,8 @@ Task ("DownloadDeps")
 			return;
 		}
 
-		var iosUrl = $"https://customers.pspdfkit.com/pspdfkit-ios/{IOSVERSION}.podspec.json";
-		var instantUrl = $"https://customers.pspdfkit.com/instant/{IOSVERSION}.podspec.json";
+		var iosUrl = $"https://customers.pspdfkit.com/pspdfkit-ios/{IOSVERSION}-framework.podspec.json";
+		var instantUrl = $"https://customers.pspdfkit.com/instant/{IOSVERSION}-framework.podspec.json";
 		var macosUrl = $"https://customers.pspdfkit.com/pspdfkit-macos/{MACVERSION}.podspec.json";
 
 		var iosDlUrl = await ResolveDownloadUrl (iosUrl);
@@ -37,22 +37,14 @@ Task ("DownloadDeps")
 		DownloadFile (instantDlUrl, $"./cache/instant.zip");
 		DownloadFile (macosDlUrl, $"./cache/mac.zip");
 
-		UnzipFile ($"./cache/ios.zip", $"./cache");
-		UnzipFile ($"./cache/instant.zip", $"./cache");
-		UnzipFile ($"./cache/mac.zip", $"./cache");
+		UnzipFile ($"./cache/ios.zip", $"./cache/ios");
+		UnzipFile ($"./cache/instant.zip", $"./cache/ios");
+		UnzipFile ($"./cache/mac.zip", $"./cache/macos");
 
-		CopyDir ("./cache/PSPDFKit.framework", "./PSPDFKit.Mac.Model/PSPDFKit.framework");
-		CopyDir ("./cache/PSPDFKit.xcframework/ios-arm64/PSPDFKit.framework", "./PSPDFKit.iOS.Model/PSPDFKit.framework");
-		CopyDir ("./cache/PSPDFKitUI.xcframework/ios-arm64/PSPDFKitUI.framework", "./PSPDFKit.iOS.UI/PSPDFKitUI.framework");
-		CopyDir ("./cache/Instant.xcframework/ios-arm64/Instant.framework", "./PSPDFKit.iOS.Instant/Instant.framework");
-
-		DeleteFile ("./PSPDFKit.iOS.Instant/Instant.framework/Instant");
-		DeleteFile ("./PSPDFKit.iOS.UI/PSPDFKitUI.framework/PSPDFKitUI");
-		DeleteFile ("./PSPDFKit.iOS.Model/PSPDFKit.framework/PSPDFKit");
-
-		LipoCreate ("./PSPDFKit.iOS.Model/PSPDFKit.framework/PSPDFKit", "./cache/PSPDFKit.xcframework/ios-arm64/PSPDFKit.framework/PSPDFKit", "./cache/PSPDFKit.xcframework/ios-x86_64-simulator/PSPDFKit.framework/PSPDFKit");
-		LipoCreate ("./PSPDFKit.iOS.UI/PSPDFKitUI.framework/PSPDFKitUI", "./cache/PSPDFKitUI.xcframework/ios-arm64/PSPDFKitUI.framework/PSPDFKitUI", "./cache/PSPDFKitUI.xcframework/ios-x86_64-simulator/PSPDFKitUI.framework/PSPDFKitUI");
-		LipoCreate ("./PSPDFKit.iOS.Instant/Instant.framework/Instant", "./cache/Instant.xcframework/ios-arm64/Instant.framework/Instant", "./cache/Instant.xcframework/ios-x86_64-simulator/Instant.framework/Instant");
+		CopyDir ("./cache/macos/PSPDFKit.framework", "./PSPDFKit.Mac.Model/PSPDFKit.framework");
+		CopyDir ("./cache/ios/PSPDFKit.framework", "./PSPDFKit.iOS.Model/PSPDFKit.framework");
+		CopyDir ("./cache/ios/PSPDFKitUI.framework", "./PSPDFKit.iOS.UI/PSPDFKitUI.framework");
+		CopyDir ("./cache/ios/Instant.framework", "./PSPDFKit.iOS.Instant/Instant.framework");
 	}
 );
 
@@ -299,6 +291,8 @@ Task ("Clean")
 		var nukedirs = new [] {
 			"./packages",
 			"./nuget/pkgs",
+			"./cache/ios",
+			"./cache/macos",
 			"./cache",
 			"./PSPDFKit.iOS.Model/PSPDFKit.framework",
 			"./PSPDFKit.Mac.Model/PSPDFKit.framework",

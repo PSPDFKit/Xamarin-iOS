@@ -30,7 +30,7 @@
         <file src="nuget\icon.png" target="images\icon.png" />
         <file src="nuget\readme.txt" target="readme.txt" />
         <file src="LICENSE.md" target="" />
-        <file src="cache\PSPDFKitUI.xcframework\ACKNOWLEDGEMENTS.md" target="" />
+        <file src="cache\ios\PSPDFKitUI.framework\ACKNOWLEDGEMENTS.md" target="" />
 
         <!--Xamarin.iOS-->
         <file src="PSPDFKit.iOS.UI\bin\Release\PSPDFKit.iOS.UI.dll" target="lib\Xamarin.iOS10" />

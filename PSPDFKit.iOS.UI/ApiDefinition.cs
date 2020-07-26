@@ -2823,6 +2823,12 @@ namespace PSPDFKit.UI {
 
 		[Export ("visibleSpreadViews", ArgumentSemantic.Copy)]
 		PSPDFSpreadView [] VisibleSpreadViews { get; }
+
+		// PSPDFDocumentViewController (PageViews) Category
+
+		[Export ("visiblePageViewAtPoint:")]
+		[return: NullAllowed]
+		PSPDFPageView GetVisiblePageView (CGPoint atPoint);
 	}
 
 	[BaseType (typeof (UICollectionViewLayoutInvalidationContext))]
@@ -5316,12 +5322,6 @@ namespace PSPDFKit.UI {
 		[return: NullAllowed]
 		PSPDFAnnotation GetAnnotation (IPSPDFAnnotationPresenting annotationView);
 
-		[Export ("singleTapped:")]
-		bool SingleTapped (UITapGestureRecognizer recognizer);
-
-		[Export ("longPress:")]
-		bool LongPress (UILongPressGestureRecognizer recognizer);
-
 		[Export ("addAnnotation:options:animated:")]
 		void AddAnnotation (PSPDFAnnotation annotation, [NullAllowed] NSDictionary<NSString, NSNumber> options, bool animated);
 
@@ -5336,17 +5336,8 @@ namespace PSPDFKit.UI {
 		[Export ("updateShadowAnimated:")]
 		void UpdateShadow (bool animated);
 
-		[Export ("tappableAnnotationsAtPoint:")]
-		PSPDFAnnotation [] GetTappableAnnotations (CGPoint viewPoint);
-
-		[Export ("tappableAnnotationsForLongPressAtPoint:")]
-		PSPDFAnnotation [] GetTappableAnnotationsForLongPress (CGPoint viewPoint);
-
 		[Export ("hitTestRectForPoint:")]
 		CGRect GetHitTestRect (CGPoint viewPoint);
-
-		[Export ("singleTappedAtViewPoint:")]
-		bool SingleTapped (CGPoint viewPoint);
 
 		[Export ("didSelectAnnotations:")]
 		[Advice ("Requires base call if override.")]
@@ -5698,8 +5689,8 @@ namespace PSPDFKit.UI {
 
 		// PSPDFResizableView (SubclassingHooks) Category
 
-		[Export ("longPress:")]
-		bool LongPress (UILongPressGestureRecognizer recognizer);
+		[Export ("forwardTouchesFromGestureRecognizer:")]
+		void ForwardTouchesFrom (UIGestureRecognizer gestureRecognizer);
 
 		[Export ("outerKnobOfType:")]
 		[return: NullAllowed]
@@ -6291,6 +6282,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
 	interface PSPDFKeychainSignatureStore : PSPDFSignatureStore {
 
 		[Field ("PSPDFKeychainSignatureStoreDefaultStoreName", PSPDFKitGlobal.LibraryPath)]
@@ -7634,6 +7626,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("handleAutosaveRequestForDocument:reason:")]
 		void HandleAutosaveRequest (PSPDFDocument document, PSPDFAutosaveReason reason);
+
+		[Export ("interactions")]
+		IPSPDFDocumentViewInteractions Interactions { get; }
 	}
 
 	interface IPSPDFViewControllerDelegate { }
@@ -7678,12 +7673,6 @@ namespace PSPDFKit.UI {
 		[Export ("pdfViewController:documentForRelativePath:")]
 		[return: NullAllowed]
 		PSPDFDocument GetDocumentForRelativePath (PSPDFViewController pdfController, string relativePath);
-
-		[Export ("pdfViewController:didTapOnPageView:atPoint:")]
-		bool DidTapOnPageView (PSPDFViewController pdfController, PSPDFPageView pageView, CGPoint viewPoint);
-
-		[Export ("pdfViewController:didLongPressOnPageView:atPoint:gestureRecognizer:")]
-		bool DidLongPressOnPageView (PSPDFViewController pdfController, PSPDFPageView pageView, CGPoint viewPoint, UILongPressGestureRecognizer gestureRecognizer);
 
 		[Export ("pdfViewController:shouldSelectText:withGlyphs:atRect:onPageView:")]
 		bool ShouldSelectText (PSPDFViewController pdfController, string text, PSPDFGlyph [] glyphs, CGRect rect, PSPDFPageView pageView);
@@ -8438,7 +8427,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("initialOrCurrentLocationInView:")]
-		CGPoint GetInitialOrCurrentLocationInView (UIView view);
+		CGPoint GetInitialOrCurrentLocationInView ([NullAllowed] UIView view);
 	}
 
 	[BaseType (typeof (PSPDFBaseViewController))]
@@ -8451,5 +8440,178 @@ namespace PSPDFKit.UI {
 
 		[Export ("document")]
 		PSPDFDocument Document { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFAnnotationSelectionContext : INativeObject /* <AnnotationType>
+		where AnnotationType : PSPDFAnnotation */ {
+
+		[Export ("annotation")]
+		NSObject /*AnnotationType*/ Annotation { get; }
+
+		[Export ("pageView")]
+		PSPDFPageView PageView { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFAnnotationTransformationContext<AnnotationType>
+		where AnnotationType : PSPDFAnnotation {
+
+		[Export ("annotation")]
+		AnnotationType Annotation { get; }
+
+		[Export ("pageView")]
+		PSPDFPageView PageView { get; }
+
+		[Export ("mode")]
+		PSPDFAnnotationTransformationMode Mode { get; }
+	}
+
+	interface IPSPDFDocumentViewInteractions {}
+
+	[Protocol]
+	interface PSPDFDocumentViewInteractions {
+
+		[Abstract]
+		[Export ("selectAnnotation")]
+		PSPDFInteractionComponent /*<PSPDFAnnotationSelectionContext>*/ SelectAnnotation { get; }
+
+		[Abstract]
+		[Export ("tryToSelectAnnotationAtPoint:inCoordinateSpace:")]
+		bool TryToSelectAnnotation (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("deselectAnnotation")]
+		PSPDFInteractionComponent /*<NSNull>*/ DeselectAnnotation { get; }
+
+		[Abstract]
+		[Export ("editAnnotation")]
+		PSPDFInteractionComponent /*<PSPDFAnnotationSelectionContext>*/ EditAnnotation { get; }
+
+		[Abstract]
+		[Export ("tryToEditAnnotationAtPoint:inCoordinateSpace:")]
+		bool TryToEditAnnotation (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("transformAnnotation")]
+		PSPDFInteractionComponent /*<PSPDFAnnotationTransformationContext>*/ TransformAnnotation { get; }
+
+		[Abstract]
+		[Export ("openLinkAnnotation")]
+		PSPDFInteractionComponent /*<PSPDFAnnotationSelectionContext<PSPDFLinkAnnotation>>*/ OpenLinkAnnotation { get; }
+
+		[Abstract]
+		[Export ("tryToOpenLinkAnnotationAtPoint:inCoordinateSpace:")]
+		bool TryToOpenLinkAnnotation (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("showAnnotationMenu")]
+		PSPDFInteractionComponent /*<NSNull>*/ ShowAnnotationMenu { get; }
+
+		[Abstract]
+		[Export ("tryToShowAnnotationMenuAtPoint:inCoordinateSpace:")]
+		bool TryToShowAnnotationMenu (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("fastScroll")]
+		PSPDFInteractionComponent /*<PSPDFFastScrollContext>*/ FastScroll { get; }
+
+		[Abstract]
+		[Export ("tryToPerformFastScrollAtPoint:inCoordinateSpace:")]
+		bool TryToPerformFastScroll (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("smartZoom")]
+		PSPDFInteractionComponent /*<PSPDFSmartZoomContext>*/ SmartZoom { get; }
+
+		[Abstract]
+		[Export ("tryToPerformSmartZoomAtPoint:inCoordinateSpace:")]
+		bool TryToPerformSmartZoom (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("selectText")]
+		PSPDFInteractionComponent /*<NSNull>*/ SelectText { get; }
+
+		[Abstract]
+		[Export ("deselectText")]
+		PSPDFInteractionComponent /*<NSNull>*/ DeselectText { get; }
+
+		[Abstract]
+		[Export ("toggleUserInterface")]
+		PSPDFInteractionComponent /*<NSNull>*/ ToggleUserInterface { get; }
+
+		[Abstract]
+		[Export ("tryToToggleUserInterfaceAtPoint:inCoordinateSpace:")]
+		bool TryToToggleUserInterface (CGPoint point, UICoordinateSpace coordinateSpace);
+
+		[Abstract]
+		[Export ("allInteractions")]
+		PSPDFInteractionComponent /*<NSNull>*/ AllInteractions { get; }
+
+		[Abstract]
+		[Export ("allAnnotationInteractions")]
+		PSPDFInteractionComponent /*<NSNull>*/ AllAnnotationInteractions { get; }
+
+		[Abstract]
+		[Export ("allTextInteractions")]
+		PSPDFInteractionComponent /*<NSNull>*/ AllTextInteractions { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFFastScrollContext : INativeObject {
+
+		[Export ("direction")]
+		PSPDFFastScrollDirection Direction { get; }
+	}
+
+	delegate bool PSPDFInteractionComponentAddActivationConditionHandler (NSObject context, CGPoint point, IUICoordinateSpace coordinateSpace);
+	delegate void PSPDFInteractionComponentAddActivationCallbackHandler (NSObject context, CGPoint point, IUICoordinateSpace coordinateSpace);
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFInteractionComponent {
+
+		[Export ("enabled")]
+		bool Enabled { [Bind ("isEnabled")] get; set; }
+
+		[Export ("addActivationCondition:")]
+		void AddActivationCondition (PSPDFInteractionComponentAddActivationConditionHandler conditionHandler);
+
+		[Export ("canActivateAtPoint:inCoordinateSpace:")]
+		bool CanActivate (CGPoint point, IUICoordinateSpace coordinateSpace);
+
+		[Export ("addActivationCallback:")]
+		void AddActivationCallback (PSPDFInteractionComponentAddActivationCallbackHandler callbackHandler);
+
+		[Export ("containsGestureRecognizer:")]
+		bool ContainsGestureRecognizer (UIGestureRecognizer gestureRecognizer);
+
+		[Export ("requireGestureRecognizerToFail:")]
+		void RequireGestureRecognizerToFail (UIGestureRecognizer otherGestureRecognizer);
+
+		[Export ("allowSimultaneousRecognitionWithGestureRecognizer:")]
+		void AllowSimultaneousRecognition (UIGestureRecognizer otherGestureRecognizer);
+	}
+
+	[Category]
+	[BaseType (typeof (UIGestureRecognizer))]
+	interface UIGestureRecognizer_PSPDFInteractionComponentSupport {
+
+		[Export ("pspdf_requireGestureRecognizersInComponentToFail:")]
+		void PSPdfRequireGestureRecognizersInComponentToFail (PSPDFInteractionComponent otherComponent);
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFSmartZoomContext {
+
+		[Export ("targetRect")]
+		CGRect TargetRect { get; }
+
+		[Export ("scrollView")]
+		UIScrollView ScrollView { get; }
 	}
 }

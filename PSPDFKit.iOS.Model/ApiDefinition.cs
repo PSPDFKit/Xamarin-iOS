@@ -4849,11 +4849,14 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFPKCS12 : INSCoding {
+	interface PSPDFPKCS12 : INSSecureCoding {
 
 		[Export ("initWithData:")]
 		[DesignatedInitializer]
 		IntPtr Constructor (NSData data);
+
+		[Export ("data")]
+		NSData Data { get; }
 
 		[Async (ResultTypeName = "PSPDFPKCS12UnlockHandlerResult")]
 		[Export ("unlockWithPassword:done:")]
@@ -4987,8 +4990,8 @@ namespace PSPDFKit.Model {
 		PSPDFOfficeConversionOperation GeneratePdf (NSUrl inputUrl, NSUrl serverUrl, string jwt, NSUrl outputFileUrl, [NullAllowed] Action<NSUrl, NSError> completion);
 
 		[Static]
-		[Export ("cancellAllConversionOperations")]
-		void CancellAllConversionOperations ();
+		[Export ("cancelAllConversionOperations")]
+		void CancelAllConversionOperations ();
 #endif
 	}
 
@@ -5898,7 +5901,7 @@ namespace PSPDFKit.Model {
 	delegate void PSPDFSignatureCreationHandler (bool success, [NullAllowed] IPSPDFDataSink document, [NullAllowed] NSError error);
 
 	[BaseType (typeof (NSObject))]
-	interface PSPDFSigner : PSPDFDocumentSignerDelegate, PSPDFDocumentSignerDataSource, PSPDFExternalSignature, INSCoding {
+	interface PSPDFSigner : PSPDFDocumentSignerDelegate, PSPDFDocumentSignerDataSource, PSPDFExternalSignature, INSSecureCoding {
 
 		[Export ("filter")]
 		string Filter { get; }
