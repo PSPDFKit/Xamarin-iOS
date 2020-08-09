@@ -732,6 +732,7 @@ namespace PSPDFKit.Model {
 		[Export ("hasLoadedAnnotationsForPageAtIndex:")]
 		bool HasLoadedAnnotationsForPage (nuint pageIndex);
 
+		[return: NullAllowed]
 		[Export ("annotationViewClassForAnnotation:")]
 		Class GetAnnotationViewClass (PSPDFAnnotation annotation);
 
