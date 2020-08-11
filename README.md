@@ -155,9 +155,9 @@ The PSPDFKit Instant example shows how easy and efficient Instant works. Just go
     </table>
 </div>
 
-### PSPDFCatalog
+### PSPDFKit Catalog
 
-The `PSPDFCatalog` project includes various examples for pretty much every use-case and will help you to build your own app with PSPDFKit.
+The `PSPDFKit Catalog` project includes various examples for pretty much every use-case and will help you to build your own app with PSPDFKit.
 
 <img width="80%" src="Images/Catalog.png"/>
 
