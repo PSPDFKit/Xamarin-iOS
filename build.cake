@@ -211,7 +211,7 @@ Task ("NuGet-Push")
 	.Does (() =>
 {	
 	var iOSFullVersion = IOSVERSION;
-	var macOSFullVersion = IOSVERSION;
+	var macOSFullVersion = MACVERSION;
 
  	if (IOS_SERVICERELEASE_VERSION != "0") {
  		iOSFullVersion = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}";
