@@ -207,4 +207,14 @@ namespace PSPDFKit.UI {
 			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();
 		}
 	}
+
+	public static class DictionaryContainerHelpers {
+
+		// helper to avoid the (common pattern)
+		// 	var p = x == null ? null : x.Dictionary;
+		static public NSDictionary GetDictionary (this DictionaryContainer self)
+		{
+			return self == null ? null : self.Dictionary;
+		}
+	}
 }

@@ -441,4 +441,14 @@ namespace PSPDFKit.Model {
 				InitializeHandle (InitWithDocument (document, sourcePageIndex));
 		}
 	}
+
+	public static class DictionaryContainerHelpers {
+
+		// helper to avoid the (common pattern)
+		// 	var p = x == null ? null : x.Dictionary;
+		static public NSDictionary GetDictionary (this DictionaryContainer self)
+		{
+			return self == null ? null : self.Dictionary;
+		}
+	}
 }
