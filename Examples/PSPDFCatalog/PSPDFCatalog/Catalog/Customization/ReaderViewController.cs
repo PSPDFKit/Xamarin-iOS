@@ -6,7 +6,7 @@ namespace PSPDFCatalog {
 	public class ReaderViewController: PSPDFViewController {
 		public ReaderViewController (NSUrl document) : base (new PSPDFDocument (document))
 		{
-			NavigationItem.SetRightBarButtonItem(ReaderViewButtonItem, true);
+			NavigationItem.SetRightBarButtonItems(new [] { ReaderViewButtonItem }, true);
 		}
 	}
 }
