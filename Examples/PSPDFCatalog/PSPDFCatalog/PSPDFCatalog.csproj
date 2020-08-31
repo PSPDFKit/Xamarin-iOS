@@ -219,4 +219,5 @@
       <Name>PSPDFKit.iOS.Instant</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\..\..\packages\Xamarin.iOS.SwiftRuntimeSupport.0.2.0\build\Xamarin.iOS.SwiftRuntimeSupport.targets" Condition="Exists('..\..\..\packages\Xamarin.iOS.SwiftRuntimeSupport.0.2.0\build\Xamarin.iOS.SwiftRuntimeSupport.targets')" />
 </Project>
