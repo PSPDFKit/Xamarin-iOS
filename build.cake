@@ -1,6 +1,5 @@
 #addin nuget:?package=Cake.Git&version=0.21.0
 #addin nuget:?package=Newtonsoft.Json&version=12.0.3
-#addin nuget:?package=Xamarin.iOS.SwiftRuntimeSupport=0.2.0
 
 using System.Net.Http;
 using System.Linq;
