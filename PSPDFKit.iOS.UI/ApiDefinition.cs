@@ -804,6 +804,7 @@ namespace PSPDFKit.UI {
 		[Export ("annotationGroups")]
 		PSPDFAnnotationGroup [] AnnotationGroups { get; }
 
+		[return: NullAllowed]
 		[Export ("buttonWithType:variant:createFromGroup:")]
 		UIButton GetButton ([BindAs (typeof (PSPDFAnnotationStringUI))] NSString type, [NullAllowed] [BindAs (typeof (PSPDFAnnotationVariantString))] NSString variant, bool createFromGroup);
 
