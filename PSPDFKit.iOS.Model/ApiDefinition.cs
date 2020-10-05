@@ -5910,6 +5910,9 @@ namespace PSPDFKit.Model {
 		[Export ("subFilter")]
 		string SubFilter { get; }
 
+		[Export ("signatureType", ArgumentSemantic.Assign)]
+		PSPDFSignatureType SignatureType { get; set; }
+
 		[Export ("displayName")]
 		string DisplayName { get; }
 

@@ -37,14 +37,11 @@ namespace PSPDFKit.Model {
 			}
 		}
 
-		[DllImport (PSPDFKitLibraryPath.LibraryPath, EntryPoint = "PSPDFDrawingPointIsValid")]
+		[DllImport (PSPDFKitLibraryPath.LibraryPath, EntryPoint = "PSPDFDrawingPointIsFinite")]
 		[return: MarshalAs (UnmanagedType.I1)]
-		static extern bool _IsValid (PSPDFDrawingPoint point);
+		static extern bool _IsFinite (PSPDFDrawingPoint point);
 
-		public static bool IsValid (PSPDFDrawingPoint point)
-		{
-			return _IsValid (point);
-		}
+		public static bool IsFinite (PSPDFDrawingPoint point) => _IsFinite (point);
 
 		[DllImport (PSPDFKitLibraryPath.LibraryPath, EntryPoint = "PSPDFDrawingPointIsEqualToPoint")]
 		[return: MarshalAs (UnmanagedType.I1)]

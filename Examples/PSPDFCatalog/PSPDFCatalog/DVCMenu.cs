@@ -64,6 +64,20 @@ namespace PSPDFCatalog {
                         var pdfViewer = new CopyAnnotationsViewController ();
                         NavigationController.PushViewController (pdfViewer, true);
                     }),
+                    new StringElement ("Disable Ink Annotation Interaction", () => {
+                        var pdfViewer = new PSPDFViewController (new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile))) {
+                            PageIndex = 15
+                        };
+
+                        pdfViewer.Interactions.TransformAnnotation.AddActivationCondition ((context, point, coordinateSpace) => {
+                            // Due to a Xamarin.iOS bug we can't do this cast but we can workaround it for now
+                            //var ctx = context as PSPDFAnnotationTransformationContext<PSPDFAnnotation>;
+                            var ctx = ObjCRuntime.Runtime.GetNSObject<PSPDFAnnotationTransformationContext<PSPDFAnnotation>> (context);
+                            return !(ctx?.Annotation is PSPDFInkAnnotation);
+                        });
+
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
                 },
                 new Section ("Forms"){
                     new StringElement ("Programamtically Fill Form Fields", () => {

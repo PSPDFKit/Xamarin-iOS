@@ -1091,4 +1091,11 @@ namespace PSPDFKit.Model {
 		InputMethod = 1uL << 3,
 		All = ulong.MaxValue,
 	}
+
+	[Native]
+	public enum PSPDFSignatureType : ulong {
+		Cms,
+		Pades,
+		Sha1,
+	}
 }
