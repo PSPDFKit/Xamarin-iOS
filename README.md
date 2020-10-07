@@ -172,6 +172,28 @@ The `XFSample.iOS` project is an example showcasing how to build an app with PSP
 
 <img width="80%" src="Images/macOS.png"/>
 
+# Troubleshooting
+
+There is an issue with deploying on < iOS 12.2 devices and simulators (iOS 12.0 and 12.1) due to a change in how Swift Standard Libraries are distributed since iOS 12.2.
+
+Thankfully, to fix this in your Xamarin project, you can just add the `Xamarin.iOS.SwiftRuntimeSupport` NuGet dependency: https://www.nuget.org/packages/Xamarin.iOS.SwiftRuntimeSupport
+
+However, only doing this will then get your app rejected by the App Store due to the following error:
+
+```
+ITMS-90426: Invalid Swift Support - The SwiftSupport folder is missing. Rebuild your app using the current public (GM) version of Xcode and resubmit it.
+```
+
+This is due to the fact that Xamarin does not officially support wrapping Swift libraries, so when creating the archives Visual Sutdio will not create the necesseray `SwiftSupport` folder there. To fix this there is a workaround available.
+
+Since Xcode properly supports wrapping Swift libraries, we can just submit it from here and let Xcode do the work of creating the archives properly.
+
+1. In Visual Studio Form Mac -> Build -> Archive for publishing
+2. The archive window will show up in Visual Studio for Mac
+3. Open Xcode and in there open the Organizer
+4. The Xamarin App archive will show up there
+5. Continue the upload steps in Xcode
+
 # Contributing
 
 Please ensure [you signed our CLA](https://pspdfkit.com/guides/web/current/miscellaneous/contributing/) so we can accept your contributions.
