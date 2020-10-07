@@ -174,9 +174,7 @@ The `XFSample.iOS` project is an example showcasing how to build an app with PSP
 
 # Troubleshooting
 
-There is an issue with deploying on < iOS 12.2 devices and simulators (iOS 12.0 and 12.1) due to a change in how Swift Standard Libraries are distributed since iOS 12.2.
-
-Thankfully, to fix this in your Xamarin project, you can just add the `Xamarin.iOS.SwiftRuntimeSupport` NuGet dependency: https://www.nuget.org/packages/Xamarin.iOS.SwiftRuntimeSupport
+Apple started shipping the Swift Runtime with iOS 12.2. To deploy apps using Swift (which includes PSPDFKit) on iOS 12.1 and 12.0, the Swift Runtime needs to be added manually via adding the `Xamarin.iOS.SwiftRuntimeSupport` NuGet dependency: https://www.nuget.org/packages/Xamarin.iOS.SwiftRuntimeSupport
 
 However, only doing this will then get your app rejected by the App Store due to the following error:
 
@@ -184,7 +182,7 @@ However, only doing this will then get your app rejected by the App Store due to
 ITMS-90426: Invalid Swift Support - The SwiftSupport folder is missing. Rebuild your app using the current public (GM) version of Xcode and resubmit it.
 ```
 
-This is due to the fact that Xamarin does not officially support wrapping Swift libraries, so when creating the archives Visual Sutdio will not create the necesseray `SwiftSupport` folder there. To fix this there is a workaround available.
+This is due to the fact that Xamarin does not officially support wrapping Swift libraries, so when creating the archives Visual Studio will not create the necesseray `SwiftSupport` folder there. To fix this there is a workaround available.
 
 Since Xcode properly supports wrapping Swift libraries, we can just submit it from here and let Xcode do the work of creating the archives properly.
 
@@ -193,6 +191,8 @@ Since Xcode properly supports wrapping Swift libraries, we can just submit it fr
 3. Open Xcode and in there open the Organizer
 4. The Xamarin App archive will show up there
 5. Continue the upload steps in Xcode
+
+This is only an issue if you must support iOS < 12.2.
 
 # Contributing
 
