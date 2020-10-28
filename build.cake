@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-var IOSVERSION = Argument("iosversion", "10.0.0");
+var IOSVERSION = Argument("iosversion", "10.0.2");
 var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
 var MACVERSION = Argument("macversion", "4.5.0");
