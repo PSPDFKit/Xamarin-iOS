@@ -1194,7 +1194,7 @@ namespace PSPDFKit.UI {
 		// PSPDFBookmarkViewController (SubclassingHooks) Category
 
 		[Export ("configureCell:withBookmark:forRowAtIndexPath:inTableView:")]
-		UITableViewCell ConfigureCell (UITableViewCell tableViewCell, PSPDFBookmark bookmark, NSIndexPath indexPath, UITableView tableView);
+		void ConfigureCell (PSPDFBookmarkCell bookmarkCell, PSPDFBookmark bookmark, NSIndexPath indexPath, UITableView tableView);
 
 		[Export ("updateBookmarkViewAnimated:")]
 		void UpdateBookmarkView (bool animated);
@@ -3063,6 +3063,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("endErase")]
 		void EndErase ();
+
+		[Export ("cancelErase")]
+		void CancelErase ();
 	}
 
 	[BaseType (typeof (PSPDFNonAnimatingTableViewCell))]
@@ -5229,11 +5232,16 @@ namespace PSPDFKit.UI {
 		[Advice ("Requires base call if override.")]
 		void PrepareForReuse ();
 
+		[Advice ("Requires base call if override.")]
 		[Export ("updateRenderView")]
 		void UpdateRenderView ();
 
+		[Advice ("Requires base call if override.")]
 		[Export ("updateView")]
 		void UpdateView ();
+
+		[Export ("updateAnnotationViewsAnimated:")]
+		void UpdateAnnotationViews (bool animated);
 
 		[Export ("annotationViewForAnnotation:")]
 		[return: NullAllowed]
@@ -7398,8 +7406,8 @@ namespace PSPDFKit.UI {
 		[Export ("reloadData")]
 		new void ReloadData ();
 
-		[Export ("reloadPageAtIndex:animated:")]
-		void ReloadPage (nuint pageIndex, bool animated);
+		[Export ("reloadPagesAtIndexes:animated:")]
+		void ReloadPages (NSIndexSet indexes, bool animated);
 
 		[Export ("pageIndex")]
 		new nuint PageIndex { get; set; }

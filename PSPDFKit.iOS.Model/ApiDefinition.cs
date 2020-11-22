@@ -1452,8 +1452,11 @@ namespace PSPDFKit.Model {
 		[Export ("stopCachingDocument:")]
 		void StopCachingDocument ([NullAllowed] PSPDFDocument document);
 
-		[Export ("invalidateImageFromDocument:pageIndex:")]
-		void InvalidateImage ([NullAllowed] PSPDFDocument document, nuint pageIndex);
+		[Export ("invalidateImagesFromDocument:pageIndex:")]
+		void InvalidateImages ([NullAllowed] PSPDFDocument document, nuint pageIndex);
+
+		[Export ("invalidateImagesFromDocument:indexes:")]
+		void InvalidateImages ([NullAllowed] PSPDFDocument document, NSIndexSet indexes);
 
 		[Export ("removeCacheForDocument:")]
 		void RemoveCache ([NullAllowed] PSPDFDocument document);
@@ -2492,7 +2495,7 @@ namespace PSPDFKit.Model {
 
 	interface PSPDFDocumentCheckpointSavedNotificationEventArgs {
 
-		[Export ("PSPDFDocumentCheckpointSavedNotificationSucessKey")]
+		[Export ("PSPDFDocumentCheckpointSavedNotificationSuccessKey")]
 		bool Success { get; }
 	}
 
@@ -5906,9 +5909,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("filter")]
 		string Filter { get; }
-
-		[Export ("subFilter")]
-		string SubFilter { get; }
 
 		[Export ("signatureType", ArgumentSemantic.Assign)]
 		PSPDFSignatureType SignatureType { get; set; }
