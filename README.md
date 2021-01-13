@@ -201,7 +201,7 @@ This is only an issue if you must support iOS < 12.2.
 If you experience a crash on your end it's very valuable for us to have as much information as possible to provide you with the best support experience.
 Such valuable information includes a stack trace of the crash. Here's a quick step-by-step guide, showing how to generate a stack trace in Visual Studio 2019:
 
-- Device (Recommended)
+#### Device (Recommended)
 
 1. In the Terminal app enter the following command: `touch ~/.mtouch-launch-with-lldb`. This will essentially let you use lldb to debug your application when it launches.
 2. Launch your app in debug mode in Visual Studio for Mac.
@@ -212,7 +212,7 @@ Such valuable information includes a stack trace of the crash. Here's a quick st
 If you want to remove lldb from your debug setup again you can simply run `rm ~/.mtouch-launch-with-lldb` in your Terminal.
 
 
-- Simulator
+#### Simulator
 
 1. Launch your app in debug mode in Visual Studio for Mac.
 2. Open your Activity Monitor app.
