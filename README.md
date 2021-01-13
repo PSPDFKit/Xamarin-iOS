@@ -218,8 +218,7 @@ If you want to remove lldb from your debug setup again you can simply run `rm ~/
 2. Open your Activity Monitor app.
 3. In the Activity Monitor app search for your app name in the search bar. To give an example, if I want to attach to our PSPDFCatalog example app I need to search for "PSPDFCatalog".
 4. Double-Click on the process to view the information window.
-5. Now you need to identify the PID (Process ID) of your process. The PID is the number included in the round brackets in the window title, e.g. if the title says "PSPDFCatalog (73389)", then 73389 is your PID. Here's an example of how that looks: 
-<img width="50%" src="Images/pid.png"/>
+5. Now you need to identify the PID (Process ID) of your process. The PID is the number included in the round brackets in the window title, e.g. if the title says "PSPDFCatalog (73389)", then 73389 is your PID. Here's an example of how that looks: <img width="50%" src="Images/pid.png"/>
 6. Now you need to open your Terminal app and enter the following command to attach lldb: `lldb -p YOUR-PID aux`. For the example case above this is what the full command would look like: `lldb -p 73389 aux`.
 7. Once lldb is set up in the terminal window, you can simply use it like you would in Xcode.
 8. To get a stack trace you need to type `bt all`.
