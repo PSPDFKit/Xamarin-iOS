@@ -196,10 +196,12 @@ Since Xcode properly supports wrapping Swift libraries, we can just submit it fr
 
 This is only an issue if you must support iOS < 12.2.
 
-## Generating a Stack Trace (Device only)
+## Generating a Stack Trace
 
 If you experience a crash on your end it's very valuable for us to have as much information as possible to provide you with the best support experience.
 Such valuable information includes a stack trace of the crash. Here's a quick step-by-step guide, showing how to generate a stack trace in Visual Studio 2019:
+
+#### Device (Recommended)
 
 1. In the Terminal app enter the following command: `touch ~/.mtouch-launch-with-lldb`. This will essentially let you use lldb to debug your application when it launches.
 2. Launch your app in debug mode in Visual Studio for Mac.
@@ -208,6 +210,20 @@ Such valuable information includes a stack trace of the crash. Here's a quick st
 5. To get a stack trace you need to type `bt all`.
 
 If you want to remove lldb from your debug setup again you can simply run `rm ~/.mtouch-launch-with-lldb` in your Terminal.
+
+
+#### Simulator
+
+1. Launch your app in debug mode in Visual Studio for Mac.
+2. Open your Activity Monitor app.
+3. In the Activity Monitor app search for your app name in the search bar. To give an example, if I want to attach to our PSPDFCatalog example app I need to search for "PSPDFCatalog".
+4. Double-Click on the process to view the information window.
+5. Now you need to identify the PID (Process ID) of your process. The PID is the number included in the round brackets in the window title, e.g. if the title says "PSPDFCatalog (73389)", then 73389 is your PID. Here's an example of how that looks: 
+<img width="50%" src="Images/pid.png"/>
+
+6. Now you need to open your Terminal app and enter the following command to attach lldb: `lldb -p YOUR-PID aux`. For the example case above this is what the full command would look like: `lldb -p 73389 aux`.
+7. Once lldb is set up in the terminal window, you can simply use it like you would in Xcode.
+8. To get a stack trace you need to type `bt all`.
 
 # Contributing
 
