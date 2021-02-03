@@ -5,7 +5,8 @@ using CoreGraphics;
 
 using PSPDFKit.Model;
 using PSPDFKit.UI;
-using UIKit;
+using static PSPDFCatalog.AnnotationHelper;
+
 
 namespace PSPDFCatalog {
 	public class AnnotationsFromCodeViewController : PSPDFViewController, IPSPDFViewControllerDelegate {
@@ -22,8 +23,8 @@ namespace PSPDFCatalog {
 
 			var annotationsList = new List<PSPDFAnnotation> ();
 			uint targetPage = 0;
+
 			var pageInfo = Document.GetPageInfo (targetPage);
-			CGRect viewRect = UIScreen.MainScreen.Bounds;
 			var maxHeight = pageInfo.Size.Height;
 			for (int i = 0; i < 5; i++) {
 				var note = new PSPDFNoteAnnotation {
@@ -34,24 +35,8 @@ namespace PSPDFCatalog {
 				annotationsList.Add (note);
 			}
 
-			// Ink Annotation sample
-			var inkAnnot = new PSPDFInkAnnotation ();
-			var linesArr = NSArray<NSValue>.FromNSObjects (
-				NSValue.FromCGPoint (new CGPoint (480.93079f, 596.0625f)),
-				NSValue.FromCGPoint (new CGPoint (476.8027f, 592.96881f)),
-				NSValue.FromCGPoint (new CGPoint (468.54639f, 585.75f)),
-				NSValue.FromCGPoint (new CGPoint (456.1619f, 574.40631f)),
-				NSValue.FromCGPoint (new CGPoint (436.5531f, 550.6875f)),
-				NSValue.FromCGPoint (new CGPoint (357.086f, 434.15631f)),
-				NSValue.FromCGPoint (new CGPoint (294.1315f, 359.90631f)),
-				NSValue.FromCGPoint (new CGPoint (226.01691f, 284.625f)),
-				NSValue.FromCGPoint (new CGPoint (176.4789f, 222.75f))
-		   	);
-			var lines = new NSArray<NSValue> [] { linesArr };
-
-			inkAnnot.Lines = PSPDFInkAnnotation.ConvertViewLinesToPdfLines (lines, pageInfo, viewRect);
-			inkAnnot.LineWidth = 5;
-			inkAnnot.Color = UIColor.White;
+			// We use a sample annotation here to save space.
+			var inkAnnot =  GetAnnotationOfType (PSPDFAnnotationType.Ink, Document, targetPage);
 			annotationsList.Add (inkAnnot);
 
 			annotationsArr = annotationsList.ToArray ();
@@ -68,6 +53,7 @@ namespace PSPDFCatalog {
 
 			foreach (var annotation in annotations) {
 				Console.WriteLine ($"Selected Annotation: {annotation.Name}");
+				//pageView.SelectedAnnotations = new PSPDFAnnotation [] {};
 			}
 		}
 	}
