@@ -6,7 +6,7 @@ using CoreGraphics;
 
 namespace PSPDFCatalog {
 	// This class is used for creating sample annotations that usually take a few lines of code to generate.
-	// We define some of them here to make our life easier in other examples, where we just need a generic annotaiton of some type.
+	// We define some of them here to make our lives easier in other examples, where we just need a generic annotation of some type.
 	public class AnnotationHelper {
 		public AnnotationHelper ()
 		{
@@ -17,8 +17,6 @@ namespace PSPDFCatalog {
 			switch (type) {
 			case PSPDFAnnotationType.Ink:
 				return GetInkAnnotation (document, targetPage);
-			case PSPDFAnnotationType.Stamp:
-				return GetStampAnnotation (document, targetPage);
 			default:
 				Console.WriteLine ($"No sample annotation of type {type} available.");
 				return null;
@@ -49,14 +47,6 @@ namespace PSPDFCatalog {
 			inkAnnot.LineWidth = 5;
 			inkAnnot.Color = UIColor.White;
 			return inkAnnot;
-		}
-
-		private static PSPDFStampAnnotation GetStampAnnotation (PSPDFDocument document, uint targetPage)
-		{
-			var stampAnnotation = new PSPDFStampAnnotation ();
-			stampAnnotation.Title = "This is a stamp!";
-
-			return stampAnnotation;
 		}
 	}
 }

@@ -9,9 +9,11 @@ namespace PSPDFCatalog {
 		{
 			var pageInfo = document.GetPageInfo (0);
 			var stampAnnotation = new PSPDFStampAnnotation ();
+
 			// We place the stamp in the middle of the page.
 			stampAnnotation.BoundingBox = new CGRect (pageInfo.Size.Width / 2, pageInfo.Size.Height / 2, 150, 100);
 			stampAnnotation.Title = "Tap me!";
+
 			document.AddAnnotations (new [] { stampAnnotation }, options: null);
 
 			// When tapping the stamp annotation, an alert window will appear via the JavaScript action.
