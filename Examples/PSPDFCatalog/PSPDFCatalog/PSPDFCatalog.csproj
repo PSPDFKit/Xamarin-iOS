@@ -148,6 +148,8 @@
     <Compile Include="Catalog\Search\FTSDocumentPickerController.cs" />
     <Compile Include="Catalog\Customization\ReaderViewController.cs" />
     <Compile Include="Catalog\Forms\CreateFormFieldFromCode.cs" />
+    <Compile Include="Catalog\Annotations\JavaScriptActionsViewController.cs" />
+    <Compile Include="Catalog\AnnotationHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
