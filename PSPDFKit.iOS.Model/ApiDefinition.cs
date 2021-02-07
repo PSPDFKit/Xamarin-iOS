@@ -107,7 +107,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAction : INSSecureCoding, INativeObject {
+	interface PSPDFAction : INativeObject {
 
 		[Field ("PSPDFActionTypeTransformerName", PSPDFKitLibraryPath.LibraryPath)]
 		NSString TypeTransformerName { get; }
@@ -197,7 +197,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAnnotation : PSPDFUndoSupport, INSSecureCoding, INativeObject {
+	interface PSPDFAnnotation : PSPDFUndoSupport, INativeObject {
 
 		[Export ("isDeletable")]
 		bool IsDeletable { get; }
@@ -387,6 +387,9 @@ namespace PSPDFKit.Model {
 
 		// PSPDFAnnotation (Drawing) Category
 
+		[Export ("lockAndRenderInContext:options:")]
+		void LockAndRender (CGContext context, [NullAllowed] PSPDFRenderOptions renderOptions);
+
 		[Export ("drawInContext:options:")]
 		void DrawInContext (CGContext context, [NullAllowed] PSPDFRenderOptions renderOptions);
 
@@ -457,6 +460,10 @@ namespace PSPDFKit.Model {
 
 		[NullAllowed, Export ("attributedString")]
 		NSAttributedString AttributedString { get; }
+
+		[Export ("attributedStringWithContents:options:")]
+		[return: NullAllowed]
+		NSAttributedString GetAttributedString ([NullAllowed] string contents, [NullAllowed] PSPDFRenderOptions renderOptions);
 
 		[Export ("attributedStringWithContents:")]
 		[return: NullAllowed]
@@ -823,7 +830,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFAnnotationSet : INSSecureCoding {
+	interface PSPDFAnnotationSet {
 
 		[Export ("initWithAnnotations:copyAnnotations:")]
 		[DesignatedInitializer]
@@ -849,7 +856,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFAnnotationStyle : INSSecureCoding {
+	interface PSPDFAnnotationStyle {
 
 		[Export ("initWithName:")]
 		[DesignatedInitializer]
@@ -1024,7 +1031,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAppearanceCharacteristics : INSSecureCoding {
+	interface PSPDFAppearanceCharacteristics {
 
 		[NullAllowed, Export ("normalIcon", ArgumentSemantic.Strong)]
 		UIImage NormalIcon { get; set; }
@@ -1223,7 +1230,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFBookmark : INSCopying, INSMutableCopying, INSSecureCoding, PSPDFOverridable {
+	interface PSPDFBookmark : INSCopying, INSMutableCopying, PSPDFOverridable {
 
 		[Export ("initWithAction:")]
 		[DesignatedInitializer]
@@ -1347,7 +1354,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFFormElement))]
-	interface PSPDFButtonFormElement : INSSecureCoding {
+	interface PSPDFButtonFormElement {
 
 		[Export ("selected")]
 		bool Selected { [Bind ("isSelected")] get; }
@@ -1843,6 +1850,10 @@ namespace PSPDFKit.Model {
 		[return: NullAllowed]
 		[Export ("progress")]
 		NSProgress GetProgress ();
+
+		[return: NullAllowed]
+		[Export ("error")]
+		NSError GetError ();
 
 		[Export ("createDataSinkWithOptions:error:")]
 		[return: NullAllowed]
@@ -2726,7 +2737,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFPageSize : INSSecureCoding {
+	interface PSPDFPageSize {
 
 		[Static]
 		[Export ("size:name:")]
@@ -2754,7 +2765,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFDirectory : INSSecureCoding {
+	interface PSPDFDirectory {
 
 		[Static]
 		[Export ("directoryWithPath:")]
@@ -2780,7 +2791,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFCompression : INSSecureCoding {
+	interface PSPDFCompression {
 
 		[Static]
 		[Export ("compression:name:")]
@@ -3474,6 +3485,14 @@ namespace PSPDFKit.Model {
 		[Abstract]
 		string DocumentDirectory { get; }
 
+		[Export ("cachesURL")]
+		[Abstract]
+		NSUrl CachesUrl { get; }
+
+		[Export ("documentURL")]
+		[Abstract]
+		NSUrl DocumentUrl { get; }
+
 		[Export ("temporaryDirectoryWithUID:")]
 		[Abstract]
 		string GetTemporaryDirectory ([NullAllowed] string uid);
@@ -3687,7 +3706,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFWidgetAnnotation))]
-	interface PSPDFFormElement : INSSecureCoding {
+	interface PSPDFFormElement {
 
 		[NullAllowed, Export ("formField", ArgumentSemantic.Weak)]
 		PSPDFFormField FormField { get; }
@@ -3750,7 +3769,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFFormField : PSPDFUndoSupport, INSSecureCoding {
+	interface PSPDFFormField : PSPDFUndoSupport {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -4137,6 +4156,9 @@ namespace PSPDFKit.Model {
 
 		[Field ("PSPDFSettingKeyHonorDocumentPermissions", PSPDFKitLibraryPath.LibraryPath)]
 		NSString HonorDocumentPermissionsKey { get; }
+
+		[Field ("PSPDFSettingKeyLowMemoryMode", PSPDFKitLibraryPath.LibraryPath)]
+		NSString LowMemoryModeKey { get; }
 
 		[Static]
 		[Export ("sharedInstance")]
@@ -4632,7 +4654,7 @@ namespace PSPDFKit.Model {
 
 	[Abstract]
 	[BaseType (typeof (NSObject))]
-	interface PSPDFModel : INSCopying, INSCoding {
+	interface PSPDFModel : INSCopying, INSSecureCoding {
 
 		[Static]
 		[return: NullAllowed]
@@ -6803,7 +6825,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFPageTemplate : INSSecureCoding {
+	interface PSPDFPageTemplate {
 		
 		[Internal]
 		[Export ("initWithDocument:sourcePageIndex:")]
@@ -7015,7 +7037,7 @@ namespace PSPDFKit.Model {
 	delegate void PSPDFRenderDrawHandler (CGContext context, nuint page, CGRect cropBox, PSPDFRenderOptions options);
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFRenderOptions : INSSecureCoding {
+	interface PSPDFRenderOptions {
 
 		[Export ("preserveAspectRatio")]
 		bool PreserveAspectRatio { get; set; }
@@ -7058,6 +7080,9 @@ namespace PSPDFKit.Model {
 
 		[NullAllowed, Export ("interactiveFormFillColor", ArgumentSemantic.Strong)]
 		UIColor InteractiveFormFillColor { get; set; }
+
+		[NullAllowed, Export ("requiredFormBorderColor", ArgumentSemantic.Strong)]
+		UIColor RequiredFormBorderColor { get; set; }
 
 		[NullAllowed, Export ("drawBlock", ArgumentSemantic.Strong)]
 		PSPDFRenderDrawHandler DrawHandler { get; set; }

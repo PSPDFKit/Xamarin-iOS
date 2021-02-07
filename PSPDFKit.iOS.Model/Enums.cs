@@ -18,6 +18,7 @@ namespace PSPDFKit.Model {
 		PageIndexOutOfBounds = 105,
 		DocumentNotLoaded = 106,
 		DocumentObjectInvalidated = 107,
+		DataProviderUnableToLoad = 108,
 		UnableToOpenPDF = 200,
 		UnableToGetPageReference = 210,
 		UnableToGetStream = 211,
@@ -556,6 +557,7 @@ namespace PSPDFKit.Model {
 		WebKitHtmlConversion = 1 << 16,
 		ReaderView = 1 << 17,
 		Ocr = 1 << 18,
+		ElectronicSignatures = 1 << 19,
 
 		All = ulong.MaxValue
 	}

@@ -2509,7 +2509,7 @@ namespace PSPDFKit.UI {
 		void DidEndSearch (PSPDFDocumentPickerController controller);
 	}
 
-	[BaseType (typeof (PSPDFStatefulTableViewController))]
+	[BaseType (typeof (PSPDFSearchableTableViewController))]
 	interface PSPDFDocumentPickerController : IUISearchDisplayDelegate, IUISearchBarDelegate {
 
 		[Static]
@@ -7382,7 +7382,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (PSPDFBaseViewController))]
-	interface PSPDFViewController : PSPDFPresentationContext, PSPDFControlDelegate, IPSPDFOverridable, IPSPDFTextSearchDelegate, PSPDFInlineSearchManagerDelegate, PSPDFErrorHandler, PSPDFExternalURLHandler, PSPDFOutlineViewControllerDelegate, PSPDFBookmarkViewControllerDelegate, PSPDFWebViewControllerDelegate, PSPDFSearchViewControllerDelegate, PSPDFAnnotationTableViewControllerDelegate, IPSPDFBackForwardActionListDelegate, PSPDFFlexibleToolbarContainerDelegate, IMFMailComposeViewControllerDelegate, IMFMessageComposeViewControllerDelegate, PSPDFEmbeddedFilesViewControllerDelegate, PSPDFConflictResolutionManagerDelegate {
+	interface PSPDFViewController : PSPDFPresentationContext, PSPDFControlDelegate, IPSPDFOverridable, IPSPDFTextSearchDelegate, IUIScreenshotServiceDelegate, PSPDFInlineSearchManagerDelegate, PSPDFErrorHandler, PSPDFExternalURLHandler, PSPDFOutlineViewControllerDelegate, PSPDFBookmarkViewControllerDelegate, PSPDFWebViewControllerDelegate, PSPDFSearchViewControllerDelegate, PSPDFAnnotationTableViewControllerDelegate, IPSPDFBackForwardActionListDelegate, PSPDFFlexibleToolbarContainerDelegate, IMFMailComposeViewControllerDelegate, IMFMessageComposeViewControllerDelegate, PSPDFEmbeddedFilesViewControllerDelegate, PSPDFConflictResolutionManagerDelegate {
 
 		[Export ("initWithDocument:configuration:")]
 		[DesignatedInitializer]
@@ -7789,7 +7789,7 @@ namespace PSPDFKit.UI {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFViewState : INSSecureCoding {
+	interface PSPDFViewState {
 
 		[Export ("initWithPageIndex:viewPort:selectionState:selectedAnnotationNames:")]
 		[DesignatedInitializer]
