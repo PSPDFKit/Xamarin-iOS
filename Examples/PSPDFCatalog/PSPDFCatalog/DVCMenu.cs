@@ -78,6 +78,11 @@ namespace PSPDFCatalog {
 
                         NavigationController.PushViewController (pdfViewer, true);
                     }),
+                    new StringElement ("Execute JavaScript Actions on Annotation tap", () => {
+                        var document = new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
+                        var pdfViewer = new JavaScriptActionsViewController (document);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    })
                 },
                 new Section ("Forms"){
                     new StringElement ("Programamtically Fill Form Fields", () => {
