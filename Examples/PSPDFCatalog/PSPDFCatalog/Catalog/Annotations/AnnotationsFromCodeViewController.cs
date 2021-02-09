@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Foundation;
 using CoreGraphics;
+using UIKit;
 
 using PSPDFKit.Model;
 using PSPDFKit.UI;
-using static PSPDFCatalog.AnnotationHelper;
-
 
 namespace PSPDFCatalog {
 	public class AnnotationsFromCodeViewController : PSPDFViewController, IPSPDFViewControllerDelegate {
@@ -26,6 +25,8 @@ namespace PSPDFCatalog {
 
 			var pageInfo = Document.GetPageInfo (targetPage);
 			var maxHeight = pageInfo.Size.Height;
+
+			//Note Annotation
 			for (int i = 0; i < 5; i++) {
 				var note = new PSPDFNoteAnnotation {
 					// width/height will be ignored for note annotations.
@@ -35,8 +36,19 @@ namespace PSPDFCatalog {
 				annotationsList.Add (note);
 			}
 
-			// We use a sample annotation here to save space.
-			var inkAnnot =  GetAnnotationOfType (PSPDFAnnotationType.Ink, Document, targetPage);
+			// Ink Annotation
+			var inkAnnot = new PSPDFInkAnnotation ();
+			var linesArr = NSArray<NSValue>.FromNSObjects (
+				NSValue.FromCGPoint (new CGPoint (300.0f, 300.0f)),
+				NSValue.FromCGPoint (new CGPoint (400.0f, 550.0f))
+		   	);
+			var lines = new NSArray<NSValue> [] { linesArr };
+
+			CGRect viewRect = UIScreen.MainScreen.Bounds;
+
+			inkAnnot.Lines = PSPDFInkAnnotation.ConvertViewLinesToPdfLines (lines, pageInfo, viewRect);
+			inkAnnot.LineWidth = 5;
+			inkAnnot.Color = UIColor.Red;
 			annotationsList.Add (inkAnnot);
 
 			annotationsArr = annotationsList.ToArray ();
