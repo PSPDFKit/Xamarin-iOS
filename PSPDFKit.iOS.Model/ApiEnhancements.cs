@@ -312,6 +312,16 @@ namespace PSPDFKit.Model {
 			return (string) str;
 		}
 
+		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFLocalizeWithoutFallback")]
+		static extern IntPtr _LocalizeWithoutFallback (IntPtr stringToken);
+
+		public static string LocalizeWithoutFallback (string stringToken)
+		{
+			var ret = _LocalizeWithoutFallback (new NSString (stringToken).Handle);
+			var str = Runtime.GetNSObject<NSString> (ret);
+			return (string) str;
+		}
+
 		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFSetLocalizationDictionary")]
 		static extern void _SetLocalizationDictionary (IntPtr localizationDict);
 

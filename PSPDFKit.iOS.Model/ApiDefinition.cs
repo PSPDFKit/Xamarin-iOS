@@ -1823,8 +1823,9 @@ namespace PSPDFKit.Model {
 	interface PSPDFDataProviding : INSSecureCoding {
 
 		[Abstract]
-		[NullAllowed, Export ("data")]
-		NSData Data { get; }
+		[Export ("data:")]
+		[return: NullAllowed]
+		NSData GetData ([NullAllowed] out NSError error);
 
 		[Abstract]
 		[Export ("size")]
@@ -1839,9 +1840,9 @@ namespace PSPDFKit.Model {
 		PSPDFDataProvidingAdditionalOperations AdditionalOperationsSupported { get; }
 
 		[Abstract]
-		[Export ("readDataWithSize:atOffset:")]
+		[Export ("readDataWithSize:atOffset:error:")]
 		[return: NullAllowed]
-		NSData ReadData (ulong size, ulong offset);
+		NSData ReadData (ulong size, ulong offset, [NullAllowed] out NSError error);
 
 		[Abstract]
 		[NullAllowed, Export ("signature", ArgumentSemantic.Strong)]
@@ -2857,7 +2858,7 @@ namespace PSPDFKit.Model {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFDocumentProvider : PSPDFOverridable {
 
-		[NullAllowed, Export ("dataProvider")]
+		[Export ("dataProvider")]
 		IPSPDFDataProviding DataProvider { get; }
 
 		[NullAllowed, Export ("fileURL")]
@@ -4760,6 +4761,9 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("renderAnnotationIcon")]
 		UIImage RenderAnnotationIcon { get; }
 
+		[Export ("shouldDrawIconAsIs")]
+		bool ShouldDrawIconAsIs { get; }
+
 		[Export ("drawImageInContext:boundingBox:options:")]
 		void DrawImage (CGContext context, CGRect boundingBox, [NullAllowed] PSPDFRenderOptions options);
 
@@ -5723,12 +5727,12 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFSignatureContainer : INSSecureCoding, PSPDFOverridable {
 
-		[Export ("initWithAnnotation:signer:biometricProperties:")]
+		[Export ("initWithSignatureAnnotation:signer:biometricProperties:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFInkAnnotation annotation, [NullAllowed] PSPDFSigner signer, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties);
+		IntPtr Constructor (PSPDFAnnotation signatureAnnotation, [NullAllowed] PSPDFSigner signer, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties);
 
-		[Export ("annotation")]
-		PSPDFInkAnnotation Annotation { get; }
+		[Export ("signatureAnnotation")]
+		PSPDFAnnotation SignatureAnnotation { get; }
 
 		[NullAllowed, Export ("signer")]
 		PSPDFSigner Signer { get; }
@@ -5746,8 +5750,8 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("signatureInfo")]
 		PSPDFSignatureInfo SignatureInfo { get; }
 
-		[NullAllowed, Export ("overlappingInkSignature")]
-		PSPDFInkAnnotation OverlappingInkSignature { get; }
+		[NullAllowed, Export ("overlappingSignatureAnnotation")]
+		PSPDFAnnotation OverlappingSignatureAnnotation { get; }
 
 		[Export ("signatureBiometricProperties:")]
 		[return: NullAllowed]
@@ -6134,6 +6138,9 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("subtitle")]
 		string Subtitle { get; set; }
 
+		[Export ("rotation")]
+		nuint Rotation { get; }
+
 		[NullAllowed, Export ("image", ArgumentSemantic.Strong)]
 		UIImage Image { get; set; }
 
@@ -6143,6 +6150,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("imageTransform", ArgumentSemantic.Assign)]
 		CGAffineTransform ImageTransform { get; set; }
+
+		[Export ("isSignature")]
+		bool IsSignature { get; set; }
 
 		[Export ("sizeThatFits:")]
 		CGSize GetSizeThatFits (CGSize size);
@@ -6945,6 +6955,10 @@ namespace PSPDFKit.Model {
 
 		[Export ("markedUpString")]
 		string MarkedUpString { get; }
+
+		[Static]
+		[Export ("defaultColor")]
+		UIColor DefaultColor { get; }
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]

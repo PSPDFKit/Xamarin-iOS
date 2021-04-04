@@ -1,11 +1,11 @@
-#addin nuget:?package=Cake.Git&version=0.21.0
-#addin nuget:?package=Newtonsoft.Json&version=12.0.3
+#addin nuget:?package=Cake.Git&version=1.0.1
+#addin nuget:?package=Newtonsoft.Json&version=13.0.1
 
 using System.Net.Http;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-var IOSVERSION = Argument("iosversion", "10.2.0");
+var IOSVERSION = Argument("iosversion", "10.3.0");
 var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
 var MACVERSION = Argument("macversion", "5.1.0");

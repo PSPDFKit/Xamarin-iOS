@@ -40,6 +40,8 @@ namespace PSPDFKit.Instant {
 		AlreadyAuthenticating = 66,
 		ContentMigrationNeeded = 96,
 		PerformingContentMigration = 97,
+		InvalidJsonStructure = 112,
+		InvalidCustomData = 113,
 	}
 
 	[Native]
@@ -317,6 +319,14 @@ namespace PSPDFKit.Instant {
 
 		[Export ("shouldShowCriticalErrors")]
 		bool ShouldShowCriticalErrors { get; set; }
+
+		[Static]
+		[Export ("defaultConfiguration")]
+		PSPDFConfiguration DefaultConfiguration { get; }
+
+		[Static]
+		[Export ("instantCommentThreadItem")]
+		PSPDFAnnotationGroupItem InstantCommentThreadItem { get; }
 	}
 
 	interface IPSPDFInstantDocumentCacheEntry : INativeObject { }
@@ -339,5 +349,18 @@ namespace PSPDFKit.Instant {
 		[Abstract]
 		[Export ("entryState")]
 		PSPDFInstantCacheEntryState EntryState { get; }
+	}
+
+	[BaseType (typeof (PSPDFNoteAnnotation))]
+	interface PSPDFInstantCommentMarkerAnnotation {
+
+		[NullAllowed, Export ("contents")]
+		string Contents { get; set; }
+
+		[Export ("authorStateModel", ArgumentSemantic.Assign)]
+		PSPDFAnnotationAuthorStateModel AuthorStateModel { get; set; }
+
+		[Export ("authorState", ArgumentSemantic.Assign)]
+		PSPDFAnnotationAuthorState AuthorState { get; set; }
 	}
 }

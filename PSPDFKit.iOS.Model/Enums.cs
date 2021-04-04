@@ -19,6 +19,7 @@ namespace PSPDFKit.Model {
 		DocumentNotLoaded = 106,
 		DocumentObjectInvalidated = 107,
 		DataProviderUnableToLoad = 108,
+		DataSinkShouldBeFinished = 120,
 		UnableToOpenPDF = 200,
 		UnableToGetPageReference = 210,
 		UnableToGetStream = 211,
