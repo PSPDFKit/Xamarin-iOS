@@ -150,6 +150,7 @@
     <Compile Include="Catalog\Forms\CreateFormFieldFromCode.cs" />
     <Compile Include="Catalog\Annotations\JavaScriptActionsViewController.cs" />
     <Compile Include="Catalog\AnnotationHelper.cs" />
+    <Compile Include="Catalog\Interactions\InteractionsViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -165,6 +166,7 @@
     <Folder Include="Catalog\Analytics\" />
     <Folder Include="Catalog\Forms\" />
     <Folder Include="Catalog\Search\" />
+    <Folder Include="Catalog\Interactions\" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
