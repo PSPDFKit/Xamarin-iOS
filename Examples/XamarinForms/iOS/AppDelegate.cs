@@ -11,7 +11,7 @@ namespace XFSample.iOS {
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate {
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
-			PSPDFKitGlobal.SetLicenseKey ("YOUR_LICENSE_KEY_GOES_HERE");
+			PSPDFKitGlobal.SetLicenseKey (null, null);
 			global::Xamarin.Forms.Forms.Init ();
 
 			LoadApplication (new App ());

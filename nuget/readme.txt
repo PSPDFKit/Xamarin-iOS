@@ -9,13 +9,13 @@ PSPDFKit Instant adds real-time collaboration features to seamlessly share, edit
 
 You can try PSPDFKit in a few simple steps and get the library up and running in your app with little to no effort.
 
-1. Get the license key from your [customer portal](https://customers.pspdfkit.com/customers/sign_in) or request an [evaluation version](https://pspdfkit.com/try/).
+1. Get the license key from your [customer portal](https://customers.pspdfkit.com/customers/sign_in) or use 'null' for the evaluation version.
 
 2. Set your license key
 
 public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 {
-	PSPDFKitGlobal.SetLicenseKey ("YOUR_LICENSE_KEY_GOES_HERE");
+	PSPDFKitGlobal.SetLicenseKey (null, null);
 	// ...
 }
 

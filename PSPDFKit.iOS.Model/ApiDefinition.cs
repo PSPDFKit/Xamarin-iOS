@@ -197,7 +197,7 @@ namespace PSPDFKit.Model {
 	}
 
 	[BaseType (typeof (PSPDFModel))]
-	interface PSPDFAnnotation : PSPDFUndoSupport, INativeObject {
+	interface PSPDFAnnotation : INativeObject {
 
 		[Export ("isDeletable")]
 		bool IsDeletable { get; }
@@ -385,6 +385,13 @@ namespace PSPDFKit.Model {
 		[Export ("maybeRenderCustomAppearanceStreamWithContext:options:")]
 		bool MaybeRenderCustomAppearanceStream (CGContext context, PSPDFRenderOptions renderOptions);
 
+		[Static]
+		[Export ("propertyKeysForUndo")]
+		NSSet<NSString> PropertyKeysForUndo { get; }
+
+		[Export ("setUndoneValue:forKeyPath:")]
+		void SetUndoneValue ([NullAllowed] NSObject value, NSString keyPath);
+
 		// PSPDFAnnotation (Drawing) Category
 
 		[Export ("lockAndRenderInContext:options:")]
@@ -468,21 +475,6 @@ namespace PSPDFKit.Model {
 		[Export ("attributedStringWithContents:")]
 		[return: NullAllowed]
 		NSAttributedString GetAttributedString ([NullAllowed] string contents);
-
-		// PSPDFUndoSupport protocol support
-
-		[Static]
-		[Export ("keysForValuesToObserveForUndo")]
-		NSSet<NSString> GetKeysForValuesToObserveForUndo ();
-
-		[Static]
-		[Export ("localizedUndoActionNameForKey:")]
-		[return: NullAllowed]
-		string LocalizedUndoActionName (string key);
-
-		[Static]
-		[Export ("undoCoalescingForKey:")]
-		PSPDFUndoCoalescing GetUndoCoalescing (string key);
 
 		// PSPDFAnnotation (InstantJSON) Category
 
@@ -1430,10 +1422,6 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFCache {
 
-		[Export ("initWithSettings:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFKitGlobal pspdfkit);
-
 		[Export ("memoryCache")]
 		PSPDFMemoryCache MemoryCache { get; }
 
@@ -1593,7 +1581,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFContainerAnnotationProvider : PSPDFAnnotationProviderRefreshing, PSPDFUndoSupport {
+	interface PSPDFContainerAnnotationProvider : PSPDFAnnotationProviderRefreshing {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
@@ -1601,9 +1589,6 @@ namespace PSPDFKit.Model {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
-
-		[NullAllowed, Export ("undoController", ArgumentSemantic.Weak)]
-		PSPDFUndoController UndoController { get; }
 
 		// PSPDFContainerAnnotationProvider (SubclassingHooks) Category
 
@@ -1613,9 +1598,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("clearNeedsSaveFlag")]
 		void ClearNeedsSaveFlag ();
-
-		[Export ("registerAnnotationsForUndo:")]
-		void RegisterAnnotationsForUndo (PSPDFAnnotation [] annotations);
 
 		[Export ("annotationCache")]
 		NSMutableDictionary<NSNumber, NSArray<PSPDFAnnotation>> AnnotationCache { get; }
@@ -1659,21 +1641,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("setAnnotationCacheDirect:")]
 		void SetAnnotationCacheDirect (NSDictionary<NSNumber, NSArray<PSPDFAnnotation>> annotationCache);
-
-		// PSPDFUndoSupport protocol support
-
-		[Static]
-		[Export ("keysForValuesToObserveForUndo")]
-		NSSet<NSString> GetKeysForValuesToObserveForUndo ();
-
-		[Static]
-		[Export ("localizedUndoActionNameForKey:")]
-		[return: NullAllowed]
-		string LocalizedUndoActionName (string key);
-
-		[Static]
-		[Export ("undoCoalescingForKey:")]
-		PSPDFUndoCoalescing GetUndoCoalescing (string key);
 	}
 
 	[BaseType (typeof (PSPDFFileDataProvider))]
@@ -1925,10 +1892,6 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFDiskCache {
 
-		[Export ("initWithCacheDirectory:fileFormat:settings:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (string cacheDirectory, PSPDFDiskCacheFileFormat fileFormat, PSPDFKitGlobal settings);
-
 		[Export ("allowedDiskSpace")]
 		long AllowedDiskSpace { get; set; }
 
@@ -2126,6 +2089,9 @@ namespace PSPDFKit.Model {
 
 		[NullAllowed, Export ("userActivity", ArgumentSemantic.Strong)]
 		NSUserActivity UserActivity { get; set; }
+
+		[Export ("undoController")]
+		IPSPDFUndoController UndoController { get; }
 
 		// PSPDFDocument (Caching) Category
 
@@ -2325,12 +2291,6 @@ namespace PSPDFKit.Model {
 		string GetFileName (nuint fileIndex);
 
 		// PSPDFDocument (Advanced) Category
-
-		[Export ("undoEnabled")]
-		bool UndoEnabled { [Bind ("isUndoEnabled")] get; set; }
-
-		[NullAllowed, Export ("undoController")]
-		PSPDFUndoController UndoController { get; }
 
 		[Export ("relativePageIndexForPageAtIndex:")]
 		nuint GetRelativePageIndex (nuint pageIndex);
@@ -3770,7 +3730,7 @@ namespace PSPDFKit.Model {
 
 	[BaseType (typeof (PSPDFModel))]
 	[DisableDefaultCtor]
-	interface PSPDFFormField : PSPDFUndoSupport {
+	interface PSPDFFormField : PSPDFOverridable {
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -3827,21 +3787,6 @@ namespace PSPDFKit.Model {
 		[Export ("fullyQualifiedNameForAnnotation:")]
 		[return: NullAllowed]
 		string GetFullyQualifiedName (PSPDFFormElement annotation);
-
-		// PSPDFUndoSupport protocol support
-
-		[Static]
-		[Export ("keysForValuesToObserveForUndo")]
-		NSSet<NSString> GetKeysForValuesToObserveForUndo ();
-
-		[Static]
-		[Export ("localizedUndoActionNameForKey:")]
-		[return: NullAllowed]
-		string LocalizedUndoActionName (string key);
-
-		[Static]
-		[Export ("undoCoalescingForKey:")]
-		PSPDFUndoCoalescing GetUndoCoalescing (string key);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -4167,11 +4112,11 @@ namespace PSPDFKit.Model {
 
 		[Static]
 		[Export ("setLicenseKey:")]
-		void SetLicenseKey (string licenseKey);
+		void SetLicenseKey ([NullAllowed] string licenseKey);
 
 		[Static]
 		[Export ("setLicenseKey:options:")]
-		void SetLicenseKey (string licenseKey, [NullAllowed] NSDictionary options);
+		void SetLicenseKey ([NullAllowed] string licenseKey, [NullAllowed] NSDictionary options);
 
 		[Static]
 		[Export ("versionString")]
@@ -4635,10 +4580,6 @@ namespace PSPDFKit.Model {
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
 	interface PSPDFMemoryCache {
-
-		[Export ("initWithSettings:")]
-		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFKitGlobal settings);
 
 		[Export ("count")]
 		nuint Count { get; }
@@ -6386,110 +6327,76 @@ namespace PSPDFKit.Model {
 		PSPDFUnderlineAnnotation FromRects ([BindAs (typeof (CGRect[]))] NSValue[] rects, CGRect boundingBox, nuint pageIndex);
 	}
 
-	[BaseType (typeof (NSObject))]
-	interface PSPDFUndoController {
-
-		[Field ("PSPDFUndoControllerAddedUndoActionNotification", PSPDFKitLibraryPath.LibraryPath)]
-		[Notification]
-		NSString AddedUndoActionNotification { get; }
-
-		[Field ("PSPDFUndoControllerRemovedUndoActionNotification", PSPDFKitLibraryPath.LibraryPath)]
-		[Notification]
-		NSString RemovedUndoActionNotification { get; }
-
-		[Export ("working")]
-		bool Working { [Bind ("isWorking")] get; }
-
-		[Export ("undoing")]
-		bool Undoing { [Bind ("isUndoing")] get; }
-
-		[Export ("redoing")]
-		bool Redoing { [Bind ("isRedoing")] get; }
-
-		[Export ("canUndo")]
-		bool CanUndo { get; }
-
-		[Export ("canRedo")]
-		bool CanRedo { get; }
-
-		[Export ("undo")]
-		void Undo ();
-
-		[Export ("redo")]
-		void Redo ();
-
-		[Export ("endUndoGroupingWithProperty:ofObject:")]
-		void EndUndoGrouping (string changedProperty, [NullAllowed] NSObject @object);
-
-		[Export ("removeAllActions")]
-		void RemoveAllActions ();
-
-		[Export ("removeAllActionsWithTarget:")]
-		void RemoveAllActions (NSObject target);
-
-		[Export ("registerObjectForUndo:")]
-		void RegisterObjectForUndo (IPSPDFUndoSupport @object);
-
-		[Export ("unregisterObjectForUndo:")]
-		void UnregisterObjectForUndo (IPSPDFUndoSupport @object);
-
-		[Export ("prepareWithInvocationTarget:block:")]
-		void Prepare (NSObject invocationTarget, Action<NSObject> handler);
-
-		[Export ("undoManager")]
-		NSUndoManager UndoManager { get; }
-
-		[Export ("timedCoalescingInterval")]
-		double TimedCoalescingInterval { get; set; }
-
-		[Export ("levelsOfUndo")]
-		nuint LevelsOfUndo { get; set; }
-
-		[Export ("performUndoAction:")]
-		void PerformUndoAction (NSObject action);
-
-		// PSPDFUndoController (TimeCoalescingSupport) Category
-
-		[Export ("commitIncompleteUndoActions")]
-		void CommitIncompleteUndoActions ();
-
-		[Export ("hasIncompleteUndoActions")]
-		bool HasIncompleteUndoActions { get; }
-
-		[NullAllowed, Export ("incompleteUndoActionName")]
-		string IncompleteUndoActionName { get; }
-	}
-
-	interface IPSPDFUndoSupport { }
+	interface IPSPDFUndoController { }
 
 	[Protocol]
-	interface PSPDFUndoSupport {
+	interface PSPDFUndoController {
 
-		// HACK: The following 3 static methods need to be manually inlined in any object implementing this protocol
-		//[Static]
-		//[Export ("keysForValuesToObserveForUndo")]
-		//NSSet<NSString> GetKeysForValuesToObserveForUndo ();
+		[Abstract]
+		[Export ("undoManager", ArgumentSemantic.Strong)]
+		NSUndoManager UndoManager { get; }
 
-		//[Static]
-		//[Export ("localizedUndoActionNameForKey:")]
-		//[return: NullAllowed]
-		//string LocalizedUndoActionName (string key);
+		[Abstract]
+		[Export ("recordCommandNamed:inScope:")]
+		void RecordCommandNamed ([NullAllowed] string title, Action<IPSPDFUndoRecorder> scope);
 
-		//[Static]
-		//[Export ("undoCoalescingForKey:")]
-		//PSPDFUndoCoalescing GetUndoCoalescing (string key);
+		[Abstract]
+		[Export ("recordCommandNamed:changingAnnotations:inScope:")]
+		void RecordCommandNamedChangingAnnotations ([NullAllowed] string title, PSPDFAnnotation[] annotations, Action scope);
 
-		[Export ("insertUndoObjects:forKey:")]
-		void InsertUndoObjects (NSSet objects, string key);
+		[Abstract]
+		[Export ("recordCommandNamed:addingAnnotations:inScope:")]
+		void RecordCommandNamedAddingAnnotations ([NullAllowed] string title, PSPDFAnnotation[] annotations, Action scope);
 
-		[Export ("removeUndoObjects:forKey:")]
-		void RemoveUndoObjects (NSSet objects, string key);
+		[Abstract]
+		[Export ("recordCommandNamed:removingAnnotations:inScope:")]
+		void RecordCommandNamedRemovingAnnotations ([NullAllowed] string title, PSPDFAnnotation[] annotations, Action scope);
 
-		[Export ("didUndoOrRedoChange:")]
-		void DidUndoOrRedoChange (string key);
+		[Abstract]
+		[Export ("beginRecordingCommandNamed:")]
+		IPSPDFDetachedUndoRecorder BeginRecordingCommandNamed ([NullAllowed] string title);
 
-		[Export ("performUndoAction:")]
-		void PerformUndoAction (NSObject action);
+		[Abstract]
+		[Export ("beginRecordingCommandNamed:changingAnnotations:")]
+		IPSPDFPendingUndoRecorder BeginRecordingCommandNamed ([NullAllowed] string title, PSPDFAnnotation[] annotations);
+	}
+
+	interface IPSPDFPendingUndoRecorder { }
+
+	[Protocol]
+	interface PSPDFPendingUndoRecorder {
+
+		[Abstract]
+		[Export ("commit")]
+		void Commit ();
+	}
+	
+	interface IPSPDFUndoRecorder { }
+
+	[Protocol]
+	interface PSPDFUndoRecorder {
+
+		[Abstract]
+		[Export ("recordChangingAnnotations:inScope:")]
+		void RecordChangingAnnotations (PSPDFAnnotation[] annotations, Action scope);
+
+		[Abstract]
+		[Export ("recordAddingAnnotations:inScope:")]
+		void RecordAddingAnnotations (PSPDFAnnotation[] annotations, Action scope);
+
+		[Abstract]
+		[Export ("recordRemovingAnnotations:inScope:")]
+		void RecordRemovingAnnotations (PSPDFAnnotation[] annotations, Action scope);
+	}
+
+	interface IPSPDFDetachedUndoRecorder { }
+
+	[Protocol]
+	interface PSPDFDetachedUndoRecorder : PSPDFPendingUndoRecorder, PSPDFUndoRecorder {
+
+		[Abstract]
+		[Export ("beginRecordingChangingAnnotations:")]
+		IPSPDFPendingUndoRecorder BeginRecordingChangingAnnotations (PSPDFAnnotation[] annotations);
 	}
 
 	[BaseType (typeof (PSPDFAction))]
@@ -6699,6 +6606,9 @@ namespace PSPDFKit.Model {
 
 		[Export ("canShowAnnotationReplies")]
 		bool GetCanShowAnnotationReplies ();
+
+		[Export ("canShowAnnotationReviews")]
+		bool GetCanShowAnnotationReviews ();
 
 		[Export ("canUseDocumentEditor")]
 		bool GetCanUseDocumentEditor ();
@@ -7167,6 +7077,9 @@ namespace PSPDFKit.Model {
 
 		[Field ("PSPDFAnnotationStyleKeyCalloutAction", PSPDFKitLibraryPath.LibraryPath)]
 		NSString CalloutAction { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyColorPreset", PSPDFKitLibraryPath.LibraryPath)]
+		NSString ColorPreset { get; }
 
 		[Field ("PSPDFAnnotationStyleKeyOutlineColor", PSPDFKitLibraryPath.LibraryPath)]
 		NSString OutlineColor { get; }

@@ -11,7 +11,7 @@ namespace MacPdfViewer {
 			// Set your license key here. PSPDFKit is commercial software.
 			// Each PSPDFKit license is bound to a specific app bundle id.
 			// Visit https://customers.pspdfkit.com to get your license key.
-			PSPDFKitGlobal.SetLicenseKey ("YOUR_LICENSE_KEY_GOES_HERE");
+			PSPDFKitGlobal.SetLicenseKey (null, null);
 		}
 
 		public override void WillTerminate (NSNotification notification)

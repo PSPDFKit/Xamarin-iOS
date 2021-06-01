@@ -106,12 +106,12 @@ using PSPDFKit.UI;
 using PSPDFKit.Instant;
 ```
 
-Also you do need to set your **license key** early on in your `AppDelegate`, before accessing any other PSPDFKit classes. You can get your license key from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already, or [request an evaluation version](https://pspdfkit.com/#trynow)
+Also you do need to set your **license key** early on in your `AppDelegate`, before accessing any other PSPDFKit classes. You can get your license key from your [customer portal](https://customers.pspdfkit.com/) if you haven't done so already. Pass `null` to use the trial version.
 
 ```csharp
 public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 {
-	PSPDFKitGlobal.SetLicenseKey ("YOUR_LICENSE_KEY_GOES_HERE");
+	PSPDFKitGlobal.SetLicenseKey (null, null);
 	// ...
 }
 ```

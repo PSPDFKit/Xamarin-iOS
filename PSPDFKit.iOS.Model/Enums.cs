@@ -843,13 +843,6 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	public enum PSPDFUndoCoalescing : ulong {
-		None,
-		Timed,
-		All
-	}
-
-	[Native]
 	public enum PSPDFSignatureIntegrityStatus : long {
 		Ok = 0,
 		TamperedDocument

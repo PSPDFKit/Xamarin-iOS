@@ -672,11 +672,11 @@ namespace PSPDFKit.UI {
 		[Export ("annotationStyleController:didChangeProperties:")]
 		void DidChangeProperties (PSPDFAnnotationStyleViewController styleController, string [] propertyNames);
 
-		[Export ("annotationStyleController:willStartChangingProperty:")]
-		void WillStartChangingProperty (PSPDFAnnotationStyleViewController styleController, string propertyName);
+		[Export ("annotationStyleController:didBeginChangingProperty:")]
+		void DidBeginChangingProperty (PSPDFAnnotationStyleViewController styleController, string property);
 
-		[Export ("annotationStyleController:didEndChangingProperty:")]
-		void DidEndChangingProperty (PSPDFAnnotationStyleViewController styleController, string propertyName);
+		[Export ("annotationStyleController:didEndChangingProperty:affectedProperties:")]
+		void DidEndChangingProperty (PSPDFAnnotationStyleViewController styleController, string property, string[] affectedProperties);
 
 		[Export ("annotationStyleController:annotationViewForAnnotation:")]
 		[return: NullAllowed]
@@ -1634,9 +1634,6 @@ namespace PSPDFKit.UI {
 		[Export ("drawCreateMode")]
 		PSPDFDrawCreateMode DrawCreateMode { get; set; }
 
-		[Export ("showAnnotationMenuAfterCreation")]
-		bool ShowAnnotationMenuAfterCreation { get; set; }
-
 		[Export ("shouldAskForAnnotationUsername")]
 		bool ShouldAskForAnnotationUsername { get; set; }
 
@@ -1960,9 +1957,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("drawCreateMode")]
 		PSPDFDrawCreateMode DrawCreateMode { get; }
-
-		[Export ("showAnnotationMenuAfterCreation")]
-		bool ShowAnnotationMenuAfterCreation { get; }
 
 		[Export ("shouldAskForAnnotationUsername")]
 		bool ShouldAskForAnnotationUsername { get; }
@@ -6969,6 +6963,9 @@ namespace PSPDFKit.UI {
 		[Export ("reloadDataAndKeepSelection")]
 		void ReloadDataAndKeepSelection ();
 
+		[Export ("reloadPagesAtIndexes:animated:")]
+		void ReloadPages (NSIndexSet indexes, bool animated);
+
 		[Export ("thumbnailSize", ArgumentSemantic.Assign)]
 		CGSize ThumbnailSize { get; set; }
 
@@ -8062,6 +8059,9 @@ namespace PSPDFKit.UI {
 
 		[Field ("PSPDFAnnotationStyleKeyCalloutAction", PSPDFKitGlobal.LibraryPath)]
 		NSString CalloutActionKey { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyColorPreset", PSPDFKitGlobal.LibraryPath)]
+		NSString ColorPresetKey { get; }
 
 		[Field ("PSPDFAnnotationStyleKeyOutlineColor", PSPDFKitGlobal.LibraryPath)]
 		NSString OutlineColorKey { get; }
