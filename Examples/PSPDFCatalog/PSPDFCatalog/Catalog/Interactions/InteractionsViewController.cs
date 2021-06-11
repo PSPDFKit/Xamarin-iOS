@@ -28,7 +28,13 @@ namespace PSPDFCatalog {
 			if (gestureRecognizer.State == UIGestureRecognizerState.Ended) {
 				var pageView = DocumentViewController.GetVisiblePageView (gestureRecognizer.LocationInView (DocumentViewController.View));
 				if (pageView != null) {
-					Console.WriteLine ($"Tapped at point: {gestureRecognizer.LocationInView (DocumentViewController.View)} in page view: {pageView}");
+					// Get the tap point in the view coordinate space.
+					var tapPoint = gestureRecognizer.LocationInView (pageView);
+
+					// Convert the tap point to PDF coordinate space.
+					// For more details, see https://pspdfkit.com/guides/ios/faq/coordinate-spaces/
+					var pdfPoint = pageView.ConvertPointToCoordinateSpace(tapPoint, pageView.PdfCoordinateSpace);
+					Console.WriteLine ($"Tapped at point: {pdfPoint} in page view: {pageView}");
 				}
 			}
 		}
