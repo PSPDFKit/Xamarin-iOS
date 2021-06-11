@@ -132,6 +132,13 @@ namespace PSPDFCatalog {
                         });
                     }),
                 },
+                new Section ("Interactions"){
+                    new StringElement ("Get Touch Coordinates", () => {
+                        var document =new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
+                        var pdfViewer = new InteractionsController (document);
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
+                },
                 new Section("Search")
                 {
                     new StringElement ("FTS with Document Picker", () =>
