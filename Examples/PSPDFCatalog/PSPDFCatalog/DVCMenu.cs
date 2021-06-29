@@ -261,7 +261,21 @@ namespace PSPDFCatalog {
 						};
 						var pdfViewer = new PSCSimpleDrawingPDFViewController (document);
 						NavigationController.PushViewController (pdfViewer, true);
-					})
+					}),
+                    new StringElement ("Custom Free-Text Annotation Inspector", () => {
+                        var document = new PSPDFDocument (NSUrl.FromFilename (PSPDFKitFile));
+                        var pdfViewer = new PSPDFViewController (document, PSPDFConfiguration.FromConfigurationBuilder ((builder) => {
+                            var annotationProperties = new NSMutableDictionary(builder.PropertiesForAnnotations);
+                            // Options you want to keep in the inspector.
+                            var inspectorOptions = new NSString[] { PSPDFAnnotationStyleKey.Color, PSPDFAnnotationStyleKey.LineWidth };
+                            var propertiesArray = NSArray.FromNSObjects(inspectorOptions);
+
+                            // Choose the annotation type for which you want to customize the inspector. 
+                            annotationProperties.SetValueForKey(NSArray.FromNSObjects(propertiesArray), (NSString)"FreeText");
+                            builder.PropertiesForAnnotations = annotationProperties;
+                        }));
+                        NavigationController.PushViewController (pdfViewer, true);
+                    }),
                 },
 			};
 		}
