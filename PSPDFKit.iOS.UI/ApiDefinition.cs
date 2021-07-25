@@ -522,7 +522,7 @@ namespace PSPDFKit.UI {
 		[Export ("repeatOverlayText")]
 		bool RepeatOverlayText { get; set; }
 
-		[NullAllowed, Export ("pencilInteraction")]
+		[Export ("pencilInteraction")]
 		UIPencilInteraction PencilInteraction { get; }
 
 		[Export ("toggleStylePicker:presentationOptions:")]
@@ -954,15 +954,18 @@ namespace PSPDFKit.UI {
 		[Export ("appearanceManager:renderOptionsForMode:")]
 		PSPDFRenderOptions GetRenderOptions (PSPDFAppearanceModeManager manager, PSPDFAppearanceMode mode);
 
+		[Obsolete ("Appearance mode changes only affect page rendering and should no longer be used for UI customization.")]
 		[Export ("appearanceManager:applyAppearanceSettingsForMode:")]
 		void ApplyAppearanceSettings (PSPDFAppearanceModeManager manager, PSPDFAppearanceMode mode);
 
+		[Obsolete ("Appearance mode changes only affect page rendering and should no longer be used for UI customization.")]
 		[Export ("appearanceManager:updateConfiguration:forMode:")]
 		void UpdateConfiguration (PSPDFAppearanceModeManager manager, PSPDFConfigurationBuilder builder, PSPDFAppearanceMode mode);
 	}
 
 	interface PSPDFAppearanceModeChangedNotificationEventArgs {
 
+		[Obsolete ("This is irrelevant on iOS 13 and later. Appearance mode change is never animated.")]
 		[Export ("PSPDFAppearanceModeChangedAnimatedKey")]
 		bool Animated { get; set; }
 	}
@@ -977,6 +980,7 @@ namespace PSPDFKit.UI {
 		[Export ("appearanceMode", ArgumentSemantic.Assign)]
 		PSPDFAppearanceMode AppearanceMode { get; set; }
 
+		[Obsolete ("The animated parameter is not relevant on iOS 13 and later. Use 'AppearanceMode' instead.")]
 		[Export ("setAppearanceMode:animated:")]
 		void SetAppearanceMode (PSPDFAppearanceMode appearanceMode, bool animated);
 
@@ -1511,6 +1515,7 @@ namespace PSPDFKit.UI {
 		[Export ("shouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets")]
 		bool ShouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets { get; set; }
 
+		[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from `UIScrollView` supports dragging on iOS 13 and later.")]
 		[Export ("pageGrabberEnabled")]
 		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; set; }
 
@@ -1880,6 +1885,7 @@ namespace PSPDFKit.UI {
 		[Export ("shouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets")]
 		bool ShouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets { get; }
 
+		[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from `UIScrollView` supports dragging on iOS 13 and later.")]
 		[Export ("pageGrabberEnabled")]
 		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; }
 
@@ -5153,6 +5159,7 @@ namespace PSPDFKit.UI {
 
 	interface IPSPDFPageGrabberView { }
 
+	[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
 	[Protocol]
 	interface PSPDFPageGrabberView {
 
@@ -5160,6 +5167,7 @@ namespace PSPDFKit.UI {
 		void SetCollapsed (bool collapsed, bool animated);
 	}
 
+	[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
 	[BaseType (typeof (UIView))]
 	interface PSPDFPageGrabber {
 
@@ -5170,6 +5178,7 @@ namespace PSPDFKit.UI {
 		bool Grabbing { [Bind ("isGrabbing")] get; }
 	}
 
+	[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
 	interface PSPDFPageGrabberController {
@@ -6670,6 +6679,7 @@ namespace PSPDFKit.UI {
 		[Export ("barHeight")]
 		nfloat BarHeight { get; set; }
 
+		[Obsolete ("On iOS 13 and above, the bar is styled based on the 'TraitCollection'’s 'UserInterfaceStyle'.")]
 		[Export ("tabbedBarStyle", ArgumentSemantic.Assign)]
 		PSPDFTabbedBarStyle TabbedBarStyle { get; set; }
 
@@ -7487,6 +7497,7 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("overlayViewController", ArgumentSemantic.Strong)]
 		IPSPDFControllerStateHandling OverlayViewController { get; set; }
 
+		[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
 		[NullAllowed, Export ("pageGrabberController")]
 		PSPDFPageGrabberController PageGrabberController { get; }
 
@@ -8164,6 +8175,12 @@ namespace PSPDFKit.UI {
 		[Advice ("You can use 'ExcludedActivityTypes' for a strongly typed access")]
 		[Export ("excludedActivityTypes", ArgumentSemantic.Copy)]
 		NSString [] WeakExcludedActivityTypes { get; }
+
+		[Export ("pageDescriptionProvider", ArgumentSemantic.Copy)]
+		Func<nuint, PSPDFDocument, string> PageDescriptionProvider { get; }
+
+		[Export ("selectedPagesDescriptionProvider", ArgumentSemantic.Copy)]
+		Func<PSPDFDocumentSharingPagesOptions, NSIndexSet, PSPDFDocument [], string> SelectedPagesDescriptionProvider { get; }
 	}
 
 	[BaseType (typeof (PSPDFBaseConfigurationBuilder))]
@@ -8192,6 +8209,12 @@ namespace PSPDFKit.UI {
 		[Advice ("You can use 'ExcludedActivityTypes' for a strongly typed access")]
 		[Export ("excludedActivityTypes", ArgumentSemantic.Copy)]
 		NSString [] WeakExcludedActivityTypes { get; set; }
+
+		[Export ("pageDescriptionProvider", ArgumentSemantic.Copy)]
+		Func<nuint, PSPDFDocument, string> PageDescriptionProvider { get; set; }
+
+		[Export ("selectedPagesDescriptionProvider", ArgumentSemantic.Copy)]
+		Func<PSPDFDocumentSharingPagesOptions, NSIndexSet, PSPDFDocument [], string> SelectedPagesDescriptionProvider { get; set; }
 	}
 
 	interface IPSPDFConflictResolutionManagerDelegate { }

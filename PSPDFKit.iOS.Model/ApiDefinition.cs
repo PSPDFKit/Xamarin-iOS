@@ -6996,7 +6996,7 @@ namespace PSPDFKit.Model {
 		[Export ("allowAntialiasing")]
 		bool AllowAntialiasing { get; set; }
 
-		[Export ("backgroundFill", ArgumentSemantic.Strong)]
+		[NullAllowed, Export ("backgroundFill", ArgumentSemantic.Strong)]
 		UIColor BackgroundFill { get; set; }
 
 		[Export ("renderTextUsingCoreGraphics")]
