@@ -3581,14 +3581,6 @@ namespace PSPDFKit.Model {
 		[Abstract]
 		bool GetFileHandleForReading (NSUrl url, out NSError error, Func<NSFileHandle, bool> reader);
 
-		[Export ("fileHandleForWritingToURL:error:withBlock:")]
-		[Abstract]
-		bool GetFileHandleForWriting (NSUrl url, out NSError error, Func<NSFileHandle, bool> writer);
-
-		[Export ("fileHandleForUpdatingURL:error:withBlock:")]
-		[Abstract]
-		bool GetFileHandleForUpdating (NSUrl url, out NSError error, Func<NSFileHandle, bool> updater);
-
 		[Abstract]
 		[Export ("setUbiquitous:itemAtURL:destinationURL:error:")]
 		bool SetUbiquitous (bool flag, NSUrl url, NSUrl destinationUrl, out NSError error);
@@ -6338,27 +6330,27 @@ namespace PSPDFKit.Model {
 
 		[Abstract]
 		[Export ("recordCommandNamed:inScope:")]
-		void RecordCommandNamed ([NullAllowed] string title, Action<IPSPDFUndoRecorder> scope);
+		void RecordCommandNamed ([NullAllowed] string name, Action<IPSPDFUndoRecorder> scope);
 
 		[Abstract]
 		[Export ("recordCommandNamed:changingAnnotations:inScope:")]
-		void RecordCommandNamedChangingAnnotations ([NullAllowed] string title, PSPDFAnnotation[] annotations, Action scope);
+		void RecordCommandNamedChangingAnnotations ([NullAllowed] string name, PSPDFAnnotation[] annotations, Action scope);
 
 		[Abstract]
 		[Export ("recordCommandNamed:addingAnnotations:inScope:")]
-		void RecordCommandNamedAddingAnnotations ([NullAllowed] string title, PSPDFAnnotation[] annotations, Action scope);
+		void RecordCommandNamedAddingAnnotations ([NullAllowed] string name, PSPDFAnnotation[] annotations, Action scope);
 
 		[Abstract]
 		[Export ("recordCommandNamed:removingAnnotations:inScope:")]
-		void RecordCommandNamedRemovingAnnotations ([NullAllowed] string title, PSPDFAnnotation[] annotations, Action scope);
+		void RecordCommandNamedRemovingAnnotations ([NullAllowed] string name, PSPDFAnnotation[] annotations, Action scope);
 
 		[Abstract]
 		[Export ("beginRecordingCommandNamed:")]
-		IPSPDFDetachedUndoRecorder BeginRecordingCommandNamed ([NullAllowed] string title);
+		IPSPDFDetachedUndoRecorder BeginRecordingCommandNamed ([NullAllowed] string name);
 
 		[Abstract]
 		[Export ("beginRecordingCommandNamed:changingAnnotations:")]
-		IPSPDFPendingUndoRecorder BeginRecordingCommandNamed ([NullAllowed] string title, PSPDFAnnotation[] annotations);
+		IPSPDFPendingUndoRecorder BeginRecordingCommandNamed ([NullAllowed] string name, PSPDFAnnotation[] annotations);
 	}
 
 	interface IPSPDFPendingUndoRecorder { }

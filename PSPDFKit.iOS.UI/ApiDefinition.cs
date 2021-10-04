@@ -782,6 +782,9 @@ namespace PSPDFKit.UI {
 		[Export ("deleteAllAction:")]
 		void DeleteAllAction (NSObject sender);
 
+		[Export ("clearOrDeleteAllAnnotations")]
+		void ClearOrDeleteAllAnnotations ();
+
 		[NullAllowed, Export ("viewForTableViewFooter")]
 		UIView ViewForTableViewFooter { get; }
 
@@ -8653,6 +8656,9 @@ namespace PSPDFKit.UI {
 		[Export ("availableModes", ArgumentSemantic.Copy)]
 		NSNumber [] AvailableModes { get; set; }
 
+		[Export ("colors", ArgumentSemantic.Copy)]
+		UIColor [] Colors { get; set; }
+
 		[Export ("isNaturalDrawingEnabled")]
 		bool IsNaturalDrawingEnabled { get; set; }
 
@@ -8679,6 +8685,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("availableModes", ArgumentSemantic.Copy)]
 		NSNumber [] AvailableModes { get; }
+
+		[Export ("colors", ArgumentSemantic.Copy)]
+		UIColor [] Colors { get; }
 
 		[Export ("isNaturalDrawingEnabled")]
 		bool IsNaturalDrawingEnabled { get; }
