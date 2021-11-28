@@ -7099,4 +7099,67 @@ namespace PSPDFKit.Model {
 		[Export ("progress")]
 		NSProgress Progress { get; }
 	}
+
+	[BaseType (typeof (PSPDFBaseConfigurationBuilder))]
+	interface PSPDFComparisonConfigurationBuilder {
+
+		[NullAllowed, Export ("oldDocumentStrokeColor", ArgumentSemantic.Strong)]
+		UIColor OldDocumentStrokeColor { get; set; }
+
+		[NullAllowed, Export ("newDocumentStrokeColor", ArgumentSemantic.Strong)]
+		UIColor NewDocumentStrokeColor { get; set; }
+
+		[Export ("blendMode", ArgumentSemantic.Assign)]
+		CGBlendMode BlendMode { get; set; }
+
+		[NullAllowed, Export ("workingDirectory", ArgumentSemantic.Strong)]
+		NSUrl WorkingDirectory { get; set; }
+	}
+
+	[BaseType (typeof (PSPDFBaseConfiguration))]
+	interface PSPDFComparisonConfiguration {
+
+		[Static, New]
+		[Export ("defaultConfiguration")]
+		PSPDFComparisonConfiguration DefaultConfiguration { get; }
+
+		[Export ("initWithBuilder:")]
+		IntPtr Constructor (PSPDFComparisonConfigurationBuilder builder);
+
+		[Static]
+		[Export ("configurationWithBuilder:")]
+		PSPDFComparisonConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFComparisonConfigurationBuilder> builderHandler);
+
+		[Export ("configurationUpdatedWithBuilder:")]
+		PSPDFComparisonConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFComparisonConfigurationBuilder> builderHandler);
+
+		[NullAllowed, Export ("oldDocumentStrokeColor")]
+		UIColor OldDocumentStrokeColor { get; }
+
+		[NullAllowed, Export ("newDocumentStrokeColor")]
+		UIColor NewDocumentStrokeColor { get; }
+
+		[Export ("blendMode")]
+		CGBlendMode BlendMode { get; }
+
+		[NullAllowed, Export ("workingDirectory")]
+		NSUrl WorkingDirectory { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFComparisonProcessor {
+
+		[Export ("initWithConfiguration:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (PSPDFComparisonConfiguration configuration);
+
+		[Export ("comparisonDocumentWithOldDocument:pageIndex:newDocument:pageIndex:transform:error:")]
+		[return: NullAllowed]
+		PSPDFDocument GetComparisonDocument (PSPDFDocument oldDocument, nuint oldDocumentPageIndex, PSPDFDocument newDocument, nuint newDocumentPageIndex, CGAffineTransform transform, out NSError error);
+
+		[Export ("comparisonDocumentWithOldDocument:pageIndex:points:newDocument:pageIndex:points:error:")]
+		[return: NullAllowed]
+		PSPDFDocument GetComparisonDocument (PSPDFDocument oldDocument, nuint oldDocumentPageIndex, [BindAs (typeof (CGPoint []))] NSValue [] oldDocumentPoints, PSPDFDocument newDocument, nuint newDocumentPageIndex, [BindAs (typeof (CGPoint []))] NSValue [] newDocumentPoints, out NSError error);
+	}
 }
