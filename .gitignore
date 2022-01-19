@@ -41,3 +41,4 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 *.xcuserstate
+*.xcframework
