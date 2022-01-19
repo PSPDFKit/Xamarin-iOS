@@ -8,9 +8,6 @@ using Newtonsoft.Json.Linq;
 var IOSVERSION = Argument("iosversion", "11.1.1");
 var IOS_SERVICERELEASE_VERSION = "0"; // This is combined with the IOSVERSION variable for the NuGet Package version
 
-var MACVERSION = Argument("macversion", "5.1.0");
-var MACOS_SERVICERELEASE_VERSION = "0"; // This is combined with the MACVERSION variable for the NuGet Package version
-
 var target = Argument ("target", "Default");
 var NUGET_API_KEY = EnvironmentVariable("NUGET_API_KEY");
 
@@ -26,42 +23,20 @@ Task ("DownloadDeps")
 
 		var iosUrl = $"https://customers.pspdfkit.com/pspdfkit-ios/{IOSVERSION}-framework.podspec.json";
 		var instantUrl = $"https://customers.pspdfkit.com/instant/{IOSVERSION}-framework.podspec.json";
-		var macosUrl = $"https://customers.pspdfkit.com/pspdfkit-macos/{MACVERSION}.podspec.json";
 
 		var iosDlUrl = await ResolveDownloadUrl (iosUrl);
 		var instantDlUrl = await ResolveDownloadUrl (instantUrl);
-		var macosDlUrl = await ResolveDownloadUrl (macosUrl);
 
 		CreateDirectory("./cache");
 		DownloadFile (iosDlUrl, $"./cache/ios.zip");
 		DownloadFile (instantDlUrl, $"./cache/instant.zip");
-		DownloadFile (macosDlUrl, $"./cache/mac.zip");
 
 		UnzipFile ($"./cache/ios.zip", $"./cache/ios");
 		UnzipFile ($"./cache/instant.zip", $"./cache/ios");
-		UnzipFile ($"./cache/mac.zip", $"./cache/macos");
 
-		CopyDir ("./cache/macos/PSPDFKit.framework", "./PSPDFKit.Mac.Model/PSPDFKit.framework");
 		CopyDir ("./cache/ios/PSPDFKit.framework", "./PSPDFKit.iOS.Model/PSPDFKit.framework");
 		CopyDir ("./cache/ios/PSPDFKitUI.framework", "./PSPDFKit.iOS.UI/PSPDFKitUI.framework");
 		CopyDir ("./cache/ios/Instant.framework", "./PSPDFKit.iOS.Instant/Instant.framework");
-	}
-);
-
-Task ("MacModel")
-	.Description ("Builds 'PSPDFKit.Mac.Model.dll', expects 'PSPDFKit.framework' inside './PSPDFKit.Mac.Model/' Directory\n")
-	.Does (() => {
-		Information ("=== PSPDFKit.Mac.Model.dll ===");
-		if (!DirectoryExists ("./PSPDFKit.Mac.Model/PSPDFKit.framework/")) {
-			Warning ("Unable to locate 'PSPDFKit.framework' inside './PSPDFKit.Mac' Directory");
-			Warning ("Skipping PSPDFKit.Mac.Model.dll");
-		} else {
-			MSBuild ("./PSPDFKit.Mac.Model/PSPDFKit.Mac.Model.csproj", new MSBuildSettings ()
-				.SetConfiguration ("Release")
-			);
-			if (FileExists ("./PSPDFKit.Mac.Model/bin/Release/PSPDFKit.Mac.Model.dll"))
-				CopyFile ("./PSPDFKit.Mac.Model/bin/Release/PSPDFKit.Mac.Model.dll", "./PSPDFKit.Mac.Model.dll");
-		}
 	}
 );
 
@@ -133,15 +108,6 @@ Task ("ios")
 	}
 );
 
-Task ("mac")
-	.Description ("Builds macOS PSPDFKit dlls.\n")
-	.IsDependentOn ("Clean")
-	.IsDependentOn ("MacModel")
-	.Does (() => {
-		Information ("DONE! You will find the PSPDFKit.*.dll's in the root folder.");
-	}
-);
-
 Task ("Default")
 	.Description ("Builds all PSPDFKit dlls.\n")
 	.IsDependentOn ("Clean")
@@ -150,7 +116,6 @@ Task ("Default")
 	.IsDependentOn ("iOSModel")
 	.IsDependentOn ("iOSUI")
 	.IsDependentOn ("iOSInstant")
-	.IsDependentOn ("MacModel")
 	.Does (() => {
 		Information ("DONE! You will find the PSPDFKit.*.dll's in the root folder.");
 	}
@@ -193,39 +158,21 @@ Task ("NuGet")
 		}
 	});
 
-	// Only build if framework is present
-	if (DirectoryExists ("./PSPDFKit.Mac.Model/PSPDFKit.framework/")) {
-		NuGetPack ("./nuget/pspdfkit-mac-model.nuspec", new NuGetPackSettings {
-			Version = $"{MACVERSION}.{MACOS_SERVICERELEASE_VERSION}+sha.{commit}",
-			OutputDirectory = "./nuget/pkgs/",
-			BasePath = "./",
-			Properties = new Dictionary<string, string> {
-				{"NoWarn", "NU5105"},
-			}
-		});
-	}
 });
 
 Task ("NuGet-Push")
-	.IsDependentOn("Nuget")
 	.Does (() =>
 {	
 	var iOSFullVersion = IOSVERSION;
-	var macOSFullVersion = MACVERSION;
 
  	if (IOS_SERVICERELEASE_VERSION != "0") {
  		iOSFullVersion = $"{IOSVERSION}.{IOS_SERVICERELEASE_VERSION}";
- 	}
-
-	if (MACOS_SERVICERELEASE_VERSION != "0") {
- 		macOSFullVersion = $"{MACVERSION}.{MACOS_SERVICERELEASE_VERSION}";
  	}
 	
 	// Get the path to the packages
 	var modelPackage = $"./nuget/pkgs/PSPDFKit.iOS.Model.{iOSFullVersion}.nupkg";
  	var uiPackage = $"./nuget/pkgs/PSPDFKit.iOS.UI.{iOSFullVersion}.nupkg";
  	var instantPackage = $"./nuget/pkgs/PSPDFKit.iOS.Instant.{iOSFullVersion}.nupkg";
- 	var macModelPackage = $"./nuget/pkgs/PSPDFKit.Mac.Model.{macOSFullVersion}.nupkg";
 
 	// Push the packages
 	NuGetPush(modelPackage, new NuGetPushSettings {
@@ -243,13 +190,6 @@ Task ("NuGet-Push")
 			ApiKey = NUGET_API_KEY
 	});
 
-	// Only push if framework is present
-	if (DirectoryExists ("./PSPDFKit.Mac.Model/PSPDFKit.framework/")) {
-		NuGetPush(macModelPackage, new NuGetPushSettings {
-				Source = "https://api.nuget.org/v3/index.json",
-				ApiKey = NUGET_API_KEY
-		});
-	}
 });
 
 Task ("Clean")
@@ -259,7 +199,6 @@ Task ("Clean")
 			"./PSPDFKit.iOS.Model.dll",
 			"./PSPDFKit.iOS.UI.dll",
 			"./PSPDFKit.iOS.Instant.dll",
-			"./PSPDFKit.Mac.Model.dll",
 		};
 
 		foreach (var file in nukeFiles) {
@@ -272,8 +211,6 @@ Task ("Clean")
 			"./PSPDFKit.iOS.Model",
 			"./PSPDFKit.iOS.UI",
 			"./PSPDFKit.iOS.Instant",
-			"./PSPDFKit.Mac.Model",
-			"./MacPdfViewer",
 			"./PSPDFCatalog/PSPDFCatalog",
 			"./XamarinForms/iOS",
 			"./XamarinForms/XFSample",
@@ -292,10 +229,8 @@ Task ("Clean")
 			"./packages",
 			"./nuget/pkgs",
 			"./cache/ios",
-			"./cache/macos",
 			"./cache",
 			"./PSPDFKit.iOS.Model/PSPDFKit.framework",
-			"./PSPDFKit.Mac.Model/PSPDFKit.framework",
 			"./PSPDFKit.iOS.UI/PSPDFKitUI.framework",
 			"./PSPDFKit.iOS.Instant/Instant.framework",
 		};
