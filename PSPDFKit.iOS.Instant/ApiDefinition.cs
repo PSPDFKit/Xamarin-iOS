@@ -49,6 +49,8 @@ namespace PSPDFKit.Instant {
 		Unknown,
 		NeedsContentMigration,
 		MigratingContent,
+		NeedsResetForDatabaseMigration,
+		ResettingForDatabaseMigration,
 		Clean,
 		Dirty,
 		SendingChanges,
@@ -62,6 +64,19 @@ namespace PSPDFKit.Instant {
 		Corrupted = 1uL << 0,
 		Unreferenced = 1uL << 1,
 		LayerAbsurdity = 1uL << 2,
+	}
+
+	[Flags]
+	[Native]
+	public enum PSPDFInstantRecordOperations : ulong {
+		None = 0,
+		Edit = 1uL << 0,
+		Delete = 1uL << 1,
+		Reply = 1uL << 2,
+		Fill = 1uL << 3,
+		SetGroup = 1uL << 4,
+		AnnotationDefaults = Edit | Delete | Reply,
+		All = Edit | Delete | Reply | Fill | SetGroup,
 	}
 
 	[Static]
@@ -238,6 +253,18 @@ namespace PSPDFKit.Instant {
 		PSPDFInstantDocumentState DocumentState { get; }
 
 		[Abstract]
+		[Export ("getDefaultGroup:error:")]
+		bool GetDefaultGroup ([NullAllowed] out string defaultGroup, [NullAllowed] out NSError error);
+
+		[Abstract]
+		[Export ("overrideDefaultGroupWithValue:error:")]
+		bool OverrideDefaultGroup ([NullAllowed] string defaultGroup, [NullAllowed] out NSError error);
+
+		[Abstract]
+		[Export ("resetDefaultGroup:error:")]
+		bool ResetDefaultGroup ([NullAllowed] out string defaultGroup, [NullAllowed] out NSError error);
+
+		[Abstract]
 		[Export ("downloadUsingJWT:error:")]
 		bool Download (string jwt, [NullAllowed] out NSError error);
 
@@ -362,5 +389,16 @@ namespace PSPDFKit.Instant {
 
 		[Export ("authorState", ArgumentSemantic.Assign)]
 		PSPDFAnnotationAuthorState AuthorState { get; set; }
+	}
+
+	[Category]
+	[BaseType (typeof (PSPDFAnnotation))]
+	interface PSPDFAnnotation_InstantCollaborationPermissions {
+
+		[Export ("instantRecordOperations")]
+		PSPDFInstantRecordOperations InstantRecordOperations { get; }
+
+		[NullAllowed, Export ("instantRecordGroup")]
+		string InstantRecordGroup { get; }
 	}
 }

@@ -1450,11 +1450,20 @@ namespace PSPDFKit.Model {
 		[Export ("invalidateImagesFromDocument:pageIndex:")]
 		void InvalidateImages ([NullAllowed] PSPDFDocument document, nuint pageIndex);
 
+		[Export ("removeImagesForDocumentWithUID:pageIndex:")]
+		void RemoveImages (string documentUid, nuint pageIndex);
+
 		[Export ("invalidateImagesFromDocument:indexes:")]
 		void InvalidateImages ([NullAllowed] PSPDFDocument document, NSIndexSet indexes);
 
+		[Export ("removeImagesForDocumentWithUID:pageIndexes:")]
+		void RemoveImages (string documentUid, NSIndexSet indexes);
+
 		[Export ("removeCacheForDocument:")]
 		void RemoveCache ([NullAllowed] PSPDFDocument document);
+
+		[Export ("removeImagesForDocumentWithUID:")]
+		void RemoveImages (string documentUid);
 
 		[Export ("clearCache")]
 		void ClearCache ();
