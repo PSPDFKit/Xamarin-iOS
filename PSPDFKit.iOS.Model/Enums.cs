@@ -950,6 +950,8 @@ namespace PSPDFKit.Model {
 		LineArrow,
 		[Field ("PSPDFAnnotationVariantStringFreeTextCallout", PSPDFKitLibraryPath.LibraryPath)]
 		FreeTextCallout,
+		[Field ("PSPDFAnnotationVariantStringPolygonCloud", PSPDFKitLibraryPath.LibraryPath)]
+		PolygonCloud,
 	}
 
 	public enum PSPDFAnnotationStateVariantId {

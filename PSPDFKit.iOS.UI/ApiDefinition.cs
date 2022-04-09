@@ -301,6 +301,10 @@ namespace PSPDFKit.UI {
 		[Static]
 		[Export ("freeTextConfigurationBlock")]
 		PSPDFAnnotationGroupItemConfigurationHandler GetFreeTextConfigurationHandler ();
+
+		[Static]
+		[Export ("polygonConfigurationBlock")]
+		PSPDFAnnotationGroupItemConfigurationHandler GetPolygonConfigurationHandler ();
 	}
 
 	interface IPSPDFAnnotationPresenting { }
@@ -1346,6 +1350,7 @@ namespace PSPDFKit.UI {
 		nfloat OuterBorderPadding { get; set; }
 	}
 
+	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFColorPatch {
 
@@ -1361,6 +1366,7 @@ namespace PSPDFKit.UI {
 		UIColor [] Colors { get; }
 	}
 
+	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFColorPalette {
 
@@ -1417,6 +1423,7 @@ namespace PSPDFKit.UI {
 		PSPDFColorPalette HsvColorPalette { get; }
 	}
 
+	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
 	[BaseType (typeof (NSObject))]
 	interface PSPDFColorPickerFactory : IPSPDFOverridable {
 
@@ -5742,6 +5749,16 @@ namespace PSPDFKit.UI {
 	interface PSPDFAnnotationSetStore {
 
 		[Abstract]
+		[Export ("fetchAnnotationSetsWithError:")]
+		[return: NullAllowed]
+		PSPDFAnnotationSet[] FetchAnnotationSets ([NullAllowed] out NSError error);
+
+		[Abstract]
+		[Export ("setAnnotationSets:error:")]
+		bool SetAnnotationSets (PSPDFAnnotationSet[] newValue, [NullAllowed] out NSError error);
+
+		[Obsolete ("Use 'FetchAnnotationSets' and 'SetAnnotationSets' instead.")]
+		[Abstract]
 		[Export ("annotationSets", ArgumentSemantic.Copy)]
 		PSPDFAnnotationSet [] AnnotationSets { get; set; }
 	}
@@ -5749,6 +5766,21 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFKeychainAnnotationSetsStore : PSPDFAnnotationSetStore {
 
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFPersistentAnnotationSetStore : PSPDFAnnotationSetStore {
+
+		[Export ("initWithDirectoryURL:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (NSUrl directoryUrl);
+
+		[Export ("directoryURL", ArgumentSemantic.Copy)]
+		NSUrl DirectoryUrl { get; }
+
+		[Export ("moveAnnotationSetsFromStore:")]
+		void MoveAnnotationSetsFromStore (IPSPDFAnnotationSetStore otherStore);
 	}
 
 	[BaseType (typeof (PSPDFAnnotationGridViewController))]

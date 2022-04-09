@@ -396,9 +396,9 @@ namespace PSPDFKit.Instant {
 	interface PSPDFAnnotation_InstantCollaborationPermissions {
 
 		[Export ("instantRecordOperations")]
-		PSPDFInstantRecordOperations InstantRecordOperations { get; }
+		PSPDFInstantRecordOperations GetInstantRecordOperations ();
 
 		[NullAllowed, Export ("instantRecordGroup")]
-		string InstantRecordGroup { get; }
+		string GetInstantRecordGroup ();
 	}
 }

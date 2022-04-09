@@ -3318,8 +3318,9 @@ namespace PSPDFKit.Model {
 		[Export ("fileURL")]
 		NSUrl FileUrl { get; }
 
-		[NullAllowed, Export ("drawingBlock", ArgumentSemantic.Copy)]
-		Action<CGContext> DrawingHandler { get; set; }
+		// /we need a generator fix here
+		// [NullAllowed, Export ("drawingBlock", ArgumentSemantic.Copy)]
+		// Action<CGContext> DrawingHandler { get; set; }
 	}
 
 	interface IPSPDFFileCoordinationDelegate { }
@@ -6959,7 +6960,7 @@ namespace PSPDFKit.Model {
 	}
 #endif
 
-	delegate void PSPDFRenderDrawHandler (CGContext context, nuint page, CGRect cropBox, PSPDFRenderOptions options);
+	delegate void PSPDFRenderDrawHandler (/*CGContext*/ IntPtr context, nuint page, CGRect cropBox, PSPDFRenderOptions options);
 
 	[BaseType (typeof (PSPDFModel))]
 	interface PSPDFRenderOptions {
@@ -7032,9 +7033,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("margin", ArgumentSemantic.Assign)]
 		UIEdgeInsets Margin { get; set; }
-
-		[Export ("drawAppearanceStream")]
-		bool DrawAppearanceStream { get; set; }
 	}
 
 	[Static]

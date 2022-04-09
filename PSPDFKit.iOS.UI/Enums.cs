@@ -118,6 +118,7 @@ namespace PSPDFKit.UI {
 		ExtraLightBlur
 	}
 
+	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
 	[Native]
 	public enum PSPDFColorSet : ulong {
 		Default,
