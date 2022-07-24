@@ -72,12 +72,6 @@ namespace PSPDFKit.Model {
 		{
 			return (PSPDFAnnotationType)(ulong) _AnnotationTypeFromString (theString.Handle);
 		}
-
-		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFAnnotationRegisterOverrideClasses")]
-		private static extern void _RegisterOverrideClasses (IntPtr annotationType, IntPtr document);
-
-		[Obsolete ("This functionality should not be needed and will be removed in a future update. 'PSPDFFileAnnotationProvider' already takes care of registering the appropriate overrides when reading an external annotation file.")]
-		public static void RegisterOverrideClasses (NSKeyedUnarchiver unarchiver, PSPDFDocument document) => _RegisterOverrideClasses (unarchiver.Handle, document.Handle);
 	}
 
 	public partial class PSPDFAnnotationGroupItem {

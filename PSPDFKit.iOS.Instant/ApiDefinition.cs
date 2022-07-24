@@ -398,7 +398,7 @@ namespace PSPDFKit.Instant {
 		[Export ("instantRecordOperations")]
 		PSPDFInstantRecordOperations GetInstantRecordOperations ();
 
-		[NullAllowed, Export ("instantRecordGroup")]
+		[Export ("instantRecordGroup")]
 		string GetInstantRecordGroup ();
 	}
 }

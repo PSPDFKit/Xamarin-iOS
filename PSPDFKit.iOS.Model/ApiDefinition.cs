@@ -618,10 +618,6 @@ namespace PSPDFKit.Model {
 		[Notification (typeof (PSPDFAnnotationChangedNotificationEventArgs))]
 		NSString AnnotationChangedNotification { get; }
 
-		[Field ("PSPDFAnnotationOptionSuppressNotificationsKey", PSPDFKitLibraryPath.LibraryPath)]
-		[Notification]
-		NSString AnnotationOptionSuppressNotification { get; }
-
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
@@ -1120,11 +1116,13 @@ namespace PSPDFKit.Model {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFBackForwardActionListDelegate {
 
+		[Abstract]
 		[Export ("backForwardList:requestedBackActionExecution:animated:")]
-		void RequestedBackActionExecution (PSPDFBackForwardActionList list, PSPDFAction [] actions, bool animated);
+		void RequestedBackActionExecution (PSPDFBackForwardActionList list, PSPDFAction[] actions, bool animated);
 
+		[Abstract]
 		[Export ("backForwardList:requestedForwardActionExecution:animated:")]
-		void RequestedForwardActionExecution (PSPDFBackForwardActionList list, PSPDFAction [] actions, bool animated);
+		void RequestedForwardActionExecution (PSPDFBackForwardActionList list, PSPDFAction[] actions, bool animated);
 
 		[Export ("backForwardListDidUpdate:")]
 		void BackForwardListDidUpdate (PSPDFBackForwardActionList list);
@@ -1574,23 +1572,9 @@ namespace PSPDFKit.Model {
 		nfloat Alpha { get; }
 	}
 
-	interface IPSPDFAnnotationProviderRefreshing { }
-
-	[Protocol]
-	interface PSPDFAnnotationProviderRefreshing : PSPDFAnnotationProvider {
-
-		[Abstract]
-		[Export ("prepareForRefresh")]
-		void PrepareForRefresh ();
-
-		[Abstract]
-		[Export ("refreshAnnotationsForPagesAtIndexes:")]
-		void RefreshAnnotationsForPages (NSIndexSet pageIndexes);
-	}
-
 	[BaseType (typeof (NSObject))]
 	[DisableDefaultCtor]
-	interface PSPDFContainerAnnotationProvider : PSPDFAnnotationProviderRefreshing {
+	interface PSPDFContainerAnnotationProvider : PSPDFAnnotationProvider {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
@@ -3723,11 +3707,6 @@ namespace PSPDFKit.Model {
 
 		[Export ("isMultiline")]
 		bool IsMultiline { get; set; }
-
-		// PSPDFFormElement (Drawing) Category
-
-		[Export ("drawHighlightInContext:options:multiply:")]
-		void DrawHighlight (CGContext context, [NullAllowed] PSPDFRenderOptions renderOptions, bool shouldMultiply);
 	}
 
 	[BaseType (typeof (PSPDFModel))]
@@ -4072,7 +4051,7 @@ namespace PSPDFKit.Model {
 	}
 
 	delegate string PSPDFKitLogMessageHandler ();
-	delegate void PSPDFKitLogHandler (PSPDFLogLevelMask type, IntPtr strTag, [BlockCallback] PSPDFKitLogMessageHandler message, IntPtr strFile, IntPtr strFunction, nuint line);
+	delegate void PSPDFKitLogHandler (PSPDFLogLevel type, IntPtr strTag, [BlockCallback] PSPDFKitLogMessageHandler message, IntPtr strFile, IntPtr strFunction, nuint line);
 	delegate UIImage PSPDFKitImageLoadingHandler (string imageName);
 
 	[BaseType (typeof (NSObject))]
@@ -4187,7 +4166,7 @@ namespace PSPDFKit.Model {
 		PSPDFKitImageLoadingHandler ImageLoadingHandler { get; set; }
 
 		[Export ("logLevel", ArgumentSemantic.Assign)]
-		PSPDFLogLevelMask LogLevel { get; set; }
+		PSPDFLogLevel LogLevel { get; set; }
 
 		[NullAllowed, Export ("logHandler", ArgumentSemantic.Strong)]
 		PSPDFKitLogHandler LogHandler { get; set; }
@@ -4811,6 +4790,12 @@ namespace PSPDFKit.Model {
 		[Export ("cropBox")]
 		CGRect CropBox { get; }
 
+		[Export ("trimBox")]
+		CGRect TrimBox { get; }
+
+		[Export ("bleedBox")]
+		CGRect BleedBox { get; }
+
 		[NullAllowed, Export ("additionalActions", ArgumentSemantic.Copy)]
 		NSDictionary<NSNumber, PSPDFAction> AdditionalActions { get; }
 
@@ -5124,10 +5109,6 @@ namespace PSPDFKit.Model {
 		[Export ("changeStrokeColorOnPageAtIndex:toColor:")]
 		void ChangeStrokeColorOnPage (nuint pageIndex, UIColor color);
 
-		[Obsolete ("Use 'MergeAutoRotatedPage' instead.")]
-		[Export ("mergePageFromDocument:password:sourcePageIndex:destinationPageIndex:transform:blendMode:")]
-		void MergePage (PSPDFDocument sourceDocument, [NullAllowed] string password, nuint sourcePageIndex, nuint destinationPageIndex, CGAffineTransform transform, CGBlendMode blendMode);
-
 		[Export ("mergeAutoRotatedPageFromDocument:password:sourcePageIndex:destinationPageIndex:transform:blendMode:")]
 		void MergeAutoRotatedPage (PSPDFDocument sourceDocument, [NullAllowed] string password, nuint sourcePageIndex, nuint destinationPageIndex, CGAffineTransform transform, CGBlendMode blendMode);
 
@@ -5390,9 +5371,6 @@ namespace PSPDFKit.Model {
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
 		IntPtr Constructor (PSPDFDocument document);
-
-		[Export ("document", ArgumentSemantic.Strong), Override]
-		PSPDFDocument Document { get; set; }
 
 		[Export ("pageIndex"), Override]
 		nuint PageIndex { get; set; }

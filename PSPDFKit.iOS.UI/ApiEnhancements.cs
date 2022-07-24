@@ -56,16 +56,6 @@ namespace PSPDFKit.UI {
 		}
 	}
 
-	public partial class PSPDFBaseViewController {
-
-		[DllImport (PSPDFKitGlobal.LibraryPath, EntryPoint = "PSPDFSafePreferredInterfaceOrientation")]
-		static extern nint _SafePreferredInterfaceOrientation (nint requested, nuint supported, IntPtr window);
-
-		[Obsolete ("Please implement your own orientation handling.")]
-		public static UIInterfaceOrientation GetSafePreferredInterfaceOrientation (UIInterfaceOrientation requested, UIInterfaceOrientationMask supported, UIWindow window)
-			=> (UIInterfaceOrientation) (long) _SafePreferredInterfaceOrientation ((nint) (long) requested, (nuint) (ulong) supported, window.Handle);
-	}
-
 	public partial class PSPDFConfigurationBuilder {
 
 		public PSPDFAnnotationStringUI [] EditableAnnotationTypes {

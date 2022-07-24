@@ -345,15 +345,6 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	[Flags]
-	public enum PSPDFButtonFlag : ulong {
-		NoToggleToOff = 1 << (15 - 1),
-		Radio = 1 << (16 - 1),
-		PushButton = 1 << (17 - 1),
-		RadiosInUnison = 1 << (26 - 1)
-	}
-
-	[Native]
 	public enum PSPDFCacheStoragePolicy : long {
 		Automatic = 0,
 		Allowed,
@@ -375,17 +366,6 @@ namespace PSPDFKit.Model {
 		AllowLarger = 1 << 0,
 		AllowSmaller = 1 << 1,
 		Default = Exact
-	}
-
-	[Native]
-	[Flags]
-	public enum PSPDFChoiceFlag : ulong {
-		Combo = 1 << (18 - 1),
-		Edit = 1 << (19 - 1),
-		Sort = 1 << (20 - 1),
-		MultiSelect = 1 << (22 - 1),
-		DoNotSpellCheck = 1 << (23 - 1),
-		CommitOnSelChange = 1 << (27 - 1)
 	}
 
 	[Native]
@@ -564,15 +544,13 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	public enum PSPDFLogLevelMask : ulong {
-		Nothing = 0,
-		Critical = 1 << 0,
-		Error = 1 << 1,
-		Warning = 1 << 2,
-		Info = 1 << 3,
-		Debug = 1 << 4,
-		Verbose = 1 << 5,
-		All = ulong.MaxValue
+	public enum PSPDFLogLevel : long {
+		Critical,
+		Error,
+		Warning,
+		Info,
+		Debug,
+		Verbose,
 	}
 
 	[Native]
@@ -610,6 +588,7 @@ namespace PSPDFKit.Model {
 		WebURL,
 		Document,
 		Video,
+		[Obsolete ("Please load videos with direct sources or embed your own player view instead.")]
 		YouTube,
 		Audio,
 		Image,

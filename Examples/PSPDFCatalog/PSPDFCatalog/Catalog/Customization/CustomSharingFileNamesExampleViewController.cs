@@ -26,8 +26,7 @@ namespace PSPDFCatalog {
 				sharingController.Delegate = this;
 		}
 
-		[Export ("documentSharingViewController:filenameForGeneratedFileForDocument:destination:")]
-		public string GetFileNameForGeneratedFile (PSPDFDocumentSharingViewController shareController, PSPDFDocument sharingDocument, NSString destination)
+		public override string GetFileNameForGeneratedFile (PSPDFDocumentSharingViewController shareController, PSPDFDocument sharingDocument, NSString destination)
 		{
 			return "MyCustomName";
 		}
