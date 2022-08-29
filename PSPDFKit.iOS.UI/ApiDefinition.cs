@@ -305,6 +305,10 @@ namespace PSPDFKit.UI {
 		[Static]
 		[Export ("polygonConfigurationBlock")]
 		PSPDFAnnotationGroupItemConfigurationHandler GetPolygonConfigurationHandler ();
+
+		[Static]
+		[Export ("measurementConfigurationBlock")]
+		PSPDFAnnotationGroupItemConfigurationHandler GetMeasurementConfigurationHandler ();
 	}
 
 	interface IPSPDFAnnotationPresenting { }
@@ -960,36 +964,16 @@ namespace PSPDFKit.UI {
 
 		[Export ("appearanceManager:renderOptionsForMode:")]
 		PSPDFRenderOptions GetRenderOptions (PSPDFAppearanceModeManager manager, PSPDFAppearanceMode mode);
-
-		[Obsolete ("Appearance mode changes only affect page rendering and should no longer be used for UI customization.")]
-		[Export ("appearanceManager:applyAppearanceSettingsForMode:")]
-		void ApplyAppearanceSettings (PSPDFAppearanceModeManager manager, PSPDFAppearanceMode mode);
-
-		[Obsolete ("Appearance mode changes only affect page rendering and should no longer be used for UI customization.")]
-		[Export ("appearanceManager:updateConfiguration:forMode:")]
-		void UpdateConfiguration (PSPDFAppearanceModeManager manager, PSPDFConfigurationBuilder builder, PSPDFAppearanceMode mode);
-	}
-
-	interface PSPDFAppearanceModeChangedNotificationEventArgs {
-
-		[Obsolete ("This is irrelevant on iOS 13 and later. Appearance mode change is never animated.")]
-		[Export ("PSPDFAppearanceModeChangedAnimatedKey")]
-		bool Animated { get; set; }
 	}
 
 	[BaseType (typeof (NSObject))]
 	interface PSPDFAppearanceModeManager : IPSPDFOverridable {
 
 		[Field ("PSPDFAppearanceModeChangedNotification", PSPDFKitGlobal.LibraryPath)]
-		[Notification (typeof (PSPDFAppearanceModeChangedNotificationEventArgs))]
 		NSString AppearanceModeChangedNotification { get; }
 
 		[Export ("appearanceMode", ArgumentSemantic.Assign)]
 		PSPDFAppearanceMode AppearanceMode { get; set; }
-
-		[Obsolete ("The animated parameter is not relevant on iOS 13 and later. Use 'AppearanceMode' instead.")]
-		[Export ("setAppearanceMode:animated:")]
-		void SetAppearanceMode (PSPDFAppearanceMode appearanceMode, bool animated);
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFAppearanceModeManagerDelegate Delegate { get; set; }
@@ -1525,10 +1509,6 @@ namespace PSPDFKit.UI {
 		[Export ("shouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets")]
 		bool ShouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets { get; set; }
 
-		[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from `UIScrollView` supports dragging on iOS 13 and later.")]
-		[Export ("pageGrabberEnabled")]
-		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; set; }
-
 		[Export ("allowToolbarTitleChange")]
 		bool AllowToolbarTitleChange { get; set; }
 
@@ -1558,9 +1538,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("scrollDirection")]
 		PSPDFScrollDirection ScrollDirection { get; set; }
-
-		[Export ("scrollViewInsetAdjustment")]
-		PSPDFScrollInsetAdjustment ScrollViewInsetAdjustment { get; set; }
 
 		[Export ("firstPageAlwaysSingle")]
 		bool FirstPageAlwaysSingle { [Bind ("isFirstPageAlwaysSingle")] get; set; }
@@ -1795,9 +1772,6 @@ namespace PSPDFKit.UI {
 		[Export ("scrollDirection")]
 		PSPDFScrollDirection ScrollDirection { get; }
 
-		[Export ("scrollViewInsetAdjustment")]
-		PSPDFScrollInsetAdjustment ScrollViewInsetAdjustment { get; }
-
 		[Export ("minimumZoomScale")]
 		float MinimumZoomScale { get; }
 
@@ -1894,10 +1868,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("shouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets")]
 		bool ShouldAdjustDocumentInsetsByIncludingHomeIndicatorSafeAreaInsets { get; }
-
-		[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from `UIScrollView` supports dragging on iOS 13 and later.")]
-		[Export ("pageGrabberEnabled")]
-		bool PageGrabberEnabled { [Bind ("isPageGrabberEnabled")] get; }
 
 		[Export ("allowToolbarTitleChange")]
 		bool AllowToolbarTitleChange { get; }
@@ -5170,36 +5140,6 @@ namespace PSPDFKit.UI {
 		CGRect GetImageRect (CGRect contentRect);
 	}
 
-	interface IPSPDFPageGrabberView { }
-
-	[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
-	[Protocol]
-	interface PSPDFPageGrabberView {
-
-		[Export ("setCollapsed:animated:")]
-		void SetCollapsed (bool collapsed, bool animated);
-	}
-
-	[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
-	[BaseType (typeof (UIView))]
-	interface PSPDFPageGrabber {
-
-		[Export ("grabberView", ArgumentSemantic.Strong)]
-		IPSPDFPageGrabberView GrabberView { get; set; }
-
-		[Export ("grabbing")]
-		bool Grabbing { [Bind ("isGrabbing")] get; }
-	}
-
-	[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
-	[BaseType (typeof (NSObject))]
-	[DisableDefaultCtor]
-	interface PSPDFPageGrabberController {
-
-		[Export ("pageGrabber")]
-		PSPDFPageGrabber PageGrabber { get; }
-	}
-
 	interface IPSPDFPageLabelViewDelegate { }
 
 	[Protocol, Model (AutoGeneratedName = true)]
@@ -5914,12 +5854,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("allowTapsOutsidePageArea")]
 		bool AllowTapsOutsidePageArea { get; set; }
-
-		[NullAllowed, Export ("barTintColor", ArgumentSemantic.Strong)]
-		UIColor BarTintColor { get; set; }
-
-		[Export ("translucent")]
-		bool Translucent { [Bind ("isTranslucent")] get; set; }
 
 		[NullAllowed, Export ("standardAppearance", ArgumentSemantic.Strong)]
 		UIToolbarAppearance StandardAppearance { get; set; }
@@ -6705,10 +6639,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("barHeight")]
 		nfloat BarHeight { get; set; }
-
-		[Obsolete ("On iOS 13 and above, the bar is styled based on the 'TraitCollection'’s 'UserInterfaceStyle'.")]
-		[Export ("tabbedBarStyle", ArgumentSemantic.Assign)]
-		PSPDFTabbedBarStyle TabbedBarStyle { get; set; }
 
 		[Export ("minTabWidth")]
 		nfloat MinTabWidth { get; set; }
@@ -7518,10 +7448,6 @@ namespace PSPDFKit.UI {
 		[NullAllowed, Export ("overlayViewController", ArgumentSemantic.Strong)]
 		IPSPDFControllerStateHandling OverlayViewController { get; set; }
 
-		[Obsolete ("Deprecated in PSPDFKit 10.5 for iOS because the scroll indicator from 'UIScrollView' supports dragging on iOS 13 and later.")]
-		[NullAllowed, Export ("pageGrabberController")]
-		PSPDFPageGrabberController PageGrabberController { get; }
-
 		[Export ("pageViewForPageAtIndex:")]
 		[return: NullAllowed]
 		new PSPDFPageView GetPageView (nuint pageIndex);
@@ -8103,6 +8029,21 @@ namespace PSPDFKit.UI {
 
 		[Field ("PSPDFAnnotationStyleKeyRepeatOverlayText", PSPDFKitGlobal.LibraryPath)]
 		NSString RepeatOverlayTextKey { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementScale", PSPDFKitGlobal.LibraryPath)]
+		NSString MeasurementScale { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementCalibration", PSPDFKitGlobal.LibraryPath)]
+		NSString MeasurementCalibration { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementPrecision", PSPDFKitGlobal.LibraryPath)]
+		NSString MeasurementPrecision { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementSnapping", PSPDFKitGlobal.LibraryPath)]
+		NSString MeasurementSnapping { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyContents", PSPDFKitGlobal.LibraryPath)]
+		NSString Contents { get; }
 	}
 
 	[BaseType (typeof (UIView))]
@@ -8189,9 +8130,8 @@ namespace PSPDFKit.UI {
 		[Export ("printConfiguration")]
 		PSPDFPrintConfiguration PrintConfiguration { get; }
 
-		[Advice ("You can use either 'ApplicationActivitiesAsObjects' or 'ApplicationActivitiesAsTypes' for a strongly typed access")]
 		[Export ("applicationActivities", ArgumentSemantic.Copy)]
-		NSObject [] ApplicationActivities { get; }
+		UIActivity [] ApplicationActivities { get; }
 
 		[Advice ("You can use 'ExcludedActivityTypes' for a strongly typed access")]
 		[Export ("excludedActivityTypes", ArgumentSemantic.Copy)]
@@ -8223,9 +8163,8 @@ namespace PSPDFKit.UI {
 		[Export ("printConfiguration")]
 		PSPDFPrintConfiguration PrintConfiguration { get; set; }
 
-		[Advice ("You can use either 'ApplicationActivitiesAsObjects' or 'ApplicationActivitiesAsTypes' for a strongly typed access")]
 		[Export ("applicationActivities", ArgumentSemantic.Copy)]
-		NSObject [] ApplicationActivities { get; set; }
+		UIActivity [] ApplicationActivities { get; set; }
 
 		[Advice ("You can use 'ExcludedActivityTypes' for a strongly typed access")]
 		[Export ("excludedActivityTypes", ArgumentSemantic.Copy)]

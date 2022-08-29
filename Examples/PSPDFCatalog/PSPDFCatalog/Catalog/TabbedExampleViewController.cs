@@ -18,14 +18,6 @@ namespace PSPDFCatalog {
 			pdfController = PdfController;
 			Delegate = this;
 
-			var sharingConfiguration = PSPDFDocumentSharingConfiguration.FromConfigurationBuilder ((builder) => {
-				builder.ApplicationActivitiesAsTypes = new [] { PSPDFActivityType.OpenIn, PSPDFActivityType.Message, PSPDFActivityType.AirDrop };
-			});
-
-			pdfController.UpdateConfiguration (builder => {
-				builder.SharingConfigurations = new[] { sharingConfiguration };
-			});
-
 			NavigationItem.LeftItemsSupplementBackButton = true;
 
 			// enable automatic persistance and restore the last state

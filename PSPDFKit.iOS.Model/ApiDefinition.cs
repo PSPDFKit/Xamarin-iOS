@@ -37,7 +37,7 @@ namespace PSPDFKit.Model {
 
 	[Abstract]
 	[BaseType (typeof (PSPDFAbstractShapeAnnotation))]
-	interface PSPDFAbstractLineAnnotation {
+	interface PSPDFAbstractLineAnnotation : PSPDFMeasurementAnnotation {
 
 		[Export ("initWithPoints:")]
 		IntPtr Constructor (NSValue [] points);
@@ -60,7 +60,7 @@ namespace PSPDFKit.Model {
 
 	[Abstract]
 	[BaseType (typeof (PSPDFAnnotation))]
-	interface PSPDFAbstractShapeAnnotation {
+	interface PSPDFAbstractShapeAnnotation : PSPDFMeasurementAnnotation {
 
 		[Export ("pointSequences", ArgumentSemantic.Strong)]
 		NSArray<NSValue> [] PointSequences { get; set; }
@@ -2346,6 +2346,14 @@ namespace PSPDFKit.Model {
 
 		[Export ("resolveFileConflictForDataProvider:withResolution:error:")]
 		bool ResolveFileConflict (IPSPDFCoordinatedFileDataProviding dataProvider, PSPDFFileConflictResolution resolution, [NullAllowed] out NSError error);
+
+		// PSPDFDocument ()
+
+		[Export ("measurementScale")]
+		PSPDFMeasurementScale MeasurementScale { get; set; }
+
+		[Export ("measurementPrecision")]
+		PSPDFMeasurementPrecision MeasurementPrecision { get; set; }
 	}
 
 	[Static]
@@ -2919,6 +2927,14 @@ namespace PSPDFKit.Model {
 
 		[Export ("resolveTokenizedPath:alwaysLocal:")]
 		string ResolveTokenizedPath (string path, bool alwaysLocal);
+
+		// PSPDFDocument ()
+
+		[Export ("measurementScale")]
+		PSPDFMeasurementScale MeasurementScale { get; set; }
+
+		[Export ("measurementPrecision")]
+		PSPDFMeasurementPrecision MeasurementPrecision { get; set; }
 	}
 
 	interface IPSPDFDocumentProviderDelegate { }
@@ -7066,6 +7082,21 @@ namespace PSPDFKit.Model {
 
 		[Field ("PSPDFAnnotationStyleKeyRepeatOverlayText", PSPDFKitLibraryPath.LibraryPath)]
 		NSString RepeatOverlayText { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementScale", PSPDFKitLibraryPath.LibraryPath)]
+		NSString MeasurementScale { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementCalibration", PSPDFKitLibraryPath.LibraryPath)]
+		NSString MeasurementCalibration { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementPrecision", PSPDFKitLibraryPath.LibraryPath)]
+		NSString MeasurementPrecision { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyMeasurementSnapping", PSPDFKitLibraryPath.LibraryPath)]
+		NSString MeasurementSnapping { get; }
+
+		[Field ("PSPDFAnnotationStyleKeyContents", PSPDFKitLibraryPath.LibraryPath)]
+		NSString Contents { get; }
 	}
 
 	[BaseType (typeof (PSPDFConversionOperation))]
@@ -7146,5 +7177,65 @@ namespace PSPDFKit.Model {
 		[Export ("comparisonDocumentWithOldDocument:pageIndex:points:newDocument:pageIndex:points:error:")]
 		[return: NullAllowed]
 		PSPDFDocument GetComparisonDocument (PSPDFDocument oldDocument, nuint oldDocumentPageIndex, [BindAs (typeof (CGPoint []))] NSValue [] oldDocumentPoints, PSPDFDocument newDocument, nuint newDocumentPageIndex, [BindAs (typeof (CGPoint []))] NSValue [] newDocumentPoints, out NSError error);
+	}
+
+	interface IPSPDFMeasurementAnnotation {}
+
+	[Protocol]
+	interface PSPDFMeasurementAnnotation {
+
+		[Abstract]
+		[Export ("isMeasurement")]
+		bool IsMeasurement { get; }
+
+		[Abstract]
+		[NullAllowed, Export ("measurementInfo")]
+		PSPDFMeasurementInfo MeasurementInfo { get; }
+	}
+
+	[BaseType (typeof (PSPDFModel))]
+	[DisableDefaultCtor]
+	interface PSPDFMeasurementScale {
+
+		[Export ("unitFrom")]
+		PSPDFUnitFrom UnitFrom { get; }
+
+		[Export ("unitTo")]
+		PSPDFUnitTo UnitTo { get; }
+
+		[Export ("from")]
+		double From { get; }
+
+		[Export ("to")]
+		double To { get; }
+
+		[Export ("initWithFrom:unitFrom:to:unitTo:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (double from, PSPDFUnitFrom unitFrom, double to, PSPDFUnitTo unitTo);
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFMeasurementCalibration {
+
+		[Export ("unitTo")]
+		PSPDFUnitTo UnitTo { get; }
+
+		[Export ("value")]
+		double Value { get; }
+	}
+
+	[BaseType (typeof (PSPDFModel))]
+	[DisableDefaultCtor]
+	interface PSPDFMeasurementInfo {
+
+		[Export ("scale")]
+		PSPDFMeasurementScale Scale { get; }
+
+		[Export ("mode")]
+		PSPDFMeasurementMode Mode { get; }
+
+		[Export ("precision")]
+		PSPDFMeasurementPrecision Precision { get; }
 	}
 }

@@ -168,16 +168,6 @@ namespace PSPDFKit.UI {
 
 	public partial class PSPDFDocumentSharingConfigurationBuilder {
 
-		public UIActivity [] ApplicationActivitiesAsObjects {
-			get => ApplicationActivities?.OfType<UIActivity> ()?.ToArray ();
-			set => ApplicationActivities = value?.OfType<NSObject> ()?.ToArray ();
-		}
-
-		public PSPDFActivityType [] ApplicationActivitiesAsTypes {
-			get => ApplicationActivities?.Select (x => PSPDFActivityTypeExtensions.GetValue ((NSString) x))?.ToArray ();
-			set => ApplicationActivities = value?.Select (x => (NSObject) x.GetConstant ())?.ToArray ();
-		}
-
 		public PSPDFActivityType [] ExcludedActivityTypes {
 			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();
 			set => WeakExcludedActivityTypes = value?.Select (x => x.GetConstant ())?.ToArray ();
@@ -185,14 +175,6 @@ namespace PSPDFKit.UI {
 	}
 
 	public partial class PSPDFDocumentSharingConfiguration {
-
-		public UIActivity[] ApplicationActivitiesAsObjects {
-			get => ApplicationActivities?.OfType<UIActivity> ()?.ToArray ();
-		}
-
-		public PSPDFActivityType [] ApplicationActivitiesAsTypes {
-			get => ApplicationActivities?.Select (x => PSPDFActivityTypeExtensions.GetValue ((NSString) x))?.ToArray ();
-		}
 
 		public PSPDFActivityType [] ExcludedActivityTypes {
 			get => WeakExcludedActivityTypes?.Select (x => PSPDFActivityTypeExtensions.GetValue (x))?.ToArray ();

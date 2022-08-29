@@ -299,13 +299,6 @@ namespace PSPDFKit.UI {
 	}
 
 	[Native]
-	public enum PSPDFScrollInsetAdjustment : ulong {
-		None,
-		FixedElements,
-		AllElements
-	}
-
-	[Native]
 	public enum PSPDFPageBookmarkIndicatorMode : ulong {
 		Off,
 		AlwaysOn,
@@ -762,12 +755,6 @@ namespace PSPDFKit.UI {
 		None = 0,
 		Clear,
 		Black
-	}
-
-	[Native]
-	public enum PSPDFTabbedBarStyle : ulong {
-		Light,
-		Dark
 	}
 
 	[Native]

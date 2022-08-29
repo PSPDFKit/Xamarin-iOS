@@ -539,6 +539,8 @@ namespace PSPDFKit.Model {
 		ReaderView = 1 << 17,
 		Ocr = 1 << 18,
 		ElectronicSignatures = 1 << 19,
+		PdfA = 1 << 20,
+		MeasurementTools = 1 << 21,
 
 		All = ulong.MaxValue
 	}
@@ -931,6 +933,16 @@ namespace PSPDFKit.Model {
 		FreeTextCallout,
 		[Field ("PSPDFAnnotationVariantStringPolygonCloud", PSPDFKitLibraryPath.LibraryPath)]
 		PolygonCloud,
+		[Field ("PSPDFAnnotationVariantStringDistanceMeasurement", PSPDFKitLibraryPath.LibraryPath)]
+		DistanceMeasurement,
+		[Field ("PSPDFAnnotationVariantStringPerimeterMeasurement", PSPDFKitLibraryPath.LibraryPath)]
+		PerimeterMeasurement,
+		[Field ("PSPDFAnnotationVariantStringPolygonalAreaMeasurement", PSPDFKitLibraryPath.LibraryPath)]
+		PolygonalAreaMeasurement,
+		[Field ("PSPDFAnnotationVariantStringEllipticalAreaMeasurement", PSPDFKitLibraryPath.LibraryPath)]
+		EllipticalAreaMeasurement,
+		[Field ("PSPDFAnnotationVariantStringRectangularAreaMeasurement", PSPDFKitLibraryPath.LibraryPath)]
+		RectangularAreaMeasurement,
 	}
 
 	public enum PSPDFAnnotationStateVariantId {
@@ -1075,4 +1087,42 @@ namespace PSPDFKit.Model {
 		Pades,
 		Sha1,
 	}
+
+	[Native]
+	public enum PSPDFMeasurementPrecision : long {
+		Whole,
+		OneDecimalPlace,
+		TwoDecimalPlaces,
+		ThreeDecimalPlaces,
+		FourDecimalPlaces,
+	}
+
+	[Native]
+	public enum PSPDFMeasurementMode : long {
+		Distance,
+		Perimeter,
+		Area,
+	}
+
+	[Native]
+	public enum PSPDFUnitFrom : long {
+		Inch,
+		Millimeter,
+		Centimeter,
+		Point,
+	}
+
+	[Native]
+	public enum PSPDFUnitTo : long {
+		Inch,
+		Millimeter,
+		Centimeter,
+		Point,
+		Foot,
+		Meter,
+		Yard,
+		Kilometer,
+		Mile,
+	}
+
 }
