@@ -961,4 +961,22 @@ namespace PSPDFKit.UI {
 		Backward = -1,
 		Forward = 1,
 	}
+
+	[Native]
+	public enum PSPDFAnnotationMenuConfigurationColorProperty : ulong {
+		Color,
+		FillColor,
+	}
+
+	[Native]
+	public enum PSPDFAnnotationMenuConfigurationLineEndProperty : ulong {
+		LineEnd1,
+		LineEnd2,
+	}
+
+	[Native]
+	public enum PSPDFEditMenuAppearance : long {
+		HorizontalBar,
+		ContextMenu,
+	}
 }
