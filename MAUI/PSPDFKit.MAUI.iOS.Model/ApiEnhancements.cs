@@ -455,4 +455,40 @@ namespace PSPDFKit.Model {
 			return self == null ? null : self.Dictionary;
 		}
 	}
+
+#if NET
+	public unsafe static partial class NSValue_PSPDFModel {
+		[DllImport (Constants.ObjectiveCLibrary, EntryPoint = "objc_msgSend")]
+		public extern static PSPDFDrawingPoint PSPDFDrawingPoint_objc_msgSend (IntPtr receiver, IntPtr selector);
+
+		[DllImport (Constants.ObjectiveCLibrary, EntryPoint = "objc_msgSend_stret")]
+		public extern static void PSPDFDrawingPoint_objc_msgSend_stret (out PSPDFDrawingPoint retval, IntPtr receiver, IntPtr selector);
+
+		[DllImport (Constants.ObjectiveCLibrary, EntryPoint = "objc_msgSend")]
+		public extern static IntPtr IntPtr_objc_msgSend_PSPDFDrawingPoint (IntPtr receiver, IntPtr selector, PSPDFDrawingPoint arg1);
+
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		static readonly IntPtr class_ptr = Class.GetHandle ("NSValue");
+
+		[Export ("pspdf_valueWithDrawingPoint:")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public static NSValue FromPSPDFDrawingPoint (this NSValue This, PSPDFDrawingPoint point)
+		{
+			return Runtime.GetNSObject<NSValue> (IntPtr_objc_msgSend_PSPDFDrawingPoint (class_ptr, Selector.GetHandle ("pspdf_valueWithDrawingPoint:"), point))!;
+		}
+
+		[Export ("pspdf_drawingPointValue")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public static PSPDFDrawingPoint GetPSPDFDrawingPoint (this NSValue This)
+		{
+			PSPDFDrawingPoint ret;
+			if (ObjCRuntime.Runtime.IsARM64CallingConvention) {
+				ret = PSPDFDrawingPoint_objc_msgSend (This.Handle, Selector.GetHandle ("pspdf_drawingPointValue"));
+			} else {
+				PSPDFDrawingPoint_objc_msgSend_stret (out ret, This.Handle, Selector.GetHandle ("pspdf_drawingPointValue"));
+			}
+			return ret!;
+		}
+	} /* class NSValue_PSPDFModel */
+#endif
 }

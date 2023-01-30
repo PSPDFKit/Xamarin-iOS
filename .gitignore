@@ -12,10 +12,14 @@ StylusDrivers/externals/
 *.dll
 *.mdb
 *.framework
+*.xcframework
 tools/
 packages/
 .vs/
 nuget/pkgs/
+MAUI/cache/
+MAUI/nuget/pkgs/
+Directory.Build.props
 
 # Xcode
 #
@@ -41,4 +45,3 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 *.xcuserstate
-*.xcframework

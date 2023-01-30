@@ -190,4 +190,134 @@ namespace PSPDFKit.UI {
 			return self == null ? null : self.Dictionary;
 		}
 	}
+
+#if NET
+public unsafe static partial class NSIndexPath_PSPDFDocumentViewLayout  {
+
+		[DllImport (Constants.ObjectiveCLibrary, EntryPoint="objc_msgSend")]
+		public extern static IntPtr IntPtr_objc_msgSend (IntPtr receiever, IntPtr selector);
+
+		[DllImport (Constants.ObjectiveCLibrary, EntryPoint="objc_msgSend")]
+		public extern static IntPtr IntPtr_objc_msgSend_IntPtr (IntPtr receiever, IntPtr selector, IntPtr arg1);
+
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		static readonly IntPtr class_ptr = Class.GetHandle ("NSIndexPath");
+
+		[Export ("pspdf_indexPathForSpreadAtIndex:")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public static NSIndexPath GetPsPdfIndexPathForSpread (this NSIndexPath This, nint spreadIndex)
+		{
+			return  Runtime.GetNSObject<NSIndexPath> (IntPtr_objc_msgSend_IntPtr (class_ptr, Selector.GetHandle ("pspdf_indexPathForSpreadAtIndex:"), (IntPtr) spreadIndex))!;
+		}
+
+		[Export ("pspdf_spreadIndex")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public static nint GetPsPdfSpreadIndex (this NSIndexPath This)
+		{
+			return (nint) IntPtr_objc_msgSend (This.Handle, Selector.GetHandle ("pspdf_spreadIndex"));
+		}
+	} /* class NSIndexPath_PSPDFDocumentViewLayout */
+
+	public unsafe static partial class PSPDFAnnotationGroupItem_PSPDFPresets  {
+
+		[DllImport (Constants.ObjectiveCLibrary, EntryPoint="objc_msgSend")]
+		public extern static IntPtr IntPtr_objc_msgSend (IntPtr receiever, IntPtr selector);
+
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		static readonly IntPtr class_ptr = Class.GetHandle ("PSPDFAnnotationGroupItem");
+
+		[return: DelegateProxy (typeof (SDPSPDFAnnotationGroupItemConfigurationHandler))]
+		[Export ("freeTextConfigurationBlock")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public unsafe static global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler GetFreeTextConfigurationHandler (this global::PSPDFKit.Model.PSPDFAnnotationGroupItem This)
+		{
+			IntPtr ret;
+			ret = IntPtr_objc_msgSend (class_ptr, Selector.GetHandle ("freeTextConfigurationBlock"));
+			return NIDPSPDFAnnotationGroupItemConfigurationHandler.Create (ret)!;
+		}
+		[return: DelegateProxy (typeof (SDPSPDFAnnotationGroupItemConfigurationHandler))]
+		[Export ("inkConfigurationBlock")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public unsafe static global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler GetInkConfigurationHandler (this global::PSPDFKit.Model.PSPDFAnnotationGroupItem This)
+		{
+			IntPtr ret;
+			ret = IntPtr_objc_msgSend (class_ptr, Selector.GetHandle ("inkConfigurationBlock"));
+			return NIDPSPDFAnnotationGroupItemConfigurationHandler.Create (ret)!;
+		}
+		[return: DelegateProxy (typeof (SDPSPDFAnnotationGroupItemConfigurationHandler))]
+		[Export ("lineConfigurationBlock")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public unsafe static global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler GetLineConfigurationHandler (this global::PSPDFKit.Model.PSPDFAnnotationGroupItem This)
+		{
+			IntPtr ret;
+			ret = IntPtr_objc_msgSend (class_ptr, Selector.GetHandle ("lineConfigurationBlock"));
+			return NIDPSPDFAnnotationGroupItemConfigurationHandler.Create (ret)!;
+		}
+		[return: DelegateProxy (typeof (SDPSPDFAnnotationGroupItemConfigurationHandler))]
+		[Export ("measurementConfigurationBlock")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public unsafe static global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler GetMeasurementConfigurationHandler (this global::PSPDFKit.Model.PSPDFAnnotationGroupItem This)
+		{
+			IntPtr ret;
+			ret = IntPtr_objc_msgSend (class_ptr, Selector.GetHandle ("measurementConfigurationBlock"));
+			return NIDPSPDFAnnotationGroupItemConfigurationHandler.Create (ret)!;
+		}
+		[return: DelegateProxy (typeof (SDPSPDFAnnotationGroupItemConfigurationHandler))]
+		[Export ("polygonConfigurationBlock")]
+		[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+		public unsafe static global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler GetPolygonConfigurationHandler (this global::PSPDFKit.Model.PSPDFAnnotationGroupItem This)
+		{
+			IntPtr ret;
+			ret = IntPtr_objc_msgSend (class_ptr, Selector.GetHandle ("polygonConfigurationBlock"));
+			return NIDPSPDFAnnotationGroupItemConfigurationHandler.Create (ret)!;
+		}
+
+		internal sealed class NIDPSPDFAnnotationGroupItemConfigurationHandler : TrampolineBlockBase {
+			DPSPDFAnnotationGroupItemConfigurationHandler invoker;
+			[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+			public unsafe NIDPSPDFAnnotationGroupItemConfigurationHandler (BlockLiteral *block) : base (block)
+			{
+				invoker = block->GetDelegateForBlock<DPSPDFAnnotationGroupItemConfigurationHandler> ();
+			}
+
+			[Preserve (Conditional=true)]
+			[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+			public unsafe static global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler? Create (IntPtr block)
+			{
+				if (block == IntPtr.Zero)
+					return null;
+				var del = (global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler) GetExistingManagedDelegate (block);
+				return del ?? new NIDPSPDFAnnotationGroupItemConfigurationHandler ((BlockLiteral *) block).Invoke;
+			}
+
+			[BindingImpl (BindingImplOptions.GeneratedCode | BindingImplOptions.Optimizable)]
+			unsafe global::UIKit.UIImage Invoke (global::PSPDFKit.Model.PSPDFAnnotationGroupItem item, NSObject container, global::UIKit.UIColor tintColor)
+			{
+				var item__handle__ = item.GetHandle ();
+				var container__handle__ = container.GetHandle ();
+				var tintColor__handle__ = tintColor.GetHandle ();
+				var ret =  Runtime.GetNSObject<global::UIKit.UIImage> (invoker (BlockPointer, item__handle__, container__handle__, tintColor__handle__))!;
+				return ret!;
+			}
+		} /* class NIDPSPDFAnnotationGroupItemConfigurationHandler */
+
+		[UnmanagedFunctionPointerAttribute (CallingConvention.Cdecl)]
+		[UserDelegateType (typeof (global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler))]
+		internal delegate IntPtr DPSPDFAnnotationGroupItemConfigurationHandler (IntPtr block, IntPtr item, IntPtr container, IntPtr tintColor);
+		//
+		// This class bridges native block invocations that call into C#
+		//
+		static internal class SDPSPDFAnnotationGroupItemConfigurationHandler {
+			static internal readonly DPSPDFAnnotationGroupItemConfigurationHandler Handler = Invoke;
+			[MonoPInvokeCallback (typeof (DPSPDFAnnotationGroupItemConfigurationHandler))]
+			static unsafe IntPtr Invoke (IntPtr block, IntPtr item, IntPtr container, IntPtr tintColor)
+			{
+				var descriptor = (BlockLiteral*) block;
+				var del = (global::PSPDFKit.Model.PSPDFAnnotationGroupItemConfigurationHandler) (descriptor->Target);
+				UIImage retval = del (Runtime.GetNSObject<PSPDFKit.Model.PSPDFAnnotationGroupItem> (item)!, Runtime.GetNSObject<NSObject> (container)!, Runtime.GetNSObject<UIColor> (tintColor)!);
+				return retval.GetHandle ();
+			}
+		} /* class SDPSPDFAnnotationGroupItemConfigurationHandler */
+	} /* class PSPDFAnnotationGroupItem_PSPDFPresets */
+#endif
 }

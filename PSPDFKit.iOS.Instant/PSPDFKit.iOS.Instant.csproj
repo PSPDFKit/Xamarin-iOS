@@ -38,10 +38,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <ObjcBindingApiDefinition Include="..\MAUI\PSPDFKit.MAUI.iOS.Instant\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="Structs.cs" />
+    <ObjcBindingCoreSource Include="..\MAUI\PSPDFKit.MAUI.iOS.Instant\Structs.cs" >
+      <Link>Structs.cs</Link>
+    </ObjcBindingCoreSource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">

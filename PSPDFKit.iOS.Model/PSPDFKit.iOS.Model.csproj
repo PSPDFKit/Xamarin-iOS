@@ -36,15 +36,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApiEnhancements.cs" />
+    <Compile Include="..\MAUI\PSPDFKit.MAUI.iOS.Model\ApiEnhancements.cs" >
+      <Link>ApiEnhancements.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
-    <ObjcBindingApiDefinition Include="Enums.cs" />
+    <ObjcBindingApiDefinition Include="..\MAUI\PSPDFKit.MAUI.iOS.Model\ApiDefinition.cs">
+      <Link>ApiDefinition.cs</Link>
+    </ObjcBindingApiDefinition>
+    <ObjcBindingApiDefinition Include="..\MAUI\PSPDFKit.MAUI.iOS.Model\Enums.cs" >
+      <Link>Enums.cs</Link>
+    </ObjcBindingApiDefinition>
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingCoreSource Include="LibraryConstant.cs" />
-    <ObjcBindingCoreSource Include="Structs.cs" />
+    <ObjcBindingCoreSource Include="..\MAUI\PSPDFKit.MAUI.iOS.Model\LibraryConstant.cs" >
+      <Link>LibraryConstant.cs</Link>
+    </ObjcBindingCoreSource>
+    <ObjcBindingCoreSource Include="..\MAUI\PSPDFKit.MAUI.iOS.Model\Structs.cs" >
+      <Link>Structs.cs</Link>
+    </ObjcBindingCoreSource>
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="PSPDFKit.framework">

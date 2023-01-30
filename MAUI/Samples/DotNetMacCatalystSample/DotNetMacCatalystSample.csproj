@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0-maccatalyst</TargetFramework>
+    <RuntimeIdentifier>maccatalyst-x64</RuntimeIdentifier>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <SupportedOSPlatformVersion>14.2</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CreatePackage>false</CreatePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CreatePackage>false</CreatePackage>
+  </PropertyGroup>
+  <ItemGroup>
+    <BundleResource Include="..\..\..\Examples\PSPDFCatalog\PSPDFCatalog\Resources\Pdf\PSPDFKit QuickStart Guide.pdf">
+      <Link>Resources\Pdf\PSPDFKit QuickStart Guide.pdf</Link>
+    </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PSPDFKit.MAUI.MacCatalyst.Model\PSPDFKit.MAUI.MacCatalyst.Model.csproj" />
+    <ProjectReference Include="..\..\PSPDFKit.MAUI.MacCatalyst.UI\PSPDFKit.MAUI.MacCatalyst.UI.csproj" />
+  </ItemGroup>
+</Project>
