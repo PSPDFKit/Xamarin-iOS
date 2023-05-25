@@ -38,22 +38,6 @@ Build Instructions
 2. Open the `Xamarin-iOS/MAUI` directory.
 
 ## Step 2 - Integrating PSPDFKit
-
-There's 2 ways for integrating PSPDFKit into your project. We highly recommend using our nuget packages from nuget.org in Visual Studio as it requires less work for the customer and also eliminates the possibility of build errors, which can happen from time to time.
-
-### Integrating PSPDFKit via Nuget (Recommended)
-
-1. Right-Click on your project in Visual Studio and select "Manage Nuget Packages…"
-2. In the `Browse` section for "nuget.org" search for "PSPDFKit"
-<img width="500" src="https://user-images.githubusercontent.com/21023299/75026406-38564d00-549d-11ea-8229-34f91362f3d7.png">
-
-3. Select the 3 iOS packages, `PSPDFKit.MAUI.iOS.Model`, `PSPDFKit.MAUI.iOS.UI`*, and `PSPDFKit.MAUI.iOS.Instant`*
-4. Tap on "Add Packages" to add the nuget packages to your project.
-
-`*` Items with an asterisk are *optional*, you only need to add those if you also want to use the components.
-
-Now you are done and can skip to [step 3](https://github.com/PSPDFKit/Xamarin-iOS/MAUI#step-3---using-pspdfkit-in-your-project)!
-
 ### Integrating PSPDFKit by adding the DLLs (Advanced) 
 #### Downloading required files
 
