@@ -11,6 +11,10 @@ using CoreMedia;
 using MessageUI;
 using WebKit;
 
+#if !NET
+using NativeHandle = System.IntPtr;
+#endif
+
 namespace PSPDFKit.UI {
 
 	[BaseType (typeof (UIActivityViewController))]
@@ -721,7 +725,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithAnnotations:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFAnnotation [] annotations);
+		NativeHandle Constructor ([NullAllowed] PSPDFAnnotation [] annotations);
 
 		[NullAllowed, Export ("annotations", ArgumentSemantic.Copy)]
 		PSPDFAnnotation [] Annotations { get; set; }
@@ -828,7 +832,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithAnnotationStateManager:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAnnotationStateManager annotationStateManager);
+		NativeHandle Constructor (PSPDFAnnotationStateManager annotationStateManager);
 
 		[Export ("annotationStateManager", ArgumentSemantic.Strong)]
 		PSPDFAnnotationStateManager AnnotationStateManager { get; set; }
@@ -895,7 +899,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithToolbar:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFFlexibleToolbar toolbar);
+		NativeHandle Constructor (PSPDFFlexibleToolbar toolbar);
 
 		[Export ("toolbar")]
 		PSPDFFlexibleToolbar Toolbar { get; }
@@ -942,7 +946,7 @@ namespace PSPDFKit.UI {
 		NSString VisibilityDidChangeNotification { get; }
 
 		[Export ("initWithAnnotationToolbar:")]
-		IntPtr Constructor (PSPDFAnnotationToolbar annotationToolbar);
+		NativeHandle Constructor (PSPDFAnnotationToolbar annotationToolbar);
 
 		[Export ("annotationToolbar")]
 		PSPDFAnnotationToolbar AnnotationToolbar { get; }
@@ -1034,7 +1038,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithExtensionContext:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSExtensionContext extensionContext);
+		NativeHandle Constructor (NSExtensionContext extensionContext);
 
 		[Export ("networkIndicatorManager"), New]
 		new IPSPDFNetworkActivityIndicatorManager NetworkIndicatorManager { get; }
@@ -1297,7 +1301,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithRegisteredSigners:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFSigner [] registeredSigners);
+		NativeHandle Constructor ([NullAllowed] PSPDFSigner [] registeredSigners);
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFCertificatePickerViewControllerDelegate Delegate { get; set; }
@@ -1374,88 +1378,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("outerBorderPadding")]
 		nfloat OuterBorderPadding { get; set; }
-	}
-
-	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
-	[BaseType (typeof (NSObject))]
-	interface PSPDFColorPatch {
-
-		[Static]
-		[Export ("colorPatchWithColor:")]
-		PSPDFColorPatch Create (UIColor color);
-
-		[Static]
-		[Export ("colorPatchWithColors:")]
-		PSPDFColorPatch Create (UIColor [] colors);
-
-		[Export ("colors", ArgumentSemantic.Copy)]
-		UIColor [] Colors { get; }
-	}
-
-	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
-	[BaseType (typeof (NSObject))]
-	interface PSPDFColorPalette {
-
-		[Static]
-		[Export ("colorPaletteWithTitle:colorPatches:")]
-		PSPDFColorPalette Create (string title, PSPDFColorPatch [] patches);
-
-		[Static]
-		[Export ("hsvColorPaletteWithTitle:")]
-		PSPDFColorPalette CreateHsv (string title);
-
-		[Export ("title")]
-		string Title { get; }
-
-		[Export ("colorPatches", ArgumentSemantic.Copy)]
-		PSPDFColorPatch [] ColorPatches { get; }
-
-		// PSPDFColorPalette (PSPDFColorPalettes) Category
-
-		[Static]
-		[Export ("unifiedColorPalette")]
-		PSPDFColorPalette UnifiedColorPalette { get; }
-
-		[Static]
-		[Export ("unifiedTransparentColorPalette")]
-		PSPDFColorPalette UnifiedTransparentColorPalette { get; }
-
-		[Static]
-		[Export ("monochromeColorPalette")]
-		PSPDFColorPalette MonochromeColorPalette { get; }
-
-		[Static]
-		[Export ("monochromeTransparentPalette")]
-		PSPDFColorPalette MonochromeTransparentPalette { get; }
-
-		[Static]
-		[Export ("modernColorPalette")]
-		PSPDFColorPalette ModernColorPalette { get; }
-
-		[Static]
-		[Export ("vintageColorPalette")]
-		PSPDFColorPalette VintageColorPalette { get; }
-
-		[Static]
-		[Export ("rainbowColorPalette")]
-		PSPDFColorPalette RainbowColorPalette { get; }
-
-		[Static]
-		[Export ("paperColorPalette")]
-		PSPDFColorPalette PaperColorPalette { get; }
-
-		[Static]
-		[Export ("hsvColorPalette")]
-		PSPDFColorPalette HsvColorPalette { get; }
-	}
-
-	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
-	[BaseType (typeof (NSObject))]
-	interface PSPDFColorPickerFactory : IPSPDFOverridable {
-
-		[Static]
-		[Export ("colorPalettesInColorSet:")]
-		PSPDFColorPalette [] GetColorPalettes (PSPDFColorSet colorSet);
 	}
 
 	[BaseType (typeof (PSPDFBaseConfigurationBuilder))]
@@ -1762,6 +1684,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("settingsOptions")]
 		PSPDFSettingsOptions SettingsOptions { get; set; }
+
+		[Export ("contentMenuConfiguration")]
+		PSPDFContentMenuConfiguration ContentMenuConfiguration { get; set; }
 	}
 
 	[BaseType (typeof (PSPDFBaseConfiguration))]
@@ -1772,7 +1697,7 @@ namespace PSPDFKit.UI {
 		PSPDFConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -2080,6 +2005,9 @@ namespace PSPDFKit.UI {
 
 		[Export ("annotationMenuConfiguration")]
 		PSPDFAnnotationMenuConfiguration AnnotationMenuConfiguration { get; }
+
+		[Export ("contentMenuConfiguration")]
+		PSPDFContentMenuConfiguration ContentMenuConfiguration { get; }
 	}
 
 	interface IPSPDFDocumentInfoCoordinatorDelegate { }
@@ -2120,7 +2048,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFContainerViewController : PSPDFStyleable, IPSPDFOverridable {
 
 		[Export ("initWithControllers:titles:")]
-		IntPtr Constructor ([NullAllowed] UIViewController [] controllers, [NullAllowed] string [] titles);
+		NativeHandle Constructor ([NullAllowed] UIViewController [] controllers, [NullAllowed] string [] titles);
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFContainerViewControllerDelegate Delegate { get; set; }
@@ -2229,6 +2157,7 @@ namespace PSPDFKit.UI {
 		[Export ("showControlsAnimated:")]
 		bool ShowControls (bool animated);
 
+		[Obsolete]
 		[Abstract]
 		[Export ("showMenuIfSelectedWithOption:animated:")]
 		void ShowMenuIfSelected (PSPDFContextMenuOption contextMenuOption, bool animated);
@@ -2363,7 +2292,7 @@ namespace PSPDFKit.UI {
 		NSString VisibilityDidChangeNotification { get; }
 
 		[Export ("initWithDocumentEditorToolbar:")]
-		IntPtr Constructor (PSPDFDocumentEditorToolbar documentEditorToolbar);
+		NativeHandle Constructor (PSPDFDocumentEditorToolbar documentEditorToolbar);
 
 		[Export ("documentEditorToolbar")]
 		PSPDFDocumentEditorToolbar DocumentEditorToolbar { get; }
@@ -2444,7 +2373,7 @@ namespace PSPDFKit.UI {
 		// Hack: This must be manually bound to any class implementing this potocol
 		//[Abstract]
 		//[Export ("initWithDocument:")]
-		//IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		//NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[Abstract]
 		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
@@ -2580,11 +2509,11 @@ namespace PSPDFKit.UI {
 		PSPDFDocument [] GetDocuments ([NullAllowed] string directoryName, bool includeSubdirectories);
 
 		[Export ("initWithDirectory:includeSubdirectories:library:")]
-		IntPtr Constructor ([NullAllowed] string directory, bool includeSubdirectories, [NullAllowed] PSPDFLibrary library);
+		NativeHandle Constructor ([NullAllowed] string directory, bool includeSubdirectories, [NullAllowed] PSPDFLibrary library);
 
 		[Export ("initWithDocuments:library:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument [] documents, [NullAllowed] PSPDFLibrary library);
+		NativeHandle Constructor (PSPDFDocument [] documents, [NullAllowed] PSPDFLibrary library);
 
 		[Export ("enqueueDocumentsIfRequired")]
 		void EnqueueDocumentsIfRequired ();
@@ -2684,15 +2613,15 @@ namespace PSPDFKit.UI {
 		bool ShouldSaveDocument (PSPDFDocumentSharingViewController shareController, PSPDFDocument document,  NSDictionary options);
 	}
 
-	[BaseType (typeof (PSPDFStaticTableViewController))]
+	[BaseType (typeof (PSPDFBaseViewController))]
 	[DisableDefaultCtor]
 	interface PSPDFDocumentSharingViewController : PSPDFStyleable, IPSPDFOverridable {
 
 		[Export ("initWithDocuments:")]
-		IntPtr Constructor (PSPDFDocument [] documents);
+		NativeHandle Constructor (PSPDFDocument [] documents);
 
 		[Export ("initWithDocuments:sharingConfigurations:")]
-		IntPtr Constructor (PSPDFDocument [] documents, [NullAllowed] PSPDFDocumentSharingConfiguration [] sharingConfigurations);
+		NativeHandle Constructor (PSPDFDocument [] documents, [NullAllowed] PSPDFDocumentSharingConfiguration [] sharingConfigurations);
 
 		[Export ("documents")]
 		PSPDFDocument [] Documents { get; }
@@ -3012,7 +2941,7 @@ namespace PSPDFKit.UI {
 		PSPDFDragAndDropConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFDragAndDropConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFDragAndDropConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -3330,12 +3259,15 @@ namespace PSPDFKit.UI {
 		[Export ("preferredSizeFitting:forToolbarPosition:")]
 		CGSize GetPreferredSizeFitting (CGSize availableSize, PSPDFFlexibleToolbarPosition position);
 
+		[Obsolete ("Use 'UIButton.Menu' to add context menus to buttons instead.")]
 		[Export ("showMenuWithItems:target:animated:")]
 		void ShowMenu (PSPDFMenuItem [] menuItems, UIView target, bool animated);
 
+		[Obsolete ("Use 'UIButton.Menu' to add context menus to buttons instead.")]
 		[Export ("showMenuForCollapsedButtons:fromButton:animated:")]
 		void ShowMenuForCollapsedButtons (UIButton [] buttons, UIButton sourceButton, bool animated);
 
+		[Obsolete ("Use 'UIButton.Menu' to add context menus to buttons instead.")]
 		[Export ("menuItemForButton:")]
 		PSPDFMenuItem GetMenuItem (UIButton button);
 	}
@@ -3451,7 +3383,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithFontFamilyDescriptors:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] UIFontDescriptor [] fontFamilyDescriptors);
+		NativeHandle Constructor ([NullAllowed] UIFontDescriptor [] fontFamilyDescriptors);
 
 		[Export ("fontFamilyDescriptors", ArgumentSemantic.Copy)]
 		UIFontDescriptor [] FontFamilyDescriptors { get; }
@@ -3487,7 +3419,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFFormInputAccessoryView : IPSPDFOverridable {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[Export ("displayDoneButton")]
 		bool DisplayDoneButton { get; set; }
@@ -3573,7 +3505,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithFormat:values:request:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFSubmitFormActionFormat format, NSDictionary<NSString, NSObject> values, NSUrlRequest request);
+		NativeHandle Constructor (PSPDFSubmitFormActionFormat format, NSDictionary<NSString, NSObject> values, NSUrlRequest request);
 
 		[Export ("submissionFormat")]
 		PSPDFSubmitFormActionFormat SubmissionFormat { get; }
@@ -3769,7 +3701,7 @@ namespace PSPDFKit.UI {
 		PSPDFGalleryConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFGalleryConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFGalleryConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -3826,7 +3758,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFGalleryContainerView : IPSPDFOverridable {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[Export ("contentState", ArgumentSemantic.Assign)]
 		PSPDFGalleryContainerViewContentState ContentState { get; set; }
@@ -3877,7 +3809,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFGalleryContentView : INativeObject {
 
 		[Export ("initWithReuseIdentifier:")]
-		IntPtr Constructor ([NullAllowed] string reuseIdentifier);
+		NativeHandle Constructor ([NullAllowed] string reuseIdentifier);
 
 		[Export ("contentView")]
 		UIView ContentView { get; }
@@ -4067,16 +3999,16 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDictionary:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSDictionary dictionary);
+		NativeHandle Constructor (NSDictionary dictionary);
 
 		[Wrap ("this (options?.Dictionary)")]
-		IntPtr Constructor (PSPDFGalleryItemOptions options);
+		NativeHandle Constructor (PSPDFGalleryItemOptions options);
 
 		[Export ("initWithContentURL:caption:options:")]
-		IntPtr Constructor (NSUrl contentUrl, [NullAllowed] string caption, [NullAllowed] NSDictionary options);
+		NativeHandle Constructor (NSUrl contentUrl, [NullAllowed] string caption, [NullAllowed] NSDictionary options);
 
 		[Wrap ("this (contentUrl,caption, options?.Dictionary)")]
-		IntPtr Constructor (NSUrl contentUrl, string caption, PSPDFGalleryItemOptions options);
+		NativeHandle Constructor (NSUrl contentUrl, string caption, PSPDFGalleryItemOptions options);
 
 		[Export ("controlsEnabled")]
 		bool ControlsEnabled { get; set; }
@@ -4143,7 +4075,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithLinkAnnotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFLinkAnnotation linkAnnotation);
+		NativeHandle Constructor (PSPDFLinkAnnotation linkAnnotation);
 
 		[Export ("linkAnnotation")]
 		PSPDFLinkAnnotation LinkAnnotation { get; }
@@ -4289,7 +4221,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithLinkAnnotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFLinkAnnotation linkAnnotation);
+		NativeHandle Constructor (PSPDFLinkAnnotation linkAnnotation);
 
 		[Export ("configuration", ArgumentSemantic.Strong)]
 		PSPDFGalleryConfiguration Configuration { get; set; }
@@ -4422,7 +4354,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithPresentationContext:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (IPSPDFPresentationContext presentationContext);
+		NativeHandle Constructor (IPSPDFPresentationContext presentationContext);
 
 		[Export ("presentInlineSearchWithSearchText:animated:")]
 		void PresentInlineSearch ([NullAllowed] string text, bool animated);
@@ -4528,7 +4460,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFLinkAnnotationBaseView : PSPDFAnnotationPresenting {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[Export ("linkAnnotation")]
 		PSPDFLinkAnnotation LinkAnnotation { get; }
@@ -4564,7 +4496,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFLinkAnnotationView : IPSPDFOverridable {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[NullAllowed, Export ("borderColor", ArgumentSemantic.Strong)]
 		UIColor BorderColor { get; set; }
@@ -4594,7 +4526,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithContentURL:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl contentUrl);
+		NativeHandle Constructor (NSUrl contentUrl);
 
 		[Export ("contentURL", ArgumentSemantic.Copy)]
 		NSUrl ContentUrl { get; }
@@ -4714,21 +4646,22 @@ namespace PSPDFKit.UI {
 		UIImage PlayButtonImage { get; set; }
 	}
 
+	[Obsolete ("Use the modern menu system instead.")]
 	[BaseType (typeof (UIMenuItem))]
 	interface PSPDFMenuItem {
 
 		[Export ("initWithTitle:block:")]
-		IntPtr Constructor (string title, Action action);
+		NativeHandle Constructor (string title, Action action);
 
 		[Export ("initWithTitle:block:identifier:")]
-		IntPtr Constructor (string title, Action action, [NullAllowed] string identifier);
+		NativeHandle Constructor (string title, Action action, [NullAllowed] string identifier);
 
 		[Export ("initWithTitle:image:block:identifier:")]
-		IntPtr Constructor (string title, [NullAllowed] UIImage image, Action action, [NullAllowed] string identifier);
+		NativeHandle Constructor (string title, [NullAllowed] UIImage image, Action action, [NullAllowed] string identifier);
 
 		[Export ("initWithTitle:image:block:identifier:allowImageColors:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string title, [NullAllowed] UIImage image, Action action, [NullAllowed] string identifier, bool allowImageColors);
+		NativeHandle Constructor (string title, [NullAllowed] UIImage image, Action action, [NullAllowed] string identifier, bool allowImageColors);
 
 		[Export ("enabled")]
 		bool Enabled { [Bind ("isEnabled")] get; set; }
@@ -4810,7 +4743,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithPDFViewController:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFViewController pdfController);
+		NativeHandle Constructor ([NullAllowed] PSPDFViewController pdfController);
 
 		[NullAllowed, Export ("visibleDocument", ArgumentSemantic.Strong)]
 		PSPDFDocument VisibleDocument { get; set; }
@@ -4868,7 +4801,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFMultimediaAnnotationView : IPSPDFOverridable {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[Export ("multimediaViewController")]
 		IPSPDFMultimediaViewController MultimediaViewController { get; }
@@ -4917,9 +4850,6 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (UINavigationItem))]
 	interface PSPDFNavigationItem {
 
-		[NullAllowed, Export ("closeBarButtonItem", ArgumentSemantic.Strong)]
-		UIBarButtonItem CloseBarButtonItem { get; set; }
-
 		[Export ("leftBarButtonItemsForViewMode:")]
 		[return: NullAllowed]
 		UIBarButtonItem [] LeftBarButtonItemsForViewMode (PSPDFViewMode viewMode);
@@ -4939,6 +4869,22 @@ namespace PSPDFKit.UI {
 
 		[Export ("setRightBarButtonItems:animated:"), New]
 		void SetRightBarButtonItems ([NullAllowed] UIBarButtonItem [] items, bool animated);
+
+		[NullAllowed, Export ("closeBarButtonItem", ArgumentSemantic.Assign)]
+		UIBarButtonItem CloseBarButtonItem { get; set; }
+
+		[Export ("titleForViewMode:")]
+		[return: NullAllowed]
+		string GetTitle (PSPDFViewMode viewMode);
+
+		[Export ("setTitle:forViewMode:")]
+		void SetTitle ([NullAllowed] string title, PSPDFViewMode viewMode);
+
+		[Export ("leftItemsSupplementBackButtonForViewMode:")]
+		bool GetLeftItemsSupplementBackButton (PSPDFViewMode viewMode);
+
+		[Export ("setLeftItemsSupplementBackButton:forViewMode:")]
+		void SetLeftItemsSupplementBackButton (bool leftItemsSupplementBackButton, PSPDFViewMode viewMode);
 	}
 
 	interface IPSPDFNetworkActivityIndicatorManager { }
@@ -5010,7 +4956,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocumentEditorConfiguration:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentEditorConfiguration configuration);
+		NativeHandle Constructor (PSPDFDocumentEditorConfiguration configuration);
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFNewPageViewControllerDelegate Delegate { get; set; }
@@ -5030,7 +4976,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFNoteAnnotationView : IPSPDFOverridable {
 
 		[Export ("initWithAnnotation:")]
-		IntPtr Constructor (PSPDFAnnotation noteAnnotation);
+		NativeHandle Constructor (PSPDFAnnotation noteAnnotation);
 
 		[NullAllowed, Export ("annotationImageView", ArgumentSemantic.Strong)]
 		UIImageView AnnotationImageView { get; set; }
@@ -5072,7 +5018,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithAnnotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFAnnotation annotation);
+		NativeHandle Constructor ([NullAllowed] PSPDFAnnotation annotation);
 
 		[NullAllowed, Export ("annotation", ArgumentSemantic.Strong)]
 		PSPDFAnnotation Annotation { get; set; }
@@ -5347,6 +5293,7 @@ namespace PSPDFKit.UI {
 
 	interface PSPDFAnnotationCreateActionDidInsertNotificationEventArgs {
 
+		[Obsolete]
 		[Export ("PSPDFAnnotationCreateActionInsertedAnnotationsKey")]
 		PSPDFAnnotation [] InsertedAnnotations { get; }
 	}
@@ -5359,6 +5306,7 @@ namespace PSPDFKit.UI {
 		[Notification]
 		NSString SelectedAnnotationsDidChangeNotification { get; }
 
+		[Obsolete]
 		[Field ("PSPDFAnnotationCreateActionDidInsertNotification", PSPDFKitGlobal.LibraryPath)]
 		[Notification (typeof (PSPDFAnnotationCreateActionDidInsertNotificationEventArgs))]
 		NSString CreateActionDidInsertNotification { get; }
@@ -5394,9 +5342,6 @@ namespace PSPDFKit.UI {
 		[Export ("annotationContainerView")]
 		PSPDFAnnotationContainerView AnnotationContainerView { get; }
 
-		[Export ("selectionView")]
-		PSPDFTextSelectionView SelectionView { get; }
-
 		[Export ("renderStatusView", ArgumentSemantic.Strong)]
 		NSObject /* PSPDFRenderStatusView */ RenderStatusView { get; set; }
 
@@ -5416,7 +5361,7 @@ namespace PSPDFKit.UI {
 		UIColor PlaceholderColor { get; set; }
 
 		[Export ("pdfCoordinateSpace")]
-		IUICoordinateSpace PdfCoordinateSpace { get; }
+		 IUICoordinateSpace PdfCoordinateSpace { get; }
 
 		[Advice ("'dictOptions' parameter comes from 'PSPDFObjectFinderOptions', use overload for a strongly typed dictionary.")]
 		[Export ("objectsAtPoint:options:")]
@@ -5455,6 +5400,18 @@ namespace PSPDFKit.UI {
 
 		[Export ("focusFormElement:toggleValue:animated:")]
 		void FocusFormElement (PSPDFFormElement formElement, bool toggleValue, bool animated);
+
+		[Export ("selectionView")]
+		PSPDFTextSelectionView SelectionView { get; }
+
+		[Export ("selectGlyphs:presentMenu:animated:")]
+		void SelectGlyphs (PSPDFGlyph [] glyphs, bool presentMenu, bool animated);
+
+		[Export ("selectImage:presentMenu:animated:")]
+		void SelectImage (PSPDFImageInfo image, bool presentMenu, bool animated);
+
+		[Export ("discardSelectionAnimated:")]
+		void DiscardSelection (bool animated);
 
 		[Obsolete ("Deprecated in PSPDFKit 12 for iOS. Use 'select(annotations:presentMenu:animated:)' or 'focus(formElement:toggleValue:animated:)' instead.")]
 		[Export ("selectAnnotation:animated:")]
@@ -5526,6 +5483,7 @@ namespace PSPDFKit.UI {
 
 		// PSPDFPageView (AnnotationMenu) Category
 
+		[Obsolete]
 		[Export ("textSelectionMenuItemForCreatingAnnotationWithType:")]
 		[return: NullAllowed]
 		PSPDFMenuItem GetTextSelectionMenuItemForCreatingAnnotation ([BindAs (typeof (PSPDFAnnotationStringUI))] NSString annotationString);
@@ -5539,12 +5497,15 @@ namespace PSPDFKit.UI {
 		[Export ("showDigitalSignatureMenuForSignatureField:animated:")]
 		bool ShowDigitalSignatureMenu (PSPDFSignatureFormElement signatureField, bool animated);
 
+		[Obsolete]
 		[Export ("showMenuIfSelectedAnimated:")]
 		void ShowMenuIfSelected (bool animated);
 
+		[Obsolete]
 		[Export ("showMenuIfSelectedWithOption:animated:")]
 		void ShowMenuIfSelected (PSPDFContextMenuOption contextMenuOption, bool animated);
 
+		[Obsolete]
 		[Export ("showMenuForPoint:animated:")]
 		void ShowMenuForPoint (CGPoint location, bool animated);
 
@@ -5726,7 +5687,7 @@ namespace PSPDFKit.UI {
 		PSPDFPrintConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFPrintConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFPrintConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -5746,7 +5707,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFRelayTouchesView {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 	}
 
 	interface IPSPDFResizableViewDelegate { }
@@ -5849,6 +5810,10 @@ namespace PSPDFKit.UI {
 		[Export ("cornerRadius")]
 		nfloat CornerRadius { get; set; }
 
+		[Export ("outerKnobOfType:")]
+		[return: NullAllowed]
+		IPSPDFKnobView GetOuterKnob (PSPDFResizableViewOuterKnob knobType);
+
 		[Export ("rotationKnob")]
 		IPSPDFKnobView RotationKnob { get; }
 
@@ -5856,10 +5821,6 @@ namespace PSPDFKit.UI {
 
 		[Export ("forwardTouchesFromGestureRecognizer:")]
 		void ForwardTouchesFrom (UIGestureRecognizer gestureRecognizer);
-
-		[Export ("outerKnobOfType:")]
-		[return: NullAllowed]
-		IPSPDFKnobView GetOuterKnob (PSPDFResizableViewOuterKnob knobType);
 
 		[Export ("centerPointForOuterKnob:inFrame:")]
 		CGPoint GetCenterPointForOuterKnob (PSPDFResizableViewOuterKnob knobType, CGRect frame);
@@ -5915,7 +5876,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDirectoryURL:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl directoryUrl);
+		NativeHandle Constructor (NSUrl directoryUrl);
 
 		[Export ("directoryURL", ArgumentSemantic.Copy)]
 		NSUrl DirectoryUrl { get; }
@@ -5964,7 +5925,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithSaveDirectories:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDirectory [] saveDirectories);
+		NativeHandle Constructor (PSPDFDirectory [] saveDirectories);
 
 		[Export ("saveDirectories")]
 		PSPDFDirectory [] SaveDirectories { get; }
@@ -6152,7 +6113,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDataSource:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (IPSPDFSearchHighlightViewManagerDataSource dataSource);
+		NativeHandle Constructor (IPSPDFSearchHighlightViewManagerDataSource dataSource);
 
 		[NullAllowed, Export ("dataSource", ArgumentSemantic.Weak)]
 		IPSPDFSearchHighlightViewManagerDataSource DataSource { get; }
@@ -6249,7 +6210,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[NullAllowed, Export ("document", ArgumentSemantic.Strong)]
 		PSPDFDocument Document { get; set; }
@@ -6491,7 +6452,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithStoreName:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] string storeName);
+		NativeHandle Constructor ([NullAllowed] string storeName);
 
 		[Export ("storeName")]
 		string StoreName { get; }
@@ -6561,11 +6522,11 @@ namespace PSPDFKit.UI {
 	interface PSPDFSignedFormElementViewController : IPSPDFOverridable {
 
 		[Export ("initWithSignatureFormElement:")]
-		IntPtr Constructor (PSPDFSignatureFormElement element);
+		NativeHandle Constructor (PSPDFSignatureFormElement element);
 
 		[Export ("initWithSignatureFormElement:allowRemovingSignature:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFSignatureFormElement element, bool allowRemovingSignature);
+		NativeHandle Constructor (PSPDFSignatureFormElement element, bool allowRemovingSignature);
 
 		[Export ("formElement", ArgumentSemantic.Strong)]
 		PSPDFSignatureFormElement FormElement { get; }
@@ -6846,7 +6807,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFStatusHUDView : IPSPDFOverridable {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[NullAllowed, Export ("item", ArgumentSemantic.Strong)]
 		PSPDFStatusHUDItem Item { get; set; }
@@ -6938,7 +6899,7 @@ namespace PSPDFKit.UI {
 
         [Export("initWithPDFViewController:")]
         [DesignatedInitializer]
-        IntPtr Constructor([NullAllowed] PSPDFViewController pdfController);
+        NativeHandle Constructor([NullAllowed] PSPDFViewController pdfController);
 
         [Export ("addDocument:makeVisible:animated:")]
 		void AddDocument (PSPDFDocument document, bool shouldMakeDocumentVisible, bool animated);
@@ -7013,7 +6974,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFTextFieldFormElementView : IUITextViewDelegate, IUITextFieldDelegate, IPSPDFOverridable {
 
 		[Export("initWithFrame:")]
-		IntPtr Constructor(CGRect frame);
+		NativeHandle Constructor(CGRect frame);
 
 		[Export ("beginEditing")]
 		void BeginEditing ();
@@ -7055,7 +7016,7 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFTextSelectionViewDelegate {
 
-		[Abstract]
+		[Obsolete]
 		[Export ("textSelectionView:updateMenuAnimated:")]
 		bool UpdateMenuAnimated (PSPDFTextSelectionView textSelectionView, bool animated);
 
@@ -7068,27 +7029,29 @@ namespace PSPDFKit.UI {
 
 	[BaseType (typeof (UIView))]
 	interface PSPDFTextSelectionView : IAVSpeechSynthesizerDelegate, IPSPDFOverridable {
-
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFTextSelectionViewDelegate Delegate { get; set; }
 
-		[Export ("selectedGlyphs", ArgumentSemantic.Copy)]
+		[NullAllowed, Export ("selectedGlyphs", ArgumentSemantic.Copy)]
 		PSPDFGlyph [] SelectedGlyphs { get; set; }
 
 		[NullAllowed, Export ("selectedText")]
 		string SelectedText { get; }
 
-		[NullAllowed, Export ("selectedImage", ArgumentSemantic.Strong)]
-		PSPDFImageInfo SelectedImage { get; set; }
-
-		[Export ("selectionAlpha")]
-		nfloat SelectionAlpha { get; set; }
-
 		[NullAllowed, Export ("trimmedSelectedText")]
 		string TrimmedSelectedText { get; }
 
-		[Export ("selectionHitTestExtension")]
-		nfloat SelectionHitTestExtension { get; set; }
+		[Export ("sortedGlyphs:")]
+		PSPDFGlyph [] GetSortedGlyphs (PSPDFGlyph [] glyphs);
+
+		[Export ("clearCache")]
+		void ClearCache ();
+
+		[NullAllowed, Export ("selectedImage", ArgumentSemantic.Assign)]
+		PSPDFImageInfo SelectedImage { get; set; }
+
+		[Export ("hasSelection")]
+		bool HasSelection { get; }
 
 		[Export ("selectionRects")]
 		NSValue [] SelectionRects { get; }
@@ -7099,30 +7062,23 @@ namespace PSPDFKit.UI {
 		[Export ("rectForLastBlock")]
 		CGRect RectForLastBlock { get; }
 
-		[Export ("updateMenuAnimated:")]
-		bool UpdateMenu (bool animated);
-
 		[Export ("updateSelectionAnimated:")]
 		void UpdateSelection (bool animated);
+
+		[Export ("selectionAlpha")]
+		nfloat SelectionAlpha { get; set; }
+
+		[Export ("selectionHitTestExtension")]
+		nfloat SelectionHitTestExtension { get; set; }
+
+		[Export ("showTextFlowData:animated:")]
+		void ShowTextFlowData (bool show, bool animated);
 
 		[Export ("discardSelectionAnimated:")]
 		void DiscardSelection (bool animated);
 
-		[Export ("clearCache")]
-		void ClearCache ();
-
-		[Export ("hasSelection")]
-		bool HasSelection { get; }
-
-		// PSPDFTextSelectionView (Advanced) Category
-
-		[Export ("sortedGlyphs:")]
-		PSPDFGlyph [] SortedGlyphs (PSPDFGlyph [] glyphs);
-
-		// PSPDFTextSelectionView (Debugging) Category
-
-		[Export ("showTextFlowData:animated:")]
-		void ShowTextFlowData (bool show, bool animated);
+		[Export ("updateMenuAnimated:")]
+		bool UpdateMenu (bool animated);
 	}
 
 	interface IPSPDFTextStampViewControllerDelegate { }
@@ -7144,7 +7100,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithStampAnnotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFStampAnnotation stampAnnotation);
+		NativeHandle Constructor ([NullAllowed] PSPDFStampAnnotation stampAnnotation);
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFTextStampViewControllerDelegate Delegate { get; set; }
@@ -7522,7 +7478,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFUserInterfaceView : PSPDFThumbnailBarDelegate, PSPDFScrubberBarDelegate, PSPDFPageLabelViewDelegate, IPSPDFOverridable {
 
 		[Export ("initWithFrame:dataSource:")]
-		IntPtr Constructor (CGRect frame, IPSPDFPresentationContext dataSource);
+		NativeHandle Constructor (CGRect frame, IPSPDFPresentationContext dataSource);
 
 		[NullAllowed, Export ("dataSource", ArgumentSemantic.Weak)]
 		IPSPDFPresentationContext DataSource { get; set; }
@@ -7614,10 +7570,10 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:configuration:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document, [NullAllowed] PSPDFConfiguration configuration);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document, [NullAllowed] PSPDFConfiguration configuration);
 
 		[Export ("initWithDocument:")]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[NullAllowed, Export ("document", ArgumentSemantic.Strong)]
 		new PSPDFDocument Document { get; set; }
@@ -7827,6 +7783,9 @@ namespace PSPDFKit.UI {
 		[Export ("settingsButtonItem")]
 		UIBarButtonItem SettingsButtonItem { get; }
 
+		[Export ("contentEditingButtonItem")]
+		UIBarButtonItem ContentEditingButtonItem { get; }
+
 		[Export ("barButtonItemsAlwaysEnabled", ArgumentSemantic.Copy)]
 		UIBarButtonItem [] BarButtonItemsAlwaysEnabled { get; set; }
 
@@ -7914,12 +7873,6 @@ namespace PSPDFKit.UI {
 		[Export ("pdfViewController:didSelectText:withGlyphs:atRect:onPageView:")]
 		void DidSelectText (PSPDFViewController pdfController, string text, PSPDFGlyph [] glyphs, CGRect rect, PSPDFPageView pageView);
 
-		[Export ("pdfViewController:shouldShowMenuItems:atSuggestedTargetRect:forSelectedText:inRect:onPageView:")]
-		PSPDFMenuItem [] ShouldShowMenuItemsForSelectedText (PSPDFViewController pdfController, PSPDFMenuItem [] menuItems, CGRect rect, string selectedText, CGRect textRect, PSPDFPageView pageView);
-
-		[Export ("pdfViewController:shouldShowMenuItems:atSuggestedTargetRect:forSelectedImage:inRect:onPageView:")]
-		PSPDFMenuItem [] ShouldShowMenuItemsForSelectedImage (PSPDFViewController pdfController, PSPDFMenuItem [] menuItems, CGRect rect, PSPDFImageInfo selectedImage, CGRect textRect, PSPDFPageView pageView);
-
 		[Export ("pdfViewController:shouldDisplayAnnotation:onPageView:")]
 		bool ShouldDisplayAnnotation (PSPDFViewController pdfController, PSPDFAnnotation annotation, PSPDFPageView pageView);
 
@@ -7987,9 +7940,23 @@ namespace PSPDFKit.UI {
 		[Export ("pdfViewController:menuForAnnotations:onPageView:appearance:suggestedMenu:")]
 		UIMenu GetMenuForAnnotations (PSPDFViewController sender, PSPDFAnnotation[] annotations, PSPDFPageView pageView, PSPDFEditMenuAppearance appearance, UIMenu suggestedMenu);
 
+		[Export ("pdfViewController:menuForText:onPageView:appearance:suggestedMenu:")]
+		UIMenu GetMenuForText (PSPDFViewController sender, PSPDFGlyphSequence glyphs, PSPDFPageView pageView, PSPDFEditMenuAppearance appearance, UIMenu suggestedMenu);
+
+		[Export ("pdfViewController:menuForImage:onPageView:appearance:suggestedMenu:")]
+		UIMenu GetMenuForImage (PSPDFViewController sender, PSPDFImageInfo image, PSPDFPageView pageView, PSPDFEditMenuAppearance appearance, UIMenu suggestedMenu);
+
 		[Obsolete ("Use 'pdfViewController(_:menuForAnnotations:onPageView:appearance:suggestedMenu:)' or 'pdfViewController(_:menuForCreatingAnnotationAt:onPageView:appearance:suggestedMenu:)' instead.")]
 		[Export ("pdfViewController:shouldShowMenuItems:atSuggestedTargetRect:forAnnotations:inRect:onPageView:")]
 		PSPDFMenuItem [] ShouldShowMenuItemsForAnnotations (PSPDFViewController pdfController, PSPDFMenuItem [] menuItems, CGRect rect, [NullAllowed] PSPDFAnnotation [] annotations, CGRect annotationRect, PSPDFPageView pageView);
+
+		[Obsolete]
+		[Export ("pdfViewController:shouldShowMenuItems:atSuggestedTargetRect:forSelectedText:inRect:onPageView:")]
+		PSPDFMenuItem [] ShouldShowMenuItemsForSelectedText (PSPDFViewController pdfController, PSPDFMenuItem [] menuItems, CGRect rect, string selectedText, CGRect textRect, PSPDFPageView pageView);
+
+		[Obsolete]
+		[Export ("pdfViewController:shouldShowMenuItems:atSuggestedTargetRect:forSelectedImage:inRect:onPageView:")]
+		PSPDFMenuItem [] ShouldShowMenuItemsForSelectedImage (PSPDFViewController pdfController, PSPDFMenuItem [] menuItems, CGRect rect, PSPDFImageInfo selectedImage, CGRect textRect, PSPDFPageView pageView);
 	}
 
 	interface IPSPDFViewModePresenter { }
@@ -7999,11 +7966,11 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("initWithCollectionViewLayout:")]
-		IntPtr Constructor ([NullAllowed] UICollectionViewLayout layout);
+		NativeHandle Constructor ([NullAllowed] UICollectionViewLayout layout);
 
 		[Abstract]
 		[Export ("initWithDocument:")]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[Abstract]
 		[NullAllowed, Export ("document", ArgumentSemantic.Strong)]
@@ -8035,19 +8002,19 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithPageIndex:viewPort:selectionState:selectedAnnotationNames:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (nuint pageIndex, CGRect viewPort, [NullAllowed] PSPDFSelectionState selectionState, [NullAllowed] string [] selectedAnnotationNames);
+		NativeHandle Constructor (nuint pageIndex, CGRect viewPort, [NullAllowed] PSPDFSelectionState selectionState, [NullAllowed] string [] selectedAnnotationNames);
 
 		[Export ("initWithPageIndex:viewPort:selectionState:")]
-		IntPtr Constructor (nuint pageIndex, CGRect viewPort, [NullAllowed] PSPDFSelectionState selectionState);
+		NativeHandle Constructor (nuint pageIndex, CGRect viewPort, [NullAllowed] PSPDFSelectionState selectionState);
 
 		[Export ("initWithPageIndex:selectionState:")]
-		IntPtr Constructor (nuint pageIndex, [NullAllowed] PSPDFSelectionState selectionState);
+		NativeHandle Constructor (nuint pageIndex, [NullAllowed] PSPDFSelectionState selectionState);
 
 		[Export ("initWithPageIndex:viewPort:")]
-		IntPtr Constructor (nuint pageIndex, CGRect viewPort);
+		NativeHandle Constructor (nuint pageIndex, CGRect viewPort);
 
 		[Export ("initWithPageIndex:")]
-		IntPtr Constructor (nuint pageIndex);
+		NativeHandle Constructor (nuint pageIndex);
 
 		[Export ("pageIndex")]
 		nuint PageIndex { get; }
@@ -8112,10 +8079,10 @@ namespace PSPDFKit.UI {
 		UINavigationController GetModalWebView (NSUrl url);
 
 		[Export ("initWithURLRequest:")]
-		IntPtr Constructor (NSUrlRequest request);
+		NativeHandle Constructor (NSUrlRequest request);
 
 		[Export ("initWithURL:")]
-		IntPtr Constructor (NSUrl url);
+		NativeHandle Constructor (NSUrl url);
 
 		[Export ("availableActions", ArgumentSemantic.Assign)]
 		PSPDFWebViewControllerAvailableActions AvailableActions { get; set; }
@@ -8184,7 +8151,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFContainerView {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 	}
 
 	[BaseType (typeof (PSPDFStaticTableViewController))]
@@ -8250,7 +8217,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 	}
 
 	[BaseType (typeof (PSPDFStaticTableViewController))]
@@ -8268,7 +8235,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 	}
 
 	[Static]
@@ -8344,7 +8311,7 @@ namespace PSPDFKit.UI {
 	interface PSPDFProgressLabelView {
 
 		[Export ("initWithFrame:")]
-		IntPtr Constructor (CGRect frame);
+		NativeHandle Constructor (CGRect frame);
 
 		[Export ("titleColor", ArgumentSemantic.Strong)]
 		UIColor TitleColor { get; set; }
@@ -8395,7 +8362,7 @@ namespace PSPDFKit.UI {
 		PSPDFDocumentSharingConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFDocumentSharingConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFDocumentSharingConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -8569,6 +8536,9 @@ namespace PSPDFKit.UI {
 	[BaseType (typeof (NSObject))]
 	interface PSPDFLinkAnnotationEditingContainerViewControllerDelegate {
 
+		[Export ("linkAnnotationEditingContainerViewControllerDidCancel:")]
+		void DidCancelCreatingLinkAnnotation (PSPDFLinkAnnotationEditingContainerViewController linkAnnotationEditingContainerViewController);
+
 		[Export ("linkAnnotationEditingContainerViewController:didFinishCreatingLinkAnnotation:")]
 		void DidFinishCreatingLinkAnnotation (PSPDFLinkAnnotationEditingContainerViewController linkAnnotationEditingContainerViewController, PSPDFLinkAnnotation linkAnnotation);
 
@@ -8582,11 +8552,11 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:pageIndex:selectedRects:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document, nuint pageIndex, [BindAs (typeof (CGRect []))] NSValue [] selectedRects);
+		NativeHandle Constructor (PSPDFDocument document, nuint pageIndex, [BindAs (typeof (CGRect []))] NSValue [] selectedRects);
 
 		[Export ("initWithExistingLinkAnnotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFLinkAnnotation linkAnnotation);
+		NativeHandle Constructor (PSPDFLinkAnnotation linkAnnotation);
 
 		[NullAllowed, Export ("linkDelegate", ArgumentSemantic.Weak)]
 		IPSPDFLinkAnnotationEditingContainerViewControllerDelegate LinkDelegate { get; set; }
@@ -8613,7 +8583,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:existingAction:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document, [NullAllowed] PSPDFAction action);
+		NativeHandle Constructor (PSPDFDocument document, [NullAllowed] PSPDFAction action);
 
 		[Export ("document")]
 		PSPDFDocument Document { get; }
@@ -8652,7 +8622,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithApplePencilManager:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFApplePencilManager applePencilManager);
+		NativeHandle Constructor (PSPDFApplePencilManager applePencilManager);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -8699,7 +8669,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocumentProvider:action:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider, PSPDFSubmitFormAction action);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider, PSPDFSubmitFormAction action);
 
 		[Export ("documentProvider")]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -8733,7 +8703,7 @@ namespace PSPDFKit.UI {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("document")]
 		PSPDFDocument Document { get; }
@@ -8777,7 +8747,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToSelectAnnotationAtPoint:inCoordinateSpace:")]
-		bool TryToSelectAnnotation (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToSelectAnnotation (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("deselectAnnotation")]
@@ -8789,7 +8759,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToEditAnnotationAtPoint:inCoordinateSpace:")]
-		bool TryToEditAnnotation (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToEditAnnotation (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("transformAnnotation")]
@@ -8801,7 +8771,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToOpenLinkAnnotationAtPoint:inCoordinateSpace:")]
-		bool TryToOpenLinkAnnotation (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToOpenLinkAnnotation (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("showAnnotationMenu")]
@@ -8809,7 +8779,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToShowAnnotationMenuAtPoint:inCoordinateSpace:")]
-		bool TryToShowAnnotationMenu (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToShowAnnotationMenu (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("fastScroll")]
@@ -8817,7 +8787,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToPerformFastScrollAtPoint:inCoordinateSpace:")]
-		bool TryToPerformFastScroll (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToPerformFastScroll (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("smartZoom")]
@@ -8825,7 +8795,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToPerformSmartZoomAtPoint:inCoordinateSpace:")]
-		bool TryToPerformSmartZoom (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToPerformSmartZoom (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("selectText")]
@@ -8841,7 +8811,7 @@ namespace PSPDFKit.UI {
 
 		[Abstract]
 		[Export ("tryToToggleUserInterfaceAtPoint:inCoordinateSpace:")]
-		bool TryToToggleUserInterface (CGPoint point, UICoordinateSpace coordinateSpace);
+		bool TryToToggleUserInterface (CGPoint point, IUICoordinateSpace coordinateSpace);
 
 		[Abstract]
 		[Export ("allInteractions")]
@@ -8937,7 +8907,7 @@ namespace PSPDFKit.UI {
 		PSPDFSignatureCreationConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFSignatureCreationConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFSignatureCreationConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -9028,7 +8998,7 @@ namespace PSPDFKit.UI {
 		PSPDFAnnotationMenuConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFAnnotationMenuConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFAnnotationMenuConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -9051,5 +9021,35 @@ namespace PSPDFKit.UI {
 
 		[Export ("lineWidthChoices")]
 		PSPDFAnnotationMenuConfigurationBuilderChoicesHandler LineWidthChoices { get; }
+	}
+
+	delegate NSString [] PSPDFContentMenuConfigurationBuilderAnnotationToolChoices (PSPDFGlyphSequence glyphs, PSPDFPageView pageView, PSPDFEditMenuAppearance appearance, NSString [] defaultChoices);
+
+	[BaseType (typeof (PSPDFBaseConfigurationBuilder))]
+	interface PSPDFContentMenuConfigurationBuilder {
+
+		[Export ("annotationToolChoices")]
+		PSPDFContentMenuConfigurationBuilderAnnotationToolChoices AnnotationToolChoices { get; set; }
+	}
+
+	[BaseType (typeof (PSPDFBaseConfiguration))]
+	interface PSPDFContentMenuConfiguration {
+
+		[Static, New]
+		[Export ("defaultConfiguration")]
+		PSPDFContentMenuConfiguration DefaultConfiguration { get; }
+
+		[Export ("initWithBuilder:")]
+		NativeHandle Constructor (PSPDFContentMenuConfigurationBuilder builder);
+
+		[Static]
+		[Export ("configurationWithBuilder:")]
+		PSPDFContentMenuConfiguration FromConfigurationBuilder ([NullAllowed] Action<PSPDFContentMenuConfigurationBuilder> builderHandler);
+
+		[Export ("configurationUpdatedWithBuilder:")]
+		PSPDFContentMenuConfiguration GetUpdatedConfiguration ([NullAllowed] Action<PSPDFContentMenuConfigurationBuilder> builderHandler);
+
+		[Export ("annotationToolChoices")]
+		PSPDFContentMenuConfigurationBuilderAnnotationToolChoices AnnotationToolChoices { get; }
 	}
 }

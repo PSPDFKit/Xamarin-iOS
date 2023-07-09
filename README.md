@@ -1,7 +1,7 @@
 Xamarin PSPDFKit for iOS and Mac Bindings
 =========================================
 
-- Xamarin.iOS Bindings for PSPDFKit 12.0.3 for iOS
+- Xamarin.iOS Bindings for PSPDFKit 12.3.0 for iOS
 - Xamarin.Mac Bindings for PSPDFKit 5.1.0 for macOS
 
 #### PSPDFKit
@@ -22,14 +22,19 @@ PSPDFKit offers support for customers with an active SDK license via https://psp
 Are you evaluating our SDK? That's great, we're happy to help out!
 To make sure this is fast, please use a work email and have someone from your company fill out our sales form: https://pspdfkit.com/sales/
 
-Minimum Requirements
-====================
+Minimum Build Requirements
+==========================
 
-In order to build this binding project you need:
+In order to **build** this binding project you need:
 
 - **Visual Studio for Mac**
-- **Xamarin.iOS 13.6 +**
-- **Xamarin.Mac 6.6 +**
+- [Xamarin.iOS 16.2.0.5](https://download.visualstudio.microsoft.com/download/pr/5f9ea8f6-0afe-46b3-b8e8-5dee4c2dd14c/b357a2b833ba86598aaff58fc013f06c/xamarin.ios-16.2.0.5.pkg)
+- [Xamarin.Mac 9.1.0.5](https://download.visualstudio.microsoft.com/download/pr/5f9ea8f6-0afe-46b3-b8e8-5dee4c2dd14c/c5c4f99a992a8cc51b2bad3d31ef6b96/xamarin.mac-9.1.0.5.pkg)
+- [Xcode 14.2](https://download.developer.apple.com/Developer_Tools/Xcode_14.2/Xcode_14.2.xip)
+
+These above exact requirements are only needed to build this binding project,
+if you are using the already built packages from nuget in your project you can
+use the latest Stable version of Xamarin.
 
 Build Instructions
 ==================

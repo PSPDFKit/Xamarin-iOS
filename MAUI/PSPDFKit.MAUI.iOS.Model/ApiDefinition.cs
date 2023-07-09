@@ -25,6 +25,10 @@ using UIFontDescriptorSymbolicTraits = AppKit.NSFontSymbolicTraits;
 using AVFoundation;
 #endif
 
+#if !NET
+using NativeHandle = System.IntPtr;
+#endif
+
 namespace PSPDFKit.Model {
 
 	[Abstract]
@@ -40,7 +44,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFAbstractLineAnnotation : PSPDFMeasurementAnnotation {
 
 		[Export ("initWithPoints:")]
-		IntPtr Constructor (NSValue [] points);
+		NativeHandle Constructor (NSValue [] points);
 
 		[Export ("lineEnd1", ArgumentSemantic.Assign)]
 		PSPDFLineEndType LineEnd1 { get; set; }
@@ -139,10 +143,10 @@ namespace PSPDFKit.Model {
 	interface PSPDFAESCryptoDataProvider : PSPDFFileDataProviding {
 
 		[Export ("initWithURL:passphraseProvider:salt:rounds:")]
-		IntPtr Constructor (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider, string salt, nuint rounds);
+		NativeHandle Constructor (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider, string salt, nuint rounds);
 
 		[Export ("initWithURL:passphraseDataProvider:salt:rounds:")]
-		IntPtr Constructor (NSUrl url, Func<NSData> passphraseDataProvider, NSData saltData, nuint rounds);
+		NativeHandle Constructor (NSUrl url, Func<NSData> passphraseDataProvider, NSData saltData, nuint rounds);
 
 		[Export ("initWithURL:passphraseProvider:")]
 		[Internal]
@@ -153,7 +157,7 @@ namespace PSPDFKit.Model {
 		IntPtr InitWithLegacyFileFormatURL (NSUrl url, PSPDFAESCryptoPassphraseProvider passphraseProvider);
 
 		[Export ("initWithURL:binaryKeyProvider:")]
-		IntPtr Constructor (NSUrl url, Func<NSData> binaryKeyProvider);
+		NativeHandle Constructor (NSUrl url, Func<NSData> binaryKeyProvider);
 
 		[Export ("fileURL")]
 		new NSUrl FileUrl { get; }
@@ -175,7 +179,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFAESCryptoInputStream {
 
 		[Export ("initWithInputStream:passphrase:")]
-		IntPtr Constructor (NSInputStream stream, string passphrase);
+		NativeHandle Constructor (NSInputStream stream, string passphrase);
 
 		[Internal]
 		[Export ("read:maxLength:")]
@@ -190,7 +194,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFAESCryptoOutputStream {
 
 		[Export ("initWithOutputStream:passphrase:")]
-		IntPtr Constructor (NSOutputStream stream, string passphrase);
+		NativeHandle Constructor (NSOutputStream stream, string passphrase);
 
 		[Export ("close"), New]
 		void Close ();
@@ -620,7 +624,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider);
 
 		[Export ("annotationProviders", ArgumentSemantic.Copy)]
 		IPSPDFAnnotationProvider [] AnnotationProviders { get; set; }
@@ -826,7 +830,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithAnnotations:copyAnnotations:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAnnotation [] annotations, bool shouldCopyAnnotations);
+		NativeHandle Constructor (PSPDFAnnotation [] annotations, bool shouldCopyAnnotations);
 
 		[Export ("annotations", ArgumentSemantic.Copy)]
 		PSPDFAnnotation [] Annotations { get; }
@@ -852,7 +856,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithName:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string styleName);
+		NativeHandle Constructor (string styleName);
 
 		[Export ("styleName")]
 		string StyleName { get; set; }
@@ -982,7 +986,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("document")]
 		PSPDFDocument Document { get; }
@@ -1016,7 +1020,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithAnnotationGroups:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAnnotationGroup [] annotationGroups);
+		NativeHandle Constructor (PSPDFAnnotationGroup [] annotationGroups);
 
 		[Export ("annotationGroups")]
 		PSPDFAnnotationGroup [] AnnotationGroups { get; }
@@ -1141,7 +1145,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDelegate:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] IPSPDFBackForwardActionListDelegate @delegate);
+		NativeHandle Constructor ([NullAllowed] IPSPDFBackForwardActionListDelegate @delegate);
 
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		IPSPDFBackForwardActionListDelegate Delegate { get; set; }
@@ -1196,7 +1200,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithBuilder:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFBaseConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFBaseConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -1232,7 +1236,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithAction:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAction action);
+		NativeHandle Constructor (PSPDFAction action);
 
 		[Export ("action", ArgumentSemantic.Copy)]
 		PSPDFAction Action { get; }
@@ -1246,7 +1250,7 @@ namespace PSPDFKit.Model {
 		// PSPDFBookmark (GoToAction) Category
 
 		[Export ("initWithPageIndex:")]
-		IntPtr Constructor (uint pageIndex);
+		NativeHandle Constructor (uint pageIndex);
 
 		[Export ("pageIndex", ArgumentSemantic.Assign)]
 		uint PageIndex { get; }
@@ -1260,7 +1264,7 @@ namespace PSPDFKit.Model {
 		NSNumber SortKey { get; }
 
 		[Export ("initWithIdentifier:action:name:sortKey:")]
-		IntPtr Constructor (string identifier, PSPDFAction action, [NullAllowed] string name, [NullAllowed] NSNumber sortKey);
+		NativeHandle Constructor (string identifier, PSPDFAction action, [NullAllowed] string name, [NullAllowed] NSNumber sortKey);
 	}
 
 	[BaseType (typeof (PSPDFBookmark))]
@@ -1268,7 +1272,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithAction:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAction action);
+		NativeHandle Constructor (PSPDFAction action);
 
 		[Export ("action", ArgumentSemantic.Copy), New]
 		PSPDFAction Action { get; set; }
@@ -1287,7 +1291,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
 		PSPDFDocument Document { get; }
@@ -1586,7 +1590,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider);
 
 		[NullAllowed, Export ("documentProvider", ArgumentSemantic.Weak)]
 		PSPDFDocumentProvider DocumentProvider { get; }
@@ -1694,7 +1698,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFCryptoInputStream {
 
 		[Export ("initWithInputStream:decryptionBlock:")]
-		IntPtr Constructor (NSInputStream stream, [NullAllowed] PSPDFCryptoInputStreamDecryptionHandler decryptionHandler);
+		NativeHandle Constructor (NSInputStream stream, [NullAllowed] PSPDFCryptoInputStreamDecryptionHandler decryptionHandler);
 
 		[Export ("decryptionBlock", ArgumentSemantic.Copy)]
 		PSPDFCryptoInputStreamDecryptionHandler DecryptionHandler { get; set; }
@@ -1706,7 +1710,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFCryptoOutputStream {
 
 		[Export ("initWithOutputStream:encryptionBlock:")]
-		IntPtr Constructor (NSOutputStream stream, PSPDFCryptoOutputStreamEncryptionHandler encryptionHandler);
+		NativeHandle Constructor (NSOutputStream stream, PSPDFCryptoOutputStreamEncryptionHandler encryptionHandler);
 
 		[Export ("encryptionBlock", ArgumentSemantic.Copy)]
 		PSPDFCryptoOutputStreamEncryptionHandler EncryptionHandler { get; set; }
@@ -1757,7 +1761,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithData:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSData data);
+		NativeHandle Constructor (NSData data);
 
 		[Sealed, NullAllowed, Export ("progress")]
 		NSProgress Progress { get; }
@@ -1779,7 +1783,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithData:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] NSData data);
+		NativeHandle Constructor ([NullAllowed] NSData data);
 
 		[Export ("data")]
 		NSData Data { get; }
@@ -1968,14 +1972,14 @@ namespace PSPDFKit.Model {
 		NSString UnderlyingFileChangedNotification { get; }
 
 		[Export ("initWithURL:")]
-		IntPtr Constructor (NSUrl url);
+		NativeHandle Constructor (NSUrl url);
 
 		[Export ("initWithDataProviders:")]
-		IntPtr Constructor (IPSPDFDataProviding [] dataProviders);
+		NativeHandle Constructor (IPSPDFDataProviding [] dataProviders);
 
 		[Export ("initWithDataProviders:loadCheckpointIfAvailable:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (IPSPDFDataProviding [] dataProviders, bool loadCheckpoint);
+		NativeHandle Constructor (IPSPDFDataProviding [] dataProviders, bool loadCheckpoint);
 
 		[Export ("documentByAppendingDataProviders:")]
 		PSPDFDocument GetDocumentByAppendingDataProviders (IPSPDFDataProviding [] dataProviders);
@@ -2555,7 +2559,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[NullAllowed, Export ("document")]
 		PSPDFDocument Document { get; }
@@ -2655,7 +2659,7 @@ namespace PSPDFKit.Model {
 		PSPDFDocumentEditorConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFDocumentEditorConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFDocumentEditorConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -2723,7 +2727,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithSize:name:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (CGSize size, string name);
+		NativeHandle Constructor (CGSize size, string name);
 
 		[Export ("size")]
 		CGSize Size { get; }
@@ -2755,7 +2759,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithPath:name:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string path, [NullAllowed] string name);
+		NativeHandle Constructor (string path, [NullAllowed] string name);
 
 		[Export ("path")]
 		string Path { get; }
@@ -2777,7 +2781,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithCompression:name:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (nfloat compression, string name);
+		NativeHandle Constructor (nfloat compression, string name);
 
 		[Export ("compression")]
 		nfloat Compression { get; }
@@ -2797,7 +2801,7 @@ namespace PSPDFKit.Model {
 		// This ctor needs to be manually added to any class implementing this protocol
 		//[Abstract] // TODO: add this to classes that implement this
 		//[Export ("initWithDocumentEditorConfiguration:")]
-		//IntPtr Constructor (PSPDFDocumentEditorConfiguration configuration);
+		//NativeHandle Constructor (PSPDFDocumentEditorConfiguration configuration);
 
 		[Abstract]
 		[Export ("documentEditorConfiguration")]
@@ -2809,11 +2813,11 @@ namespace PSPDFKit.Model {
 	interface PSPDFDocumentPDFMetadata {
 
 		[Export ("initWithDocument:")]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider);
 
 		[Export ("document", ArgumentSemantic.Weak)]
 		PSPDFDocument Document { get; }
@@ -2931,9 +2935,9 @@ namespace PSPDFKit.Model {
 		[Export ("resolveNamedDestination:")]
 		nuint ResolveNamedDestination (string namedDestination);
 
-		[Export ("hashDocumentProviderRange:hashAlgorithm:error:")]
+		[Export ("hashOfDataInRanges:algorithm:error:")]
 		[return: NullAllowed]
-		NSData HashDocumentProviderRange (NSNumber [] range, PSPDFSignatureHashAlgorithm hashAlgorithm, [NullAllowed] out NSError error);
+		NSData GetHashOfData (NSIndexSet byteRanges, PSPDFSignatureHashAlgorithm hashAlgorithm, [NullAllowed] out NSError error);
 
 		// PSPDFDocumentProvider (SubclassingHooks) Category
 
@@ -2977,17 +2981,17 @@ namespace PSPDFKit.Model {
 		nuint KeyLengthAutomatic { get; }
 
 		[Export ("initWithOwnerPassword:userPassword:error:")]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, [NullAllowed] out NSError error);
+		NativeHandle Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, [NullAllowed] out NSError error);
 
 		[Export ("initWithOwnerPassword:userPassword:keyLength:error:")]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, [NullAllowed] out NSError error);
+		NativeHandle Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, [NullAllowed] out NSError error);
 
 		[Export ("initWithOwnerPassword:userPassword:keyLength:permissions:error:")]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, [NullAllowed] out NSError error);
+		NativeHandle Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, [NullAllowed] out NSError error);
 
 		[Export ("initWithOwnerPassword:userPassword:keyLength:permissions:encryptionAlgorithm:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, PSPDFDocumentEncryptionAlgorithm encryptionAlgorithm, [NullAllowed] out NSError error);
+		NativeHandle Constructor ([NullAllowed] string ownerPassword, [NullAllowed] string userPassword, nuint keyLength, PSPDFDocumentPermissions documentPermissions, PSPDFDocumentEncryptionAlgorithm encryptionAlgorithm, [NullAllowed] out NSError error);
 
 		[NullAllowed, Export ("ownerPassword")]
 		string OwnerPassword { get; }
@@ -3010,11 +3014,11 @@ namespace PSPDFKit.Model {
 	interface PSPDFDocumentXMPMetadata {
 
 		[Export ("initWithDocument:")]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider);
 
 		[Export ("document")]
 		PSPDFDocument Document { get; }
@@ -3176,7 +3180,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithOperation:affectedPageIndex:destinationPageIndex:pageReferenceSourceIndex:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFEditingOperation operation, nuint affectedPageIndex, nuint destinationPageIndex, nuint pageReferenceSourceIndex);
+		NativeHandle Constructor (PSPDFEditingOperation operation, nuint affectedPageIndex, nuint destinationPageIndex, nuint pageReferenceSourceIndex);
 
 		[Export ("operation")]
 		PSPDFEditingOperation Operation { get; }
@@ -3195,7 +3199,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFEmbeddedFile {
 		
 		[Export ("initWithFileURL:fileDescription:")]
-		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] string fileDescription);
+		NativeHandle Constructor (NSUrl fileUrl, [NullAllowed] string fileDescription);
 
 		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
 		PSPDFDocument Document { get; }
@@ -3224,7 +3228,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFEmbeddedGoToAction {
 
 		[Export ("initWithRelativePath:targetRelationship:openInNewWindow:pageIndex:")]
-		IntPtr Constructor (string remotePath, PSPDFEmbeddedGoToActionTarget targetRelationship, bool openInNewWindow, nuint pageIndex);
+		NativeHandle Constructor (string remotePath, PSPDFEmbeddedGoToActionTarget targetRelationship, bool openInNewWindow, nuint pageIndex);
 
 		[Export ("targetRelationship")]
 		PSPDFEmbeddedGoToActionTarget TargetRelationship { get; }
@@ -3241,7 +3245,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithName:URL:data:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string fileName, [NullAllowed] NSUrl fileUrl, [NullAllowed] NSData fileData);
+		NativeHandle Constructor (string fileName, [NullAllowed] NSUrl fileUrl, [NullAllowed] NSData fileData);
 
 		[Export ("fileName")]
 		string FileName { get; }
@@ -3276,11 +3280,11 @@ namespace PSPDFKit.Model {
 	interface PSPDFFileAnnotationProvider : PSPDFOverridable {
 
 		[Export ("initWithDocumentProvider:")]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider);
 
 		[Export ("initWithDocumentProvider:fileURL:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider, [NullAllowed] NSUrl annotationFileUrl);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider, [NullAllowed] NSUrl annotationFileUrl);
 
 		[Export ("autodetectTextLinkTypes", ArgumentSemantic.Assign)]
 		PSPDFTextCheckingType AutodetectTextLinkTypes { get; set; }
@@ -3339,7 +3343,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithFileURL:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl fileUrl);
+		NativeHandle Constructor (NSUrl fileUrl);
 
 		[Export ("fileURL")]
 		NSUrl FileUrl { get; }
@@ -3374,10 +3378,10 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithFileURL:progress:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl fileUrl, [NullAllowed] NSProgress progress);
+		NativeHandle Constructor (NSUrl fileUrl, [NullAllowed] NSProgress progress);
 
 		[Export ("initWithFileURL:")]
-		IntPtr Constructor (NSUrl fileUrl);
+		NativeHandle Constructor (NSUrl fileUrl);
 
 		[Sealed, NullAllowed, Export ("progress")]
 		NSProgress Progress { get; }
@@ -3415,7 +3419,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithFileURL:options:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl fileURL, PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
+		NativeHandle Constructor (NSUrl fileURL, PSPDFDataSinkOptions options, [NullAllowed] out NSError error);
 
 		[Export ("options")]
 		PSPDFDataSinkOptions Options { get; }
@@ -3661,7 +3665,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithOptions:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] NSDictionary<NSString, NSObject> options);
+		NativeHandle Constructor ([NullAllowed] NSDictionary<NSString, NSObject> options);
 	}
 
 	[Static]
@@ -3822,7 +3826,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithLabel:value:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string label, string value);
+		NativeHandle Constructor (string label, string value);
 
 		[Export ("label")]
 		string Label { get; }
@@ -3870,10 +3874,10 @@ namespace PSPDFKit.Model {
 		NSString IntentTransformerName { get; }
 
 		[Export ("initWithContents:")]
-		IntPtr Constructor (string contents);
+		NativeHandle Constructor (string contents);
 
 		[Export ("initWithContents:calloutPoint1:")]
-		IntPtr Constructor (string contents, CGPoint point1);
+		NativeHandle Constructor (string contents, CGPoint point1);
 
 		[Export ("intentType", ArgumentSemantic.Assign)]
 		PSPDFFreeTextAnnotationIntent IntentType { get; set; }
@@ -3949,7 +3953,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFGoToAction {
 
 		[Export ("initWithPageIndex:")]
-		IntPtr Constructor (nuint pageIndex);
+		NativeHandle Constructor (nuint pageIndex);
 
 		[Export ("pageIndex")]
 		nuint PageIndex { get; }
@@ -3959,7 +3963,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFHideAction {
 
 		[Export ("initWithAssociatedAnnotations:shouldHide:")]
-		IntPtr Constructor (PSPDFAnnotation [] annotations, bool shouldHide);
+		NativeHandle Constructor (PSPDFAnnotation [] annotations, bool shouldHide);
 
 		[Export ("shouldHide")]
 		bool ShouldHide { get; }
@@ -3986,10 +3990,10 @@ namespace PSPDFKit.Model {
 	interface PSPDFImageDocument {
 
 		[Export ("initWithImageDataProvider:")]
-		IntPtr Constructor (IPSPDFDataProviding imageDataProvider);
+		NativeHandle Constructor (IPSPDFDataProviding imageDataProvider);
 
 		[Export ("initWithImageURL:")]
-		IntPtr Constructor (NSUrl imageUrl);
+		NativeHandle Constructor (NSUrl imageUrl);
 
 		[NullAllowed, Export ("imageDataProvider")]
 		IPSPDFDataProviding ImageDataProvider { get; }
@@ -4090,7 +4094,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFJavaScriptAction {
 
 		[Export ("initWithScript:")]
-		IntPtr Constructor (string script);
+		NativeHandle Constructor (string script);
 
 		[NullAllowed, Export ("script")]
 		string Script { get; }
@@ -4482,7 +4486,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithLibrary:documentsDirectoryURL:documentHandler:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFLibrary library, NSUrl url, [NullAllowed] PSPDFLibraryFileSystemDataSourceDocumentHandler documentHandler);
+		NativeHandle Constructor (PSPDFLibrary library, NSUrl url, [NullAllowed] PSPDFLibraryFileSystemDataSourceDocumentHandler documentHandler);
 
 		[NullAllowed, Export ("library", ArgumentSemantic.Weak)]
 		PSPDFLibrary Library { get; }
@@ -4546,7 +4550,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFLineAnnotation : PSPDFOverridable {
 
 		[Export ("initWithPoint1:point2:")]
-		IntPtr Constructor (CGPoint point1, CGPoint point2);
+		NativeHandle Constructor (CGPoint point1, CGPoint point2);
 
 		[Export ("point1", ArgumentSemantic.Assign)]
 		CGPoint Point1 { get; set; }
@@ -4559,13 +4563,13 @@ namespace PSPDFKit.Model {
 	interface PSPDFLinkAnnotation : PSPDFOverridable {
 
 		[Export ("initWithLinkAnnotationType:")]
-		IntPtr Constructor (PSPDFLinkAnnotationType linkAnnotationType);
+		NativeHandle Constructor (PSPDFLinkAnnotationType linkAnnotationType);
 
 		[Export ("initWithAction:")]
-		IntPtr Constructor (PSPDFAction action);
+		NativeHandle Constructor (PSPDFAction action);
 
 		[Export ("initWithURL:")]
-		IntPtr Constructor (NSUrl url);
+		NativeHandle Constructor (NSUrl url);
 
 		[Export ("linkType", ArgumentSemantic.Assign)]
 		PSPDFLinkAnnotationType LinkType { get; set; }
@@ -4639,7 +4643,7 @@ namespace PSPDFKit.Model {
 		PSPDFModel FromDictionary ([NullAllowed] NSDictionary dictionaryValue, [NullAllowed] out NSError error);
 
 		[Export ("initWithDictionary:error:")]
-		IntPtr Constructor ([NullAllowed] NSDictionary dictionaryValue, [NullAllowed] out NSError error);
+		NativeHandle Constructor ([NullAllowed] NSDictionary dictionaryValue, [NullAllowed] out NSError error);
 
 		[Static]
 		[Export ("propertyKeys")]
@@ -4656,10 +4660,10 @@ namespace PSPDFKit.Model {
 		NSString TransformerName { get; }
 
 		[Export ("initWithActionNamedString:")]
-		IntPtr Constructor ([NullAllowed] string actionNameString);
+		NativeHandle Constructor ([NullAllowed] string actionNameString);
 
 		[Export ("initWithNamedActionType:")]
-		IntPtr Constructor (PSPDFNamedActionType namedActionType);
+		NativeHandle Constructor (PSPDFNamedActionType namedActionType);
 
 		[Export ("namedActionType")]
 		PSPDFNamedActionType NamedActionType { get; }
@@ -4721,7 +4725,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFNoteAnnotation : PSPDFOverridable {
 
 		[Export ("initWithContents:")]
-		IntPtr Constructor (string contents);
+		NativeHandle Constructor (string contents);
 
 		[Export ("iconName")]
 		string IconName { get; set; }
@@ -4752,7 +4756,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithTitle:color:fontTraits:action:children:level:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] string title, [NullAllowed] UIColor color, UIFontDescriptorSymbolicTraits fontTraits, [NullAllowed] PSPDFAction action, [NullAllowed] PSPDFOutlineElement [] children, nuint level);
+		NativeHandle Constructor ([NullAllowed] string title, [NullAllowed] UIColor color, UIFontDescriptorSymbolicTraits fontTraits, [NullAllowed] PSPDFAction action, [NullAllowed] PSPDFOutlineElement [] children, nuint level);
 
 		[Export ("flattenedChildren")]
 		PSPDFOutlineElement [] FlattenedChildren { get; }
@@ -4865,7 +4869,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithData:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSData data);
+		NativeHandle Constructor (NSData data);
 
 		[Export ("data")]
 		NSData Data { get; }
@@ -4884,7 +4888,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDisplayName:PKCS12:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string displayName, PSPDFPKCS12 p12);
+		NativeHandle Constructor (string displayName, PSPDFPKCS12 p12);
 
 		[Export ("p12")]
 		PSPDFPKCS12 P12 { get; }
@@ -4910,7 +4914,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFPolygonAnnotation : PSPDFOverridable {
 
 		[Export ("initWithPoints:intentType:")]
-		IntPtr Constructor (NSValue [] points, PSPDFPolygonAnnotationIntent intentType);
+		NativeHandle Constructor (NSValue [] points, PSPDFPolygonAnnotationIntent intentType);
 
 		[Export ("intentType", ArgumentSemantic.Assign)]
 		PSPDFPolygonAnnotationIntent IntentType { get; set; }
@@ -4920,7 +4924,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFPolyLineAnnotation : PSPDFOverridable {
 
 		[Export ("initWithPoints:")]
-		IntPtr Constructor (NSValue [] points);
+		NativeHandle Constructor (NSValue [] points);
 	}
 
 	[BaseType (typeof (PSPDFAnnotation))]
@@ -4950,7 +4954,7 @@ namespace PSPDFKit.Model {
 		IPSPDFProcessorDelegate Delegate { get; set; }
 
 		[Export ("initWithConfiguration:securityOptions:")]
-		IntPtr Constructor (PSPDFProcessorConfiguration configuration, [NullAllowed] PSPDFDocumentSecurityOptions securityOptions);
+		NativeHandle Constructor (PSPDFProcessorConfiguration configuration, [NullAllowed] PSPDFDocumentSecurityOptions securityOptions);
 
 		[Export ("writeToFileURL:error:")]
 		bool WriteToFile (NSUrl fileUrl, [NullAllowed] out NSError error);
@@ -4965,7 +4969,7 @@ namespace PSPDFKit.Model {
 		[Export ("cancel")]
 		void Cancel ();
 
-#if __IOS__
+#if !__MACCATALYST__
 
 		[Static]
 		[Export ("generatePDFFromURL:options:completionBlock:")]
@@ -5105,7 +5109,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[NullAllowed, Export ("document")]
 		PSPDFDocument Document { get; }
@@ -5306,7 +5310,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithRemoteURL:targetURL:fileManager:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl remoteURL, NSUrl targetFileURL, IPSPDFFileManager fileManager);
+		NativeHandle Constructor (NSUrl remoteURL, NSUrl targetFileURL, IPSPDFFileManager fileManager);
 
 		[Export ("remoteURL", ArgumentSemantic.Copy)]
 		NSUrl RemoteUrl { get; }
@@ -5335,10 +5339,10 @@ namespace PSPDFKit.Model {
 	interface PSPDFRemoteGoToAction {
 
 		[Export ("initWithRelativePath:pageIndex:")]
-		IntPtr Constructor ([NullAllowed] string remotePath, nuint pageIndex);
+		NativeHandle Constructor ([NullAllowed] string remotePath, nuint pageIndex);
 
 		[Export ("initWithRelativePath:namedDestination:")]
-		IntPtr Constructor ([NullAllowed] string remotePath, string namedDestination);
+		NativeHandle Constructor ([NullAllowed] string remotePath, string namedDestination);
 
 		[NullAllowed, Export ("relativePath")]
 		string RelativePath { get; }
@@ -5394,7 +5398,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("document")]
 		PSPDFDocument Document { get; [NotImplemented ("Only available on PSPDFMutableRenderRequest")] set; }
@@ -5432,7 +5436,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("pageIndex"), Override]
 		nuint PageIndex { get; set; }
@@ -5482,7 +5486,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithRequest:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFRenderRequest request, [NullAllowed] out NSError error);
+		NativeHandle Constructor (PSPDFRenderRequest request, [NullAllowed] out NSError error);
 
 		[Export ("request")]
 		PSPDFRenderRequest Request { get; }
@@ -5518,7 +5522,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFRenditionAction {
 
 		[Export ("initWithActionType:javaScript:annotation:")]
-		IntPtr Constructor (PSPDFRenditionActionType actionType, [NullAllowed] string javaScript, [NullAllowed] PSPDFScreenAnnotation annotation);
+		NativeHandle Constructor (PSPDFRenditionActionType actionType, [NullAllowed] string javaScript, [NullAllowed] PSPDFScreenAnnotation annotation);
 
 		[Export ("actionType")]
 		PSPDFRenditionActionType ActionType { get; }
@@ -5534,7 +5538,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFResetFormAction {
 
 		[Export ("initWithFlags:")]
-		IntPtr Constructor (PSPDFResetFormActionFlag flags);
+		NativeHandle Constructor (PSPDFResetFormActionFlag flags);
 
 		[Export ("flags")]
 		PSPDFResetFormActionFlag Flags { get; }
@@ -5549,7 +5553,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFRichMediaExecuteAction {
 
 		[Export ("initWithCommand:argument:annotation:")]
-		IntPtr Constructor ([NullAllowed] string command, [NullAllowed] NSObject argument, [NullAllowed] PSPDFRichMediaAnnotation annotation);
+		NativeHandle Constructor ([NullAllowed] string command, [NullAllowed] NSObject argument, [NullAllowed] PSPDFRichMediaAnnotation annotation);
 
 		[NullAllowed, Export ("command")]
 		string Command { get; }
@@ -5584,10 +5588,10 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocumentUID:pageIndex:range:previewText:rangeInPreviewText:selection:annotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string documentUid, nuint pageIndex, NSRange range, string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
+		NativeHandle Constructor (string documentUid, nuint pageIndex, NSRange range, string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
 
 		[Export ("initWithDocument:pageIndex:range:previewText:rangeInPreviewText:selection:annotation:")]
-		IntPtr Constructor (PSPDFDocument document, nuint pageIndex, NSRange range, string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
+		NativeHandle Constructor (PSPDFDocument document, nuint pageIndex, NSRange range, string previewText, NSRange rangeInPreviewText, [NullAllowed] PSPDFTextBlock selection, [NullAllowed] PSPDFAnnotation annotation);
 
 		[Export ("pageIndex")]
 		nuint PageIndex { get; }
@@ -5653,7 +5657,7 @@ namespace PSPDFKit.Model {
 		PSPDFSignatureAppearance DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFSignatureAppearanceBuilder builder);
+		NativeHandle Constructor (PSPDFSignatureAppearanceBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -5695,7 +5699,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFSignatureBiometricProperties : INSSecureCoding {
 
 		[Export ("initWithPressureList:timePointsList:touchRadius:inputMethod:")]
-		IntPtr Constructor ([NullAllowed] NSNumber [] pressureList, [NullAllowed] NSNumber [] timePointsList, [NullAllowed] NSNumber touchRadius, PSPDFDrawInputMethod inputMethod);
+		NativeHandle Constructor ([NullAllowed] NSNumber [] pressureList, [NullAllowed] NSNumber [] timePointsList, [NullAllowed] NSNumber touchRadius, PSPDFDrawInputMethod inputMethod);
 
 		[NullAllowed, Export ("pressureList")]
 		NSNumber [] PressureList { get; }
@@ -5716,7 +5720,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithSignatureAnnotation:signer:biometricProperties:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFAnnotation signatureAnnotation, [NullAllowed] PSPDFSigner signer, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties);
+		NativeHandle Constructor (PSPDFAnnotation signatureAnnotation, [NullAllowed] PSPDFSigner signer, [NullAllowed] PSPDFSignatureBiometricProperties biometricProperties);
 
 		[Export ("signatureAnnotation")]
 		PSPDFAnnotation SignatureAnnotation { get; }
@@ -5768,8 +5772,8 @@ namespace PSPDFKit.Model {
 		[NullAllowed, Export ("contents", ArgumentSemantic.Copy)]
 		NSData Contents { get; }
 
-		[NullAllowed, Export ("byteRange", ArgumentSemantic.Copy)]
-		NSNumber [] ByteRange { get; }
+		[NullAllowed, Export ("byteRanges", ArgumentSemantic.Copy)]
+		NSIndexSet ByteRanges { get; }
 
 		[NullAllowed, Export ("filter")]
 		string Filter { get; }
@@ -5873,7 +5877,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithSigner:signingDate:wasModified:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] string signer, [NullAllowed] NSDate date, bool wasModified);
+		NativeHandle Constructor ([NullAllowed] string signer, [NullAllowed] NSDate date, bool wasModified);
 
 		[NullAllowed, Export ("signer")]
 		string Signer { get; }
@@ -5903,7 +5907,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithSignatureFormElement:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFSignatureFormElement formElement);
+		NativeHandle Constructor (PSPDFSignatureFormElement formElement);
 
 		[Export ("signatureFormElement")]
 		PSPDFSignatureFormElement SignatureFormElement { get; }
@@ -6012,10 +6016,10 @@ namespace PSPDFKit.Model {
 		NSData SoundData { get; }
 
 		[Export ("initWithURL:error:")]
-		IntPtr Constructor (NSUrl soundUrl, [NullAllowed] out NSError error);
+		NativeHandle Constructor (NSUrl soundUrl, [NullAllowed] out NSError error);
 
 		[Export ("initWithRecorderOptions:")]
-		IntPtr Constructor ([NullAllowed] NSDictionary recorderOptions);
+		NativeHandle Constructor ([NullAllowed] NSDictionary recorderOptions);
 
 		[Static]
 		[Export ("audioFormatIDFromEncoding:")]
@@ -6045,7 +6049,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithSoundAnnotation:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFSoundAnnotation annotation);
+		NativeHandle Constructor (PSPDFSoundAnnotation annotation);
 
 		[NullAllowed, Export ("annotation", ArgumentSemantic.Weak)]
 		PSPDFSoundAnnotation Annotation { get; }
@@ -6107,13 +6111,13 @@ namespace PSPDFKit.Model {
 		UIColor GetStampColor ([NullAllowed] [BindAs (typeof (PSPDFStampType?))] NSString stampType);
 
 		[Export ("initWithStampType:")]
-		IntPtr Constructor ([NullAllowed] [BindAs (typeof (PSPDFStampType?))] NSString stampType);
+		NativeHandle Constructor ([NullAllowed] [BindAs (typeof (PSPDFStampType?))] NSString stampType);
 
 		[Export ("initWithTitle:")]
-		IntPtr Constructor ([NullAllowed] string title);
+		NativeHandle Constructor ([NullAllowed] string title);
 
 		[Export ("initWithImage:")]
-		IntPtr Constructor ([NullAllowed] UIImage image);
+		NativeHandle Constructor ([NullAllowed] UIImage image);
 
 		[BindAs (typeof (PSPDFStampType?))]
 		[NullAllowed, Export ("stampType")]
@@ -6166,7 +6170,7 @@ namespace PSPDFKit.Model {
 	interface PSPDFSubmitFormAction {
 
 		[Export ("initWithURL:flags:")]
-		IntPtr Constructor ([NullAllowed] NSUrl url, PSPDFSubmitFormActionFlag flags);
+		NativeHandle Constructor ([NullAllowed] NSUrl url, PSPDFSubmitFormActionFlag flags);
 
 		[NullAllowed, Export ("URL", ArgumentSemantic.Copy)]
 		NSUrl Url { get; }
@@ -6180,11 +6184,11 @@ namespace PSPDFKit.Model {
 	interface PSPDFTextBlock : INSCopying, INSSecureCoding {
 
 		[Export ("initWithGlyphs:frame:")]
-		IntPtr Constructor (PSPDFGlyph[] glyphs, CGRect frame);
+		NativeHandle Constructor (PSPDFGlyph[] glyphs, CGRect frame);
 
 		[Export ("initWithRange:text:frame:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSRange textRange, string text, CGRect frame);
+		NativeHandle Constructor (NSRange textRange, string text, CGRect frame);
 
 		[Export ("frame")]
 		CGRect Frame { get; }
@@ -6325,7 +6329,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[Export ("searchForString:")]
 		void Search (string searchTerm);
@@ -6453,10 +6457,10 @@ namespace PSPDFKit.Model {
 	interface PSPDFURLAction {
 
 		[Export ("initWithURLString:")]
-		IntPtr Constructor (string urlString);
+		NativeHandle Constructor (string urlString);
 
 		[Export ("initWithURL:options:")]
-		IntPtr Constructor ([NullAllowed] NSUrl url, [NullAllowed] NSDictionary<NSString, NSObject> options);
+		NativeHandle Constructor ([NullAllowed] NSUrl url, [NullAllowed] NSDictionary<NSString, NSObject> options);
 
 		[NullAllowed, Export ("URL", ArgumentSemantic.Copy)]
 		NSUrl Url { get; }
@@ -6525,11 +6529,11 @@ namespace PSPDFKit.Model {
 	interface PSPDFWord : INSCopying, INSSecureCoding {
 
 		[Export ("initWithGlyphs:frame:")]
-		IntPtr Constructor (PSPDFGlyph [] wordGlyphs, CGRect frame);
+		NativeHandle Constructor (PSPDFGlyph [] wordGlyphs, CGRect frame);
 
 		[Export ("initWithRange:text:frame:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSRange textRange, string text, CGRect frame);
+		NativeHandle Constructor (NSRange textRange, string text, CGRect frame);
 
 		[Export ("stringValue")]
 		string StringValue { get; }
@@ -6569,15 +6573,15 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocumentProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider);
 
 		[Export ("initWithDocumentProvider:fileURL:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider, NSUrl xfdfFileUrl);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider, NSUrl xfdfFileUrl);
 
 		[Export ("initWithDocumentProvider:dataProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocumentProvider documentProvider, IPSPDFDataProviding dataProvider);
+		NativeHandle Constructor (PSPDFDocumentProvider documentProvider, IPSPDFDataProviding dataProvider);
 
 		[NullAllowed, Export ("fileURL", ArgumentSemantic.Copy)]
 		NSUrl FileUrl { get; }
@@ -6595,7 +6599,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDataProvider:documentProvider:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (IPSPDFDataProviding dataProvider, PSPDFDocumentProvider documentProvider);
+		NativeHandle Constructor (IPSPDFDataProviding dataProvider, PSPDFDocumentProvider documentProvider);
 
 		[Export ("parseWithError:")]
 		[return: NullAllowed]
@@ -6693,7 +6697,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithDocument:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFDocument document);
+		NativeHandle Constructor (PSPDFDocument document);
 
 		[NullAllowed, Export ("document", ArgumentSemantic.Weak)]
 		PSPDFDocument Document { get; }
@@ -6739,11 +6743,11 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithUID:passphraseProvider:options:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (string uid, PSPDFAESCryptoPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
+		NativeHandle Constructor (string uid, PSPDFAESCryptoPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
 
 		[Export ("initWithURL:passphraseProvider:options:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl fileUrl, PSPDFAESCryptoPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
+		NativeHandle Constructor (NSUrl fileUrl, PSPDFAESCryptoPassphraseProvider passphraseProvider, PSPDFDataSinkOptions options);
 	}
 
 	[BaseType (typeof (PSPDFBaseConfigurationBuilder))]
@@ -6810,7 +6814,7 @@ namespace PSPDFKit.Model {
 		IntPtr InitWithTiledPattern (PSPDFDocument document, nuint sourcePageIndex);
 
 		[Export ("initWithPageType:identifier:")]
-		IntPtr Constructor (PSPDFNewPageType pageType, [BindAs (typeof (PSPDFTemplateIdentifier))] [NullAllowed] NSString identifier);
+		NativeHandle Constructor (PSPDFNewPageType pageType, [BindAs (typeof (PSPDFTemplateIdentifier))] [NullAllowed] NSString identifier);
 
 		[Async]
 		[Export ("renderThumbnailWithSize:completion:")]
@@ -6950,9 +6954,8 @@ namespace PSPDFKit.Model {
 	[DisableDefaultCtor]
 	interface PSPDFPKCS7 {
 
-		[Static]
-		[Export ("create:privateKey:certificate:hashAlgorithm:encryptionAlgorithm:")]
-		PSPDFPKCS7 Create (NSData digest, PSPDFPrivateKey privateKey, PSPDFX509 certificate, PSPDFSignatureHashAlgorithm hashAlgorithm, PSPDFSignatureEncryptionAlgorithm encryptionAlgorithm);
+		[Export ("initWithDigest:type:privateKey:certificate:hashAlgorithm:encryptionAlgorithm:")]
+		NativeHandle Constructor (NSData digest, PSPDFSignatureType signatureType, PSPDFPrivateKey privateKey, PSPDFX509 certificate, PSPDFSignatureHashAlgorithm hashAlgorithm, PSPDFSignatureEncryptionAlgorithm encryptionAlgorithm);
 
 		[Export ("data")]
 		NSData Data { get; }
@@ -6994,7 +6997,7 @@ namespace PSPDFKit.Model {
 		NSError Error { get; }
 	}
 
-#if __IOS__
+#if !__MACCATALYST__
 	[BaseType (typeof (PSPDFConversionOperation), Name = "PSPDFURLConversionOperation")]
 	[DisableDefaultCtor]
 	interface PSPDFUrlConversionOperation {
@@ -7206,7 +7209,7 @@ namespace PSPDFKit.Model {
 		PSPDFComparisonConfiguration DefaultConfiguration { get; }
 
 		[Export ("initWithBuilder:")]
-		IntPtr Constructor (PSPDFComparisonConfigurationBuilder builder);
+		NativeHandle Constructor (PSPDFComparisonConfigurationBuilder builder);
 
 		[Static]
 		[Export ("configurationWithBuilder:")]
@@ -7234,7 +7237,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithConfiguration:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (PSPDFComparisonConfiguration configuration);
+		NativeHandle Constructor (PSPDFComparisonConfiguration configuration);
 
 		[Export ("comparisonDocumentWithOldDocument:pageIndex:newDocument:pageIndex:transform:error:")]
 		[return: NullAllowed]
@@ -7277,7 +7280,7 @@ namespace PSPDFKit.Model {
 
 		[Export ("initWithFrom:unitFrom:to:unitTo:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (double from, PSPDFUnitFrom unitFrom, double to, PSPDFUnitTo unitTo);
+		NativeHandle Constructor (double from, PSPDFUnitFrom unitFrom, double to, PSPDFUnitTo unitTo);
 	}
 
 	[BaseType (typeof (NSObject))]
@@ -7303,5 +7306,26 @@ namespace PSPDFKit.Model {
 
 		[Export ("precision")]
 		PSPDFMeasurementPrecision Precision { get; }
+	}
+
+	[BaseType (typeof (NSObject))]
+	[DisableDefaultCtor]
+	interface PSPDFGlyphSequence : INSCopying, INSSecureCoding {
+
+		[Export ("initWithGlyphs:")]
+		[DesignatedInitializer]
+		NativeHandle Constructor (PSPDFGlyph [] glyphs);
+
+		[Export ("glyphs", ArgumentSemantic.Copy)]
+		PSPDFGlyph [] Glyphs { get; }
+
+		[Export ("range")]
+		NSRange Range { get; }
+
+		[Export ("text")]
+		string Text { get; }
+
+		[Export ("boundingBox")]
+		CGRect BoundingBox { get; }
 	}
 }

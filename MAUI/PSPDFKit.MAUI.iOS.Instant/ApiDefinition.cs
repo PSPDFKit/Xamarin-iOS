@@ -7,6 +7,10 @@ using CoreGraphics;
 using PSPDFKit.Model;
 using PSPDFKit.UI;
 
+#if !NET
+using NativeHandle = System.IntPtr;
+#endif
+
 namespace PSPDFKit.Instant {
 
 	[Native]
@@ -157,7 +161,7 @@ namespace PSPDFKit.Instant {
 
 		[Export ("initWithServerURL:error:")]
 		[DesignatedInitializer]
-		IntPtr Constructor (NSUrl serverUrl, [NullAllowed] out NSError error);
+		NativeHandle Constructor (NSUrl serverUrl, [NullAllowed] out NSError error);
 
 		[Export ("serverURL")]
 		NSUrl ServerUrl { get; }
@@ -337,10 +341,10 @@ namespace PSPDFKit.Instant {
 
 		[Export ("initWithDocument:configuration:")]
 		[DesignatedInitializer]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document, [NullAllowed] PSPDFConfiguration configuration);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document, [NullAllowed] PSPDFConfiguration configuration);
 
 		[Export ("initWithDocument:")]
-		IntPtr Constructor ([NullAllowed] PSPDFDocument document);
+		NativeHandle Constructor ([NullAllowed] PSPDFDocument document);
 
 		[Export ("shouldListenForServerChangesWhenVisible")]
 		bool ShouldListenForServerChangesWhenVisible { get; set; }

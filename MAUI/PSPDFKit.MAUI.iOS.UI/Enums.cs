@@ -118,14 +118,6 @@ namespace PSPDFKit.UI {
 		ExtraLightBlur
 	}
 
-	[Obsolete ("Customizing the color picker has been deprecated in favor of using the system color picker.")]
-	[Native]
-	public enum PSPDFColorSet : ulong {
-		Default,
-		DefaultWithTransparency,
-		PageBackgrounds
-	}
-
 	// TODO: See Helpers/PSPDFActivityType.cs, manually bound due to a generator bug
 	//public enum PSPDFActivityType {
 	//	[DefaultEnumValue]
@@ -192,7 +184,8 @@ namespace PSPDFKit.UI {
 	public enum PSPDFViewMode : ulong {
 		Document,
 		Thumbnails,
-		DocumentEditor
+		DocumentEditor,
+		ContentEditing,
 	}
 
 	[Native]
@@ -218,6 +211,7 @@ namespace PSPDFKit.UI {
 		Automatic,
 	}
 
+	[Obsolete ("Use 'UIAction.Identifier' or 'UIMenu.Identifier' in the modern menu system instead.")]
 	[Native]
 	[Flags]
 	public enum PSPDFTextSelectionMenuAction : ulong {
@@ -522,6 +516,7 @@ namespace PSPDFKit.UI {
 		Clear
 	}
 
+	[Obsolete ("Use the the modern menu system instead.")]
 	public enum PSPDFTextMenu {
 		[DefaultEnumValue]
 		[Field (null)]
@@ -927,6 +922,7 @@ namespace PSPDFKit.UI {
 		AllButUpsideDown = Portrait | LandscapeLeft | LandscapeRight,
 	}
 
+	[Obsolete]
 	[Native]
 	public enum PSPDFContextMenuOption : long {
 		MenuOnly,

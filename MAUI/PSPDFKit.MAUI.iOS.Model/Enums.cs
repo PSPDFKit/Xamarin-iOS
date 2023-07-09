@@ -345,14 +345,6 @@ namespace PSPDFKit.Model {
 	}
 
 	[Native]
-	public enum PSPDFCacheStoragePolicy : long {
-		Automatic = 0,
-		Allowed,
-		AllowedInMemoryOnly,
-		NotAllowed
-	}
-
-	[Native]
 	public enum PSPDFCacheStatus : long {
 		NotCached,
 		InMemory,
@@ -541,6 +533,7 @@ namespace PSPDFKit.Model {
 		ElectronicSignatures = 1 << 19,
 		PdfA = 1 << 20,
 		MeasurementTools = 1 << 21,
+		ContentEditing = 1 << 22,
 
 		All = ulong.MaxValue
 	}
