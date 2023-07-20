@@ -491,6 +491,10 @@ namespace PSPDFKit.Model {
 		[return: NullAllowed]
 		NSData GenerateInstantJson ([NullAllowed] out NSError error);
 
+		[Export ("generateInstantJSONWithVersion:error:")]
+		[return: NullAllowed]
+		NSData GenerateInstantJson (PSPDFInstantJsonVersion version, [NullAllowed] out NSError error);
+
 		[Export ("hasBinaryInstantJSONAttachment")]
 		bool HasBinaryInstantJsonAttachment { get; }
 
@@ -2348,6 +2352,10 @@ namespace PSPDFKit.Model {
 		[Export ("generateInstantJSONFromDocumentProvider:error:")]
 		[return: NullAllowed]
 		NSData GenerateInstantJson (PSPDFDocumentProvider documentProvider, [NullAllowed] out NSError error);
+
+		[Export ("generateInstantJSONFromDocumentProvider:version:error:")]
+		[return: NullAllowed]
+		NSData GenerateInstantJson (PSPDFDocumentProvider documentProvider, PSPDFInstantJsonVersion version, [NullAllowed] out NSError error);
 
 		// PSPDFDocument (JavaScript)
 

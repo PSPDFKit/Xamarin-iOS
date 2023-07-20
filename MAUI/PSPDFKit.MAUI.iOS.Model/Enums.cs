@@ -1118,4 +1118,10 @@ namespace PSPDFKit.Model {
 		Mile,
 	}
 
+	[Native]
+	public enum PSPDFInstantJsonVersion : long {
+		Automatic = 0,
+		One = 1,
+		Two = 2,
+	}
 }
