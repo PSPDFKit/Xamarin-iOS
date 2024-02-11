@@ -580,15 +580,13 @@ namespace PSPDFKit.Model {
 
 	public enum PSPDFLinkAnnotationType : byte {
 		Page = 0,
-		WebURL,
-		Document,
-		Video,
-		[Obsolete ("Please load videos with direct sources or embed your own player view instead.")]
-		YouTube,
-		Audio,
-		Image,
-		Browser,
-		Custom
+		WebUrl = 1,
+		Document = 2,
+		Video = 3,
+		Audio = 5,
+		Image = 6,
+		Browser = 7,
+		Custom = 8
 	}
 
 	[Native]
@@ -755,6 +753,7 @@ namespace PSPDFKit.Model {
 		CannotSignFormElement = 272,
 		CannotSignAlreadySigned = 273,
 		CouldNotHashDocument = 274,
+		EmptyCertificateChain = 275,
 	}
 
 	public enum PSPDFSoundAnnotationEncoding {
@@ -936,6 +935,8 @@ namespace PSPDFKit.Model {
 		EllipticalAreaMeasurement,
 		[Field ("PSPDFAnnotationVariantStringRectangularAreaMeasurement", PSPDFKitLibraryPath.LibraryPath)]
 		RectangularAreaMeasurement,
+		[Field ("PSPDFAnnotationVariantStringMeasurementScaleCalibration", PSPDFKitLibraryPath.LibraryPath)]
+		MeasurementScaleCalibration,
 	}
 
 	public enum PSPDFAnnotationStateVariantId {
@@ -1079,6 +1080,8 @@ namespace PSPDFKit.Model {
 		Cms,
 		Pades,
 		Sha1,
+		Timestamp,
+		Unknown,
 	}
 
 	[Native]
@@ -1088,6 +1091,11 @@ namespace PSPDFKit.Model {
 		TwoDecimalPlaces,
 		ThreeDecimalPlaces,
 		FourDecimalPlaces,
+		InchesWhole,
+		InchesHalves,
+		InchesQuarters,
+		InchesEighths,
+		InchesSixteenths,
 	}
 
 	[Native]
@@ -1123,5 +1131,23 @@ namespace PSPDFKit.Model {
 		Automatic = 0,
 		One = 1,
 		Two = 2,
+	}
+
+	[Native]
+	public enum PSPDFPadesSignatureLevel : long {
+		Bb,
+		Bt,
+		Blt,
+		None,
+	}
+
+	[Native]
+	[Flags]
+	public enum PSPDFTextComparisonOptions : ulong {
+		CaseInsensitive = 1 << 0,
+		DiacriticInsensitive = 1 << 1,
+		WidthInsensitive = 1 << 2,
+		Smart = 1 << 3,
+		RegularExpression = 1 << 4,
 	}
 }

@@ -37,20 +37,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="..\MAUI\PSPDFKit.MAUI.iOS.UI\ApiEnhancements.cs" >
-      <Link>ApiEnhancements.cs</Link>
-    </Compile>
-    <Compile Include="..\MAUI\PSPDFKit.MAUI.iOS.UI\Helpers\PSPDFActivityType.cs" >
-      <Link>Helpers\PSPDFActivityType.cs</Link>
-    </Compile>
+    <Compile Include="ApiEnhancements.cs" />
+    <Compile Include="Helpers\PSPDFActivityType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ObjcBindingApiDefinition Include="..\MAUI\PSPDFKit.MAUI.iOS.UI\ApiDefinition.cs">
-      <Link>ApiDefinition.cs</Link>
-    </ObjcBindingApiDefinition>
-    <ObjcBindingApiDefinition Include="..\MAUI\PSPDFKit.MAUI.iOS.UI\Enums.cs" >
-      <Link>Enums.cs</Link>
-    </ObjcBindingApiDefinition>
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <ObjcBindingApiDefinition Include="Enums.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PSPDFKit.iOS.Model\PSPDFKit.iOS.Model.csproj">
@@ -64,9 +56,7 @@
     </NativeReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="..\MAUI\PSPDFKit.MAUI.iOS.UI\Helpers" >
-      <Link>Helpers</Link>
-    </Folder>
+    <Folder Include="Helpers" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
   <Target Name="BeforeBuild">

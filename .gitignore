@@ -17,8 +17,6 @@ tools/
 packages/
 .vs/
 nuget/pkgs/
-MAUI/cache/
-MAUI/nuget/pkgs/
 Directory.Build.props
 
 # Xcode
