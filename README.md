@@ -1,7 +1,7 @@
 Xamarin PSPDFKit for iOS and Mac Bindings
 =========================================
 
-- Xamarin.iOS Bindings for PSPDFKit 13.3.1 for iOS
+- Xamarin.iOS Bindings for PSPDFKit 13.3.3 for iOS
 - Xamarin.Mac Bindings for PSPDFKit 5.1.0 for macOS
 
 #### PSPDFKit
