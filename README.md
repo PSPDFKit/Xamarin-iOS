@@ -4,7 +4,8 @@ Xamarin PSPDFKit for iOS and Mac Bindings
 - Xamarin.iOS Bindings for PSPDFKit 13.3.3 for iOS
 - Xamarin.Mac Bindings for PSPDFKit 5.1.0 for macOS
 
-<blockquote>Nutrient Xamarin SDK (formerly PSPDFKit Xamarin for iOS and PSPDFKit Xamarin for Android) has been deprecated and replaced by <a href='https://www.nutrient.io/guides/ios/dotnet/'>Nutrient .NET for iOS</a> and <a href='https://www.nutrient.io/guides/android/dotnet/'>Nutrient .NET for Android</a>. All Nutrient Xamarin licenses will remain valid and fully supported until 1 December 2025, or until your license expires, whichever occurs later. Interested in transitioning to another Nutrient product? <a href='https://www.nutrient.io/company/contact'>Contact us</a> and we’ll be happy to help.</blockquote>
+> [!NOTE]
+> Nutrient Xamarin SDK (formerly PSPDFKit Xamarin for iOS and PSPDFKit Xamarin for Android) is being sunset and replaced by <a href='https://www.nutrient.io/guides/ios/dotnet/'>Nutrient .NET for iOS</a> and <a href='https://www.nutrient.io/guides/android/dotnet/'>Nutrient .NET for Android</a>. All Nutrient Xamarin licenses will remain valid and fully supported until 1 December 2025, or until your license expires, whichever occurs later. Interested in transitioning to another Nutrient product? <a href='https://www.nutrient.io/company/contact'>Contact us</a> and we’ll be happy to help.</blockquote>
 
 
 #### PSPDFKit
